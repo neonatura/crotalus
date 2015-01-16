@@ -4,7 +4,7 @@ Purpose
 
 This is crotalus, a high performance web server for linux or windows computers. This project strives to combine the benefits of a highly stream-lined single-threaded web server and common HTTP standards such as SSL and inline PHP interpretting.
 
-This package is being provided in order to make use of the web server provided with the libshare library suite (github.com/neonatura/share) without having to integrate into the libshare functionality; such as having to store the web server files to be hosted or executed in a sharefs partition.
+This package is being provided in order to make use of the web server provided with the libshare library suite (github.com/neonatura/share) without having to integrate the libshare functionality; such as having to store the web server files to be hosted or executed in a sharefs partition.
 
 
 Upcoming Features
@@ -21,7 +21,7 @@ Upcoming Features
 Performance Specifications
 ==========================
 
-The crotalus webserver can handle executing more than a hundred cgi scripts per second, and is capable of much higher performance with static HTML pages. By comparison, a apache web server running a medium-sized PHP application can take up over 1000 processes to render over one million pages per day (11/sec). 
+The crotalus webserver can handle executing more than a hundred cgi scripts per second, and is capable of much higher performance with static HTML pages. By comparison, a apache web server running a medium-sized PHP application can take up over 100 processes to render over one million pages per day (11/sec). 
 
   Doc Note: A more 'apple to apple' comparison is needed here.
 
@@ -32,7 +32,7 @@ There are limits, though, to this model. Due to the monolithic (synchronous) nat
 PHP Support
 ===========
 
-As the web server is implemented consideration will be taken on whether splicing the PHP interpretter's stack to be handled as threads outside of the scope of the primary web engine. Another alternate that may be developed is a task engine which will intepret ongoing php interpretation at the same time new pages are being rendered. The consideration needed here is drifting too far from the engine's original model is counter-intuitive to the program's natural procedure flow.
+As the web server is implemented consideration will be taken on whether splicing the PHP interpretter's stack to be handled as threads outside of the scope of the primary web engine. Another alternate that may be developed is a task engine which will intepret ongoing php interpretation at the same time new pages are being rendered. The balance to strike here will be to keep from drifting too far from the engine's original model -- as that would be counter-intuitive to the program's natural procedure flow and may comprimise it's performance.
 
 No PHP support is currently provided.
 
@@ -40,7 +40,7 @@ No PHP support is currently provided.
 Background History
 ==================
 
-The latin term "crotalus" is a sub-specicies of highly venomous snakes including the rattlesnake.
+Crotalus is a genus of venomous pit vipers [found only in the Americas] derived from the Greek word krotalon, which means "rattle" or "castanet", and refers to the rattle on the end of the tail.
 
 This package is based off of Boa, a high performance web server for 
 Unix-alike computers, covered by the Gnu General Public License. 
