@@ -275,7 +275,7 @@ int translate_uri(request * req)
         } else {                /* Alias */
             req->pathname = strdup(buffer);
             if (!req->pathname) {
-                boa_perror(req, "unable to strdup buffer onto req->pathname");
+                crotalus_perror(req, "unable to strdup buffer onto req->pathname");
                 return 0;
             }
             return 1;
@@ -287,7 +287,7 @@ int translate_uri(request * req)
        after aliasing, we still have to check for '~' expansion
      */
 
-    if (user_dir && req->request_uri[1] == '~') {
+    if (crpref_userdir() && req->request_uri[1] == '~') {
         char *user_homedir;
         char *req_urip;
 
@@ -314,7 +314,7 @@ int translate_uri(request * req)
             return 0;
         } else {
             unsigned int l1 = strlen(user_homedir);
-            unsigned int l2 = strlen(user_dir);
+            unsigned int l2 = strlen(crpref_userdir());
             unsigned int l3 = (p ? strlen(p) : 0);
 
             /* we need l1 + '/' + l2 + l3 + '\0' */
@@ -328,7 +328,7 @@ int translate_uri(request * req)
             memcpy(buffer, user_homedir, l1);
             buffer[l1] = '/';
             /* copy the NUL in case 'p' is NULL */
-            memcpy(buffer + l1 + 1, user_dir, l2 + 1);
+            memcpy(buffer + l1 + 1, crpref_userdir(), l2 + 1);
             if (p)
                 memcpy(buffer + l1 + 1 + l2, p, l3 + 1);
         }
@@ -365,11 +365,11 @@ int translate_uri(request * req)
         /* request_uri starts with '/' */
         memcpy(buffer + l1 + 1 + l2 + 1 + l3 + 1 + l4, req->request_uri,
                l5 + 1);
-    } else if (document_root) {
+    } else if (crpref_docroot()) {
         /* no aliasing, no userdir... */
         unsigned int l1, l2, l3;
 
-        l1 = strlen(document_root);
+        l1 = strlen(crpref_docroot());
         l2 = strlen(req->request_uri);
         if (virtualhost)
             l3 = strlen(req->local_ip_addr);
@@ -384,7 +384,7 @@ int translate_uri(request * req)
         }
 
         /* the 'l2 + 1' is there so we copy the '\0' as well */
-        memcpy(buffer, document_root, l1);
+        memcpy(buffer, crpref_docroot(), l1);
         if (virtualhost) {
             buffer[l1] = '/';
             memcpy(buffer + l1 + 1, req->local_ip_addr, l3);
@@ -405,7 +405,7 @@ int translate_uri(request * req)
 
     req->pathname = strdup(buffer);
     if (!req->pathname) {
-        boa_perror(req, "Could not strdup buffer for req->pathname!");
+        crotalus_perror(req, "Could not strdup buffer for req->pathname!");
         return 0;
     }
 
@@ -424,7 +424,7 @@ int translate_uri(request * req)
         /* script_name could end up as /cgi-bin/bob/extra_path */
         req->script_name = strdup(req->request_uri);
         if (!req->script_name) {
-            boa_perror(req, "Could not strdup req->request_uri for req->script_name.");
+            crotalus_perror(req, "Could not strdup req->request_uri for req->script_name.");
             return 0;
         }
         if (req->http_version == HTTP09)
@@ -560,7 +560,7 @@ static int init_script_alias(request * req, alias * current1, unsigned int uri_l
 
     req->script_name = strdup(req->request_uri);
     if (!req->script_name) {
-        boa_perror(req, "unable to strdup req->request_uri for req->script_name");
+        crotalus_perror(req, "unable to strdup req->request_uri for req->script_name");
         return 0;
     }
 
@@ -596,7 +596,7 @@ static int init_script_alias(request * req, alias * current1, unsigned int uri_l
 
         req->path_info = strdup(pathname + i);
         if (!req->path_info) {
-            boa_perror(req, "unable to strdup pathname + index for req->path_info");
+            crotalus_perror(req, "unable to strdup pathname + index for req->path_info");
             return 0;
         }
         pathname[i] = '\0'; /* strip path_info from path */
@@ -636,14 +636,14 @@ static int init_script_alias(request * req, alias * current1, unsigned int uri_l
                        path_len - current->fake_len + 1); /* +1 for NUL */
                 req->path_translated = strdup(buffer);
                 if (!req->path_translated) {
-                    boa_perror(req, "unable to strdup buffer for req->path_translated");
+                    crotalus_perror(req, "unable to strdup buffer for req->path_translated");
                     return 0;
                 }
             }
             current = current->next;
         }
         /* no alias... try userdir */
-        if (!req->path_translated && user_dir && req->path_info[1] == '~') {
+        if (!req->path_translated && crpref_userdir() && req->path_info[1] == '~') {
             char *user_homedir;
             char *p;
 
@@ -661,41 +661,41 @@ static int init_script_alias(request * req, alias * current1, unsigned int uri_l
             }
             {
                 unsigned int l1 = strlen(user_homedir);
-                unsigned int l2 = strlen(user_dir);
+                unsigned int l2 = strlen(crpref_userdir());
                 unsigned int l3 = 0;
                 if (p)
                     l3 = strlen(p);
 
                 req->path_translated = malloc(l1 + 1 + l2 + l3 + 1);
                 if (req->path_translated == NULL) {
-                    boa_perror(req, "unable to malloc memory for req->path_translated");
+                    crotalus_perror(req, "unable to malloc memory for req->path_translated");
                     return 0;
                 }
                 memcpy(req->path_translated, user_homedir, l1);
                 req->path_translated[l1] = '/';
-                memcpy(req->path_translated + l1 + 1, user_dir, l2 + 1); /* copy the NUL just in case */
+                memcpy(req->path_translated + l1 + 1, crpref_userdir(), l2 + 1); /* copy the NUL just in case */
                 if (p)
                     memcpy(req->path_translated + l1 + 1 + l2, p, l3 + 1);
             }
-        } else if (!req->path_translated && document_root) {
+        } else if (!req->path_translated && crpref_docroot()) {
             /* no userdir, no aliasing... try document root */
             unsigned int l1, l2;
-            l1 = strlen(document_root);
+            l1 = strlen(crpref_docroot());
             l2 = path_len;
 
             req->path_translated = malloc(l1 + l2 + 1);
             if (req->path_translated == NULL) {
-                boa_perror(req, "unable to malloc memory for req->path_translated");
+                crotalus_perror(req, "unable to malloc memory for req->path_translated");
                 return 0;
             }
-            memcpy(req->path_translated, document_root, l1);
+            memcpy(req->path_translated, crpref_docroot(), l1);
             memcpy(req->path_translated + l1, req->path_info, l2 + 1);
         }
     }
 
     req->pathname = strdup(pathname);
     if (!req->pathname) {
-        boa_perror(req, "unable to strdup pathname for req->pathname");
+        crotalus_perror(req, "unable to strdup pathname for req->pathname");
         return 0;
     }
 

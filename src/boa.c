@@ -89,41 +89,25 @@ int main(int argc, char *argv[])
     init_signals();
     build_needs_escape();
 
-    /* background ourself */
     if (do_fork) {
-        pid = fork();
-    } else {
-        pid = getpid();
+      daemon(1, 1); /* v2.24 */
     }
+    pid = getpid();
 
-    switch (pid) {
-    case -1:
-        /* error */
-        perror("fork/getpid");
-        exit(EXIT_FAILURE);
-    case 0:
-        /* child, success */
-        break;
-    default:
-        /* parent, success */
-        if (pid_file != NULL) {
-            FILE *PID_FILE = fopen(pid_file, "w");
-            if (PID_FILE != NULL) {
-                fprintf(PID_FILE, "%d", pid);
-                fclose(PID_FILE);
-            } else {
-                perror("fopen pid file");
-            }
-        }
-
-        if (do_fork)
-            exit(EXIT_SUCCESS);
-        break;
+    /* parent, success */
+    if (pid_file != NULL) {
+      FILE *PID_FILE = fopen(pid_file, "w");
+      if (PID_FILE != NULL) {
+        fprintf(PID_FILE, "%d", pid);
+        fclose(PID_FILE);
+      } else {
+        perror("fopen pid file");
+      }
     }
 
     drop_privs();
     /* main loop */
-    timestamp();
+    print_server_timestamp();
 
     status.requests = 0;
     status.errors = 0;
@@ -283,6 +267,7 @@ static void drop_privs(void)
 
 static void fixup_server_root()
 {
+
     if (!server_root) {
 #ifdef SERVER_ROOT
         server_root = strdup(SERVER_ROOT);
@@ -299,6 +284,7 @@ static void fixup_server_root()
 #endif
     }
 
+    mkdir(server_root, 0777);
     if (chdir(server_root) == -1) {
         fprintf(stderr, "Could not chdir to \"%s\": aborting\n",
                 server_root);

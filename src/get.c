@@ -55,6 +55,7 @@ int init_get(request * req)
     volatile unsigned int bytes_free;
 
     data_fd = open(req->pathname, O_RDONLY);
+fprintf(stderr, "DEBUG: fd %d = open('%s')\n", data_fd, req->pathname);
     saved_errno = errno;        /* might not get used */
 
 #ifdef GUNZIP
@@ -85,7 +86,7 @@ int init_get(request * req)
                 free(req->pathname);
             req->pathname = strdup(gzip_pathname);
             if (!req->pathname) {
-                boa_perror(req, "strdup req->pathname for gzipped filename " __FILE__ ":" STR(__LINE__));
+                crotalus_perror(req, "strdup req->pathname for gzipped filename " __FILE__ ":" STR(__LINE__));
                 return 0;
             }
             if (req->http_version != HTTP09) {
@@ -160,7 +161,7 @@ int init_get(request * req)
                 port = strdup(simple_itoa(server_port));
                 if (port == NULL) {
                     errno = ENOMEM;
-                    boa_perror(req, "Unable to perform simple_itoa conversion on server port!");
+                    crotalus_perror(req, "Unable to perform simple_itoa conversion on server port!");
                     return 0;
                 }
                 l3 = strlen(port);
@@ -180,7 +181,7 @@ int init_get(request * req)
             if (server_port != 80) {
                 if (l4 + l2 + 1 + l3 + len + 1 > sizeof(buffer)) {
                     errno = ENOMEM;
-                    boa_perror(req, "buffer not large enough for directory redirect");
+                    crotalus_perror(req, "buffer not large enough for directory redirect");
                     return 0;
                 }
                 memcpy(buffer, prefix, l4);
@@ -193,7 +194,7 @@ int init_get(request * req)
             } else {
                 if (l4 + l2 + len + 1 > sizeof(buffer)) {
                     errno = ENOMEM;
-                    boa_perror(req, "buffer not large enough for directory redirect");
+                    crotalus_perror(req, "buffer not large enough for directory redirect");
                     return 0;
                 }
                 memcpy(buffer, prefix, l4);
@@ -509,107 +510,109 @@ int process_get(request * req)
 
 int get_dir(request * req, struct stat *statbuf)
 {
+  char pathname_with_index[MAX_PATH_LENGTH];
+  int data_fd;
 
-    char pathname_with_index[MAX_PATH_LENGTH];
-    int data_fd;
+  if (crpref_dirindex()) {      /* look for index.html first?? */
+    unsigned int l1, l2;
 
-    if (directory_index) {      /* look for index.html first?? */
-        unsigned int l1, l2;
-
-        l1 = strlen(req->pathname);
-        l2 = strlen(directory_index);
+    l1 = strlen(req->pathname);
+    l2 = strlen(crpref_dirindex());
 #ifdef GUNZIP
-        if (l1 + l2 + 3 + 1 > sizeof(pathname_with_index)) { /* for .gz */
+    if (l1 + l2 + 3 + 1 > sizeof(pathname_with_index)) 
 #else
-        if (l1 + l2 + 1 > sizeof(pathname_with_index)) {
+    if (l1 + l2 + 1 > sizeof(pathname_with_index)) 
 #endif
+    { /* for .gz */
 
-            errno = ENOMEM;
-            boa_perror(req, "pathname_with_index not large enough for pathname + index");
-            return -1;
-        }
-        memcpy(pathname_with_index, req->pathname, l1); /* doesn't copy NUL */
-        memcpy(pathname_with_index + l1, directory_index, l2 + 1); /* does */
+      errno = ENOMEM;
+      crotalus_perror(req, "pathname_with_index not large enough for pathname + index");
+      return -1;
+    }
+    memcpy(pathname_with_index, req->pathname, l1); /* doesn't copy NUL */
+    memcpy(pathname_with_index + l1, crpref_dirindex(), l2 + 1); /* does */
 
-        data_fd = open(pathname_with_index, O_RDONLY);
+    data_fd = open(pathname_with_index, O_RDONLY);
 
-        if (data_fd != -1) {    /* user's index file */
-            /* We have to assume that directory_index will fit, because
-             * if it doesn't, well, that's a huge configuration problem.
-             * this is only the 'index.html' pathname for mime type
-             */
-            memcpy(req->request_uri, directory_index, l2 + 1); /* for mimetype */
-            fstat(data_fd, statbuf);
-            return data_fd;
-        }
-        if (errno == EACCES) {
-            send_r_forbidden(req);
-            return -1;
-        } else if (errno != ENOENT) {
-            /* if there is an error *other* than EACCES or ENOENT */
-            send_r_not_found(req);
-            return -1;
-        }
+    if (data_fd != -1) {    /* user's index file */
+      /* We have to assume that directory_index will fit, because
+       * if it doesn't, well, that's a huge configuration problem.
+       * this is only the 'index.html' pathname for mime type
+       */
+      memcpy(req->request_uri, crpref_dirindex(), l2 + 1); /* for mimetype */
+      fstat(data_fd, statbuf);
+      return data_fd;
+    }
+    if (errno == EACCES) {
+      send_r_forbidden(req);
+      return -1;
+    } else if (errno != ENOENT) {
+      /* if there is an error *other* than EACCES or ENOENT */
+      send_r_not_found(req);
+      return -1;
+    }
+
 #ifdef GUNZIP
-        /* if we are here, trying index.html didn't work
-         * try index.html.gz
-         */
-        strcat(pathname_with_index, ".gz");
-        data_fd = open(pathname_with_index, O_RDONLY);
-        if (data_fd != -1) {    /* user's index file */
-            close(data_fd);
+    /* if we are here, trying index.html didn't work
+     * try index.html.gz
+     */
+    strcat(pathname_with_index, ".gz");
+    data_fd = open(pathname_with_index, O_RDONLY);
+    if (data_fd != -1) {    /* user's index file */
+      close(data_fd);
 
-            req->response_status = R_REQUEST_OK;
-            SQUASH_KA(req);
-            if (req->pathname)
-                free(req->pathname);
-            req->pathname = strdup(pathname_with_index);
-            if (!req->pathname) {
-                boa_perror(req, "strdup of pathname_with_index for .gz files " __FILE__ ":" STR(__LINE__));
-                return 0;
-            }
-            if (req->http_version != HTTP09) {
-                req_write(req, http_ver_string(req->http_version));
-                req_write(req, " 200 OK-GUNZIP" CRLF);
-                print_http_headers(req);
-                print_last_modified(req);
-                req_write(req, "Content-Type: ");
-                req_write(req, get_mime_type(directory_index));
-                req_write(req, CRLF CRLF);
-                req_flush(req);
-            }
-            if (req->method == M_HEAD)
-                return 0;
-            return init_cgi(req);
-        }
+      req->response_status = R_REQUEST_OK;
+      SQUASH_KA(req);
+      if (req->pathname)
+        free(req->pathname);
+      req->pathname = strdup(pathname_with_index);
+      if (!req->pathname) {
+        crotalus_perror(req, "strdup of pathname_with_index for .gz files " __FILE__ ":" STR(__LINE__));
+        return 0;
+      }
+      if (req->http_version != HTTP09) {
+        req_write(req, http_ver_string(req->http_version));
+        req_write(req, " 200 OK-GUNZIP" CRLF);
+        print_http_headers(req);
+        print_last_modified(req);
+        req_write(req, "Content-Type: ");
+        req_write(req, get_mime_type(crpref_dirindex()));
+        req_write(req, CRLF CRLF);
+        req_flush(req);
+      }
+      if (req->method == M_HEAD)
+        return 0;
+      return init_cgi(req);
+    }
 #endif
+
+  }
+
+  /* only here if index.html, index.html.gz don't exist */
+  if (dirmaker != NULL) {     /* don't look for index.html... maybe automake? */
+    req->response_status = R_REQUEST_OK;
+    SQUASH_KA(req);
+
+    /* the indexer should take care of all headers */
+    if (req->http_version != HTTP09) {
+      req_write(req, http_ver_string(req->http_version));
+      req_write(req, " 200 OK" CRLF);
+      print_http_headers(req);
+      print_last_modified(req);
+      req_write(req, "Content-Type: text/html" CRLF CRLF);
+      req_flush(req);
     }
+    if (req->method == M_HEAD)
+      return 0;
 
-    /* only here if index.html, index.html.gz don't exist */
-    if (dirmaker != NULL) {     /* don't look for index.html... maybe automake? */
-        req->response_status = R_REQUEST_OK;
-        SQUASH_KA(req);
-
-        /* the indexer should take care of all headers */
-        if (req->http_version != HTTP09) {
-            req_write(req, http_ver_string(req->http_version));
-            req_write(req, " 200 OK" CRLF);
-            print_http_headers(req);
-            print_last_modified(req);
-            req_write(req, "Content-Type: text/html" CRLF CRLF);
-            req_flush(req);
-        }
-        if (req->method == M_HEAD)
-            return 0;
-
-        return init_cgi(req);
-        /* in this case, 0 means success */
-    } else if (cachedir) {
-        return get_cachedir_file(req, statbuf);
-    } else {                    /* neither index.html nor autogenerate are allowed */
-        send_r_forbidden(req);
-        return -1;              /* nothing worked */
-    }
+    return init_cgi(req);
+    /* in this case, 0 means success */
+  } else if (crpref_cachedir()) {
+    return get_cachedir_file(req, statbuf);
+  } else {                    /* neither index.html nor autogenerate are allowed */
+    send_r_forbidden(req);
+    return -1;              /* nothing worked */
+  }
 }
 
 static int get_cachedir_file(request * req, struct stat *statbuf)
@@ -624,7 +627,7 @@ static int get_cachedir_file(request * req, struct stat *statbuf)
      * include the NUL when calculating if the size is enough
      */
     snprintf(pathname_with_index, sizeof(pathname_with_index),
-             "%s/dir.%d.%ld", cachedir,
+             "%s/dir.%d.%ld", crpref_cachedir(),
              (int) statbuf->st_dev, statbuf->st_ino);
     data_fd = open(pathname_with_index, O_RDONLY);
 
@@ -633,7 +636,7 @@ static int get_cachedir_file(request * req, struct stat *statbuf)
         fstat(data_fd, statbuf);
         if (statbuf->st_mtime > real_dir_mtime) {
             statbuf->st_mtime = real_dir_mtime; /* lie */
-            strcpy(req->request_uri, directory_index); /* for mimetype */
+            strcpy(req->request_uri, crpref_dirindex());
             return data_fd;
         }
         close(data_fd);
@@ -644,13 +647,13 @@ static int get_cachedir_file(request * req, struct stat *statbuf)
 
     data_fd = open(pathname_with_index, O_RDONLY); /* Last chance */
     if (data_fd != -1) {
-        strcpy(req->request_uri, directory_index); /* for mimetype */
+        strcpy(req->request_uri, crpref_dirindex()); /* for mimetype */
         fstat(data_fd, statbuf);
         statbuf->st_mtime = real_dir_mtime; /* lie */
         return data_fd;
     }
 
-    boa_perror(req, "re-opening dircache");
+    crotalus_perror(req, "re-opening dircache");
     return -1;                  /* Nothing worked. */
 
 }
@@ -698,7 +701,7 @@ static int index_directory(request * req, char *dest_filename)
 
     fdstream = fopen(dest_filename, "w");
     if (fdstream == NULL) {
-        boa_perror(req, "dircache fopen");
+        crotalus_perror(req, "dircache fopen");
         closedir(request_dir);
         return -1;
     }

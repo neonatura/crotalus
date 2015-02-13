@@ -1,3 +1,10 @@
+** Crotalus v2.24
+ * the HUP signal now reloads configuration file
+ * default configuration settings
+ * auto-generate configuration file (/etc/crotalus/crotalus.conf)
+ * dynamic or pre-defined settings permissible via hash-map
+ * dynamic Makefile generate for autoconf.
+ * utilize 'daemon()' style process startup.
 ** Changes from 0.94.13 to 0.94.14
  * SUBSTANTIALLY UPDATE AUTOCONF SYSTEM
    - all of the autoconf stuff is now located in the top level

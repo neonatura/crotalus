@@ -862,7 +862,7 @@ int process_header_end(request * req)
             return 0;
         }
         if (fcntl(req->post_data_fd, F_SETFD, 1) == -1) {
-            boa_perror(req, "unable to set close-on-exec for req->post_data_fd!");
+            crotalus_perror(req, "unable to set close-on-exec for req->post_data_fd!");
             close(req->post_data_fd);
             req->post_data_fd = 0;
             return 0;

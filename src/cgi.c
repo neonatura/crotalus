@@ -82,7 +82,7 @@ void create_common_env(void)
     /* NCSA and APACHE added -- not in CGI spec */
 #ifdef USE_NCSA_CGI_ENV
     common_cgi_env[common_cgi_env_count++] =
-        env_gen_extra("DOCUMENT_ROOT", document_root, 0);
+        env_gen_extra("DOCUMENT_ROOT", crpref_docroot(), 0);
 
     /* NCSA added */
     common_cgi_env[common_cgi_env_count++] = env_gen_extra("SERVER_ROOT", server_root, 0);
@@ -450,10 +450,10 @@ int init_cgi(request * req)
     case -1:
         /* fork unsuccessful */
         /* FIXME: There is a problem here. send_r_error (called by
-         * boa_perror) would work for NPH and CGI, but not for GUNZIP.  
+         * crotalus_perror) would work for NPH and CGI, but not for GUNZIP.  
          * Fix that. 
          */
-        boa_perror(req, "fork failed");
+        crotalus_perror(req, "fork failed");
         if (use_pipes) {
             close(pipes[0]);
             close(pipes[1]);

@@ -1,5 +1,0 @@
-* nanohttp feature support
-* inline PHP for files ending in ".php"
-* doxygen documentation + extended commenting
-* gnulib compatibility support
-* 'make install' support

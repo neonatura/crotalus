@@ -1,57 +1,61 @@
+
 /*
- *  Boa, an http server
+ * @copyright
+ *
+ *  Copyright 2015 Neo Natura
  *  Copyright (C) 1995 Paul Phillips <paulp@go2net.com>
  *  Copyright (C) 1996-1999 Larry Doolittle <ldoolitt@boa.org>
  *  Copyright (C) 1997-2004 Jon Nelson <jnelson@boa.org>
  *
- *  This program is free software; you can redistribute it and/or modify
+ *  This file is part of the Crotalus Web Daemon.
+ *        
+ *  Crotalus is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
- *  the Free Software Foundation; either version 1, or (at your option)
- *  any later version.
+ *  the Free Software Foundation, either version 3 of the License, or
+ *  (at your option) any later version. 
  *
- *  This program is distributed in the hope that it will be useful,
+ *  Crotalus is distributed in the hope that it will be useful,
  *  but WITHOUT ANY WARRANTY; without even the implied warranty of
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  *  GNU General Public License for more details.
  *
  *  You should have received a copy of the GNU General Public License
- *  along with this program; if not, write to the Free Software
- *  Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
+ *  along with The Share Library.  If not, see <http://www.gnu.org/licenses/>.
  *
+ *  @endcopyright
  */
 
-/* $Id: defines.h,v 1.107.2.42 2005/02/22 14:11:29 jnelson Exp $*/
+#ifndef __DEFINES_H__
+#define __DEFINES_H__
 
-#ifndef _DEFINES_H
-#define _DEFINES_H
 
-/***** Change this, or use -c on the command line to specify it *****/
+/** Primary configuration filename. */
+#define DEFAULT_CONFIG_FILE "crotalus.conf"
 
+/** Use -c on the command line to specify alternate configuration directory. */
 #ifndef SERVER_ROOT
-#define SERVER_ROOT "/etc/boa"
+#define SERVER_ROOT cr_pref_get(CRPREF_CONF_DIR)
 #endif
 
-/* Uncomment the following #define if you don't want your logs
- * filled with messages about client disconnects, etc...
+/**
+ * suppress filled with messages about client disconnects, etc...
  */
+#define QUIET_DISCONNECT 1
 
-/* #define QUIET_DISCONNECT 1 */
+/** "CGIPath" */
+#define DEFAULT_PATH (cr_pref_get(CRPREF_ENV_PATH))
 
-/***** Change this via the CGIPath configuration value in boa.conf *****/
-#define DEFAULT_PATH     "/bin:/usr/bin:/usr/local/bin"
+/** "DefaultVHost" */
+#define DEFAULT_VHOST cr_pref_get(CRPREF_VHOST_NAME)
 
-/***** Change this via the DefaultVHost configuration directive in boa.conf *****/
-#define DEFAULT_VHOST "default"
-#define DEFAULT_CONFIG_FILE "boa.conf" /* locate me in the server root */
+/** kernel socket buffer size */
+#define SOCKETBUF_SIZE 49152
 
-/***** Change this via the SinglePostLimit configuration value in boa.conf *****/
-#define SINGLE_POST_LIMIT_DEFAULT               1024 * 1024 /* 1 MB */
+/** internal buffer for client */
+#define CLIENT_STREAM_SIZE 8192
 
-/***** Various stuff that you may want to tweak, but probably shouldn't *****/
-
-#define SOCKETBUF_SIZE                          32768
-#define CLIENT_STREAM_SIZE                      8192
-#define BUFFER_SIZE                             4096
+/** generic buffer size */
+#define BUFFER_SIZE 4096
 #define MAX_HEADER_LENGTH			1024
 
 #define MIME_HASHTABLE_SIZE			47
@@ -60,12 +64,10 @@
 
 #define REQUEST_TIMEOUT				60
 
-#define MIME_TYPES_DEFAULT                      "/etc/mime.types"
-#define CGI_MIME_TYPE                           "application/x-httpd-cgi"
+#define MIME_TYPES_DEFAULT cr_pref_get(CRPREF_MIME_PATH)
 
-/***** CHANGE ANYTHING BELOW THIS LINE AT YOUR OWN PERIL *****/
-/***** You will probably introduce buffer overruns unless you know
-       what you are doing *****/
+#define CGI_MIME_TYPE "application/x-httpd-cgi"
+#define PHP_MIME_TYPE "application/x-httpd-php"
 
 #define MAX_FILE_LENGTH				NAME_MAX
 #define MAX_PATH_LENGTH				PATH_MAX
@@ -77,7 +79,7 @@
 #endif
 
 #ifndef SERVER_VERSION
-#define SERVER_VERSION 				"Boa/0.94.14rc21"
+#define SERVER_VERSION 				"Crotalus/2.24"
 #endif
 
 #define CGI_VERSION				"CGI/1.1"
@@ -159,12 +161,12 @@ extern int debug_level;
 #define SQUASH_KA(req)	(req->keepalive=KA_STOPPED)
 
 #ifdef HAVE_FUNC
-#define WARN(mesg) log_error_mesg(__FILE__, __LINE__, __func__, mesg)
-#define DIE(mesg) log_error_mesg_fatal(__FILE__, __LINE__, __func__, mesg)
+#define WARN(_str) log_error_mesg(__FILE__, __LINE__, __func__, (_str))
 #else
-#define WARN(mesg) log_error_mesg(__FILE__, __LINE__, mesg)
-#define DIE(mesg) log_error_mesg_fatal(__FILE__, __LINE__, mesg)
+#define WARN(_str) log_error_mesg(__FILE__, __LINE__, "<n/a>", (_str))
 #endif
+#define DIE(_str) WARN(_str)
+#define log_error_time() WARN(NULL)
 
 #define INT_TO_HEX(x) (((x)>9)?(('a'-10)+(x)):('0'+(x)))
 #define HEX_TO_DECIMAL(char1, char2)    \
@@ -179,4 +181,5 @@ extern int debug_level;
 #define EXIT_FAILURE 1
 #endif
 
-#endif
+
+#endif /* ndef __DEFINES_H__ */

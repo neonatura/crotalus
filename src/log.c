@@ -1,107 +1,45 @@
+
 /*
- *  Boa, an http server
+ * @copyright
+ *
+ *  Copyright 2015 Neo Natura
  *  Copyright (C) 1995 Paul Phillips <paulp@go2net.com>
- *  Copyright (C) 1996-1999 Larry Doolittle <ldoolitt@boa.org>
- *  Copyright (C) 1999-2004 Jon Nelson <jnelson@boa.org>
+ *  Copyright (C) 1996-1999 Larry Doolittle <ldoolitt@crotalus.org>
+ *  Copyright (C) 1999-2004 Jon Nelson <jnelson@crotalus.org>
  *
- *  This program is free software; you can redistribute it and/or modify
+ *  This file is part of the Crotalus Web Daemon.
+ *        
+ *  Crotalus is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
- *  the Free Software Foundation; either version 1, or (at your option)
- *  any later version.
+ *  the Free Software Foundation, either version 3 of the License, or
+ *  (at your option) any later version. 
  *
- *  This program is distributed in the hope that it will be useful,
+ *  Crotalus is distributed in the hope that it will be useful,
  *  but WITHOUT ANY WARRANTY; without even the implied warranty of
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  *  GNU General Public License for more details.
  *
  *  You should have received a copy of the GNU General Public License
- *  along with this program; if not, write to the Free Software
- *  Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
+ *  along with The Share Library.  If not, see <http://www.gnu.org/licenses/>.
  *
+ *  @endcopyright
  */
 
-/* $Id: log.c,v 1.36.2.27 2005/02/22 14:11:29 jnelson Exp $*/
-
-#include "boa.h"
+#include "crotalus.h"
 
 int cgi_log_fd;
 
 /*
- * Name: open_logs
- *
- * Description: Opens access log, error log, and if specified, CGI log
- * Ties stderr to error log, except during CGI execution, at which
- * time CGI log is the stderr for CGIs.
- *
- * Access log is line buffered, error log is not buffered.
- *
+ * Prep log directory for writing.
  */
-
-void open_logs(void)
+int open_logs(void)
 {
-    int access_log;
 
-    /* if error_log_name is set, dup2 stderr to it */
-    /* otherwise, leave stderr alone */
-    /* we don't want to tie stderr to /dev/null */
-    if (error_log_name) {
-        int error_log;
+  mkdir("/var/log/crotalus/", 0777);
+  chown("/var/log/crotalus", server_uid, server_gid);
+  cgi_log_fd = -1;
 
-        /* open the log file */
-        error_log = open_gen_fd(error_log_name);
-        if (error_log < 0) {
-            DIE("unable to open error log");
-        }
-
-        /* redirect stderr to error_log */
-        if (dup2(error_log, STDERR_FILENO) == -1) {
-            DIE("unable to dup2 the error log");
-        }
-        close(error_log);
-    }
-
-    if (access_log_name) {
-        access_log = open_gen_fd(access_log_name);
-    } else {
-        access_log = open("/dev/null", 0);
-    }
-    if (access_log < 0) {
-        DIE("unable to open access log");
-    }
-
-    if (dup2(access_log, STDOUT_FILENO) == -1) {
-        DIE("can't dup2 /dev/null to STDOUT_FILENO");
-    }
-    if (fcntl(access_log, F_SETFD, 1) == -1) {
-        DIE("unable to set close-on-exec flag for access_log");
-    }
-
-    close(access_log);
-
-    if (cgi_log_name) {
-        cgi_log_fd = open_gen_fd(cgi_log_name);
-        if (cgi_log_fd == -1) {
-            WARN("open cgi_log");
-            free(cgi_log_name);
-            cgi_log_name = NULL;
-            cgi_log_fd = 0;
-        } else {
-            if (fcntl(cgi_log_fd, F_SETFD, 1) == -1) {
-                WARN("unable to set close-on-exec flag for cgi_log");
-                free(cgi_log_name);
-                cgi_log_name = NULL;
-                close(cgi_log_fd);
-                cgi_log_fd = 0;
-            }
-        }
-    }
-#ifdef SETVBUF_REVERSED
-    setvbuf(stderr, _IONBF, (char *) NULL, 0);
-    setvbuf(stdout, _IOLBF, (char *) NULL, 0);
-#else
-    setvbuf(stderr, (char *) NULL, _IONBF, 0);
-    setvbuf(stdout, (char *) NULL, _IOLBF, 0);
-#endif
+  return (0);
 }
 
 /*
@@ -122,12 +60,12 @@ void open_logs(void)
  rfc931 - remote name of the user (always '-')
  authuser - username entered for authentication - almost always '-'
  [date] - the date in [08/Nov/1997:01:05:03 -0600] (with brackets) format
- "request" - literal request from the client (boa may clean this up,
+ "request" - literal request from the client (crotalus may clean this up,
    replacing control-characters with '_' perhaps - NOTE: not done)
  status - http status code
  bytes - number of bytes transferred
 
- boa appends:
+ crotalus appends:
    referer
    user-agent
 
@@ -138,22 +76,43 @@ void open_logs(void)
 
 void log_access(request * req)
 {
-    if (!access_log_name)
-        return;
+  static FILE *log_fl;
+  struct stat st;
 
-    if (virtualhost) {
-        printf("%s ", req->local_ip_addr);
-    } else if (vhost_root) {
-        printf("%s ", (req->host ? req->host : "(null)"));
+  if (!req) {
+    if (log_fl ) {
+      fclose(log_fl);
+      log_fl = NULL;
     }
-    printf("%s - - %s\"%s\" %d %ld \"%s\" \"%s\"\n",
-           req->remote_ip_addr,
-           get_commonlog_time(),
-           req->logline ? req->logline : "-",
-           req->response_status,
-           req->bytes_written,
-           (req->header_referer ? req->header_referer : "-"),
-           (req->header_user_agent ? req->header_user_agent : "-"));
+    return;
+  }
+
+  if (!log_fl) {
+    char *path = crpref_log_path(CRLOG_ACCESS);
+    if (!*path)
+      return;
+
+    if (0 == stat(path, &st)) 
+      log_fl = fopen(path, "ab");
+    else
+      log_fl = fopen(path, "wb");
+    if (!log_fl)
+      return;
+  }
+
+  if (virtualhost) {
+    fprintf(log_fl, "%s ", req->local_ip_addr);
+  } else if (vhost_root) {
+    fprintf(log_fl, "%s ", (req->host ? req->host : "(null)"));
+  }
+  fprintf(log_fl, "%s - - %s\"%s\" %d %ld \"%s\" \"%s\"\n",
+      req->remote_ip_addr,
+      get_commonlog_time(),
+      req->logline ? req->logline : "-",
+      req->response_status,
+      req->bytes_written,
+      (req->header_referer ? req->header_referer : "-"),
+      (req->header_user_agent ? req->header_user_agent : "-"));
 }
 
 /*
@@ -172,57 +131,49 @@ void log_access(request * req)
 
 void log_error_doc(request * req)
 {
-    int errno_save = errno;
+  char buf[2048];
 
-    if (virtualhost) {
-        fprintf(stderr, "%s ", req->local_ip_addr);
-    } else if (vhost_root) {
-        fprintf(stderr, "%s ", (req->host ? req->host : "(null)"));
-    }
-    if (vhost_root) {
-        fprintf(stderr, "%s - - %srequest [%s] \"%s\" (\"%s\"): ",
-                req->remote_ip_addr,
-                get_commonlog_time(),
-                (req->header_host ? req->header_host : "(null)"),
-                (req->logline ? req->logline : "(null)"),
-                (req->pathname ? req->pathname : "(null)"));
-    } else {
-        fprintf(stderr, "%s - - %srequest \"%s\" (\"%s\"): ",
-                req->remote_ip_addr,
-                get_commonlog_time(),
-                (req->logline ? req->logline : "(null)"),
-                (req->pathname ? req->pathname : "(null)"));
-    }
+  memset(buf, 0, sizeof(buf));
 
-    errno = errno_save;
+  if (virtualhost) {
+    sprintf(buf+strlen(buf), "%s ", req->local_ip_addr);
+  } else if (vhost_root) {
+    sprintf(buf+strlen(buf), "%s ", (req->host ? req->host : "(null)"));
+  }
+  if (vhost_root) {
+    sprintf(buf+strlen(buf), "%s - - %srequest [%s] \"%s\" (\"%s\"): ",
+        req->remote_ip_addr,
+        get_commonlog_time(),
+        (req->header_host ? req->header_host : "(null)"),
+        (req->logline ? req->logline : "(null)"),
+        (req->pathname ? req->pathname : "(null)"));
+  } else {
+    sprintf(buf+strlen(buf), "%s - - %srequest \"%s\" (\"%s\"): ",
+        req->remote_ip_addr,
+        get_commonlog_time(),
+        (req->logline ? req->logline : "(null)"),
+        (req->pathname ? req->pathname : "(null)"));
+  }
+
+  sprintf(buf+strlen(buf), " (%s)\n", strerror(errno));
+
+  log_error(buf);
 }
 
 /*
- * Name: boa_perror
+ * Name: crotalus_perror
  *
  * Description: logs an error to user and error file both
  *
  */
-void boa_perror(request * req, const char *message)
+void crotalus_perror(request * req, const char *message)
 {
     log_error_doc(req);
-    perror(message);            /* don't need to save errno because log_error_doc does */
+ //   perror(message);            /* don't need to save errno because log_error_doc does */
     send_r_error(req);
 }
 
-/*
- * Name: log_error_time
- *
- * Description: Logs the current time to the stderr (the error log):
- * should always be followed by an fprintf to stderr
- */
 
-void log_error_time(void)
-{
-    int errno_save = errno;
-    fputs(get_commonlog_time(), stderr);
-    errno = errno_save;
-}
 
 /*
  * Name: log_error
@@ -233,7 +184,31 @@ void log_error_time(void)
 
 void log_error(const char *mesg)
 {
-    fprintf(stderr, "%s%s", get_commonlog_time(), mesg);
+  static FILE *log_fl;
+  struct stat st;
+
+  if (!mesg) {
+    if (log_fl ) {
+      fclose(log_fl);
+      log_fl = NULL;
+    }
+    return;
+  }
+
+  if (!log_fl) {
+    char *path = crpref_log_path(CRLOG_ERROR);
+    if (!*path)
+      return;
+
+    if (0 == stat(path, &st)) 
+      log_fl = fopen(path, "ab");
+    else
+      log_fl = fopen(path, "wb");
+    if (!log_fl)
+      return;
+  }
+
+  fprintf(log_fl, "%s%s\n", get_commonlog_time(), mesg);
 }
 
 /*
@@ -243,43 +218,13 @@ void log_error(const char *mesg)
  * to stderr (saving errno), and then a perror with message
  *
  */
-
-#ifdef HAVE_FUNC
 void log_error_mesg(const char *file, int line, const char *func, const char *mesg)
 {
-    int errno_save = errno;
-    fprintf(stderr, "%s%s:%d (%s) - ", get_commonlog_time(), file, line, func);
-    errno = errno_save;
-    perror(mesg);
-    errno = errno_save;
+  char buf[1024];
+
+  sprintf(buf, "%s:%d (%s) - %s", file, line, func, strerror(errno));
+  log_error(buf);
+  if (mesg)
+    log_error(mesg);
 }
 
-void log_error_mesg_fatal(const char *file, int line, const char *func, const char *mesg)
-{
-    int errno_save = errno;
-    fprintf(stderr, "%s%s:%d (%s) - ", get_commonlog_time(), file, line, func);
-    errno = errno_save;
-    perror(mesg);
-    exit(EXIT_FAILURE);
-}
-
-
-#else
-void log_error_mesg(const char *file, int line, const char *mesg)
-{
-    int errno_save = errno;
-    fprintf(stderr, "%s%s:%d - ", get_commonlog_time(), file, line);
-    errno = errno_save;
-    perror(mesg);
-    errno = errno_save;
-}
-
-void log_error_mesg_fatal(const char *file, int line, const char *mesg)
-{
-    int errno_save = errno;
-    fprintf(stderr, "%s%s:%d - ", get_commonlog_time(), file, line);
-    errno = errno_save;
-    perror(mesg);
-    exit(EXIT_FAILURE);
-}
-#endif

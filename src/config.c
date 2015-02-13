@@ -1,29 +1,31 @@
+
 /*
- *  Boa, an http server
+ * @copyright
+ *
+ *  Copyright 2015 Neo Natura
  *  Copyright (C) 1999-2005 Larry Doolittle <ldoolitt@boa.org>
  *  Copyright (C) 2000-2005 Jon Nelson <jnelson@boa.org>
  *
- *  This program is free software; you can redistribute it and/or modify
+ *  This file is part of the Crotalus Web Daemon.
+ *        
+ *  Crotalus is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
- *  the Free Software Foundation; either version 1, or (at your option)
- *  any later version.
+ *  the Free Software Foundation, either version 3 of the License, or
+ *  (at your option) any later version. 
  *
- *  This program is distributed in the hope that it will be useful,
+ *  Crotalus is distributed in the hope that it will be useful,
  *  but WITHOUT ANY WARRANTY; without even the implied warranty of
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  *  GNU General Public License for more details.
  *
  *  You should have received a copy of the GNU General Public License
- *  along with this program; if not, write to the Free Software
- *  Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
+ *  along with The Share Library.  If not, see <http://www.gnu.org/licenses/>.
  *
+ *  @endcopyright
  */
 
-/* $Id: config.c,v 1.31.2.30 2005/02/22 14:11:29 jnelson Exp $*/
-
-#include "boa.h"
+#include "crotalus.h"
 #include "access.h"
-#include <sys/resource.h>
 
 const char *config_file_name;
 
@@ -39,13 +41,9 @@ char *vhost_root;
 const char *default_vhost;
 unsigned max_connections;
 
-char *document_root;
-char *user_dir;
-char *directory_index;
 char *default_type;
 char *default_charset;
 char *dirmaker;
-char *cachedir;
 
 const char *tempdir;
 
@@ -53,17 +51,12 @@ unsigned int cgi_umask = 027;
 
 char *pid_file;
 char *cgi_path;
-int single_post_limit = SINGLE_POST_LIMIT_DEFAULT;
+int single_post_limit;
 int conceal_server_identity = 0;
 
 int ka_timeout;
 unsigned int default_timeout;
 unsigned int ka_max;
-
-/* These came from log.c */
-char *error_log_name;
-char *access_log_name;
-char *cgi_log_name;
 
 int use_localtime;
 
@@ -72,6 +65,10 @@ extern int cgi_rlimit_cpu;      /* boa.c */
 extern int cgi_rlimit_data;     /* boa.c */
 extern int cgi_nice;            /* boa.c */
 #endif
+
+char *access_log_name;
+char *error_log_name;
+char *cgi_log_name;
 
 /* These are new */
 static void c_add_cgi_env(char *v1, char *v2, void *table_ptr);
@@ -119,6 +116,55 @@ static uid_t current_uid = 0;
 /* function prototype */
 Command *lookup_keyword(char *c);
 
+static void c_set_preference(char *v1, char *v2, void *t)
+{
+fprintf(stderr, "DEBUG: c_set_preference[%s]: %s (v2 #%x)\n", t, v1, v2);
+  cr_pref_set(t, v1); 
+}
+
+static void apply_inline_preferences(void)
+{
+  server_port = atoi(cr_pref_get(CRPREF_WEB_PORT));
+  server_ip = strdup(cr_pref_get(CRPREF_BIND_ADDR));
+  c_set_user(cr_pref_get(CRPREF_PROC_USER), NULL, NULL);
+  c_set_group(cr_pref_get(CRPREF_PROC_GROUP), NULL, NULL);
+  server_admin = strdup(cr_pref_get(CRPREF_ENV_ADMIN));
+  if (0 != strcmp(cr_pref_get(CRPREF_TIME_LOCAL), "Off"))
+    use_localtime = 1;
+  server_name = strdup(cr_pref_get(CRPREF_WEB_NAME));
+  if (0 != strcmp(cr_pref_get(CRPREF_CGI_VERBOSE), "Off"))
+    verbose_cgi_logs = 1;
+  if (0 != strcmp(cr_pref_get(CRPREF_VHOST), "Off"))
+    virtualhost = 1;
+
+  /*
+   * * No 'pre-defined' support is provided for "VHostRoot". * *
+   vhost_root = strdup(cr_pref_get(CRPREF_VHOST_DIR));
+   */
+
+  default_vhost = strdup(cr_pref_get(CRPREF_VHOST_NAME));
+
+  /*
+   * * No 'pre-defined' support is provided for 'DirectoryMaker'. *
+   dirmaker = strdup(cr_pref_get(CRPREF_CGI_INDEX));
+   */
+
+  pid_file = strdup(cr_pref_get(CRPREF_PROC_PID));
+  ka_max = atoi(cr_pref_get(CRPREF_KEEPALIVE_MAX));
+  ka_timeout = atoi(cr_pref_get(CRPREF_KEEPALIVE_SPAN));
+  c_add_mime_types_file(cr_pref_get(CRPREF_MIME_PATH), NULL, NULL);
+  default_type = strdup(cr_pref_get(CRPREF_MIME_DEFAULT));
+  //default_charset = strdup(cr_pref_get(CRPREF_CHARSET));
+  single_post_limit = atoi(cr_pref_get(CRPREF_POST_LIMIT));
+  cgi_umask = atoi(cr_pref_get(CRPREF_CGI_UMASK));
+  //max_connections = atoi(cr_pref_get(CRPREF_PROC_LIMIT)); 
+  add_to_common_env(CRPREF_ENV_PATH, (char *)cr_pref_get(CRPREF_ENV_PATH));
+
+  access_log_name = strdup(crpref_log_path(CRLOG_ACCESS));
+  error_log_name = strdup(crpref_log_path(CRLOG_ERROR));
+  cgi_log_name = strdup(crpref_log_path(CRLOG_CGI));
+}
+
 struct ccommand clist[] = {
     {"Port", S1A, c_set_int, &server_port},
     {"Listen", S1A, c_set_string, &server_ip},
@@ -128,20 +174,20 @@ struct ccommand clist[] = {
     {"ServerAdmin", S1A, c_set_string, &server_admin},
     {"ServerRoot", S1A, c_set_string, &server_root},
     {"UseLocaltime", S0A, c_set_unity, &use_localtime},
-    {"ErrorLog", S1A, c_set_string, &error_log_name},
-    {"AccessLog", S1A, c_set_string, &access_log_name},
-    {"CgiLog", S1A, c_set_string, &cgi_log_name}, /* compatibility with CGILog */
-    {"CGILog", S1A, c_set_string, &cgi_log_name},
+    {"ErrorLog", S1A, c_set_preference, CRPREF_ERROR_LOG},
+    {"AccessLog", S1A, c_set_preference, CRPREF_ACCESS_LOG},
+//    {"CgiLog", S1A, c_set_string, &cgi_log_name}, /* compatibility with CGILog */
+    {"CGILog", S1A, c_set_preference, CRPREF_CGI_LOG},
     {"VerboseCGILogs", S0A, c_set_unity, &verbose_cgi_logs},
     {"ServerName", S1A, c_set_string, &server_name},
     {"VirtualHost", S0A, c_set_unity, &virtualhost},
     {"VHostRoot", S1A, c_set_string, &vhost_root},
     {"DefaultVHost", S1A, c_set_string, &default_vhost},
-    {"DocumentRoot", S1A, c_set_string, &document_root},
-    {"UserDir", S1A, c_set_string, &user_dir},
-    {"DirectoryIndex", S1A, c_set_string, &directory_index},
+    {"DocumentRoot", S1A, c_set_preference, CRPREF_WEB_DIR},
+    {"UserDir", S1A, c_set_preference, CRPREF_USER_DIR},
+    {"DirectoryIndex", S1A, c_set_preference, CRPREF_PATH_INDEX},
     {"DirectoryMaker", S1A, c_set_string, &dirmaker},
-    {"DirectoryCache", S1A, c_set_string, &cachedir},
+    {"DirectoryCache", S1A, c_set_preference, CRPREF_PROC_INDEX},
     {"PidFile", S1A, c_set_string, &pid_file},
     {"KeepAliveMax", S1A, c_set_int, &ka_max},
     {"KeepAliveTimeout", S1A, c_set_int, &ka_timeout},
@@ -285,8 +331,13 @@ static void c_set_unity(char *v1, char *v2, void *t)
         log_error_time();
         printf("Setting pointer %p to unity\n", t);
     }
-    if (t)
-        *(int *) t = 1;
+    if (!t)
+      return;
+    if (!v1 || 0 == strcasecmp(v1, "off")) {
+      *(int *) t = 0;
+    } else {
+      *(int *) t = 1;
+    }
 }
 
 static void c_add_mime_type(char *v1, char *v2, void *t)
@@ -476,125 +527,164 @@ static void parse(FILE * f)
                     buf);
             exit(EXIT_FAILURE);
         } else {
-            DEBUG(DEBUG_CONFIG) {
-                log_error_time();
-                fprintf(stderr,
-                        "Found keyword %s in \"%s\" (%s)!\n",
-                        p->name, buf, c);
-            }
-            apply_command(p, c);
+          DEBUG(DEBUG_CONFIG) {
+            log_error_time();
+            fprintf(stderr,
+                "Found keyword %s in \"%s\" (%s)!\n",
+                p->name, buf, c);
+          }
+          apply_command(p, c);
         }
     }
 }
 
-/*
- * Name: read_config_files
- *
- * Description: Reads config files, then makes sure that
- * all required variables were set properly.
- */
+/** Reads config files, then makes sure that all required variables were set properly.  */
 void read_config_files(void)
 {
-    FILE *config;
+  FILE *config;
+  char path[PATH_MAX+1];
 
-    current_uid = getuid();
+  current_uid = getuid();
 
-    if (!config_file_name) {
-        config_file_name = DEFAULT_CONFIG_FILE;
-    }
+  apply_inline_preferences();
+
+  if (!config_file_name) {
+    config_file_name = DEFAULT_CONFIG_FILE;
+  }
+
 #ifdef ACCESS_CONTROL
-    access_init();
+  access_init();
 #endif                          /* ACCESS_CONTROL */
 
-    config = fopen(config_file_name, "r");
+  sprintf(path, "%s/%s", server_root, config_file_name);
+  config = fopen(path, "r");
+  if (!config) {
+    generate_default_config_file(path);
+    config = fopen(path, "r");
     if (!config) {
-        fputs("Could not open boa.conf for reading.\n", stderr);
-        exit(EXIT_FAILURE);
+      fprintf(stderr, "Could not open the Crotalus configuration file '%s'.\n", config_file_name);
+      exit(EXIT_FAILURE);
     }
-    parse(config);
-    fclose(config);
+  }
+  parse(config);
+  fclose(config);
 
-    if (!server_name) {
-        struct hostent *he;
-        char temp_name[100];
+  if (!server_name) {
+    struct hostent *he;
+    char temp_name[100];
 
-        if (gethostname(temp_name, 100) == -1) {
-            perror("gethostname:");
-            exit(EXIT_FAILURE);
-        }
-
-        he = gethostbyname(temp_name);
-        if (he == NULL) {
-            perror("gethostbyname:");
-            exit(EXIT_FAILURE);
-        }
-
-        server_name = strdup(he->h_name);
-        if (server_name == NULL) {
-            perror("strdup:");
-            exit(EXIT_FAILURE);
-        }
-    }
-    tempdir = getenv("TMP");
-    if (tempdir == NULL)
-        tempdir = "/tmp";
-
-    if (single_post_limit < 0) {
-        fprintf(stderr, "Invalid value for single_post_limit: %d\n",
-                single_post_limit);
-        exit(EXIT_FAILURE);
+    if (gethostname(temp_name, 100) == -1) {
+      perror("gethostname:");
+      exit(EXIT_FAILURE);
     }
 
-    if (vhost_root && virtualhost) {
-        fprintf(stderr, "Both VHostRoot and VirtualHost were enabled, and "
-                "they are mutually exclusive.\n");
-        exit(EXIT_FAILURE);
+    he = gethostbyname(temp_name);
+    if (he == NULL) {
+      perror("gethostbyname:");
+      exit(EXIT_FAILURE);
     }
 
-    if (vhost_root && document_root) {
-        fprintf(stderr,
-                "Both VHostRoot and DocumentRoot were enabled, and "
-                "they are mutually exclusive.\n");
-        exit(EXIT_FAILURE);
+    server_name = strdup(he->h_name);
+    if (server_name == NULL) {
+      perror("strdup:");
+      exit(EXIT_FAILURE);
     }
+  }
+  tempdir = getenv("TMP");
+  if (tempdir == NULL)
+    tempdir = "/tmp";
 
-    if (!default_vhost) {
-        default_vhost = DEFAULT_VHOST;
-    }
+  if (single_post_limit < 0) {
+    fprintf(stderr, "Invalid value for single_post_limit: %d\n",
+        single_post_limit);
+    exit(EXIT_FAILURE);
+  }
+
+  if (vhost_root && virtualhost) {
+    fprintf(stderr, "Both VHostRoot and VirtualHost were enabled, and "
+        "they are mutually exclusive.\n");
+    exit(EXIT_FAILURE);
+  }
+
+  if (vhost_root && crpref_docroot()) {
+    fprintf(stderr,
+        "Both VHostRoot and DocumentRoot were enabled, and "
+        "they are mutually exclusive.\n");
+    exit(EXIT_FAILURE);
+  }
+
+  if (!default_vhost) {
+    default_vhost = DEFAULT_VHOST;
+  }
 
 #ifdef USE_SETRLIMIT
-    if (cgi_rlimit_cpu < 0)
-        cgi_rlimit_cpu = 0;
+  if (cgi_rlimit_cpu < 0)
+    cgi_rlimit_cpu = 0;
 
-    if (cgi_rlimit_data < 0)
-        cgi_rlimit_data = 0;
+  if (cgi_rlimit_data < 0)
+    cgi_rlimit_data = 0;
 
-    if (cgi_nice < 0)
-        cgi_nice = 0;
+  if (cgi_nice < 0)
+    cgi_nice = 0;
 #endif
 
-    if (max_connections < 1) {
-        struct rlimit rl;
-        int c;
+  if (max_connections < 1) {
+    struct rlimit rl;
+    int c;
 
-        /* has not been set explicitly */
-        c = getrlimit(RLIMIT_NOFILE, &rl);
-        if (c < 0) {
-            DIE("getrlimit");
-        }
-        max_connections = rl.rlim_cur;
+    /* has not been set explicitly */
+    c = getrlimit(RLIMIT_NOFILE, &rl);
+    if (c < 0) {
+      DIE("getrlimit");
     }
-    if (max_connections > FD_SETSIZE - 20)
-        max_connections = FD_SETSIZE - 20;
+    max_connections = rl.rlim_cur;
+  }
+  if (max_connections > FD_SETSIZE - 20)
+    max_connections = FD_SETSIZE - 20;
 
-    if (ka_timeout < 0) ka_timeout=0;  /* not worth a message */
-    /* save some time */
-    default_timeout = (ka_timeout ? ka_timeout : REQUEST_TIMEOUT);
+  if (ka_timeout < 0) ka_timeout=0;  /* not worth a message */
+  /* save some time */
+  default_timeout = (ka_timeout ? ka_timeout : REQUEST_TIMEOUT);
 #ifdef HAVE_POLL
-    default_timeout *= 1000;
+  default_timeout *= 1000;
 #endif
 
-    if (default_type == NULL) {
-        DIE("DefaultType *must* be set!");
-    }
+  if (default_type == NULL) {
+    DIE("DefaultType *must* be set!");
+  }
+
+#ifdef HAVE_LIBPHP
+  add_mime_type("php", PHP_MIME_TYPE);
+#endif
+
 }
+
+void generate_default_config_file(char *path)
+{
+  FILE *fl;
+  char *tok;
+  int i;
+
+  fl = fopen(path, "wb");
+  if (!fl)
+    return;
+
+  fprintf(fl, "## Crotalus Web Daemon v%s\n", PACKAGE_VERSION); 
+  fprintf(fl, "\n");
+  fprintf(fl, "\n");
+
+  for (i = 0; i < CR_PREF_MAX; i++) {
+    tok = cr_pref_token(i);
+    fprintf(fl, "## Name: %s\n", tok);
+    fprintf(fl, "## %s\n", cr_pref_desc(tok));
+    fprintf(fl, "## Default: %s\n", cr_pref_default(tok));
+    fprintf(fl, "\n");
+    fprintf(fl, "#%s %s\n", tok, cr_pref_default(tok));
+    fprintf(fl, "\n");
+    fprintf(fl, "\n");
+  }
+
+  fclose(fl);
+}
+
+

@@ -329,7 +329,7 @@ int read_body(request * req)
         if (errno == EWOULDBLOCK || errno == EAGAIN) {
             return -1;
         } else {
-            boa_perror(req, "read body");
+            crotalus_perror(req, "read body");
             req->response_status = 400;
             return 0;
         }
@@ -393,10 +393,10 @@ int write_body(request * req)
             /* 20010520 - Alfred Fluckiger */
             /* No test was originally done in this case, which might  */
             /* lead to a "no space left on device" error.             */
-            boa_perror(req, "write body"); /* OK to disable if your logs get too big */
+            crotalus_perror(req, "write body"); /* OK to disable if your logs get too big */
             return 0;
         } else {
-            boa_perror(req, "write body"); /* OK to disable if your logs get too big */
+            crotalus_perror(req, "write body"); /* OK to disable if your logs get too big */
             return 0;
         }
     }

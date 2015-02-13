@@ -223,9 +223,6 @@ extern int max_fd;
 
 /* global server variables */
 
-extern char *access_log_name;
-extern char *error_log_name;
-extern char *cgi_log_name;
 extern int cgi_log_fd;
 extern int use_localtime;
 
@@ -236,19 +233,14 @@ extern char *server_admin;
 extern char *server_root;
 extern char *server_name;
 extern char *server_ip;
+extern char *dirmaker;
 
-extern char *document_root;
-extern char *user_dir;
-extern char *directory_index;
 extern char *default_type;
 extern char *default_charset;
-extern char *dirmaker;
 extern char *mime_types;
 extern char *pid_file;
-extern char *cachedir;
 
 extern const char *tempdir;
-
 extern char *cgi_path;
 extern short common_cgi_env_count;
 extern int single_post_limit;
@@ -282,5 +274,9 @@ extern unsigned int system_bufsize;      /* Default size of SNDBUF given by syst
 extern sigjmp_buf env;
 extern int handle_sigbus;
 extern unsigned int cgi_umask;
+
+extern char *error_log_name;
+extern char *access_log_name;
+extern char *cgi_log_name;
 
 #endif

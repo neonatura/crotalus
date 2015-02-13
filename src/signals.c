@@ -1,5 +1,6 @@
+
 /*
- *  Boa, an http server
+ *  Copyright 2015 Neo Natura
  *  Copyright (C) 1995 Paul Phillips <paulp@go2net.com>
  *  Copyright (C) 1996-1999 Larry Doolittle <ldoolitt@boa.org>
  *  Copyright (C) 1996-2005 Jon Nelson <jnelson@boa.org>
@@ -21,9 +22,8 @@
  *
  */
 
-/* $Id: signals.c,v 1.37.2.14 2005/02/22 14:11:29 jnelson Exp $*/
+#include "crotalus.h"
 
-#include "boa.h"
 #ifdef HAVE_SYS_WAIT_H
 #include <sys/wait.h>           /* wait */
 #endif
@@ -165,58 +165,46 @@ void sigterm_stage1_run(void)
 
 void sigterm_stage2_run(void)
 {                               /* lame duck mode */
-    log_error_time();
-    fprintf(stderr,
-            "exiting Boa normally (uptime %d seconds)\n",
-            (int) (current_time - start_time));
-    chdir(tempdir);
-    clear_common_env();
-    dump_mime();
-    dump_passwd();
-    dump_alias();
-    free_requests();
-    range_pool_empty();
-    free(server_root);
-    free(server_name);
-    server_root = NULL;
-    exit(EXIT_SUCCESS);
+  log_access(NULL);
+  log_error(NULL);
+
+  fprintf(stderr,
+      "exiting Crotalus normally (uptime %d seconds)\n",
+      (int) (current_time - start_time));
+
+  chdir(tempdir);
+  clear_common_env();
+  dump_mime();
+  dump_passwd();
+  dump_alias();
+  free_requests();
+  range_pool_empty();
+  free(server_root);
+  free(server_name);
+  exit(EXIT_SUCCESS);
 }
 
 
 void sighup(int dummy)
 {
-    sighup_flag = 1;
+  sighup_flag = 1;
 }
 
 void sighup_run(void)
 {
-    sighup_flag = 0;
-    time(&current_time);
-    log_error_time();
-    fputs("caught SIGHUP, restarting\n", stderr);
 
-    /* Philosophy change for 0.92: don't close and attempt reopen of logfiles,
-     * since usual permission structure prevents such reopening.
-     */
+  sighup_flag = 0;
 
-    /* why ? */
-    /*
-       FD_ZERO(&block_read_fdset);
-       FD_ZERO(&block_write_fdset);
-     */
-    /* clear_common_env(); NEVER DO THIS */
-    dump_mime();
-    dump_passwd();
-    dump_alias();
-    free_requests();
-    range_pool_empty();
+  /* unload */
+  dump_mime();
+  dump_passwd();
+  dump_alias();
+  free_requests();
+  range_pool_empty();
 
-    log_error_time();
-    fputs("re-reading configuration files\n", stderr);
-    read_config_files();
+  /* load */
+  read_config_files();
 
-    log_error_time();
-    fputs("successful restart\n", stderr);
 }
 
 void sigint(int dummy)
