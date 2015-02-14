@@ -64,27 +64,18 @@ nor does it fork many copies of itself to handle multiple connections.
 It internally multiplexes all of the ongoing HTTP connections, and
 forks only for CGI programs (which must be separate processes),
 automatic directory generation, and automatic file gunzipping.
-Preliminary tests show Crotalus (Boa) is capable of handling several
-thousand hits per second on a 300 MHz Pentium and dozens of hits per
-second on a lowly 20 MHz 386/SX.
+The exception is PHP scripts with are handled on seperate threads.
 
-The primary design goals of Crotalus (Boa) are speed and security.
-Security, in the sense of _can't be subverted by a malicious user,_ not
-_fine grained access control and encrypted communications_.  Crotalus
-(Boa) is not intended as a feature-packed server; if you want one of
-those, check out WN (`http://hopf.math.nwu.edu/') from John Franks.
-Modifications to Crotalus (Boa) that improve its speed, security,
+Modifications to the Crotalus web server that improve its speed, security,
 robustness, and portability, are eagerly sought.  Other features may be
 added if they can be achieved without hurting the primary goals.
 
-Crotalus (Boa) was created in 1991 by Paul Phillips (<psp@well.com>).
-It is now being maintained and enhanced by Larry Doolittle
-(<ldoolitt@crotalus.org>) and Jon Nelson (<jnelson@crotalus.org>).
+Boa, the program Crotalus is designed from, was created in 1991 by Paul 
+Phillips, and further enhanced by Larry Doolittle and Jon Nelson.
 Please see the acknowledgment section for further details.
 
-GNU/Linux is the development platform at the moment, other OS's are
-known to work.  If you'd like to contribute to this effort, contact
-Larry or Jon via e-mail.
+GNU/Linux is the primary development platform at the moment, but is
+also intended to be able to be compiled in a msys win32 environment.
 
 
 File: crotalus.info,  Node: Installation and Usage,  Next: Limits and Design Philosophy,  Prev: Introduction,  Up: Top

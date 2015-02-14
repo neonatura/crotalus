@@ -25,6 +25,13 @@
 #ifndef __CACHE__HASH_H__
 #define __CACHE__HASH_H__
 
+/**
+ * Data cacheing routines.
+ * @ingroup crotalus
+ * @defgroup crotalus_cache
+ * @{
+ */
+
 struct hash_struct {
     char *key;
     char *value;
@@ -45,6 +52,9 @@ hash_struct *hash_insert(hash_struct * table[], const unsigned int hash, const c
  */
 hash_struct *hash_find(hash_struct * table[], const char *key, const unsigned int hash);
 
+/**
+ * @}
+ */
 
 
 #endif /* ndef __CACHE__HASH_H__ */

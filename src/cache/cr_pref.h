@@ -25,6 +25,13 @@
 #ifndef __CACHE__CR_PREF_H__
 #define __CACHE__CR_PREF_H__
 
+/**
+ * Data cacheing routines.
+ * @ingroup crotalus
+ * @defgroup crotalus_cache
+ * @{
+ */
+
 #define CRPREF_ROOT_DIR "ServerRoot"
 #define CRPREF_WEB_PORT "Port"
 #define CRPREF_BIND_ADDR "Listen"
@@ -74,5 +81,8 @@ char *cr_pref_default(const char *token);
 
 char *crpref_docroot(void);
 
+/**
+ * @}
+ */
 
 #endif /* ndef __CACHE__CR_PREF_H__ */
