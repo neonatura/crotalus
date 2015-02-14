@@ -793,6 +793,7 @@ int process_logline(request * req)
 
 int process_header_end(request * req)
 {
+
     if (!req->logline) {
         log_error_doc(req);
         fputs("No logline in process_header_end\n", stderr);

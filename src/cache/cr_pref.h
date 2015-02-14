@@ -26,9 +26,9 @@
 #define __CACHE__CR_PREF_H__
 
 /**
- * Data cacheing routines.
+ * Configuration preference management.
  * @ingroup crotalus
- * @defgroup crotalus_cache
+ * @defgroup crotalus_pref
  * @{
  */
 

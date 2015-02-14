@@ -22,41 +22,38 @@
  *  @endcopyright
  */
 
-#ifndef __CACHE__HASH_H__
-#define __CACHE__HASH_H__
+
+#ifndef __CACHE__ACCESS_H__
+#define __CACHE__ACCESS_H__
 
 /**
- * Data cacheing routines for hash-table storage.
+ * Origin host web access control.
  * @ingroup crotalus
- * @defgroup crotalus_hash
+ * @defgroup crotalus_access
  * @{
  */
 
-struct hash_struct {
-    char *key;
-    char *value;
-    struct hash_struct *next;
-};
-typedef struct hash_struct hash_struct;
 
-/** Generate a hash index from a string value. */
-unsigned cr_hash(const char *str);
+enum access_type { ACCESS_DENY, ACCESS_ALLOW };
 
 /**
- * Adds a key/value pair to the provided hashtable
+ * Initialize the 'access control' sub-system.
  */
-hash_struct *hash_insert(hash_struct * table[], const unsigned int hash, const char *key, const char *value);
+void access_init(void);
 
 /**
- * Obtain a hashed value from a hash-table.
+ * Add a new 'access control rule' for a host.
+ * @param pattern An IP address with filename-matching criteria (i.e. "127.*.*.1")
  */
-hash_struct *hash_find(hash_struct * table[], const char *key, const unsigned int hash);
+int access_add(char *hostname, const char *pattern, enum access_type type);
+
+/**
+ * Determine whether any rules are present for a given web host and remote origin IP address.
+ */
+enum access_type access_allow(char *hostname, char *origin, char *filename);
 
 /**
  * @}
  */
 
-
-#endif /* ndef __CACHE__HASH_H__ */
-
-
+#endif /* ndef __CACHE__ACCESS_H__ */

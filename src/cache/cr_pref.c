@@ -41,10 +41,8 @@ int cr_pref_set(const char *token, const char *value)
     // DEBUG: hash_remove() .. TODO 
   } else {
     if (hash_insert(pref_hashtable, hash, token, value) == NULL) {
-    fprintf(stderr, "DEBUG: cr_pref_set[hash %u]: token '%s': error inserting record value '%s'.\n", hash, token, value);
       return (-EINVAL);
 }
-    fprintf(stderr, "DEBUG: cr_pref_set[hash %u]: token '%s' = '%s'\n", hash, token, value);
   }
 
   pref_stamp = time(NULL);
@@ -69,7 +67,6 @@ char *cr_pref_get(const char *token)
     hash = _cr_pref_hash(token);
     current = hash_find(pref_hashtable, token, hash);
     if (current) {
-    fprintf(stderr, "DEBUG: found '%s'\n", current->value);
       return (current->value);
     }
 

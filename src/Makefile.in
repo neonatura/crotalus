@@ -35,6 +35,7 @@ POST_UNINSTALL = :
 build_triplet = @build@
 host_triplet = @host@
 bin_PROGRAMS = crotalus$(EXEEXT)
+@ACCESS_CONTROL_TRUE@am__append_1 = cache/cr_access.c cache/cr_access.h
 subdir = src
 DIST_COMMON = $(srcdir)/Makefile.am $(srcdir)/Makefile.in \
 	$(srcdir)/config.h.in
@@ -56,6 +57,13 @@ CONFIG_CLEAN_FILES =
 CONFIG_CLEAN_VPATH_FILES =
 am__installdirs = "$(DESTDIR)$(bindir)"
 PROGRAMS = $(bin_PROGRAMS)
+am__crotalus_SOURCES_DIST = alias.c boa.c buffer.c cgi.c cgi_header.c \
+	config.c escape.c get.c ip.c log.c mmap_cache.c pipe.c queue.c \
+	range.c read.c request.c response.c signals.c util.c sublog.c \
+	select.c crotalus.c cache/cr_hash.c cache/cr_hash.h \
+	cache/cr_pref.c cache/cr_pref.h cache/cr_access.c \
+	cache/cr_access.h
+@ACCESS_CONTROL_TRUE@am__objects_1 = cr_access.$(OBJEXT)
 am_crotalus_OBJECTS = alias.$(OBJEXT) boa.$(OBJEXT) buffer.$(OBJEXT) \
 	cgi.$(OBJEXT) cgi_header.$(OBJEXT) config.$(OBJEXT) \
 	escape.$(OBJEXT) get.$(OBJEXT) ip.$(OBJEXT) log.$(OBJEXT) \
@@ -63,7 +71,7 @@ am_crotalus_OBJECTS = alias.$(OBJEXT) boa.$(OBJEXT) buffer.$(OBJEXT) \
 	range.$(OBJEXT) read.$(OBJEXT) request.$(OBJEXT) \
 	response.$(OBJEXT) signals.$(OBJEXT) util.$(OBJEXT) \
 	sublog.$(OBJEXT) select.$(OBJEXT) crotalus.$(OBJEXT) \
-	cr_hash.$(OBJEXT) cr_pref.$(OBJEXT)
+	cr_hash.$(OBJEXT) cr_pref.$(OBJEXT) $(am__objects_1)
 crotalus_OBJECTS = $(am_crotalus_OBJECTS)
 crotalus_LDADD = $(LDADD)
 DEFAULT_INCLUDES = -I.@am__isrc@ -I$(top_builddir)/php/main -I$(top_builddir)/php/Zend -I$(top_builddir)/php/TSRM -I$(top_builddir)/php/ext/date/lib
@@ -80,7 +88,7 @@ LINK = $(LIBTOOL) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) \
 	--mode=link $(CCLD) $(AM_CFLAGS) $(CFLAGS) $(AM_LDFLAGS) \
 	$(LDFLAGS) -o $@
 SOURCES = $(crotalus_SOURCES)
-DIST_SOURCES = $(crotalus_SOURCES)
+DIST_SOURCES = $(am__crotalus_SOURCES_DIST)
 ETAGS = etags
 CTAGS = ctags
 DISTFILES = $(DIST_COMMON) $(DIST_SOURCES) $(TEXINFOS) $(EXTRA_DIST)
@@ -201,12 +209,11 @@ target_alias = @target_alias@
 top_build_prefix = @top_build_prefix@
 top_builddir = @top_builddir@
 top_srcdir = @top_srcdir@
-crotalus_SOURCES = alias.c boa.c buffer.c cgi.c cgi_header.c config.c escape.c \
-	get.c ip.c log.c mmap_cache.c pipe.c queue.c range.c \
-	read.c request.c response.c signals.c util.c sublog.c \
-	select.c crotalus.c \
-	cache/cr_hash.c cache/cr_hash.h cache/cr_pref.c cache/cr_pref.h
-
+crotalus_SOURCES = alias.c boa.c buffer.c cgi.c cgi_header.c config.c \
+	escape.c get.c ip.c log.c mmap_cache.c pipe.c queue.c range.c \
+	read.c request.c response.c signals.c util.c sublog.c select.c \
+	crotalus.c cache/cr_hash.c cache/cr_hash.h cache/cr_pref.c \
+	cache/cr_pref.h $(am__append_1)
 all: config.h
 	$(MAKE) $(AM_MAKEFLAGS) all-am
 
@@ -221,9 +228,9 @@ $(srcdir)/Makefile.in:  $(srcdir)/Makefile.am  $(am__configure_deps)
 	      exit 1;; \
 	  esac; \
 	done; \
-	echo ' cd $(top_srcdir) && $(AUTOMAKE) --gnu src/Makefile'; \
+	echo ' cd $(top_srcdir) && $(AUTOMAKE) --foreign src/Makefile'; \
 	$(am__cd) $(top_srcdir) && \
-	  $(AUTOMAKE) --gnu src/Makefile
+	  $(AUTOMAKE) --foreign src/Makefile
 .PRECIOUS: Makefile
 Makefile: $(srcdir)/Makefile.in $(top_builddir)/config.status
 	@case '$?' in \
@@ -318,6 +325,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/cgi.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/cgi_header.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/config.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/cr_access.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/cr_hash.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/cr_pref.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/crotalus.Po@am__quote@
@@ -385,6 +393,20 @@ cr_pref.obj: cache/cr_pref.c
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	source='cache/cr_pref.c' object='cr_pref.obj' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o cr_pref.obj `if test -f 'cache/cr_pref.c'; then $(CYGPATH_W) 'cache/cr_pref.c'; else $(CYGPATH_W) '$(srcdir)/cache/cr_pref.c'; fi`
+
+cr_access.o: cache/cr_access.c
+@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT cr_access.o -MD -MP -MF $(DEPDIR)/cr_access.Tpo -c -o cr_access.o `test -f 'cache/cr_access.c' || echo '$(srcdir)/'`cache/cr_access.c
+@am__fastdepCC_TRUE@	$(am__mv) $(DEPDIR)/cr_access.Tpo $(DEPDIR)/cr_access.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='cache/cr_access.c' object='cr_access.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o cr_access.o `test -f 'cache/cr_access.c' || echo '$(srcdir)/'`cache/cr_access.c
+
+cr_access.obj: cache/cr_access.c
+@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT cr_access.obj -MD -MP -MF $(DEPDIR)/cr_access.Tpo -c -o cr_access.obj `if test -f 'cache/cr_access.c'; then $(CYGPATH_W) 'cache/cr_access.c'; else $(CYGPATH_W) '$(srcdir)/cache/cr_access.c'; fi`
+@am__fastdepCC_TRUE@	$(am__mv) $(DEPDIR)/cr_access.Tpo $(DEPDIR)/cr_access.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='cache/cr_access.c' object='cr_access.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o cr_access.obj `if test -f 'cache/cr_access.c'; then $(CYGPATH_W) 'cache/cr_access.c'; else $(CYGPATH_W) '$(srcdir)/cache/cr_access.c'; fi`
 
 mostlyclean-libtool:
 	-rm -f *.lo

@@ -25,7 +25,6 @@
  */
 
 #include "crotalus.h"
-#include "access.h"
 
 const char *config_file_name;
 
@@ -119,7 +118,6 @@ Command *lookup_keyword(char *c);
 
 static void c_set_preference(char *v1, char *v2, void *t)
 {
-fprintf(stderr, "DEBUG: c_set_preference[%s]: %s (v2 #%x)\n", t, v1, v2);
   cr_pref_set(t, v1); 
 }
 
@@ -338,7 +336,6 @@ static void c_set_unity(char *v1, char *v2, void *t)
         log_error_time();
         printf("Setting pointer %p to unity\n", t);
     }
-        printf("DEBUG: Setting pointer %p to unity '%s'\n", t,v1);
     if (!t)
       return;
     if (v1 && 0 == strcasecmp(v1, "off")) {
@@ -418,18 +415,16 @@ static void c_add_alias(char *v1, char *v2, void *t)
 static void c_add_access(char *v1, char *v2, void *t)
 {
 #ifdef ACCESS_CONTROL
-    access_add(v1, *(int *) t);
+    access_add(server_name, v1, *(int *) t);
 #else
-    log_error_time();
-    fprintf(stderr,
-            "This version of Boa doesn't support access controls.\n"
-            "Please recompile with --enable-access-control.\n");
+    log_error("This version of Boa doesn't support access controls.\n"
+        "Please recompile with --enable-access-control.\n");
 #endif                          /* ACCESS_CONTROL */
 }
 
 struct ccommand *lookup_keyword(char *c)
 {
-    struct ccommand *p;
+  struct ccommand *p;
     DEBUG(DEBUG_CONFIG) {
         log_error_time();
         printf("Checking string '%s' against keyword list\n", c);

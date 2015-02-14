@@ -41,6 +41,10 @@
 #include <limits.h>             /* OPEN_MAX */
 #include <setjmp.h>
 
+#ifdef HAVE_FNMATCH_H
+#include <fnmatch.h>
+#endif
+
 #include <netinet/in.h>
 
 #include <sys/mman.h>
@@ -55,11 +59,11 @@
 #include "compat.h"             /* oh what fun is porting */
 #include "defines.h"
 #include "globals.h"
-#include "access.h"
 
 
 #include "cache/cr_hash.h"
 #include "cache/cr_pref.h"
+#include "cache/cr_access.h"
 
 
 /**
@@ -246,7 +250,7 @@ void print_server_timestamp(void);
  */
 
 /**
- *  @mainpage The Share Library
+ *  @mainpage Crotalus Web Daemon
  *
  * Crotalus (Boa) is a single-tasking HTTP server.  That means that unlike
  * traditional web servers, it does not fork for each incoming connection,

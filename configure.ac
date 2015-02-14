@@ -86,6 +86,7 @@ utime.h \
 dirent.h \
 alloca.h \
 sys/utsname.h \
+fnmatch.h \
 )
 
 
@@ -222,20 +223,23 @@ AC_ARG_ENABLE(gunzip,
 
 AC_MSG_CHECKING(whether to enable access control support)
 AC_ARG_ENABLE(access-control,
-[  --enable-access-control Enable support for allow/deny rules],
+[  --disable-access-control Disable support for allow/deny rules],
 [
- if test "$enableval" = "yes" ; then
+ if test "$enableval" != "no" ; then
     AC_MSG_RESULT(yes)
     CFLAGS="$CFLAGS -DACCESS_CONTROL"
     ACCESSCONTROL_SOURCE="access.c"	
+    access_control=true
   else
     AC_MSG_RESULT(no)
+    access_control=false
   fi
 ],
 [
     AC_MSG_RESULT(no)
 ])
 AC_SUBST(ACCESSCONTROL_SOURCE)
+AM_CONDITIONAL(ACCESS_CONTROL, test x"$access_control" != x"false")
 
 AX_CHECK_COMPILE_FLAG([-Wno-unused], [CFLAGS="$CFLAGS -Wno-unused"], [], [])
 

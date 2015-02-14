@@ -1,33 +1,34 @@
+
 /*
- *  Boa, an http server
+ * @copyright
+ *
+ *  Copyright 2015 Neo Natura
  *  Copyright (C) 1995 Paul Phillips <paulp@go2net.com>
  *  Copyright (C) 1996,99 Larry Doolittle <ldoolitt@boa.org>
  *  Copyright (C) 1996-2002 Jon Nelson <jnelson@boa.org>
  *
- *  This program is free software; you can redistribute it and/or modify
+ *  This file is part of the Crotalus Web Daemon.
+ *        
+ *  Crotalus is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
- *  the Free Software Foundation; either version 1, or (at your option)
- *  any later version.
+ *  the Free Software Foundation, either version 3 of the License, or
+ *  (at your option) any later version. 
  *
- *  This program is distributed in the hope that it will be useful,
+ *  Crotalus is distributed in the hope that it will be useful,
  *  but WITHOUT ANY WARRANTY; without even the implied warranty of
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  *  GNU General Public License for more details.
  *
  *  You should have received a copy of the GNU General Public License
- *  along with this program; if not, write to the Free Software
- *  Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
+ *  along with The Share Library.  If not, see <http://www.gnu.org/licenses/>.
  *
+ *  @endcopyright
  */
 
-/* $Id: get.c,v 1.76.2.35 2005/02/22 14:11:29 jnelson Exp $*/
-
-#include "boa.h"
-#include "access.h"
+#include "crotalus.h"
 
 #define STR(s) __STR(s)
 #define __STR(s) #s
-
 
 /* I think that permanent redirections (301) are supposed
  * to be absolute URIs, but they can be troublesome.
@@ -51,12 +52,10 @@ static int get_parent_index(char *req_path)
     *e_ptr = '\0';
 
     if (strlen(path) < strlen(crpref_docroot()) - 1) {
-fprintf(stderr, "DEBUG: get_parent_index: bailing\n");
       break;
 }
 
     fd = open(path, O_RDONLY);
-fprintf(stderr, "DEBUG: %d = get_parent_index('%s')\n", fd, path);
     if (fd != -1) {
       strcpy(req_path, path);
       strcat(req_path, "/");
@@ -83,7 +82,6 @@ int init_get(request * req)
     volatile unsigned int bytes_free;
 
     data_fd = open(req->pathname, O_RDONLY);
-fprintf(stderr, "DEBUG: fd %d = open('%s')\n", data_fd, req->pathname);
     saved_errno = errno;        /* might not get used */
 
 #ifdef GUNZIP
@@ -134,7 +132,6 @@ fprintf(stderr, "DEBUG: fd %d = open('%s')\n", data_fd, req->pathname);
     }
 #endif
 
-fprintf(stderr, "DEBUG: data_fd %d, use_parentindex %d\n", data_fd, use_parentindex);
     if (data_fd == -1 && use_parentindex) {
       /* v2.25 recursive search for parent directory. */
       data_fd = get_parent_index(req->pathname);  
@@ -155,7 +152,7 @@ fprintf(stderr, "DEBUG: data_fd %d, use_parentindex %d\n", data_fd, use_parentin
     }
 
 #ifdef ACCESS_CONTROL
-    if (!access_allow(req->pathname)) {
+    if (!access_allow(req->host ? req->host : server_name, req->remote_ip_addr, req->pathname)) {
       send_r_forbidden(req);
       return 0;
     }
@@ -237,7 +234,7 @@ fprintf(stderr, "DEBUG: data_fd %d, use_parentindex %d\n", data_fd, use_parentin
                 buffer[l4 + l2 + len] = '/';
                 buffer[l4 + l2 + len + 1] = '\0';
             }
-#endif /* ALLOW LOCAL REDIRECT */
+#endif /* ALLOW_LOCAL_REDIRECT */
             send_r_moved_perm(req, buffer);
             return 0;
         }

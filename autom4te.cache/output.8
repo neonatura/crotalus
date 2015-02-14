@@ -795,6 +795,8 @@ DOXYGEN
 ASYNCIO_SOURCE
 DEBUG_FALSE
 DEBUG_TRUE
+ACCESS_CONTROL_FALSE
+ACCESS_CONTROL_TRUE
 ACCESSCONTROL_SOURCE
 GUNZIP
 STRUTIL
@@ -1575,7 +1577,7 @@ Optional Features:
                           optimize for fast installation @<:@default=yes@:>@
   --disable-libtool-lock  avoid locking (might break parallel builds)
   --disable-gunzip        Disable use of gunzip
-  --enable-access-control Enable support for allow/deny rules
+  --disable-access-control Disable support for allow/deny rules
   --enable-debug          Compile and link debugging code
   --disable-verbose       Do not enable verbose/debug logging
   --disable-sendfile      Disable the use of the sendfile(2) system call
@@ -14881,11 +14883,13 @@ done
 
 
 
+
 for ac_header in magic.h wchar.h wctype.h locale.h stdarg.h sys/mman.h sys/loadavg.h \
 utime.h \
 dirent.h \
 alloca.h \
 sys/utsname.h \
+fnmatch.h \
 
 do
 as_ac_Header=`$as_echo "ac_cv_header_$ac_header" | $as_tr_sh`
@@ -17039,14 +17043,16 @@ $as_echo_n "checking whether to enable access control support... " >&6; }
 @%:@ Check whether --enable-access-control was given.
 if test "${enable_access_control+set}" = set; then
   enableval=$enable_access_control; 
- if test "$enableval" = "yes" ; then
+ if test "$enableval" != "no" ; then
     { $as_echo "$as_me:$LINENO: result: yes" >&5
 $as_echo "yes" >&6; }
     CFLAGS="$CFLAGS -DACCESS_CONTROL"
     ACCESSCONTROL_SOURCE="access.c"	
+    access_control=true
   else
     { $as_echo "$as_me:$LINENO: result: no" >&5
 $as_echo "no" >&6; }
+    access_control=false
   fi
 
 else
@@ -17056,6 +17062,14 @@ $as_echo "no" >&6; }
 
 fi
 
+
+ if test x"$access_control" != x"false"; then
+  ACCESS_CONTROL_TRUE=
+  ACCESS_CONTROL_FALSE='#'
+else
+  ACCESS_CONTROL_TRUE='#'
+  ACCESS_CONTROL_FALSE=
+fi
 
 
 { $as_echo "$as_me:$LINENO: checking whether C compiler accepts -Wno-unused" >&5
@@ -18871,6 +18885,13 @@ if test -z "${HAVE_LIBXML_TRUE}" && test -z "${HAVE_LIBXML_FALSE}"; then
   { { $as_echo "$as_me:$LINENO: error: conditional \"HAVE_LIBXML\" was never defined.
 Usually this means the macro was only invoked conditionally." >&5
 $as_echo "$as_me: error: conditional \"HAVE_LIBXML\" was never defined.
+Usually this means the macro was only invoked conditionally." >&2;}
+   { (exit 1); exit 1; }; }
+fi
+if test -z "${ACCESS_CONTROL_TRUE}" && test -z "${ACCESS_CONTROL_FALSE}"; then
+  { { $as_echo "$as_me:$LINENO: error: conditional \"ACCESS_CONTROL\" was never defined.
+Usually this means the macro was only invoked conditionally." >&5
+$as_echo "$as_me: error: conditional \"ACCESS_CONTROL\" was never defined.
 Usually this means the macro was only invoked conditionally." >&2;}
    { (exit 1); exit 1; }; }
 fi
