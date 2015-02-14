@@ -2,7 +2,10 @@
 noinst_LIBRARIES = libphp_sapi.a
 
 libphp_sapi_a_CFLAGS = \
-		-I$(srcdir)/main -I$(builddir)/main \
+		-I$(top_srcdir)/src \
+		-I$(top_srcdir)/lib/pcre \
+		-I$(top_srcdir)/php/main \
+		-I$(top_builddir)/php/main \
 		-I$(srcdir)/Zend -I$(builddir)/Zend \
 		-I$(srcdir)/TSRM -I$(builddir)/TSRM \
 		-I$(srcdir)/ext \
@@ -11,7 +14,7 @@ libphp_sapi_a_CFLAGS = \
 		-I$(top_srcdir)/libxml2/include
 
 libphp_sapi_a_SOURCES = \
-	sapi/crotalus/crotalus.c \
+	sapi/cgi/fastcgi.c \
 	ext/date/php_date.c \
 	ext/date/lib/astro.c \
 	ext/date/lib/dow.c \
@@ -28,23 +31,6 @@ libphp_sapi_a_SOURCES = \
 	ext/ereg/regex/regerror.c \
 	ext/ereg/regex/regfree.c \
 	ext/libxml/libxml.c \
-	ext/pcre/pcrelib/pcre_chartables.c \
-	ext/pcre/pcrelib/pcre_ucd.c \
-	ext/pcre/pcrelib/pcre_compile.c \
-	ext/pcre/pcrelib/pcre_config.c \
-	ext/pcre/pcrelib/pcre_exec.c \
-	ext/pcre/pcrelib/pcre_fullinfo.c \
-	ext/pcre/pcrelib/pcre_get.c \
-	ext/pcre/pcrelib/pcre_globals.c \
-	ext/pcre/pcrelib/pcre_maketables.c \
-	ext/pcre/pcrelib/pcre_newline.c \
-	ext/pcre/pcrelib/pcre_ord2utf8.c \
-	ext/pcre/pcrelib/pcre_refcount.c \
-	ext/pcre/pcrelib/pcre_study.c \
-	ext/pcre/pcrelib/pcre_tables.c \
-	ext/pcre/pcrelib/pcre_valid_utf8.c \
-	ext/pcre/pcrelib/pcre_version.c \
-	ext/pcre/pcrelib/pcre_xclass.c \
 	ext/pcre/php_pcre.c \
 	ext/sqlite3/sqlite3.c \
 	ext/ctype/ctype.c \
@@ -321,6 +307,7 @@ libphp_sapi_a_SOURCES = \
 	Zend/zend_default_classes.c \
 	Zend/zend_execute.c
 
+#sapi/crotalus/crotalus.c \
 #sapi/cli/php_cli.c 
 #sapi/cli/php_http_parser.c 
 #sapi/cli/php_cli_server.c 
@@ -328,7 +315,6 @@ libphp_sapi_a_SOURCES = \
 #sapi/cli/php_cli_process_title.c 
 #sapi/embed/php_embed.c 
 #sapi/cgi/cgi_main.c 
-#sapi/cgi/fastcgi.c 
 #	ext/filter/filter.c
 #	ext/filter/sanitizing_filters.c
 #	ext/filter/logical_filters.c

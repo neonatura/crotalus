@@ -1,8 +1,8 @@
 
 AC_PREREQ([2.63])
-AC_INIT(crotalus, 2.24, support@neo-natura.com)
+AC_INIT(crotalus, 2.25, support@neo-natura.com)
 AC_CONFIG_AUX_DIR([build-aux])
-AM_INIT_AUTOMAKE(crotalus, 2.24)
+AM_INIT_AUTOMAKE(crotalus, 2.25)
 AC_CONFIG_SRCDIR([src])
 AC_CONFIG_HEADERS([src/config.h])
 AC_CONFIG_MACRO_DIR([m4])
@@ -21,12 +21,27 @@ AC_PROG_INSTALL
 
 dnl Checks for programs.
 AC_PROG_CC
-AC_PROG_CPP
+#AC_PROG_CPP
 AC_PROG_LIBTOOL
 AM_PROG_CC_C_O
 #AC_C_VAR_FUNC
 
-MAKEINFOHTMLFLAGS = --no-headers --no-split
+AC_TYPE_INT16_T
+AC_TYPE_INT32_T
+AC_TYPE_INT64_T
+AC_TYPE_INT8_T
+AC_TYPE_UINT16_T
+AC_TYPE_UINT32_T
+AC_TYPE_UINT64_T
+AC_TYPE_UINT8_T
+AC_CHECK_TYPES(socklen_t)
+AC_CHECK_SIZEOF(int, 4)
+AC_CHECK_SIZEOF(long, 4)
+AC_CHECK_SIZEOF(short, 2)
+
+AC_CHECK_TYPE([uint])
+
+MAKEINFOHTMLFLAGS=--no-headers --no-split
 
 #CHECK_GNU_MAKE
 #if test "x$_cv_gnu_make_command" != "x"; then
@@ -63,8 +78,16 @@ dnl Checks for header files.
 AC_HEADER_DIRENT
 AC_HEADER_STDC
 AC_HEADER_SYS_WAIT
-AC_CHECK_HEADERS(fcntl.h sys/fcntl.h limits.h sys/time.h)
-AC_CHECK_HEADERS(getopt.h unistd.h sys/resource.h)
+AC_CHECK_HEADERS(stdio.h features.h sys/types.h fcntl.h sys/fcntl.h limits.h sys/time.h)
+AC_CHECK_HEADERS(getopt.h unistd.h sys/resource.h sys/socket.h string.h arpa/inet.h pwd.h grp.h shadow.h)
+AC_CHECK_HEADERS(assert.h netinet/in.h)
+AC_CHECK_HEADERS(magic.h wchar.h wctype.h locale.h stdarg.h sys/mman.h sys/loadavg.h \
+utime.h \
+dirent.h \
+alloca.h \
+sys/utsname.h \
+)
+
 
 dnl Checks for typedefs, structures, and compiler characteristics.
 AC_C_CONST
@@ -95,6 +118,7 @@ AC_CHECK_FUNCS(getcwd strdup strstr strcspn strtol)
 AC_CHECK_FUNCS(gethostname gethostbyname socket inet_aton herror inet_addr)
 AC_CHECK_FUNCS(scandir alphasort)
 AC_CHECK_FUNCS(madvise)
+AC_CHECK_FUNCS(strlcpy strlcat strtok_r strerror getgrnam getgrnam_r getpwnam getpwnam_r strnlen)
 
 #AC_CHECK_STRUCT_FOR([
 ##if TIME_WITH_SYS_TIME
@@ -213,23 +237,35 @@ AC_ARG_ENABLE(access-control,
 ])
 AC_SUBST(ACCESSCONTROL_SOURCE)
 
+AX_CHECK_COMPILE_FLAG([-Wno-unused], [CFLAGS="$CFLAGS -Wno-unused"], [], [])
+
 AC_MSG_CHECKING(whether to compile and link debugging code)
 AC_ARG_ENABLE(debug,
-[  --disable-debug         Do not compile and link debugging code],
+[  --enable-debug          Compile and link debugging code],
 [
-  if test "$enableval" = "yes" ; then
-    AC_MSG_RESULT(yes)
-    LDFLAGS="$LDFLAGS -g"
-    test -n "$GCC" && CFLAGS="$CFLAGS -Wall"
-  else
+  if test "$enableval" = "no" ; then
     AC_MSG_RESULT(no)
+    AX_CHECK_COMPILE_FLAG([-fexpensive-optimizations], [CFLAGS="$CFLAGS -fexpensive-optimizations"], [], [])
+    AX_CHECK_COMPILE_FLAG([-ffast-math], [CFLAGS="$CFLAGS -ffast-math"], [], [])
+    AX_CHECK_COMPILE_FLAG([-fthread-jumps], [CFLAGS="$CFLAGS -fthread-jumps"], [], [])
+    AX_CHECK_COMPILE_FLAG([-funroll-loops], [CFLAGS="$CFLAGS -funroll-loops"], [], [])
+    debug=0
+  else
+    AC_MSG_RESULT(yes)
+    debug=1
   fi
 ],
 [
-    AC_MSG_RESULT(yes)
-    LDFLAGS="$LDFLAGS -g"
-    test -n "$GCC" && CFLAGS="$CFLAGS -Wall"
+    AC_MSG_RESULT(no)
+    AX_CHECK_COMPILE_FLAG([-fexpensive-optimizations], [CFLAGS="$CFLAGS -fexpensive-optimizations"], [], [])
+    AX_CHECK_COMPILE_FLAG([-ffast-math], [CFLAGS="$CFLAGS -ffast-math"], [], [])
+    AX_CHECK_COMPILE_FLAG([-fthread-jumps], [CFLAGS="$CFLAGS -fthread-jumps"], [], [])
+    AX_CHECK_COMPILE_FLAG([-funroll-loops], [CFLAGS="$CFLAGS -funroll-loops"], [], [])
+    debug=0
 ])
+AM_CONDITIONAL(DEBUG, test x"$debug" = x"1")
+AC_DEFINE([ZEND_DEBUG], [], [Zend Debug])
+AC_DEFINE_UNQUOTED([ZEND_DEBUG], [$debug])
 
 AC_MSG_CHECKING(whether to disable verbose/debug logging)
 AC_ARG_ENABLE(verbose,
@@ -276,6 +312,7 @@ AC_ARG_WITH(efence,
   AC_MSG_RESULT(no)
 ])
 
+AC_CHECK_FUNCS(sendfile)
 case $host_os in
  *linux*)
    AC_MSG_CHECKING(whether to enable the use of the sendfile(2) system call)
@@ -287,13 +324,11 @@ case $host_os in
       else
         AC_MSG_RESULT(yes)
         AC_CHECK_HEADERS(sys/sendfile.h)
-        AC_CHECK_FUNCS(sendfile)
       fi
     ],
     [
       AC_MSG_RESULT(yes)
       AC_CHECK_HEADERS(sys/sendfile.h)
-      AC_CHECK_FUNCS(sendfile)
     ])
   ;;
  *) ;;
@@ -320,15 +355,60 @@ AC_DEFINE(HAVE_FUNC,,
   [Define if the C complier supports __func__]) ac_cv_c_var_func=yes, ac_cv_c_var_func=no) )
 ])
 
+# Handle --with-link-size=N
+AC_ARG_WITH(link-size,
+        AS_HELP_STRING([--with-link-size=N],
+                       [internal link size (2, 3, or 4 allowed; default=2)]),
+        , with_link_size=2)
+# Check argument to --with-link-size
+case "$with_link_size" in
+  2|3|4) ;;
+  *)
+  AC_MSG_ERROR([invalid argument to --with-link-size option])
+  ;;
+esac
+AC_DEFINE_UNQUOTED([LINK_SIZE], [$with_link_size], [
+  The value of LINK_SIZE determines the number of bytes used to store
+  links as offsets within the compiled regex. The default is 2, which
+  allows for compiled patterns up to 64K long. This covers the vast
+  majority of cases. However, PCRE can also be compiled to use 3 or 4
+  bytes instead. This allows for longer patterns in extreme cases. On
+  systems that support it, "configure" can be used to override this default.])
 
-# there are three scenarios
-# GNU make is installed as "make"
-# GNU make is installed as something else we detected
-# GNU make is not installed
-# Unfortunately, we can't deal with it one way or the other
-# Trying multiple AC_OUTPUT confuses autoconf, and using variables
-# *in* AC_OUTPUT is even worse.
-# *so*, make a default makefile that just forces make to call gmake
-# or whatever.
+AC_DEFINE([MAX_NAME_SIZE], [32], [
+  This limit is parameterized just in case anybody ever wants to
+  change it. Care must be taken if it is increased, because it guards
+  against integer overflow caused by enormously large patterns.])
 
-AC_OUTPUT(Makefile php/Makefile src/Makefile docs/Makefile)
+AC_DEFINE([MAX_NAME_COUNT], [10000], [
+  This limit is parameterized just in case anybody ever wants to
+  change it. Care must be taken if it is increased, because it guards
+  against integer overflow caused by enormously large patterns.])
+
+AC_MSG_CHECKING(for POSIX threads)
+PTHREADS_CHECK()
+if test "$beos_threads" = "1"; then
+  AC_DEFINE(BETHREADS, 1, Whether to use native BeOS threads)
+else    
+  if test "$pthreads_working" != "yes"; then
+    AC_MSG_ERROR(Your system seems to lack POSIX threads.)
+  fi
+fi
+AC_DEFINE(PTHREADS, 1, Whether to use Pthreads)
+
+case $host_alias in
+*netware*)
+  PHP_OS="NetWare"
+  PHP_UNAME="NetWare"
+  AC_DEFINE_UNQUOTED(PHP_OS,"$PHP_OS",[hardcode for each of the cross compiler host])
+  AC_DEFINE_UNQUOTED(PHP_UNAME,"$PHP_UNAME",[hardcode for each of the cross compiler host])
+  ;;
+*)
+  PHP_UNAME=`uname -a | xargs`
+  AC_DEFINE_UNQUOTED(PHP_UNAME,"$PHP_UNAME",[uname -a output])
+  PHP_OS=`uname | xargs`
+  AC_DEFINE_UNQUOTED(PHP_OS,"$PHP_OS",[uname output])
+  ;;
+esac
+
+AC_OUTPUT(Makefile lib/pcre/Makefile php/Makefile src/Makefile docs/Makefile)

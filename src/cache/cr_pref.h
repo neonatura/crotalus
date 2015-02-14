@@ -54,9 +54,10 @@
 #define CRPREF_POST_LIMIT "SinglePostLimit"
 #define CRPREF_CONF_DIR "ServerRoot"
 #define CRPREF_WEB_NAME "ServerName"
+#define CRPREF_PARENT_INDEX "ParentIndex"
 
 /** The number of Crotalus preference options. */
-#define CR_PREF_MAX 28
+#define CR_PREF_MAX 29
 
 #define CRLOG_ERROR "Error"
 #define CRLOG_ACCESS "Access"

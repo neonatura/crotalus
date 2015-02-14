@@ -171,9 +171,9 @@ static int move_user_function(zend_function *function
 #if ZEND_EXTENSION_API_NO >= PHP_5_3_X_API_NO
 	TSRMLS_DC 
 #endif
-	, int num_args, va_list args, zend_hash_key *hash_key) 
+	, int num_args, va_list vargs, zend_hash_key *hash_key) 
 {
-	HashTable *function_table = va_arg(args, HashTable *);
+	HashTable *function_table = va_arg(vargs, HashTable *);
 	(void)num_args; /* keep the compiler happy */
 #if ZEND_EXTENSION_API_NO < PHP_5_3_X_API_NO
 	TSRMLS_FETCH();

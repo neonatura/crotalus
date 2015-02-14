@@ -473,7 +473,9 @@ static void _php_finfo_get_type(INTERNAL_FUNCTION_PARAMETERS, int mode, int mime
 	switch (mode) {
 		case FILEINFO_MODE_BUFFER:
 		{
-			ret_val = (char *) magic_buffer(magic, buffer, buffer_len);
+			ret_val = (char *) magic_buffer(magic, 
+buffer, 
+buffer_len);
 			break;
 		}
 
@@ -490,7 +492,8 @@ static void _php_finfo_get_type(INTERNAL_FUNCTION_PARAMETERS, int mode, int mime
 				streampos = php_stream_tell(stream); /* remember stream position for restoration */
 				php_stream_seek(stream, 0, SEEK_SET);
 
-				ret_val = (char *) magic_stream(magic, stream);
+				ret_val = (char *) magic_stream(magic,
+ stream);
 
 				php_stream_seek(stream, streampos, SEEK_SET);
 				break;
@@ -518,7 +521,7 @@ static void _php_finfo_get_type(INTERNAL_FUNCTION_PARAMETERS, int mode, int mime
 #ifdef PHP_WIN32
 				if (php_stream_stat_path_ex(buffer, 0, &ssb, context) == SUCCESS) {
 					if (ssb.sb.st_mode & S_IFDIR) {
-						ret_val = mime_directory;
+						ret_val = (char *)mime_directory;
 						goto common;
 					}
 				}
@@ -537,7 +540,8 @@ static void _php_finfo_get_type(INTERNAL_FUNCTION_PARAMETERS, int mode, int mime
 
 				if (php_stream_stat(stream, &ssb) == SUCCESS) {
 					if (ssb.sb.st_mode & S_IFDIR) {
-						ret_val = mime_directory;
+						ret_val =
+ (char *)mime_directory;
 					} else {
 						ret_val = (char *)magic_stream(magic, stream);
 					}

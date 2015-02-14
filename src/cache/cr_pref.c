@@ -112,6 +112,8 @@ static struct cr_pref_def_t _pref_def[CR_PREF_MAX] = {
 	{ CRPREF_POST_LIMIT, "16000000", "The value of the $PATH environment variable given to CGI progs." },
   { CRPREF_CONF_DIR, "/etc/crotalus", "The directory where Crotalus configuration files reside." },
   { CRPREF_WEB_NAME, "", "The name of this server that should be sent back to clients." },
+  { CRPREF_PARENT_INDEX, "Off", "Search recursively for a parent directory when a requested web path is not found. Comment out to disable." }, 
+#define CRPREF_PARENT_INDEX "ParentIndex"
 };
 
 

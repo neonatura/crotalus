@@ -59,6 +59,7 @@ unsigned int default_timeout;
 unsigned int ka_max;
 
 int use_localtime;
+int use_parentindex;
 
 #ifdef USE_SETRLIMIT
 extern int cgi_rlimit_cpu;      /* boa.c */
@@ -136,6 +137,7 @@ static void apply_inline_preferences(void)
     verbose_cgi_logs = 1;
   if (0 != strcmp(cr_pref_get(CRPREF_VHOST), "Off"))
     virtualhost = 1;
+  
 
   /*
    * * No 'pre-defined' support is provided for "VHostRoot". * *
@@ -160,9 +162,13 @@ static void apply_inline_preferences(void)
   //max_connections = atoi(cr_pref_get(CRPREF_PROC_LIMIT)); 
   add_to_common_env(CRPREF_ENV_PATH, (char *)cr_pref_get(CRPREF_ENV_PATH));
 
+  if (0 != strcmp(cr_pref_get(CRPREF_PARENT_INDEX), "Off"))
+    use_parentindex = 1;
+
   access_log_name = strdup(crpref_log_path(CRLOG_ACCESS));
   error_log_name = strdup(crpref_log_path(CRLOG_ERROR));
   cgi_log_name = strdup(crpref_log_path(CRLOG_CGI));
+
 }
 
 struct ccommand clist[] = {
@@ -211,6 +217,7 @@ struct ccommand clist[] = {
     {"CGINice", S2A, c_set_int, &cgi_nice},
 #endif
     {"CGIEnv", S2A, c_add_cgi_env, NULL},
+    {"ParentIndex", S0A, c_set_unity, &use_parentindex}
 };
 
 static void c_add_cgi_env(char *v1, char *v2, void *t)
@@ -331,9 +338,10 @@ static void c_set_unity(char *v1, char *v2, void *t)
         log_error_time();
         printf("Setting pointer %p to unity\n", t);
     }
+        printf("DEBUG: Setting pointer %p to unity '%s'\n", t,v1);
     if (!t)
       return;
-    if (!v1 || 0 == strcasecmp(v1, "off")) {
+    if (v1 && 0 == strcasecmp(v1, "off")) {
       *(int *) t = 0;
     } else {
       *(int *) t = 1;

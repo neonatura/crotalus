@@ -225,6 +225,7 @@ extern int max_fd;
 
 extern int cgi_log_fd;
 extern int use_localtime;
+extern int use_parentindex;
 
 extern unsigned int server_port;
 extern uid_t server_uid;

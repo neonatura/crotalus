@@ -2150,7 +2150,7 @@ m4trace:configure.ac:3: -1- m4_pattern_allow([^LIBS$])
 m4trace:configure.ac:3: -1- m4_pattern_allow([^build_alias$])
 m4trace:configure.ac:3: -1- m4_pattern_allow([^host_alias$])
 m4trace:configure.ac:3: -1- m4_pattern_allow([^target_alias$])
-m4trace:configure.ac:5: -1- AM_INIT_AUTOMAKE([crotalus], [2.24])
+m4trace:configure.ac:5: -1- AM_INIT_AUTOMAKE([crotalus], [2.25])
 m4trace:configure.ac:5: -1- m4_pattern_allow([^AM_[A-Z]+FLAGS$])
 m4trace:configure.ac:5: -1- AM_SET_CURRENT_AUTOMAKE_VERSION
 m4trace:configure.ac:5: -1- AM_AUTOMAKE_VERSION([1.11.1])
@@ -2265,9 +2265,6 @@ m4trace:configure.ac:23: -1- m4_pattern_allow([^am__fastdepCC_TRUE$])
 m4trace:configure.ac:23: -1- m4_pattern_allow([^am__fastdepCC_FALSE$])
 m4trace:configure.ac:23: -1- _AM_SUBST_NOTMAKE([am__fastdepCC_TRUE])
 m4trace:configure.ac:23: -1- _AM_SUBST_NOTMAKE([am__fastdepCC_FALSE])
-m4trace:configure.ac:24: -1- m4_pattern_allow([^CPP$])
-m4trace:configure.ac:24: -1- m4_pattern_allow([^CPPFLAGS$])
-m4trace:configure.ac:24: -1- m4_pattern_allow([^CPP$])
 m4trace:configure.ac:25: -1- AC_PROG_LIBTOOL
 m4trace:configure.ac:25: -1- _m4_warn([obsolete], [The macro `AC_PROG_LIBTOOL' is obsolete.
 You should run autoupdate.], [m4/libtool.m4:102: AC_PROG_LIBTOOL is expanded from...
@@ -2323,6 +2320,9 @@ m4trace:configure.ac:25: -1- m4_pattern_allow([^LIPO$])
 m4trace:configure.ac:25: -1- m4_pattern_allow([^OTOOL$])
 m4trace:configure.ac:25: -1- m4_pattern_allow([^OTOOL64$])
 m4trace:configure.ac:25: -1- LT_SYS_DLOPEN_SELF
+m4trace:configure.ac:25: -1- m4_pattern_allow([^CPP$])
+m4trace:configure.ac:25: -1- m4_pattern_allow([^CPPFLAGS$])
+m4trace:configure.ac:25: -1- m4_pattern_allow([^CPP$])
 m4trace:configure.ac:25: -1- m4_pattern_allow([^STDC_HEADERS$])
 m4trace:configure.ac:26: -1- AM_PROG_CC_C_O
 m4trace:configure.ac:26: -1- m4_pattern_allow([^NO_MINUS_C_MINUS_O$])
@@ -2363,10 +2363,10 @@ m4trace:configure.ac:182: -1- m4_pattern_allow([^GUNZIP$])
 m4trace:configure.ac:182: -1- m4_pattern_allow([^GUNZIP$])
 m4trace:configure.ac:182: -1- m4_pattern_allow([^GUNZIP$])
 m4trace:configure.ac:214: -1- m4_pattern_allow([^ACCESSCONTROL_SOURCE$])
-m4trace:configure.ac:250: -1- m4_pattern_allow([^HAVE_LIBDMALLOC$])
-m4trace:configure.ac:265: -1- m4_pattern_allow([^HAVE_LIBEFENCE$])
-m4trace:configure.ac:309: -1- m4_pattern_allow([^ASYNCIO_SOURCE$])
-m4trace:configure.ac:312: -1- AC_DEFUN([AC_C_VAR_FUNC], [AC_REQUIRE([AC_PROG_CC])
+m4trace:configure.ac:251: -1- m4_pattern_allow([^HAVE_LIBDMALLOC$])
+m4trace:configure.ac:266: -1- m4_pattern_allow([^HAVE_LIBEFENCE$])
+m4trace:configure.ac:310: -1- m4_pattern_allow([^ASYNCIO_SOURCE$])
+m4trace:configure.ac:313: -1- AC_DEFUN([AC_C_VAR_FUNC], [AC_REQUIRE([AC_PROG_CC])
 AC_CACHE_CHECK(whether $CC recognizes __func__, ac_cv_c_var_func,
 AC_TRY_COMPILE(,
 [int main() {
@@ -2375,15 +2375,15 @@ char *s = __func__;
 AC_DEFINE(HAVE_FUNC,,
   [Define if the C complier supports __func__]) ac_cv_c_var_func=yes, ac_cv_c_var_func=no) )
 ])
-m4trace:configure.ac:334: -1- _m4_warn([obsolete], [AC_OUTPUT should be used without arguments.
+m4trace:configure.ac:325: -1- _m4_warn([obsolete], [AC_OUTPUT should be used without arguments.
 You should run autoupdate.], [])
-m4trace:configure.ac:334: -1- m4_pattern_allow([^LIB@&t@OBJS$])
-m4trace:configure.ac:334: -1- m4_pattern_allow([^LTLIBOBJS$])
-m4trace:configure.ac:334: -1- AM_CONDITIONAL([am__EXEEXT], [test -n "$EXEEXT"])
-m4trace:configure.ac:334: -1- m4_pattern_allow([^am__EXEEXT_TRUE$])
-m4trace:configure.ac:334: -1- m4_pattern_allow([^am__EXEEXT_FALSE$])
-m4trace:configure.ac:334: -1- _AM_SUBST_NOTMAKE([am__EXEEXT_TRUE])
-m4trace:configure.ac:334: -1- _AM_SUBST_NOTMAKE([am__EXEEXT_FALSE])
-m4trace:configure.ac:334: -1- _AC_AM_CONFIG_HEADER_HOOK(["$ac_file"])
-m4trace:configure.ac:334: -1- _AM_OUTPUT_DEPENDENCY_COMMANDS
-m4trace:configure.ac:334: -1- _LT_PROG_LTMAIN
+m4trace:configure.ac:325: -1- m4_pattern_allow([^LIB@&t@OBJS$])
+m4trace:configure.ac:325: -1- m4_pattern_allow([^LTLIBOBJS$])
+m4trace:configure.ac:325: -1- AM_CONDITIONAL([am__EXEEXT], [test -n "$EXEEXT"])
+m4trace:configure.ac:325: -1- m4_pattern_allow([^am__EXEEXT_TRUE$])
+m4trace:configure.ac:325: -1- m4_pattern_allow([^am__EXEEXT_FALSE$])
+m4trace:configure.ac:325: -1- _AM_SUBST_NOTMAKE([am__EXEEXT_TRUE])
+m4trace:configure.ac:325: -1- _AM_SUBST_NOTMAKE([am__EXEEXT_FALSE])
+m4trace:configure.ac:325: -1- _AC_AM_CONFIG_HEADER_HOOK(["$ac_file"])
+m4trace:configure.ac:325: -1- _AM_OUTPUT_DEPENDENCY_COMMANDS
+m4trace:configure.ac:325: -1- _LT_PROG_LTMAIN

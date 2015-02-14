@@ -1,3 +1,3 @@
 ACLOCAL_AMFLAGS = -I m4
 AUTOMAKE_OPTIONS = foreign
-SUBDIRS = php src docs
+SUBDIRS = lib/pcre php src docs

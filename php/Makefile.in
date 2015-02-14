@@ -38,9 +38,10 @@ subdir = php
 DIST_COMMON = $(srcdir)/Makefile.am $(srcdir)/Makefile.in INSTALL NEWS \
 	install-sh ltmain.sh missing mkinstalldirs
 ACLOCAL_M4 = $(top_srcdir)/aclocal.m4
-am__aclocal_m4_deps = $(top_srcdir)/m4/libtool.m4 \
-	$(top_srcdir)/m4/ltoptions.m4 $(top_srcdir)/m4/ltsugar.m4 \
-	$(top_srcdir)/m4/ltversion.m4 $(top_srcdir)/m4/lt~obsolete.m4 \
+am__aclocal_m4_deps = $(top_srcdir)/m4/ax_check_compile_flag.m4 \
+	$(top_srcdir)/m4/libtool.m4 $(top_srcdir)/m4/ltoptions.m4 \
+	$(top_srcdir)/m4/ltsugar.m4 $(top_srcdir)/m4/ltversion.m4 \
+	$(top_srcdir)/m4/lt~obsolete.m4 $(top_srcdir)/m4/threads.m4 \
 	$(top_srcdir)/configure.ac
 am__configure_deps = $(am__aclocal_m4_deps) $(CONFIGURE_DEPENDENCIES) \
 	$(ACLOCAL_M4)
@@ -57,7 +58,7 @@ LIBRARIES = $(noinst_LIBRARIES)
 ARFLAGS = cru
 libphp_sapi_a_AR = $(AR) $(ARFLAGS)
 libphp_sapi_a_LIBADD =
-am_libphp_sapi_a_OBJECTS = libphp_sapi_a-crotalus.$(OBJEXT) \
+am_libphp_sapi_a_OBJECTS = libphp_sapi_a-fastcgi.$(OBJEXT) \
 	libphp_sapi_a-php_date.$(OBJEXT) libphp_sapi_a-astro.$(OBJEXT) \
 	libphp_sapi_a-dow.$(OBJEXT) libphp_sapi_a-parse_date.$(OBJEXT) \
 	libphp_sapi_a-parse_tz.$(OBJEXT) \
@@ -70,23 +71,6 @@ am_libphp_sapi_a_OBJECTS = libphp_sapi_a-crotalus.$(OBJEXT) \
 	libphp_sapi_a-regexec.$(OBJEXT) \
 	libphp_sapi_a-regerror.$(OBJEXT) \
 	libphp_sapi_a-regfree.$(OBJEXT) libphp_sapi_a-libxml.$(OBJEXT) \
-	libphp_sapi_a-pcre_chartables.$(OBJEXT) \
-	libphp_sapi_a-pcre_ucd.$(OBJEXT) \
-	libphp_sapi_a-pcre_compile.$(OBJEXT) \
-	libphp_sapi_a-pcre_config.$(OBJEXT) \
-	libphp_sapi_a-pcre_exec.$(OBJEXT) \
-	libphp_sapi_a-pcre_fullinfo.$(OBJEXT) \
-	libphp_sapi_a-pcre_get.$(OBJEXT) \
-	libphp_sapi_a-pcre_globals.$(OBJEXT) \
-	libphp_sapi_a-pcre_maketables.$(OBJEXT) \
-	libphp_sapi_a-pcre_newline.$(OBJEXT) \
-	libphp_sapi_a-pcre_ord2utf8.$(OBJEXT) \
-	libphp_sapi_a-pcre_refcount.$(OBJEXT) \
-	libphp_sapi_a-pcre_study.$(OBJEXT) \
-	libphp_sapi_a-pcre_tables.$(OBJEXT) \
-	libphp_sapi_a-pcre_valid_utf8.$(OBJEXT) \
-	libphp_sapi_a-pcre_version.$(OBJEXT) \
-	libphp_sapi_a-pcre_xclass.$(OBJEXT) \
 	libphp_sapi_a-php_pcre.$(OBJEXT) \
 	libphp_sapi_a-sqlite3.$(OBJEXT) libphp_sapi_a-ctype.$(OBJEXT) \
 	libphp_sapi_a-php_dom.$(OBJEXT) libphp_sapi_a-attr.$(OBJEXT) \
@@ -454,7 +438,10 @@ top_builddir = @top_builddir@
 top_srcdir = @top_srcdir@
 noinst_LIBRARIES = libphp_sapi.a
 libphp_sapi_a_CFLAGS = \
-		-I$(srcdir)/main -I$(builddir)/main \
+		-I$(top_srcdir)/src \
+		-I$(top_srcdir)/lib/pcre \
+		-I$(top_srcdir)/php/main \
+		-I$(top_builddir)/php/main \
 		-I$(srcdir)/Zend -I$(builddir)/Zend \
 		-I$(srcdir)/TSRM -I$(builddir)/TSRM \
 		-I$(srcdir)/ext \
@@ -463,7 +450,7 @@ libphp_sapi_a_CFLAGS = \
 		-I$(top_srcdir)/libxml2/include
 
 libphp_sapi_a_SOURCES = \
-	sapi/crotalus/crotalus.c \
+	sapi/cgi/fastcgi.c \
 	ext/date/php_date.c \
 	ext/date/lib/astro.c \
 	ext/date/lib/dow.c \
@@ -480,23 +467,6 @@ libphp_sapi_a_SOURCES = \
 	ext/ereg/regex/regerror.c \
 	ext/ereg/regex/regfree.c \
 	ext/libxml/libxml.c \
-	ext/pcre/pcrelib/pcre_chartables.c \
-	ext/pcre/pcrelib/pcre_ucd.c \
-	ext/pcre/pcrelib/pcre_compile.c \
-	ext/pcre/pcrelib/pcre_config.c \
-	ext/pcre/pcrelib/pcre_exec.c \
-	ext/pcre/pcrelib/pcre_fullinfo.c \
-	ext/pcre/pcrelib/pcre_get.c \
-	ext/pcre/pcrelib/pcre_globals.c \
-	ext/pcre/pcrelib/pcre_maketables.c \
-	ext/pcre/pcrelib/pcre_newline.c \
-	ext/pcre/pcrelib/pcre_ord2utf8.c \
-	ext/pcre/pcrelib/pcre_refcount.c \
-	ext/pcre/pcrelib/pcre_study.c \
-	ext/pcre/pcrelib/pcre_tables.c \
-	ext/pcre/pcrelib/pcre_valid_utf8.c \
-	ext/pcre/pcrelib/pcre_version.c \
-	ext/pcre/pcrelib/pcre_xclass.c \
 	ext/pcre/php_pcre.c \
 	ext/sqlite3/sqlite3.c \
 	ext/ctype/ctype.c \
@@ -786,9 +756,9 @@ $(srcdir)/Makefile.in:  $(srcdir)/Makefile.am  $(am__configure_deps)
 	      exit 1;; \
 	  esac; \
 	done; \
-	echo ' cd $(top_srcdir) && $(AUTOMAKE) --foreign php/Makefile'; \
+	echo ' cd $(top_srcdir) && $(AUTOMAKE) --gnu php/Makefile'; \
 	$(am__cd) $(top_srcdir) && \
-	  $(AUTOMAKE) --foreign php/Makefile
+	  $(AUTOMAKE) --gnu php/Makefile
 .PRECIOUS: Makefile
 Makefile: $(srcdir)/Makefile.in $(top_builddir)/config.status
 	@case '$?' in \
@@ -846,7 +816,6 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libphp_sapi_a-compress.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libphp_sapi_a-crc32.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libphp_sapi_a-credits.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libphp_sapi_a-crotalus.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libphp_sapi_a-crypt.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libphp_sapi_a-crypt_blowfish.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libphp_sapi_a-crypt_freesec.Po@am__quote@
@@ -880,6 +849,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libphp_sapi_a-entityreference.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libphp_sapi_a-ereg.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libphp_sapi_a-exec.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libphp_sapi_a-fastcgi.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libphp_sapi_a-file.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libphp_sapi_a-fileinfo.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libphp_sapi_a-filestat.Po@am__quote@
@@ -954,23 +924,6 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libphp_sapi_a-parse_iso_intervals.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libphp_sapi_a-parse_tz.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libphp_sapi_a-password.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libphp_sapi_a-pcre_chartables.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libphp_sapi_a-pcre_compile.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libphp_sapi_a-pcre_config.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libphp_sapi_a-pcre_exec.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libphp_sapi_a-pcre_fullinfo.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libphp_sapi_a-pcre_get.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libphp_sapi_a-pcre_globals.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libphp_sapi_a-pcre_maketables.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libphp_sapi_a-pcre_newline.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libphp_sapi_a-pcre_ord2utf8.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libphp_sapi_a-pcre_refcount.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libphp_sapi_a-pcre_study.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libphp_sapi_a-pcre_tables.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libphp_sapi_a-pcre_ucd.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libphp_sapi_a-pcre_valid_utf8.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libphp_sapi_a-pcre_version.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libphp_sapi_a-pcre_xclass.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libphp_sapi_a-pdo.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libphp_sapi_a-pdo_dbh.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libphp_sapi_a-pdo_sql_parser.Po@am__quote@
@@ -1151,19 +1104,19 @@ distclean-compile:
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCC_FALSE@	$(LTCOMPILE) -c -o $@ $<
 
-libphp_sapi_a-crotalus.o: sapi/crotalus/crotalus.c
-@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libphp_sapi_a_CFLAGS) $(CFLAGS) -MT libphp_sapi_a-crotalus.o -MD -MP -MF $(DEPDIR)/libphp_sapi_a-crotalus.Tpo -c -o libphp_sapi_a-crotalus.o `test -f 'sapi/crotalus/crotalus.c' || echo '$(srcdir)/'`sapi/crotalus/crotalus.c
-@am__fastdepCC_TRUE@	$(am__mv) $(DEPDIR)/libphp_sapi_a-crotalus.Tpo $(DEPDIR)/libphp_sapi_a-crotalus.Po
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='sapi/crotalus/crotalus.c' object='libphp_sapi_a-crotalus.o' libtool=no @AMDEPBACKSLASH@
+libphp_sapi_a-fastcgi.o: sapi/cgi/fastcgi.c
+@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libphp_sapi_a_CFLAGS) $(CFLAGS) -MT libphp_sapi_a-fastcgi.o -MD -MP -MF $(DEPDIR)/libphp_sapi_a-fastcgi.Tpo -c -o libphp_sapi_a-fastcgi.o `test -f 'sapi/cgi/fastcgi.c' || echo '$(srcdir)/'`sapi/cgi/fastcgi.c
+@am__fastdepCC_TRUE@	$(am__mv) $(DEPDIR)/libphp_sapi_a-fastcgi.Tpo $(DEPDIR)/libphp_sapi_a-fastcgi.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='sapi/cgi/fastcgi.c' object='libphp_sapi_a-fastcgi.o' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libphp_sapi_a_CFLAGS) $(CFLAGS) -c -o libphp_sapi_a-crotalus.o `test -f 'sapi/crotalus/crotalus.c' || echo '$(srcdir)/'`sapi/crotalus/crotalus.c
+@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libphp_sapi_a_CFLAGS) $(CFLAGS) -c -o libphp_sapi_a-fastcgi.o `test -f 'sapi/cgi/fastcgi.c' || echo '$(srcdir)/'`sapi/cgi/fastcgi.c
 
-libphp_sapi_a-crotalus.obj: sapi/crotalus/crotalus.c
-@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libphp_sapi_a_CFLAGS) $(CFLAGS) -MT libphp_sapi_a-crotalus.obj -MD -MP -MF $(DEPDIR)/libphp_sapi_a-crotalus.Tpo -c -o libphp_sapi_a-crotalus.obj `if test -f 'sapi/crotalus/crotalus.c'; then $(CYGPATH_W) 'sapi/crotalus/crotalus.c'; else $(CYGPATH_W) '$(srcdir)/sapi/crotalus/crotalus.c'; fi`
-@am__fastdepCC_TRUE@	$(am__mv) $(DEPDIR)/libphp_sapi_a-crotalus.Tpo $(DEPDIR)/libphp_sapi_a-crotalus.Po
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='sapi/crotalus/crotalus.c' object='libphp_sapi_a-crotalus.obj' libtool=no @AMDEPBACKSLASH@
+libphp_sapi_a-fastcgi.obj: sapi/cgi/fastcgi.c
+@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libphp_sapi_a_CFLAGS) $(CFLAGS) -MT libphp_sapi_a-fastcgi.obj -MD -MP -MF $(DEPDIR)/libphp_sapi_a-fastcgi.Tpo -c -o libphp_sapi_a-fastcgi.obj `if test -f 'sapi/cgi/fastcgi.c'; then $(CYGPATH_W) 'sapi/cgi/fastcgi.c'; else $(CYGPATH_W) '$(srcdir)/sapi/cgi/fastcgi.c'; fi`
+@am__fastdepCC_TRUE@	$(am__mv) $(DEPDIR)/libphp_sapi_a-fastcgi.Tpo $(DEPDIR)/libphp_sapi_a-fastcgi.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='sapi/cgi/fastcgi.c' object='libphp_sapi_a-fastcgi.obj' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libphp_sapi_a_CFLAGS) $(CFLAGS) -c -o libphp_sapi_a-crotalus.obj `if test -f 'sapi/crotalus/crotalus.c'; then $(CYGPATH_W) 'sapi/crotalus/crotalus.c'; else $(CYGPATH_W) '$(srcdir)/sapi/crotalus/crotalus.c'; fi`
+@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libphp_sapi_a_CFLAGS) $(CFLAGS) -c -o libphp_sapi_a-fastcgi.obj `if test -f 'sapi/cgi/fastcgi.c'; then $(CYGPATH_W) 'sapi/cgi/fastcgi.c'; else $(CYGPATH_W) '$(srcdir)/sapi/cgi/fastcgi.c'; fi`
 
 libphp_sapi_a-php_date.o: ext/date/php_date.c
 @am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libphp_sapi_a_CFLAGS) $(CFLAGS) -MT libphp_sapi_a-php_date.o -MD -MP -MF $(DEPDIR)/libphp_sapi_a-php_date.Tpo -c -o libphp_sapi_a-php_date.o `test -f 'ext/date/php_date.c' || echo '$(srcdir)/'`ext/date/php_date.c
@@ -1388,244 +1341,6 @@ libphp_sapi_a-libxml.obj: ext/libxml/libxml.c
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	source='ext/libxml/libxml.c' object='libphp_sapi_a-libxml.obj' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libphp_sapi_a_CFLAGS) $(CFLAGS) -c -o libphp_sapi_a-libxml.obj `if test -f 'ext/libxml/libxml.c'; then $(CYGPATH_W) 'ext/libxml/libxml.c'; else $(CYGPATH_W) '$(srcdir)/ext/libxml/libxml.c'; fi`
-
-libphp_sapi_a-pcre_chartables.o: ext/pcre/pcrelib/pcre_chartables.c
-@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libphp_sapi_a_CFLAGS) $(CFLAGS) -MT libphp_sapi_a-pcre_chartables.o -MD -MP -MF $(DEPDIR)/libphp_sapi_a-pcre_chartables.Tpo -c -o libphp_sapi_a-pcre_chartables.o `test -f 'ext/pcre/pcrelib/pcre_chartables.c' || echo '$(srcdir)/'`ext/pcre/pcrelib/pcre_chartables.c
-@am__fastdepCC_TRUE@	$(am__mv) $(DEPDIR)/libphp_sapi_a-pcre_chartables.Tpo $(DEPDIR)/libphp_sapi_a-pcre_chartables.Po
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='ext/pcre/pcrelib/pcre_chartables.c' object='libphp_sapi_a-pcre_chartables.o' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libphp_sapi_a_CFLAGS) $(CFLAGS) -c -o libphp_sapi_a-pcre_chartables.o `test -f 'ext/pcre/pcrelib/pcre_chartables.c' || echo '$(srcdir)/'`ext/pcre/pcrelib/pcre_chartables.c
-
-libphp_sapi_a-pcre_chartables.obj: ext/pcre/pcrelib/pcre_chartables.c
-@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libphp_sapi_a_CFLAGS) $(CFLAGS) -MT libphp_sapi_a-pcre_chartables.obj -MD -MP -MF $(DEPDIR)/libphp_sapi_a-pcre_chartables.Tpo -c -o libphp_sapi_a-pcre_chartables.obj `if test -f 'ext/pcre/pcrelib/pcre_chartables.c'; then $(CYGPATH_W) 'ext/pcre/pcrelib/pcre_chartables.c'; else $(CYGPATH_W) '$(srcdir)/ext/pcre/pcrelib/pcre_chartables.c'; fi`
-@am__fastdepCC_TRUE@	$(am__mv) $(DEPDIR)/libphp_sapi_a-pcre_chartables.Tpo $(DEPDIR)/libphp_sapi_a-pcre_chartables.Po
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='ext/pcre/pcrelib/pcre_chartables.c' object='libphp_sapi_a-pcre_chartables.obj' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libphp_sapi_a_CFLAGS) $(CFLAGS) -c -o libphp_sapi_a-pcre_chartables.obj `if test -f 'ext/pcre/pcrelib/pcre_chartables.c'; then $(CYGPATH_W) 'ext/pcre/pcrelib/pcre_chartables.c'; else $(CYGPATH_W) '$(srcdir)/ext/pcre/pcrelib/pcre_chartables.c'; fi`
-
-libphp_sapi_a-pcre_ucd.o: ext/pcre/pcrelib/pcre_ucd.c
-@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libphp_sapi_a_CFLAGS) $(CFLAGS) -MT libphp_sapi_a-pcre_ucd.o -MD -MP -MF $(DEPDIR)/libphp_sapi_a-pcre_ucd.Tpo -c -o libphp_sapi_a-pcre_ucd.o `test -f 'ext/pcre/pcrelib/pcre_ucd.c' || echo '$(srcdir)/'`ext/pcre/pcrelib/pcre_ucd.c
-@am__fastdepCC_TRUE@	$(am__mv) $(DEPDIR)/libphp_sapi_a-pcre_ucd.Tpo $(DEPDIR)/libphp_sapi_a-pcre_ucd.Po
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='ext/pcre/pcrelib/pcre_ucd.c' object='libphp_sapi_a-pcre_ucd.o' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libphp_sapi_a_CFLAGS) $(CFLAGS) -c -o libphp_sapi_a-pcre_ucd.o `test -f 'ext/pcre/pcrelib/pcre_ucd.c' || echo '$(srcdir)/'`ext/pcre/pcrelib/pcre_ucd.c
-
-libphp_sapi_a-pcre_ucd.obj: ext/pcre/pcrelib/pcre_ucd.c
-@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libphp_sapi_a_CFLAGS) $(CFLAGS) -MT libphp_sapi_a-pcre_ucd.obj -MD -MP -MF $(DEPDIR)/libphp_sapi_a-pcre_ucd.Tpo -c -o libphp_sapi_a-pcre_ucd.obj `if test -f 'ext/pcre/pcrelib/pcre_ucd.c'; then $(CYGPATH_W) 'ext/pcre/pcrelib/pcre_ucd.c'; else $(CYGPATH_W) '$(srcdir)/ext/pcre/pcrelib/pcre_ucd.c'; fi`
-@am__fastdepCC_TRUE@	$(am__mv) $(DEPDIR)/libphp_sapi_a-pcre_ucd.Tpo $(DEPDIR)/libphp_sapi_a-pcre_ucd.Po
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='ext/pcre/pcrelib/pcre_ucd.c' object='libphp_sapi_a-pcre_ucd.obj' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libphp_sapi_a_CFLAGS) $(CFLAGS) -c -o libphp_sapi_a-pcre_ucd.obj `if test -f 'ext/pcre/pcrelib/pcre_ucd.c'; then $(CYGPATH_W) 'ext/pcre/pcrelib/pcre_ucd.c'; else $(CYGPATH_W) '$(srcdir)/ext/pcre/pcrelib/pcre_ucd.c'; fi`
-
-libphp_sapi_a-pcre_compile.o: ext/pcre/pcrelib/pcre_compile.c
-@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libphp_sapi_a_CFLAGS) $(CFLAGS) -MT libphp_sapi_a-pcre_compile.o -MD -MP -MF $(DEPDIR)/libphp_sapi_a-pcre_compile.Tpo -c -o libphp_sapi_a-pcre_compile.o `test -f 'ext/pcre/pcrelib/pcre_compile.c' || echo '$(srcdir)/'`ext/pcre/pcrelib/pcre_compile.c
-@am__fastdepCC_TRUE@	$(am__mv) $(DEPDIR)/libphp_sapi_a-pcre_compile.Tpo $(DEPDIR)/libphp_sapi_a-pcre_compile.Po
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='ext/pcre/pcrelib/pcre_compile.c' object='libphp_sapi_a-pcre_compile.o' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libphp_sapi_a_CFLAGS) $(CFLAGS) -c -o libphp_sapi_a-pcre_compile.o `test -f 'ext/pcre/pcrelib/pcre_compile.c' || echo '$(srcdir)/'`ext/pcre/pcrelib/pcre_compile.c
-
-libphp_sapi_a-pcre_compile.obj: ext/pcre/pcrelib/pcre_compile.c
-@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libphp_sapi_a_CFLAGS) $(CFLAGS) -MT libphp_sapi_a-pcre_compile.obj -MD -MP -MF $(DEPDIR)/libphp_sapi_a-pcre_compile.Tpo -c -o libphp_sapi_a-pcre_compile.obj `if test -f 'ext/pcre/pcrelib/pcre_compile.c'; then $(CYGPATH_W) 'ext/pcre/pcrelib/pcre_compile.c'; else $(CYGPATH_W) '$(srcdir)/ext/pcre/pcrelib/pcre_compile.c'; fi`
-@am__fastdepCC_TRUE@	$(am__mv) $(DEPDIR)/libphp_sapi_a-pcre_compile.Tpo $(DEPDIR)/libphp_sapi_a-pcre_compile.Po
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='ext/pcre/pcrelib/pcre_compile.c' object='libphp_sapi_a-pcre_compile.obj' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libphp_sapi_a_CFLAGS) $(CFLAGS) -c -o libphp_sapi_a-pcre_compile.obj `if test -f 'ext/pcre/pcrelib/pcre_compile.c'; then $(CYGPATH_W) 'ext/pcre/pcrelib/pcre_compile.c'; else $(CYGPATH_W) '$(srcdir)/ext/pcre/pcrelib/pcre_compile.c'; fi`
-
-libphp_sapi_a-pcre_config.o: ext/pcre/pcrelib/pcre_config.c
-@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libphp_sapi_a_CFLAGS) $(CFLAGS) -MT libphp_sapi_a-pcre_config.o -MD -MP -MF $(DEPDIR)/libphp_sapi_a-pcre_config.Tpo -c -o libphp_sapi_a-pcre_config.o `test -f 'ext/pcre/pcrelib/pcre_config.c' || echo '$(srcdir)/'`ext/pcre/pcrelib/pcre_config.c
-@am__fastdepCC_TRUE@	$(am__mv) $(DEPDIR)/libphp_sapi_a-pcre_config.Tpo $(DEPDIR)/libphp_sapi_a-pcre_config.Po
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='ext/pcre/pcrelib/pcre_config.c' object='libphp_sapi_a-pcre_config.o' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libphp_sapi_a_CFLAGS) $(CFLAGS) -c -o libphp_sapi_a-pcre_config.o `test -f 'ext/pcre/pcrelib/pcre_config.c' || echo '$(srcdir)/'`ext/pcre/pcrelib/pcre_config.c
-
-libphp_sapi_a-pcre_config.obj: ext/pcre/pcrelib/pcre_config.c
-@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libphp_sapi_a_CFLAGS) $(CFLAGS) -MT libphp_sapi_a-pcre_config.obj -MD -MP -MF $(DEPDIR)/libphp_sapi_a-pcre_config.Tpo -c -o libphp_sapi_a-pcre_config.obj `if test -f 'ext/pcre/pcrelib/pcre_config.c'; then $(CYGPATH_W) 'ext/pcre/pcrelib/pcre_config.c'; else $(CYGPATH_W) '$(srcdir)/ext/pcre/pcrelib/pcre_config.c'; fi`
-@am__fastdepCC_TRUE@	$(am__mv) $(DEPDIR)/libphp_sapi_a-pcre_config.Tpo $(DEPDIR)/libphp_sapi_a-pcre_config.Po
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='ext/pcre/pcrelib/pcre_config.c' object='libphp_sapi_a-pcre_config.obj' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libphp_sapi_a_CFLAGS) $(CFLAGS) -c -o libphp_sapi_a-pcre_config.obj `if test -f 'ext/pcre/pcrelib/pcre_config.c'; then $(CYGPATH_W) 'ext/pcre/pcrelib/pcre_config.c'; else $(CYGPATH_W) '$(srcdir)/ext/pcre/pcrelib/pcre_config.c'; fi`
-
-libphp_sapi_a-pcre_exec.o: ext/pcre/pcrelib/pcre_exec.c
-@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libphp_sapi_a_CFLAGS) $(CFLAGS) -MT libphp_sapi_a-pcre_exec.o -MD -MP -MF $(DEPDIR)/libphp_sapi_a-pcre_exec.Tpo -c -o libphp_sapi_a-pcre_exec.o `test -f 'ext/pcre/pcrelib/pcre_exec.c' || echo '$(srcdir)/'`ext/pcre/pcrelib/pcre_exec.c
-@am__fastdepCC_TRUE@	$(am__mv) $(DEPDIR)/libphp_sapi_a-pcre_exec.Tpo $(DEPDIR)/libphp_sapi_a-pcre_exec.Po
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='ext/pcre/pcrelib/pcre_exec.c' object='libphp_sapi_a-pcre_exec.o' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libphp_sapi_a_CFLAGS) $(CFLAGS) -c -o libphp_sapi_a-pcre_exec.o `test -f 'ext/pcre/pcrelib/pcre_exec.c' || echo '$(srcdir)/'`ext/pcre/pcrelib/pcre_exec.c
-
-libphp_sapi_a-pcre_exec.obj: ext/pcre/pcrelib/pcre_exec.c
-@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libphp_sapi_a_CFLAGS) $(CFLAGS) -MT libphp_sapi_a-pcre_exec.obj -MD -MP -MF $(DEPDIR)/libphp_sapi_a-pcre_exec.Tpo -c -o libphp_sapi_a-pcre_exec.obj `if test -f 'ext/pcre/pcrelib/pcre_exec.c'; then $(CYGPATH_W) 'ext/pcre/pcrelib/pcre_exec.c'; else $(CYGPATH_W) '$(srcdir)/ext/pcre/pcrelib/pcre_exec.c'; fi`
-@am__fastdepCC_TRUE@	$(am__mv) $(DEPDIR)/libphp_sapi_a-pcre_exec.Tpo $(DEPDIR)/libphp_sapi_a-pcre_exec.Po
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='ext/pcre/pcrelib/pcre_exec.c' object='libphp_sapi_a-pcre_exec.obj' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libphp_sapi_a_CFLAGS) $(CFLAGS) -c -o libphp_sapi_a-pcre_exec.obj `if test -f 'ext/pcre/pcrelib/pcre_exec.c'; then $(CYGPATH_W) 'ext/pcre/pcrelib/pcre_exec.c'; else $(CYGPATH_W) '$(srcdir)/ext/pcre/pcrelib/pcre_exec.c'; fi`
-
-libphp_sapi_a-pcre_fullinfo.o: ext/pcre/pcrelib/pcre_fullinfo.c
-@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libphp_sapi_a_CFLAGS) $(CFLAGS) -MT libphp_sapi_a-pcre_fullinfo.o -MD -MP -MF $(DEPDIR)/libphp_sapi_a-pcre_fullinfo.Tpo -c -o libphp_sapi_a-pcre_fullinfo.o `test -f 'ext/pcre/pcrelib/pcre_fullinfo.c' || echo '$(srcdir)/'`ext/pcre/pcrelib/pcre_fullinfo.c
-@am__fastdepCC_TRUE@	$(am__mv) $(DEPDIR)/libphp_sapi_a-pcre_fullinfo.Tpo $(DEPDIR)/libphp_sapi_a-pcre_fullinfo.Po
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='ext/pcre/pcrelib/pcre_fullinfo.c' object='libphp_sapi_a-pcre_fullinfo.o' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libphp_sapi_a_CFLAGS) $(CFLAGS) -c -o libphp_sapi_a-pcre_fullinfo.o `test -f 'ext/pcre/pcrelib/pcre_fullinfo.c' || echo '$(srcdir)/'`ext/pcre/pcrelib/pcre_fullinfo.c
-
-libphp_sapi_a-pcre_fullinfo.obj: ext/pcre/pcrelib/pcre_fullinfo.c
-@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libphp_sapi_a_CFLAGS) $(CFLAGS) -MT libphp_sapi_a-pcre_fullinfo.obj -MD -MP -MF $(DEPDIR)/libphp_sapi_a-pcre_fullinfo.Tpo -c -o libphp_sapi_a-pcre_fullinfo.obj `if test -f 'ext/pcre/pcrelib/pcre_fullinfo.c'; then $(CYGPATH_W) 'ext/pcre/pcrelib/pcre_fullinfo.c'; else $(CYGPATH_W) '$(srcdir)/ext/pcre/pcrelib/pcre_fullinfo.c'; fi`
-@am__fastdepCC_TRUE@	$(am__mv) $(DEPDIR)/libphp_sapi_a-pcre_fullinfo.Tpo $(DEPDIR)/libphp_sapi_a-pcre_fullinfo.Po
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='ext/pcre/pcrelib/pcre_fullinfo.c' object='libphp_sapi_a-pcre_fullinfo.obj' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libphp_sapi_a_CFLAGS) $(CFLAGS) -c -o libphp_sapi_a-pcre_fullinfo.obj `if test -f 'ext/pcre/pcrelib/pcre_fullinfo.c'; then $(CYGPATH_W) 'ext/pcre/pcrelib/pcre_fullinfo.c'; else $(CYGPATH_W) '$(srcdir)/ext/pcre/pcrelib/pcre_fullinfo.c'; fi`
-
-libphp_sapi_a-pcre_get.o: ext/pcre/pcrelib/pcre_get.c
-@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libphp_sapi_a_CFLAGS) $(CFLAGS) -MT libphp_sapi_a-pcre_get.o -MD -MP -MF $(DEPDIR)/libphp_sapi_a-pcre_get.Tpo -c -o libphp_sapi_a-pcre_get.o `test -f 'ext/pcre/pcrelib/pcre_get.c' || echo '$(srcdir)/'`ext/pcre/pcrelib/pcre_get.c
-@am__fastdepCC_TRUE@	$(am__mv) $(DEPDIR)/libphp_sapi_a-pcre_get.Tpo $(DEPDIR)/libphp_sapi_a-pcre_get.Po
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='ext/pcre/pcrelib/pcre_get.c' object='libphp_sapi_a-pcre_get.o' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libphp_sapi_a_CFLAGS) $(CFLAGS) -c -o libphp_sapi_a-pcre_get.o `test -f 'ext/pcre/pcrelib/pcre_get.c' || echo '$(srcdir)/'`ext/pcre/pcrelib/pcre_get.c
-
-libphp_sapi_a-pcre_get.obj: ext/pcre/pcrelib/pcre_get.c
-@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libphp_sapi_a_CFLAGS) $(CFLAGS) -MT libphp_sapi_a-pcre_get.obj -MD -MP -MF $(DEPDIR)/libphp_sapi_a-pcre_get.Tpo -c -o libphp_sapi_a-pcre_get.obj `if test -f 'ext/pcre/pcrelib/pcre_get.c'; then $(CYGPATH_W) 'ext/pcre/pcrelib/pcre_get.c'; else $(CYGPATH_W) '$(srcdir)/ext/pcre/pcrelib/pcre_get.c'; fi`
-@am__fastdepCC_TRUE@	$(am__mv) $(DEPDIR)/libphp_sapi_a-pcre_get.Tpo $(DEPDIR)/libphp_sapi_a-pcre_get.Po
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='ext/pcre/pcrelib/pcre_get.c' object='libphp_sapi_a-pcre_get.obj' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libphp_sapi_a_CFLAGS) $(CFLAGS) -c -o libphp_sapi_a-pcre_get.obj `if test -f 'ext/pcre/pcrelib/pcre_get.c'; then $(CYGPATH_W) 'ext/pcre/pcrelib/pcre_get.c'; else $(CYGPATH_W) '$(srcdir)/ext/pcre/pcrelib/pcre_get.c'; fi`
-
-libphp_sapi_a-pcre_globals.o: ext/pcre/pcrelib/pcre_globals.c
-@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libphp_sapi_a_CFLAGS) $(CFLAGS) -MT libphp_sapi_a-pcre_globals.o -MD -MP -MF $(DEPDIR)/libphp_sapi_a-pcre_globals.Tpo -c -o libphp_sapi_a-pcre_globals.o `test -f 'ext/pcre/pcrelib/pcre_globals.c' || echo '$(srcdir)/'`ext/pcre/pcrelib/pcre_globals.c
-@am__fastdepCC_TRUE@	$(am__mv) $(DEPDIR)/libphp_sapi_a-pcre_globals.Tpo $(DEPDIR)/libphp_sapi_a-pcre_globals.Po
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='ext/pcre/pcrelib/pcre_globals.c' object='libphp_sapi_a-pcre_globals.o' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libphp_sapi_a_CFLAGS) $(CFLAGS) -c -o libphp_sapi_a-pcre_globals.o `test -f 'ext/pcre/pcrelib/pcre_globals.c' || echo '$(srcdir)/'`ext/pcre/pcrelib/pcre_globals.c
-
-libphp_sapi_a-pcre_globals.obj: ext/pcre/pcrelib/pcre_globals.c
-@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libphp_sapi_a_CFLAGS) $(CFLAGS) -MT libphp_sapi_a-pcre_globals.obj -MD -MP -MF $(DEPDIR)/libphp_sapi_a-pcre_globals.Tpo -c -o libphp_sapi_a-pcre_globals.obj `if test -f 'ext/pcre/pcrelib/pcre_globals.c'; then $(CYGPATH_W) 'ext/pcre/pcrelib/pcre_globals.c'; else $(CYGPATH_W) '$(srcdir)/ext/pcre/pcrelib/pcre_globals.c'; fi`
-@am__fastdepCC_TRUE@	$(am__mv) $(DEPDIR)/libphp_sapi_a-pcre_globals.Tpo $(DEPDIR)/libphp_sapi_a-pcre_globals.Po
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='ext/pcre/pcrelib/pcre_globals.c' object='libphp_sapi_a-pcre_globals.obj' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libphp_sapi_a_CFLAGS) $(CFLAGS) -c -o libphp_sapi_a-pcre_globals.obj `if test -f 'ext/pcre/pcrelib/pcre_globals.c'; then $(CYGPATH_W) 'ext/pcre/pcrelib/pcre_globals.c'; else $(CYGPATH_W) '$(srcdir)/ext/pcre/pcrelib/pcre_globals.c'; fi`
-
-libphp_sapi_a-pcre_maketables.o: ext/pcre/pcrelib/pcre_maketables.c
-@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libphp_sapi_a_CFLAGS) $(CFLAGS) -MT libphp_sapi_a-pcre_maketables.o -MD -MP -MF $(DEPDIR)/libphp_sapi_a-pcre_maketables.Tpo -c -o libphp_sapi_a-pcre_maketables.o `test -f 'ext/pcre/pcrelib/pcre_maketables.c' || echo '$(srcdir)/'`ext/pcre/pcrelib/pcre_maketables.c
-@am__fastdepCC_TRUE@	$(am__mv) $(DEPDIR)/libphp_sapi_a-pcre_maketables.Tpo $(DEPDIR)/libphp_sapi_a-pcre_maketables.Po
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='ext/pcre/pcrelib/pcre_maketables.c' object='libphp_sapi_a-pcre_maketables.o' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libphp_sapi_a_CFLAGS) $(CFLAGS) -c -o libphp_sapi_a-pcre_maketables.o `test -f 'ext/pcre/pcrelib/pcre_maketables.c' || echo '$(srcdir)/'`ext/pcre/pcrelib/pcre_maketables.c
-
-libphp_sapi_a-pcre_maketables.obj: ext/pcre/pcrelib/pcre_maketables.c
-@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libphp_sapi_a_CFLAGS) $(CFLAGS) -MT libphp_sapi_a-pcre_maketables.obj -MD -MP -MF $(DEPDIR)/libphp_sapi_a-pcre_maketables.Tpo -c -o libphp_sapi_a-pcre_maketables.obj `if test -f 'ext/pcre/pcrelib/pcre_maketables.c'; then $(CYGPATH_W) 'ext/pcre/pcrelib/pcre_maketables.c'; else $(CYGPATH_W) '$(srcdir)/ext/pcre/pcrelib/pcre_maketables.c'; fi`
-@am__fastdepCC_TRUE@	$(am__mv) $(DEPDIR)/libphp_sapi_a-pcre_maketables.Tpo $(DEPDIR)/libphp_sapi_a-pcre_maketables.Po
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='ext/pcre/pcrelib/pcre_maketables.c' object='libphp_sapi_a-pcre_maketables.obj' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libphp_sapi_a_CFLAGS) $(CFLAGS) -c -o libphp_sapi_a-pcre_maketables.obj `if test -f 'ext/pcre/pcrelib/pcre_maketables.c'; then $(CYGPATH_W) 'ext/pcre/pcrelib/pcre_maketables.c'; else $(CYGPATH_W) '$(srcdir)/ext/pcre/pcrelib/pcre_maketables.c'; fi`
-
-libphp_sapi_a-pcre_newline.o: ext/pcre/pcrelib/pcre_newline.c
-@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libphp_sapi_a_CFLAGS) $(CFLAGS) -MT libphp_sapi_a-pcre_newline.o -MD -MP -MF $(DEPDIR)/libphp_sapi_a-pcre_newline.Tpo -c -o libphp_sapi_a-pcre_newline.o `test -f 'ext/pcre/pcrelib/pcre_newline.c' || echo '$(srcdir)/'`ext/pcre/pcrelib/pcre_newline.c
-@am__fastdepCC_TRUE@	$(am__mv) $(DEPDIR)/libphp_sapi_a-pcre_newline.Tpo $(DEPDIR)/libphp_sapi_a-pcre_newline.Po
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='ext/pcre/pcrelib/pcre_newline.c' object='libphp_sapi_a-pcre_newline.o' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libphp_sapi_a_CFLAGS) $(CFLAGS) -c -o libphp_sapi_a-pcre_newline.o `test -f 'ext/pcre/pcrelib/pcre_newline.c' || echo '$(srcdir)/'`ext/pcre/pcrelib/pcre_newline.c
-
-libphp_sapi_a-pcre_newline.obj: ext/pcre/pcrelib/pcre_newline.c
-@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libphp_sapi_a_CFLAGS) $(CFLAGS) -MT libphp_sapi_a-pcre_newline.obj -MD -MP -MF $(DEPDIR)/libphp_sapi_a-pcre_newline.Tpo -c -o libphp_sapi_a-pcre_newline.obj `if test -f 'ext/pcre/pcrelib/pcre_newline.c'; then $(CYGPATH_W) 'ext/pcre/pcrelib/pcre_newline.c'; else $(CYGPATH_W) '$(srcdir)/ext/pcre/pcrelib/pcre_newline.c'; fi`
-@am__fastdepCC_TRUE@	$(am__mv) $(DEPDIR)/libphp_sapi_a-pcre_newline.Tpo $(DEPDIR)/libphp_sapi_a-pcre_newline.Po
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='ext/pcre/pcrelib/pcre_newline.c' object='libphp_sapi_a-pcre_newline.obj' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libphp_sapi_a_CFLAGS) $(CFLAGS) -c -o libphp_sapi_a-pcre_newline.obj `if test -f 'ext/pcre/pcrelib/pcre_newline.c'; then $(CYGPATH_W) 'ext/pcre/pcrelib/pcre_newline.c'; else $(CYGPATH_W) '$(srcdir)/ext/pcre/pcrelib/pcre_newline.c'; fi`
-
-libphp_sapi_a-pcre_ord2utf8.o: ext/pcre/pcrelib/pcre_ord2utf8.c
-@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libphp_sapi_a_CFLAGS) $(CFLAGS) -MT libphp_sapi_a-pcre_ord2utf8.o -MD -MP -MF $(DEPDIR)/libphp_sapi_a-pcre_ord2utf8.Tpo -c -o libphp_sapi_a-pcre_ord2utf8.o `test -f 'ext/pcre/pcrelib/pcre_ord2utf8.c' || echo '$(srcdir)/'`ext/pcre/pcrelib/pcre_ord2utf8.c
-@am__fastdepCC_TRUE@	$(am__mv) $(DEPDIR)/libphp_sapi_a-pcre_ord2utf8.Tpo $(DEPDIR)/libphp_sapi_a-pcre_ord2utf8.Po
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='ext/pcre/pcrelib/pcre_ord2utf8.c' object='libphp_sapi_a-pcre_ord2utf8.o' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libphp_sapi_a_CFLAGS) $(CFLAGS) -c -o libphp_sapi_a-pcre_ord2utf8.o `test -f 'ext/pcre/pcrelib/pcre_ord2utf8.c' || echo '$(srcdir)/'`ext/pcre/pcrelib/pcre_ord2utf8.c
-
-libphp_sapi_a-pcre_ord2utf8.obj: ext/pcre/pcrelib/pcre_ord2utf8.c
-@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libphp_sapi_a_CFLAGS) $(CFLAGS) -MT libphp_sapi_a-pcre_ord2utf8.obj -MD -MP -MF $(DEPDIR)/libphp_sapi_a-pcre_ord2utf8.Tpo -c -o libphp_sapi_a-pcre_ord2utf8.obj `if test -f 'ext/pcre/pcrelib/pcre_ord2utf8.c'; then $(CYGPATH_W) 'ext/pcre/pcrelib/pcre_ord2utf8.c'; else $(CYGPATH_W) '$(srcdir)/ext/pcre/pcrelib/pcre_ord2utf8.c'; fi`
-@am__fastdepCC_TRUE@	$(am__mv) $(DEPDIR)/libphp_sapi_a-pcre_ord2utf8.Tpo $(DEPDIR)/libphp_sapi_a-pcre_ord2utf8.Po
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='ext/pcre/pcrelib/pcre_ord2utf8.c' object='libphp_sapi_a-pcre_ord2utf8.obj' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libphp_sapi_a_CFLAGS) $(CFLAGS) -c -o libphp_sapi_a-pcre_ord2utf8.obj `if test -f 'ext/pcre/pcrelib/pcre_ord2utf8.c'; then $(CYGPATH_W) 'ext/pcre/pcrelib/pcre_ord2utf8.c'; else $(CYGPATH_W) '$(srcdir)/ext/pcre/pcrelib/pcre_ord2utf8.c'; fi`
-
-libphp_sapi_a-pcre_refcount.o: ext/pcre/pcrelib/pcre_refcount.c
-@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libphp_sapi_a_CFLAGS) $(CFLAGS) -MT libphp_sapi_a-pcre_refcount.o -MD -MP -MF $(DEPDIR)/libphp_sapi_a-pcre_refcount.Tpo -c -o libphp_sapi_a-pcre_refcount.o `test -f 'ext/pcre/pcrelib/pcre_refcount.c' || echo '$(srcdir)/'`ext/pcre/pcrelib/pcre_refcount.c
-@am__fastdepCC_TRUE@	$(am__mv) $(DEPDIR)/libphp_sapi_a-pcre_refcount.Tpo $(DEPDIR)/libphp_sapi_a-pcre_refcount.Po
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='ext/pcre/pcrelib/pcre_refcount.c' object='libphp_sapi_a-pcre_refcount.o' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libphp_sapi_a_CFLAGS) $(CFLAGS) -c -o libphp_sapi_a-pcre_refcount.o `test -f 'ext/pcre/pcrelib/pcre_refcount.c' || echo '$(srcdir)/'`ext/pcre/pcrelib/pcre_refcount.c
-
-libphp_sapi_a-pcre_refcount.obj: ext/pcre/pcrelib/pcre_refcount.c
-@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libphp_sapi_a_CFLAGS) $(CFLAGS) -MT libphp_sapi_a-pcre_refcount.obj -MD -MP -MF $(DEPDIR)/libphp_sapi_a-pcre_refcount.Tpo -c -o libphp_sapi_a-pcre_refcount.obj `if test -f 'ext/pcre/pcrelib/pcre_refcount.c'; then $(CYGPATH_W) 'ext/pcre/pcrelib/pcre_refcount.c'; else $(CYGPATH_W) '$(srcdir)/ext/pcre/pcrelib/pcre_refcount.c'; fi`
-@am__fastdepCC_TRUE@	$(am__mv) $(DEPDIR)/libphp_sapi_a-pcre_refcount.Tpo $(DEPDIR)/libphp_sapi_a-pcre_refcount.Po
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='ext/pcre/pcrelib/pcre_refcount.c' object='libphp_sapi_a-pcre_refcount.obj' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libphp_sapi_a_CFLAGS) $(CFLAGS) -c -o libphp_sapi_a-pcre_refcount.obj `if test -f 'ext/pcre/pcrelib/pcre_refcount.c'; then $(CYGPATH_W) 'ext/pcre/pcrelib/pcre_refcount.c'; else $(CYGPATH_W) '$(srcdir)/ext/pcre/pcrelib/pcre_refcount.c'; fi`
-
-libphp_sapi_a-pcre_study.o: ext/pcre/pcrelib/pcre_study.c
-@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libphp_sapi_a_CFLAGS) $(CFLAGS) -MT libphp_sapi_a-pcre_study.o -MD -MP -MF $(DEPDIR)/libphp_sapi_a-pcre_study.Tpo -c -o libphp_sapi_a-pcre_study.o `test -f 'ext/pcre/pcrelib/pcre_study.c' || echo '$(srcdir)/'`ext/pcre/pcrelib/pcre_study.c
-@am__fastdepCC_TRUE@	$(am__mv) $(DEPDIR)/libphp_sapi_a-pcre_study.Tpo $(DEPDIR)/libphp_sapi_a-pcre_study.Po
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='ext/pcre/pcrelib/pcre_study.c' object='libphp_sapi_a-pcre_study.o' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libphp_sapi_a_CFLAGS) $(CFLAGS) -c -o libphp_sapi_a-pcre_study.o `test -f 'ext/pcre/pcrelib/pcre_study.c' || echo '$(srcdir)/'`ext/pcre/pcrelib/pcre_study.c
-
-libphp_sapi_a-pcre_study.obj: ext/pcre/pcrelib/pcre_study.c
-@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libphp_sapi_a_CFLAGS) $(CFLAGS) -MT libphp_sapi_a-pcre_study.obj -MD -MP -MF $(DEPDIR)/libphp_sapi_a-pcre_study.Tpo -c -o libphp_sapi_a-pcre_study.obj `if test -f 'ext/pcre/pcrelib/pcre_study.c'; then $(CYGPATH_W) 'ext/pcre/pcrelib/pcre_study.c'; else $(CYGPATH_W) '$(srcdir)/ext/pcre/pcrelib/pcre_study.c'; fi`
-@am__fastdepCC_TRUE@	$(am__mv) $(DEPDIR)/libphp_sapi_a-pcre_study.Tpo $(DEPDIR)/libphp_sapi_a-pcre_study.Po
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='ext/pcre/pcrelib/pcre_study.c' object='libphp_sapi_a-pcre_study.obj' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libphp_sapi_a_CFLAGS) $(CFLAGS) -c -o libphp_sapi_a-pcre_study.obj `if test -f 'ext/pcre/pcrelib/pcre_study.c'; then $(CYGPATH_W) 'ext/pcre/pcrelib/pcre_study.c'; else $(CYGPATH_W) '$(srcdir)/ext/pcre/pcrelib/pcre_study.c'; fi`
-
-libphp_sapi_a-pcre_tables.o: ext/pcre/pcrelib/pcre_tables.c
-@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libphp_sapi_a_CFLAGS) $(CFLAGS) -MT libphp_sapi_a-pcre_tables.o -MD -MP -MF $(DEPDIR)/libphp_sapi_a-pcre_tables.Tpo -c -o libphp_sapi_a-pcre_tables.o `test -f 'ext/pcre/pcrelib/pcre_tables.c' || echo '$(srcdir)/'`ext/pcre/pcrelib/pcre_tables.c
-@am__fastdepCC_TRUE@	$(am__mv) $(DEPDIR)/libphp_sapi_a-pcre_tables.Tpo $(DEPDIR)/libphp_sapi_a-pcre_tables.Po
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='ext/pcre/pcrelib/pcre_tables.c' object='libphp_sapi_a-pcre_tables.o' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libphp_sapi_a_CFLAGS) $(CFLAGS) -c -o libphp_sapi_a-pcre_tables.o `test -f 'ext/pcre/pcrelib/pcre_tables.c' || echo '$(srcdir)/'`ext/pcre/pcrelib/pcre_tables.c
-
-libphp_sapi_a-pcre_tables.obj: ext/pcre/pcrelib/pcre_tables.c
-@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libphp_sapi_a_CFLAGS) $(CFLAGS) -MT libphp_sapi_a-pcre_tables.obj -MD -MP -MF $(DEPDIR)/libphp_sapi_a-pcre_tables.Tpo -c -o libphp_sapi_a-pcre_tables.obj `if test -f 'ext/pcre/pcrelib/pcre_tables.c'; then $(CYGPATH_W) 'ext/pcre/pcrelib/pcre_tables.c'; else $(CYGPATH_W) '$(srcdir)/ext/pcre/pcrelib/pcre_tables.c'; fi`
-@am__fastdepCC_TRUE@	$(am__mv) $(DEPDIR)/libphp_sapi_a-pcre_tables.Tpo $(DEPDIR)/libphp_sapi_a-pcre_tables.Po
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='ext/pcre/pcrelib/pcre_tables.c' object='libphp_sapi_a-pcre_tables.obj' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libphp_sapi_a_CFLAGS) $(CFLAGS) -c -o libphp_sapi_a-pcre_tables.obj `if test -f 'ext/pcre/pcrelib/pcre_tables.c'; then $(CYGPATH_W) 'ext/pcre/pcrelib/pcre_tables.c'; else $(CYGPATH_W) '$(srcdir)/ext/pcre/pcrelib/pcre_tables.c'; fi`
-
-libphp_sapi_a-pcre_valid_utf8.o: ext/pcre/pcrelib/pcre_valid_utf8.c
-@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libphp_sapi_a_CFLAGS) $(CFLAGS) -MT libphp_sapi_a-pcre_valid_utf8.o -MD -MP -MF $(DEPDIR)/libphp_sapi_a-pcre_valid_utf8.Tpo -c -o libphp_sapi_a-pcre_valid_utf8.o `test -f 'ext/pcre/pcrelib/pcre_valid_utf8.c' || echo '$(srcdir)/'`ext/pcre/pcrelib/pcre_valid_utf8.c
-@am__fastdepCC_TRUE@	$(am__mv) $(DEPDIR)/libphp_sapi_a-pcre_valid_utf8.Tpo $(DEPDIR)/libphp_sapi_a-pcre_valid_utf8.Po
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='ext/pcre/pcrelib/pcre_valid_utf8.c' object='libphp_sapi_a-pcre_valid_utf8.o' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libphp_sapi_a_CFLAGS) $(CFLAGS) -c -o libphp_sapi_a-pcre_valid_utf8.o `test -f 'ext/pcre/pcrelib/pcre_valid_utf8.c' || echo '$(srcdir)/'`ext/pcre/pcrelib/pcre_valid_utf8.c
-
-libphp_sapi_a-pcre_valid_utf8.obj: ext/pcre/pcrelib/pcre_valid_utf8.c
-@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libphp_sapi_a_CFLAGS) $(CFLAGS) -MT libphp_sapi_a-pcre_valid_utf8.obj -MD -MP -MF $(DEPDIR)/libphp_sapi_a-pcre_valid_utf8.Tpo -c -o libphp_sapi_a-pcre_valid_utf8.obj `if test -f 'ext/pcre/pcrelib/pcre_valid_utf8.c'; then $(CYGPATH_W) 'ext/pcre/pcrelib/pcre_valid_utf8.c'; else $(CYGPATH_W) '$(srcdir)/ext/pcre/pcrelib/pcre_valid_utf8.c'; fi`
-@am__fastdepCC_TRUE@	$(am__mv) $(DEPDIR)/libphp_sapi_a-pcre_valid_utf8.Tpo $(DEPDIR)/libphp_sapi_a-pcre_valid_utf8.Po
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='ext/pcre/pcrelib/pcre_valid_utf8.c' object='libphp_sapi_a-pcre_valid_utf8.obj' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libphp_sapi_a_CFLAGS) $(CFLAGS) -c -o libphp_sapi_a-pcre_valid_utf8.obj `if test -f 'ext/pcre/pcrelib/pcre_valid_utf8.c'; then $(CYGPATH_W) 'ext/pcre/pcrelib/pcre_valid_utf8.c'; else $(CYGPATH_W) '$(srcdir)/ext/pcre/pcrelib/pcre_valid_utf8.c'; fi`
-
-libphp_sapi_a-pcre_version.o: ext/pcre/pcrelib/pcre_version.c
-@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libphp_sapi_a_CFLAGS) $(CFLAGS) -MT libphp_sapi_a-pcre_version.o -MD -MP -MF $(DEPDIR)/libphp_sapi_a-pcre_version.Tpo -c -o libphp_sapi_a-pcre_version.o `test -f 'ext/pcre/pcrelib/pcre_version.c' || echo '$(srcdir)/'`ext/pcre/pcrelib/pcre_version.c
-@am__fastdepCC_TRUE@	$(am__mv) $(DEPDIR)/libphp_sapi_a-pcre_version.Tpo $(DEPDIR)/libphp_sapi_a-pcre_version.Po
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='ext/pcre/pcrelib/pcre_version.c' object='libphp_sapi_a-pcre_version.o' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libphp_sapi_a_CFLAGS) $(CFLAGS) -c -o libphp_sapi_a-pcre_version.o `test -f 'ext/pcre/pcrelib/pcre_version.c' || echo '$(srcdir)/'`ext/pcre/pcrelib/pcre_version.c
-
-libphp_sapi_a-pcre_version.obj: ext/pcre/pcrelib/pcre_version.c
-@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libphp_sapi_a_CFLAGS) $(CFLAGS) -MT libphp_sapi_a-pcre_version.obj -MD -MP -MF $(DEPDIR)/libphp_sapi_a-pcre_version.Tpo -c -o libphp_sapi_a-pcre_version.obj `if test -f 'ext/pcre/pcrelib/pcre_version.c'; then $(CYGPATH_W) 'ext/pcre/pcrelib/pcre_version.c'; else $(CYGPATH_W) '$(srcdir)/ext/pcre/pcrelib/pcre_version.c'; fi`
-@am__fastdepCC_TRUE@	$(am__mv) $(DEPDIR)/libphp_sapi_a-pcre_version.Tpo $(DEPDIR)/libphp_sapi_a-pcre_version.Po
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='ext/pcre/pcrelib/pcre_version.c' object='libphp_sapi_a-pcre_version.obj' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libphp_sapi_a_CFLAGS) $(CFLAGS) -c -o libphp_sapi_a-pcre_version.obj `if test -f 'ext/pcre/pcrelib/pcre_version.c'; then $(CYGPATH_W) 'ext/pcre/pcrelib/pcre_version.c'; else $(CYGPATH_W) '$(srcdir)/ext/pcre/pcrelib/pcre_version.c'; fi`
-
-libphp_sapi_a-pcre_xclass.o: ext/pcre/pcrelib/pcre_xclass.c
-@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libphp_sapi_a_CFLAGS) $(CFLAGS) -MT libphp_sapi_a-pcre_xclass.o -MD -MP -MF $(DEPDIR)/libphp_sapi_a-pcre_xclass.Tpo -c -o libphp_sapi_a-pcre_xclass.o `test -f 'ext/pcre/pcrelib/pcre_xclass.c' || echo '$(srcdir)/'`ext/pcre/pcrelib/pcre_xclass.c
-@am__fastdepCC_TRUE@	$(am__mv) $(DEPDIR)/libphp_sapi_a-pcre_xclass.Tpo $(DEPDIR)/libphp_sapi_a-pcre_xclass.Po
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='ext/pcre/pcrelib/pcre_xclass.c' object='libphp_sapi_a-pcre_xclass.o' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libphp_sapi_a_CFLAGS) $(CFLAGS) -c -o libphp_sapi_a-pcre_xclass.o `test -f 'ext/pcre/pcrelib/pcre_xclass.c' || echo '$(srcdir)/'`ext/pcre/pcrelib/pcre_xclass.c
-
-libphp_sapi_a-pcre_xclass.obj: ext/pcre/pcrelib/pcre_xclass.c
-@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libphp_sapi_a_CFLAGS) $(CFLAGS) -MT libphp_sapi_a-pcre_xclass.obj -MD -MP -MF $(DEPDIR)/libphp_sapi_a-pcre_xclass.Tpo -c -o libphp_sapi_a-pcre_xclass.obj `if test -f 'ext/pcre/pcrelib/pcre_xclass.c'; then $(CYGPATH_W) 'ext/pcre/pcrelib/pcre_xclass.c'; else $(CYGPATH_W) '$(srcdir)/ext/pcre/pcrelib/pcre_xclass.c'; fi`
-@am__fastdepCC_TRUE@	$(am__mv) $(DEPDIR)/libphp_sapi_a-pcre_xclass.Tpo $(DEPDIR)/libphp_sapi_a-pcre_xclass.Po
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='ext/pcre/pcrelib/pcre_xclass.c' object='libphp_sapi_a-pcre_xclass.obj' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libphp_sapi_a_CFLAGS) $(CFLAGS) -c -o libphp_sapi_a-pcre_xclass.obj `if test -f 'ext/pcre/pcrelib/pcre_xclass.c'; then $(CYGPATH_W) 'ext/pcre/pcrelib/pcre_xclass.c'; else $(CYGPATH_W) '$(srcdir)/ext/pcre/pcrelib/pcre_xclass.c'; fi`
 
 libphp_sapi_a-php_pcre.o: ext/pcre/php_pcre.c
 @am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libphp_sapi_a_CFLAGS) $(CFLAGS) -MT libphp_sapi_a-php_pcre.o -MD -MP -MF $(DEPDIR)/libphp_sapi_a-php_pcre.Tpo -c -o libphp_sapi_a-php_pcre.o `test -f 'ext/pcre/php_pcre.c' || echo '$(srcdir)/'`ext/pcre/php_pcre.c
@@ -5667,6 +5382,7 @@ uninstall-am:
 	pdf pdf-am ps ps-am tags uninstall uninstall-am
 
 
+#sapi/crotalus/crotalus.c \
 #sapi/cli/php_cli.c 
 #sapi/cli/php_http_parser.c 
 #sapi/cli/php_cli_server.c 
@@ -5674,7 +5390,6 @@ uninstall-am:
 #sapi/cli/php_cli_process_title.c 
 #sapi/embed/php_embed.c 
 #sapi/cgi/cgi_main.c 
-#sapi/cgi/fastcgi.c 
 #	ext/filter/filter.c
 #	ext/filter/sanitizing_filters.c
 #	ext/filter/logical_filters.c

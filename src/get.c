@@ -39,6 +39,34 @@
 static int get_cachedir_file(request * req, struct stat *statbuf);
 static int index_directory(request * req, char *dest_filename);
 
+static int get_parent_index(char *req_path)
+{
+  char path[PATH_MAX+1];
+  char *e_ptr;
+  int fd;
+
+  memset(path, 0, sizeof(path));
+  strncpy(path, req_path, PATH_MAX);
+  while ((e_ptr = strrchr(path, '/'))) {
+    *e_ptr = '\0';
+
+    if (strlen(path) < strlen(crpref_docroot()) - 1) {
+fprintf(stderr, "DEBUG: get_parent_index: bailing\n");
+      break;
+}
+
+    fd = open(path, O_RDONLY);
+fprintf(stderr, "DEBUG: %d = get_parent_index('%s')\n", fd, path);
+    if (fd != -1) {
+      strcpy(req_path, path);
+      strcat(req_path, "/");
+      return (fd);
+    }
+  }
+
+  return (-1);
+}
+
 /*
  * Name: init_get
  * Description: Initializes a non-script GET or HEAD request.
@@ -105,6 +133,12 @@ fprintf(stderr, "DEBUG: fd %d = open('%s')\n", data_fd, req->pathname);
         }
     }
 #endif
+
+fprintf(stderr, "DEBUG: data_fd %d, use_parentindex %d\n", data_fd, use_parentindex);
+    if (data_fd == -1 && use_parentindex) {
+      /* v2.25 recursive search for parent directory. */
+      data_fd = get_parent_index(req->pathname);  
+    }
 
     if (data_fd == -1) {
         log_error_doc(req);
