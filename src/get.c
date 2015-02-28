@@ -82,7 +82,46 @@ int init_get(request * req)
     volatile unsigned int bytes_free;
 
     data_fd = open(req->pathname, O_RDONLY);
+fprintf(stderr, "DEBUG: %d = open('%s')\n", data_fd, req->pathname);
     saved_errno = errno;        /* might not get used */
+
+#if 0
+    if (data_fd == -1 && errno == ENOENT) {
+      for (i = 0; i < MAX_MIME_INTERP; i++) {
+        char alt_pathname[MAX_PATH_LENGTH];
+        mime_t *m = mime_interp_info(i);
+
+        memset(alt_pathname, 0, sizeof(alt_pathname));
+        memcpy(alt_pathname, req->pathname, sizeof(alt_pathname) - 2 - strlen(m->ext));
+        strcat(".");
+        strcat(alt_pathname, m->ext);
+
+        err = stat(alt_path, &st);
+        if (err)
+          continue;
+
+        req->interp_mime = m->mime_type;
+        free(req->pathname);
+        req->pathname = strdup(alt_pathname);
+
+        if (req->http_version != HTTP09) {
+          req_write(req, http_ver_string(req->http_version));
+          req_write(req, " 200 OK" CRLF);
+          //req_write(req, " 200 OK-GUNZIP" CRLF);
+          print_http_headers(req);
+          print_content_type(req);
+          print_last_modified(req);
+          req_write(req, CRLF);
+          req_flush(req);
+        }
+
+        if (req->method == M_HEAD)
+          return 0;
+
+        return (mime_interp_request(req));
+      }
+    }
+#endif
 
 #ifdef GUNZIP
     if (data_fd == -1 && errno == ENOENT) {
@@ -100,6 +139,7 @@ int init_get(request * req)
             return 0;
         }
 
+        memset(gzip_pathname, 0, sizeof(gzip_pathname));
         memcpy(gzip_pathname, req->pathname, len);
         memcpy(gzip_pathname + len, ".gz", 3);
         gzip_pathname[len + 3] = '\0';
@@ -300,6 +340,7 @@ int init_get(request * req)
      * send_r_invalid_range on error.
      */
 
+fprintf(stderr, "DEBUG: req->filesize = %d\n", req->filesize);
     if (req->filesize == 0) {
         if (req->http_version < HTTP11) {
             send_r_request_ok(req);
@@ -636,6 +677,7 @@ int get_dir(request * req, struct stat *statbuf)
     if (req->method == M_HEAD)
       return 0;
 
+fprintf(stderr, "DEBUG: dirmaker = %x\n", dirmaker);
     return init_cgi(req);
     /* in this case, 0 means success */
   } else if (crpref_cachedir()) {

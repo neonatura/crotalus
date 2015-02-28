@@ -793,91 +793,99 @@ int process_logline(request * req)
 
 int process_header_end(request * req)
 {
+  int err;
 
-    if (!req->logline) {
-        log_error_doc(req);
-        fputs("No logline in process_header_end\n", stderr);
-        send_r_error(req);
-        return 0;
+  if (!req->logline) {
+    log_error_doc(req);
+    fputs("No logline in process_header_end\n", stderr);
+    send_r_error(req);
+    return 0;
+  }
+
+  /* Percent-decode request */
+  if (unescape_uri(req->request_uri, &(req->query_string)) == 0) {
+    log_error_doc(req);
+    fputs("URI contains bogus characters\n", stderr);
+    send_r_bad_request(req);
+    return 0;
+  }
+
+  /* clean pathname */
+  clean_pathname(req->request_uri);
+
+  if (req->request_uri[0] != '/') {
+    log_error("URI does not begin with '/'\n");
+    send_r_bad_request(req);
+    return 0;
+  }
+
+  if (vhost_root) {
+    char *c;
+    if (!req->header_host) {
+      req->host = strdup(default_vhost);
+    } else {
+      req->host = strdup(req->header_host);
     }
-
-    /* Percent-decode request */
-    if (unescape_uri(req->request_uri, &(req->query_string)) == 0) {
-        log_error_doc(req);
-        fputs("URI contains bogus characters\n", stderr);
-        send_r_bad_request(req);
-        return 0;
+    if (!req->host) {
+      log_error_doc(req);
+      fputs("unable to strdup default_vhost/req->header_host\n", stderr);
+      send_r_error(req);
+      return 0;
     }
+    strlower(req->host);
+    /* check for port, and remove
+     * we essentially ignore the port, because we cannot
+     * as yet report a different port than the one we are
+     * listening on
+     */
+    c = strchr(req->host, ':');
+    if (c)
+      *c = '\0';
 
-    /* clean pathname */
-    clean_pathname(req->request_uri);
-
-    if (req->request_uri[0] != '/') {
-        log_error("URI does not begin with '/'\n");
-        send_r_bad_request(req);
-        return 0;
+    if (check_host(req->host) < 1) {
+      log_error_doc(req);
+      fputs("host invalid!\n", stderr);
+      send_r_bad_request(req);
+      return 0;
     }
+  }
 
-    if (vhost_root) {
-        char *c;
-        if (!req->header_host) {
-            req->host = strdup(default_vhost);
-        } else {
-            req->host = strdup(req->header_host);
-        }
-        if (!req->host) {
-            log_error_doc(req);
-            fputs("unable to strdup default_vhost/req->header_host\n", stderr);
-            send_r_error(req);
-            return 0;
-        }
-        strlower(req->host);
-        /* check for port, and remove
-         * we essentially ignore the port, because we cannot
-         * as yet report a different port than the one we are
-         * listening on
-         */
-        c = strchr(req->host, ':');
-        if (c)
-            *c = '\0';
+  if (translate_uri(req) == 0) { /* unescape, parse uri */
+    /* errors already logged */
+    SQUASH_KA(req);
+    return 0;               /* failure, close down */
+  }
 
-        if (check_host(req->host) < 1) {
-            log_error_doc(req);
-            fputs("host invalid!\n", stderr);
-            send_r_bad_request(req);
-            return 0;
-        }
+  if (req->method == M_POST) {
+    req->post_data_fd = create_temporary_file(1, NULL, 0);
+    if (req->post_data_fd == 0) {
+      /* errors already logged */
+      send_r_error(req);
+      return 0;
     }
-
-    if (translate_uri(req) == 0) { /* unescape, parse uri */
-        /* errors already logged */
-        SQUASH_KA(req);
-        return 0;               /* failure, close down */
+    if (fcntl(req->post_data_fd, F_SETFD, 1) == -1) {
+      crotalus_perror(req, "unable to set close-on-exec for req->post_data_fd!");
+      close(req->post_data_fd);
+      req->post_data_fd = 0;
+      return 0;
     }
+    return 1;             /* success */
+  }
 
-    if (req->method == M_POST) {
-        req->post_data_fd = create_temporary_file(1, NULL, 0);
-        if (req->post_data_fd == 0) {
-            /* errors already logged */
-            send_r_error(req);
-            return 0;
-        }
-        if (fcntl(req->post_data_fd, F_SETFD, 1) == -1) {
-            crotalus_perror(req, "unable to set close-on-exec for req->post_data_fd!");
-            close(req->post_data_fd);
-            req->post_data_fd = 0;
-            return 0;
-        }
-        return 1;             /* success */
-    }
+  if (req->cgi_type) {
+fprintf(stderr, "DEBUG: process_header_end: init_cgi() [cgi-type %d]\n", req->cgi_type); 
+    return init_cgi(req);
+  }
 
-    if (req->cgi_type) {
-        return init_cgi(req);
-    }
+  /* handle mime interp */
+  if (!req->mime)
+    req->mime = mime_interp_extension(req);
+  err = mime_interp_request(req);
+  if (err != 0)
+    return (err);
 
-    req->status = WRITE;
-
-    return init_get(req);       /* get and head */
+  req->status = WRITE;
+  return init_get(req);       /* get and head */
 }
 
 /*

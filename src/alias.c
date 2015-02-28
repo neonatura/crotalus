@@ -418,6 +418,7 @@ int translate_uri(request * req)
                 __FILE__, __LINE__, get_mime_type(buffer), CGI_MIME_TYPE, strcmp(CGI_MIME_TYPE, get_mime_type(buffer)));
 #endif
 
+#if 0
     /* below we support cgis outside of a ScriptAlias */
     if (strcmp(CGI_MIME_TYPE, get_mime_type(req->pathname)) == 0) { /* cgi */
         /* FIXME */
@@ -430,9 +431,12 @@ int translate_uri(request * req)
         if (req->http_version == HTTP09)
             req->cgi_type = NPH;
         else
-            req->cgi_type = CGI;
+            req->cgi_type = EXEC;
         return 1;
-    } else if (req->method == M_POST) { /* POST to non-script */
+    } else 
+#endif
+
+    if (req->method == M_POST) { /* POST to non-script */
         /* it's not a cgi, but we try to POST??? */
         log_error_doc(req);
         fputs("POST to non-script disallowed.\n", stderr);
@@ -518,7 +522,7 @@ static int init_script_alias(request * req, alias * current1, unsigned int uri_l
         || (req->http_version == HTTP09))
         req->cgi_type = NPH;
     else
-        req->cgi_type = CGI;
+        req->cgi_type = EXEC;
 
     /* start at the beginning of the actual uri...
        (in /cgi-bin/bob, start at the 'b' in bob */

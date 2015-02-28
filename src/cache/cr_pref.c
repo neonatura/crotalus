@@ -27,6 +27,11 @@
 static hash_struct *pref_hashtable[MIME_HASHTABLE_SIZE];
 static time_t pref_stamp;
 
+void reset_pref_stamp(void)
+{
+  pref_stamp = time(NULL);
+}
+
 static unsigned _cr_pref_hash(const char *extension)
 {
     return cr_hash(extension) % MIME_HASHTABLE_SIZE;
@@ -103,14 +108,13 @@ static struct cr_pref_def_t _pref_def[CR_PREF_MAX] = {
 	{ CRPREF_PROC_INDEX, "/var/spool/crotalus/dir", "The on-the-fly indexing of Boa can be used to generate indexes of directories." },
 	{ CRPREF_KEEPALIVE_MAX, "1000", "Number of KeepAlive requests to allow per connection Comment out, or set to 0 to disable keepalive processing. " },
 	{ CRPREF_KEEPALIVE_SPAN, "10", "The seconds to wait before keepalive connection times out." },
-	{ CRPREF_MIME_PATH, "/etc/mime.types", "The file that is used to generate mime type pairs and Content-Type fields." },
+	//{ CRPREF_MIME_PATH, "/etc/mime.types", "The file that is used to generate mime type pairs and Content-Type fields." },
   { CRPREF_MIME_DEFAULT, "text/plain", "MIME type used if the file extension is unknown, or there is no file extension." },
 	{ CRPREF_ENV_PATH, "/bin:/usr/bin:/usr/local/bin", "The value of the $PATH environment variable given to CGI progs." },
 	{ CRPREF_POST_LIMIT, "16000000", "The value of the $PATH environment variable given to CGI progs." },
   { CRPREF_CONF_DIR, "/etc/crotalus", "The directory where Crotalus configuration files reside." },
   { CRPREF_WEB_NAME, "", "The name of this server that should be sent back to clients." },
-  { CRPREF_PARENT_INDEX, "Off", "Search recursively for a parent directory when a requested web path is not found. Comment out to disable." }, 
-#define CRPREF_PARENT_INDEX "ParentIndex"
+  { CRPREF_PARENT_INDEX, "Off", "Search recursively for a parent directory when a requested web path is not found. Comment out to disable." }
 };
 
 

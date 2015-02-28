@@ -3,11 +3,11 @@
 /* Whether to use native BeOS threads */
 #undef BETHREADS
 
+/* Define if cgi support is enabled */
+#undef CGI
+
 /* Define if sa_family_t is not defined */
 #undef DONT_HAVE_SA_FAMILY_T
-
-/* Define if gunzip can be found */
-#undef GUNZIP
 
 /* Define to 1 if you have the <alloca.h> header file. */
 #undef HAVE_ALLOCA_H
@@ -113,6 +113,9 @@
 
 /* Define to 1 if you have the <pwd.h> header file. */
 #undef HAVE_PWD_H
+
+/* Define to 1 if you have the `readlink' function. */
+#undef HAVE_READLINK
 
 /* Define to 1 if you have the `scandir' function. */
 #undef HAVE_SCANDIR

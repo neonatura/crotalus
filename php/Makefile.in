@@ -57,7 +57,8 @@ CONFIG_CLEAN_VPATH_FILES =
 LIBRARIES = $(noinst_LIBRARIES)
 ARFLAGS = cru
 libphp_sapi_a_AR = $(AR) $(ARFLAGS)
-libphp_sapi_a_LIBADD =
+libphp_sapi_a_DEPENDENCIES = $(top_builddir)/lib/tsrm/libtsrm.a \
+	$(top_builddir)/lib/pcre/libpcre.a
 am_libphp_sapi_a_OBJECTS = libphp_sapi_a-fastcgi.$(OBJEXT) \
 	libphp_sapi_a-php_date.$(OBJEXT) libphp_sapi_a-astro.$(OBJEXT) \
 	libphp_sapi_a-dow.$(OBJEXT) libphp_sapi_a-parse_date.$(OBJEXT) \
@@ -225,8 +226,7 @@ am_libphp_sapi_a_OBJECTS = libphp_sapi_a-fastcgi.$(OBJEXT) \
 	libphp_sapi_a-xml.$(OBJEXT) libphp_sapi_a-compat.$(OBJEXT) \
 	libphp_sapi_a-php_xmlreader.$(OBJEXT) \
 	libphp_sapi_a-php_xmlwriter.$(OBJEXT) \
-	libphp_sapi_a-TSRM.$(OBJEXT) \
-	libphp_sapi_a-tsrm_strtok_r.$(OBJEXT) \
+	libphp_sapi_a-tsrm_win32.$(OBJEXT) \
 	libphp_sapi_a-main.$(OBJEXT) libphp_sapi_a-snprintf.$(OBJEXT) \
 	libphp_sapi_a-spprintf.$(OBJEXT) \
 	libphp_sapi_a-php_sprintf.$(OBJEXT) \
@@ -348,7 +348,7 @@ EGREP = @EGREP@
 EXEEXT = @EXEEXT@
 FGREP = @FGREP@
 GREP = @GREP@
-GUNZIP = @GUNZIP@
+INITD_DIR = @INITD_DIR@
 INSTALL = @INSTALL@
 INSTALL_DATA = @INSTALL_DATA@
 INSTALL_PROGRAM = @INSTALL_PROGRAM@
@@ -449,6 +449,10 @@ libphp_sapi_a_CFLAGS = \
 		-I$(srcdir)/ext/opcache \
 		-I$(srcdir)/ext/date/lib -I$(builddir)/ext/date/lib \
 		-I$(top_srcdir)/libxml2/include
+
+libphp_sapi_a_LIBADD = \
+	$(top_builddir)/lib/tsrm/libtsrm.a \
+	$(top_builddir)/lib/pcre/libpcre.a
 
 libphp_sapi_a_SOURCES = \
 	sapi/cgi/fastcgi.c \
@@ -660,8 +664,7 @@ libphp_sapi_a_SOURCES = \
 	ext/xml/compat.c \
 	ext/xmlreader/php_xmlreader.c \
 	ext/xmlwriter/php_xmlwriter.c \
-	TSRM/TSRM.c \
-	TSRM/tsrm_strtok_r.c \
+	TSRM/tsrm_win32.c \
 	main/main.c \
 	main/snprintf.c \
 	main/spprintf.c \
@@ -757,9 +760,9 @@ $(srcdir)/Makefile.in:  $(srcdir)/Makefile.am  $(am__configure_deps)
 	      exit 1;; \
 	  esac; \
 	done; \
-	echo ' cd $(top_srcdir) && $(AUTOMAKE) --foreign php/Makefile'; \
+	echo ' cd $(top_srcdir) && $(AUTOMAKE) --gnu php/Makefile'; \
 	$(am__cd) $(top_srcdir) && \
-	  $(AUTOMAKE) --foreign php/Makefile
+	  $(AUTOMAKE) --gnu php/Makefile
 .PRECIOUS: Makefile
 Makefile: $(srcdir)/Makefile.in $(top_builddir)/config.status
 	@case '$?' in \
@@ -794,7 +797,6 @@ distclean-compile:
 
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libphp_sapi_a-JSON_parser.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libphp_sapi_a-SAPI.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libphp_sapi_a-TSRM.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libphp_sapi_a-ZendAccelerator.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libphp_sapi_a-alloca.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libphp_sapi_a-apprentice.Po@am__quote@
@@ -1006,7 +1008,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libphp_sapi_a-tokenizer.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libphp_sapi_a-tokenizer_data.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libphp_sapi_a-transports.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libphp_sapi_a-tsrm_strtok_r.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libphp_sapi_a-tsrm_win32.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libphp_sapi_a-type.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libphp_sapi_a-typeinfo.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libphp_sapi_a-uniqid.Po@am__quote@
@@ -4017,33 +4019,19 @@ libphp_sapi_a-php_xmlwriter.obj: ext/xmlwriter/php_xmlwriter.c
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libphp_sapi_a_CFLAGS) $(CFLAGS) -c -o libphp_sapi_a-php_xmlwriter.obj `if test -f 'ext/xmlwriter/php_xmlwriter.c'; then $(CYGPATH_W) 'ext/xmlwriter/php_xmlwriter.c'; else $(CYGPATH_W) '$(srcdir)/ext/xmlwriter/php_xmlwriter.c'; fi`
 
-libphp_sapi_a-TSRM.o: TSRM/TSRM.c
-@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libphp_sapi_a_CFLAGS) $(CFLAGS) -MT libphp_sapi_a-TSRM.o -MD -MP -MF $(DEPDIR)/libphp_sapi_a-TSRM.Tpo -c -o libphp_sapi_a-TSRM.o `test -f 'TSRM/TSRM.c' || echo '$(srcdir)/'`TSRM/TSRM.c
-@am__fastdepCC_TRUE@	$(am__mv) $(DEPDIR)/libphp_sapi_a-TSRM.Tpo $(DEPDIR)/libphp_sapi_a-TSRM.Po
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='TSRM/TSRM.c' object='libphp_sapi_a-TSRM.o' libtool=no @AMDEPBACKSLASH@
+libphp_sapi_a-tsrm_win32.o: TSRM/tsrm_win32.c
+@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libphp_sapi_a_CFLAGS) $(CFLAGS) -MT libphp_sapi_a-tsrm_win32.o -MD -MP -MF $(DEPDIR)/libphp_sapi_a-tsrm_win32.Tpo -c -o libphp_sapi_a-tsrm_win32.o `test -f 'TSRM/tsrm_win32.c' || echo '$(srcdir)/'`TSRM/tsrm_win32.c
+@am__fastdepCC_TRUE@	$(am__mv) $(DEPDIR)/libphp_sapi_a-tsrm_win32.Tpo $(DEPDIR)/libphp_sapi_a-tsrm_win32.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='TSRM/tsrm_win32.c' object='libphp_sapi_a-tsrm_win32.o' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libphp_sapi_a_CFLAGS) $(CFLAGS) -c -o libphp_sapi_a-TSRM.o `test -f 'TSRM/TSRM.c' || echo '$(srcdir)/'`TSRM/TSRM.c
+@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libphp_sapi_a_CFLAGS) $(CFLAGS) -c -o libphp_sapi_a-tsrm_win32.o `test -f 'TSRM/tsrm_win32.c' || echo '$(srcdir)/'`TSRM/tsrm_win32.c
 
-libphp_sapi_a-TSRM.obj: TSRM/TSRM.c
-@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libphp_sapi_a_CFLAGS) $(CFLAGS) -MT libphp_sapi_a-TSRM.obj -MD -MP -MF $(DEPDIR)/libphp_sapi_a-TSRM.Tpo -c -o libphp_sapi_a-TSRM.obj `if test -f 'TSRM/TSRM.c'; then $(CYGPATH_W) 'TSRM/TSRM.c'; else $(CYGPATH_W) '$(srcdir)/TSRM/TSRM.c'; fi`
-@am__fastdepCC_TRUE@	$(am__mv) $(DEPDIR)/libphp_sapi_a-TSRM.Tpo $(DEPDIR)/libphp_sapi_a-TSRM.Po
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='TSRM/TSRM.c' object='libphp_sapi_a-TSRM.obj' libtool=no @AMDEPBACKSLASH@
+libphp_sapi_a-tsrm_win32.obj: TSRM/tsrm_win32.c
+@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libphp_sapi_a_CFLAGS) $(CFLAGS) -MT libphp_sapi_a-tsrm_win32.obj -MD -MP -MF $(DEPDIR)/libphp_sapi_a-tsrm_win32.Tpo -c -o libphp_sapi_a-tsrm_win32.obj `if test -f 'TSRM/tsrm_win32.c'; then $(CYGPATH_W) 'TSRM/tsrm_win32.c'; else $(CYGPATH_W) '$(srcdir)/TSRM/tsrm_win32.c'; fi`
+@am__fastdepCC_TRUE@	$(am__mv) $(DEPDIR)/libphp_sapi_a-tsrm_win32.Tpo $(DEPDIR)/libphp_sapi_a-tsrm_win32.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='TSRM/tsrm_win32.c' object='libphp_sapi_a-tsrm_win32.obj' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libphp_sapi_a_CFLAGS) $(CFLAGS) -c -o libphp_sapi_a-TSRM.obj `if test -f 'TSRM/TSRM.c'; then $(CYGPATH_W) 'TSRM/TSRM.c'; else $(CYGPATH_W) '$(srcdir)/TSRM/TSRM.c'; fi`
-
-libphp_sapi_a-tsrm_strtok_r.o: TSRM/tsrm_strtok_r.c
-@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libphp_sapi_a_CFLAGS) $(CFLAGS) -MT libphp_sapi_a-tsrm_strtok_r.o -MD -MP -MF $(DEPDIR)/libphp_sapi_a-tsrm_strtok_r.Tpo -c -o libphp_sapi_a-tsrm_strtok_r.o `test -f 'TSRM/tsrm_strtok_r.c' || echo '$(srcdir)/'`TSRM/tsrm_strtok_r.c
-@am__fastdepCC_TRUE@	$(am__mv) $(DEPDIR)/libphp_sapi_a-tsrm_strtok_r.Tpo $(DEPDIR)/libphp_sapi_a-tsrm_strtok_r.Po
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='TSRM/tsrm_strtok_r.c' object='libphp_sapi_a-tsrm_strtok_r.o' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libphp_sapi_a_CFLAGS) $(CFLAGS) -c -o libphp_sapi_a-tsrm_strtok_r.o `test -f 'TSRM/tsrm_strtok_r.c' || echo '$(srcdir)/'`TSRM/tsrm_strtok_r.c
-
-libphp_sapi_a-tsrm_strtok_r.obj: TSRM/tsrm_strtok_r.c
-@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libphp_sapi_a_CFLAGS) $(CFLAGS) -MT libphp_sapi_a-tsrm_strtok_r.obj -MD -MP -MF $(DEPDIR)/libphp_sapi_a-tsrm_strtok_r.Tpo -c -o libphp_sapi_a-tsrm_strtok_r.obj `if test -f 'TSRM/tsrm_strtok_r.c'; then $(CYGPATH_W) 'TSRM/tsrm_strtok_r.c'; else $(CYGPATH_W) '$(srcdir)/TSRM/tsrm_strtok_r.c'; fi`
-@am__fastdepCC_TRUE@	$(am__mv) $(DEPDIR)/libphp_sapi_a-tsrm_strtok_r.Tpo $(DEPDIR)/libphp_sapi_a-tsrm_strtok_r.Po
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='TSRM/tsrm_strtok_r.c' object='libphp_sapi_a-tsrm_strtok_r.obj' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libphp_sapi_a_CFLAGS) $(CFLAGS) -c -o libphp_sapi_a-tsrm_strtok_r.obj `if test -f 'TSRM/tsrm_strtok_r.c'; then $(CYGPATH_W) 'TSRM/tsrm_strtok_r.c'; else $(CYGPATH_W) '$(srcdir)/TSRM/tsrm_strtok_r.c'; fi`
+@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libphp_sapi_a_CFLAGS) $(CFLAGS) -c -o libphp_sapi_a-tsrm_win32.obj `if test -f 'TSRM/tsrm_win32.c'; then $(CYGPATH_W) 'TSRM/tsrm_win32.c'; else $(CYGPATH_W) '$(srcdir)/TSRM/tsrm_win32.c'; fi`
 
 libphp_sapi_a-main.o: main/main.c
 @am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libphp_sapi_a_CFLAGS) $(CFLAGS) -MT libphp_sapi_a-main.o -MD -MP -MF $(DEPDIR)/libphp_sapi_a-main.Tpo -c -o libphp_sapi_a-main.o `test -f 'main/main.c' || echo '$(srcdir)/'`main/main.c

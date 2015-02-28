@@ -15,6 +15,9 @@ AC_CONFIG_HEADERS([php/Zend/zend_config.h])
 AC_CONFIG_HEADERS([php/TSRM/tsrm_config.h])
 AC_CONFIG_HEADERS([php/ext/date/lib/timelib_config.h])
 
+# initd scripts #
+AC_CONFIG_FILES([scripts/initd/crotalus], [chmod +x scripts/initd/crotalus])
+
 AC_CANONICAL_HOST
 
 AC_PROG_INSTALL
@@ -119,7 +122,7 @@ AC_CHECK_FUNCS(getcwd strdup strstr strcspn strtol)
 AC_CHECK_FUNCS(gethostname gethostbyname socket inet_aton herror inet_addr)
 AC_CHECK_FUNCS(scandir alphasort)
 AC_CHECK_FUNCS(madvise)
-AC_CHECK_FUNCS(strlcpy strlcat strtok_r strerror getgrnam getgrnam_r getpwnam getpwnam_r strnlen)
+AC_CHECK_FUNCS(strlcpy strlcat strtok_r strerror getgrnam getgrnam_r getpwnam getpwnam_r strnlen readlink)
 
 #AC_CHECK_STRUCT_FOR([
 ##if TIME_WITH_SYS_TIME
@@ -203,22 +206,38 @@ fi
 #  ])
 #fi
 
-AC_MSG_CHECKING(whether to enable gunzip support)
-AC_ARG_ENABLE(gunzip,
-[  --disable-gunzip        Disable use of gunzip],
+#AC_MSG_CHECKING(whether to enable gunzip support)
+#AC_ARG_ENABLE(gunzip,
+#[  --disable-gunzip        Disable use of gunzip],
+#[
+# if test "$enableval" = "yes" ; then
+#    AC_MSG_RESULT(yes)
+#    AC_PATH_PROG(GUNZIP, gunzip)
+#    AC_DEFINE_UNQUOTED(GUNZIP, "$ac_cv_path_GUNZIP", [Define if gunzip can be found])
+#  else
+#    AC_MSG_RESULT(no)
+#  fi
+#],
+#[
+#    AC_MSG_RESULT(yes)
+#    AC_PATH_PROG(GUNZIP, gunzip)
+#    AC_DEFINE_UNQUOTED(GUNZIP, "$ac_cv_path_GUNZIP", [Define if gunzip can be found])
+#])
+
+AC_MSG_CHECKING(whether to enable cgi support)
+AC_ARG_ENABLE(cgi,
+[  --disable-cgi        Disable use of cgi],
 [
  if test "$enableval" = "yes" ; then
     AC_MSG_RESULT(yes)
-    AC_PATH_PROG(GUNZIP, gunzip)
-    AC_DEFINE_UNQUOTED(GUNZIP, "$ac_cv_path_GUNZIP", [Define if gunzip can be found])
+    AC_DEFINE_UNQUOTED(CGI, 1, [Define if cgi support is enabled])
   else
     AC_MSG_RESULT(no)
   fi
 ],
 [
     AC_MSG_RESULT(yes)
-    AC_PATH_PROG(GUNZIP, gunzip)
-    AC_DEFINE_UNQUOTED(GUNZIP, "$ac_cv_path_GUNZIP", [Define if gunzip can be found])
+    AC_DEFINE_UNQUOTED(CGI, 1, [Define if cgi support is enabled])
 ])
 
 AC_MSG_CHECKING(whether to enable access control support)
@@ -422,4 +441,8 @@ fi
 AM_CONDITIONAL([HAVE_DOXYGEN], [test -n "$DOXYGEN"])
 AM_COND_IF([HAVE_DOXYGEN], [AC_CONFIG_FILES([docs/doxygen.conf])])
 
-AC_OUTPUT(Makefile lib/pcre/Makefile php/Makefile src/Makefile docs/Makefile)
+AM_CONDITIONAL(HAVE_INITD_DIR, [test -d /etc/rc.d])
+INITD_DIR="/etc/rc.d"
+AC_SUBST(INITD_DIR)
+
+AC_OUTPUT(Makefile lib/zlib/Makefile lib/pcre/Makefile lib/tsrm/Makefile php/Makefile src/Makefile docs/Makefile)

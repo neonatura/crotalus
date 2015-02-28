@@ -68,6 +68,8 @@
 
 #define CGI_MIME_TYPE "application/x-httpd-cgi"
 #define PHP_MIME_TYPE "application/x-httpd-php"
+#define GZIP_MIME_TYPE "application/x-gzip"
+#define SH_MIME_TYPE "application/x-sh"
 
 #define MAX_FILE_LENGTH				NAME_MAX
 #define MAX_PATH_LENGTH				PATH_MAX

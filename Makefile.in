@@ -42,7 +42,8 @@ DIST_COMMON = README $(am__configure_deps) $(srcdir)/Makefile.am \
 	$(top_srcdir)/php/main/build-defs.h.in \
 	$(top_srcdir)/php/main/internal_functions.c.in \
 	$(top_srcdir)/php/main/internal_functions_cli.c.in \
-	$(top_srcdir)/php/main/php_config.h.in COPYING \
+	$(top_srcdir)/php/main/php_config.h.in \
+	$(top_srcdir)/scripts/initd/crotalus.in COPYING \
 	build-aux/compile build-aux/config.guess build-aux/config.sub \
 	build-aux/depcomp build-aux/install-sh build-aux/ltmain.sh \
 	build-aux/missing build-aux/texinfo.tex config.guess \
@@ -65,7 +66,7 @@ CONFIG_HEADER = $(top_builddir)/src/config.h \
 	$(top_builddir)/php/TSRM/tsrm_config.h \
 	$(top_builddir)/php/ext/date/lib/timelib_config.h
 CONFIG_CLEAN_FILES = php/main/internal_functions.c \
-	php/main/internal_functions_cli.c
+	php/main/internal_functions_cli.c scripts/initd/crotalus
 CONFIG_CLEAN_VPATH_FILES =
 SOURCES =
 DIST_SOURCES =
@@ -148,7 +149,7 @@ EGREP = @EGREP@
 EXEEXT = @EXEEXT@
 FGREP = @FGREP@
 GREP = @GREP@
-GUNZIP = @GUNZIP@
+INITD_DIR = @INITD_DIR@
 INSTALL = @INSTALL@
 INSTALL_DATA = @INSTALL_DATA@
 INSTALL_PROGRAM = @INSTALL_PROGRAM@
@@ -239,7 +240,7 @@ top_builddir = @top_builddir@
 top_srcdir = @top_srcdir@
 ACLOCAL_AMFLAGS = -I m4
 AUTOMAKE_OPTIONS = foreign
-SUBDIRS = lib/pcre php src docs
+SUBDIRS = lib/zlib lib/pcre lib/tsrm php src docs
 all: all-recursive
 
 .SUFFIXES:
@@ -337,6 +338,8 @@ distclean-hdr:
 php/main/internal_functions.c: $(top_builddir)/config.status $(top_srcdir)/php/main/internal_functions.c.in
 	cd $(top_builddir) && $(SHELL) ./config.status $@
 php/main/internal_functions_cli.c: $(top_builddir)/config.status $(top_srcdir)/php/main/internal_functions_cli.c.in
+	cd $(top_builddir) && $(SHELL) ./config.status $@
+scripts/initd/crotalus: $(top_builddir)/config.status $(top_srcdir)/scripts/initd/crotalus.in
 	cd $(top_builddir) && $(SHELL) ./config.status $@
 
 mostlyclean-libtool:

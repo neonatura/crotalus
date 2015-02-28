@@ -65,6 +65,10 @@
 #include "cache/cr_pref.h"
 #include "cache/cr_access.h"
 
+#include "mime/mime_def.h"
+#include "mime/mime_interp.h"
+#include "mime/mime_zlib.h"
+
 
 /**
  * Crotalus Web Daemon

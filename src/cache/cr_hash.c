@@ -400,11 +400,10 @@ char *get_mime_type(const char *filename)
     unsigned int hash;
 
     if (filename == NULL) {
-        log_error_time();
-        fprintf(stderr,
-                "Attempt to hash NULL string! [get_mime_type]\n");
-        return default_type;
-    } else if (filename[0] == '\0') {
+      return default_type;
+    } 
+
+    if (filename[0] == '\0') {
         log_error_time();
         fprintf(stderr,
                 "Attempt to hash empty string! [get_mime_type]\n");

@@ -12,6 +12,9 @@ libphp_sapi_a_CFLAGS = \
 		-I$(srcdir)/ext/opcache \
 		-I$(srcdir)/ext/date/lib -I$(builddir)/ext/date/lib \
 		-I$(top_srcdir)/libxml2/include
+libphp_sapi_a_LIBADD = \
+	$(top_builddir)/lib/tsrm/libtsrm.a \
+	$(top_builddir)/lib/pcre/libpcre.a
 
 libphp_sapi_a_SOURCES = \
 	sapi/cgi/fastcgi.c \
@@ -223,8 +226,7 @@ libphp_sapi_a_SOURCES = \
 	ext/xml/compat.c \
 	ext/xmlreader/php_xmlreader.c \
 	ext/xmlwriter/php_xmlwriter.c \
-	TSRM/TSRM.c \
-	TSRM/tsrm_strtok_r.c \
+	TSRM/tsrm_win32.c \
 	main/main.c \
 	main/snprintf.c \
 	main/spprintf.c \

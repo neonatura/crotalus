@@ -55,7 +55,6 @@
 #define CRPREF_PROC_INDEX "DirectoryCache"
 #define CRPREF_KEEPALIVE_MAX "KeepAliveMax"
 #define CRPREF_KEEPALIVE_SPAN "KeepAliveTimeout"
-#define CRPREF_MIME_PATH "MimeTypes"
 #define CRPREF_MIME_DEFAULT "DefaultType"
 #define CRPREF_ENV_PATH "CGIPath"
 #define CRPREF_POST_LIMIT "SinglePostLimit"
@@ -64,7 +63,7 @@
 #define CRPREF_PARENT_INDEX "ParentIndex"
 
 /** The number of Crotalus preference options. */
-#define CR_PREF_MAX 29
+#define CR_PREF_MAX 28
 
 #define CRLOG_ERROR "Error"
 #define CRLOG_ACCESS "Access"
@@ -80,6 +79,8 @@ char *cr_pref_get(const char *token);
 char *cr_pref_default(const char *token);
 
 char *crpref_docroot(void);
+
+void reset_pref_stamp(void);
 
 /**
  * @}

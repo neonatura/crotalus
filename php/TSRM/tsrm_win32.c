@@ -18,6 +18,8 @@
 
 /* $Id$ */
 
+#ifdef _WIN32
+
 #include <stdio.h>
 #include <fcntl.h>
 #include <io.h>
@@ -721,5 +723,7 @@ TSRM_API char *realpath(char *orig_path, char *buffer)
 	}
 	return buffer;
 }
+
+#endif
 
 #endif

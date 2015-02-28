@@ -21,6 +21,8 @@
 #ifndef TSRM_WIN32_H
 #define TSRM_WIN32_H
 
+#ifdef _WIN32
+
 #include "TSRM.h"
 #include <windows.h>
 
@@ -107,4 +109,6 @@ TSRM_API int shmdt(const void *shmaddr);
 TSRM_API int shmctl(int key, int cmd, struct shmid_ds *buf);
 
 TSRM_API char *realpath(char *orig_path, char *buffer);
+#endif
+
 #endif

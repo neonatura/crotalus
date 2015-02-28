@@ -90,7 +90,7 @@ enum KA_STATUS { KA_INACTIVE, KA_ACTIVE, KA_STOPPED };
 enum CGI_STATUS { CGI_PARSE, CGI_BUFFER, CGI_DONE };
 
 /************** CGI TYPE (req->is_cgi) ******************/
-enum CGI_TYPE { NPH = 1, CGI };
+enum CGI_TYPE { NPH = 1, EXEC };
 
 /**************** STRUCTURES ****************************/
 struct range {
@@ -109,7 +109,33 @@ struct mmap_entry {
     off_t len;
 };
 
-struct request {                /* pending requests */
+struct mime_t;
+struct request;
+
+typedef int mime_f(struct mime_t *mime, struct request *req);
+
+/** A mime type definition. */
+typedef struct mime_t
+{
+  /* the mime type iso name */
+  char *type;
+  /* the filename extension referencing this mime definition. */
+  char *ext;
+  /* the "HEAD" http function. */
+  mime_f *head;
+  /* the "GET" http function. */
+  mime_f *get;
+  /* the "POST" http function. */
+  mime_f *post;
+  /* the "PUT" http function. */
+  mime_f *put;
+  /* flags indicating the features of the mime definition (MIMEF_XXX). */
+  int flags;
+} mime_t;
+
+/** pending requests */
+struct request 
+{
     enum REQ_STATUS status;
     enum KA_STATUS keepalive;   /* keepalive status */
     enum HTTP_VERSION http_version;
@@ -149,6 +175,9 @@ struct request {                /* pending requests */
 
     /* CGI vars */
     int cgi_env_index;          /* index into array */
+
+    /* specific mime-type file processing */
+    mime_t *mime;
 
     /* Agent and referer for logfiles */
     char *header_host;

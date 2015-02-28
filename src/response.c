@@ -99,6 +99,8 @@ void print_http_headers(request * req)
         "                             " CRLF;
     static char server_header[] = "Server: " SERVER_VERSION CRLF;
 
+fprintf(stderr, "DEBUG: print_http_headers()\n");
+
     rfc822_time_buf(date_header + 6, 0);
     req_write(req, date_header);
     if (!conceal_server_identity)
@@ -184,20 +186,27 @@ void send_r_continue(request * req)
 /* R_REQUEST_OK: 200 */
 void send_r_request_ok(request * req)
 {
-    req->response_status = R_REQUEST_OK;
-    if (req->http_version == HTTP09)
-        return;
+  
+  if (req->mime) {
+    mime_interp_head(req->mime, req);
+    return;
+  }
 
-    req_write(req, http_ver_string(req->http_version));
-    req_write(req, " 200 OK" CRLF);
-    print_http_headers(req);
+  req->response_status = R_REQUEST_OK;
+  if (req->http_version == HTTP09)
+    return;
 
-    if (!req->cgi_type) {
-        print_content_length(req);
-        print_last_modified(req);
-        print_content_type(req);
-        req_write(req, CRLF);
-    }
+  req_write(req, http_ver_string(req->http_version));
+  req_write(req, " 200 OK" CRLF);
+  print_http_headers(req);
+
+  if (!req->cgi_type) {
+    print_content_length(req);
+    print_last_modified(req);
+    print_content_type(req);
+    req_write(req, CRLF);
+  }
+
 }
 
 /* R_NO_CONTENT: 204 */
