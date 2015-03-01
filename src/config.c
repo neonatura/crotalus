@@ -122,7 +122,6 @@ Command *lookup_keyword(char *c);
 static void c_set_preference(char *v1, char *v2, void *t)
 {
   cr_pref_set(t, v1); 
-fprintf(stderr, "DEBUG: c_set_preference[%s] = '%s'\n", t, v1);
 }
 
 static void apply_inline_preferences(void)

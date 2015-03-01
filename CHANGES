@@ -21,6 +21,7 @@
  * access module is compiled by default, use --disable-access to disable.
    - The access module now reads "deny" and "allow" commands from a ".htaccess" file in the document [virtual] root path, if it exists. 
    - Note: Use the HUP signal to reload '.htaccess' file(s).
+  * removed index.html.gz support
 ** Crotalus v2.24
  * stdio based logging
  * default configuration settings

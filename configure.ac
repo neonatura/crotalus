@@ -185,43 +185,37 @@ if test $ac_cv_func_strdup = no -o $ac_cv_func_strstr = no; then
   AC_SUBST(STRUTIL)
 fi
 
-#if test -n "$GCC"; then
-#  dnl if we are running gcc, use -pipe
-#  test -n "$GCC" && CFLAGS="$CFLAGS -pipe"
-#
-#  AC_MSG_CHECKING(compile and link profiling code)
-#  AC_ARG_ENABLE(profiling,
-#  [  --enable-profiling      Compile and link profiling code],
-#  [
-#    if test "$enableval" = "yes" ; then
-#      AC_MSG_RESULT(yes)
-#      CFLAGS="$CFLAGS -pg"
-#      LDFLAGS="$LDFLAGS -g -pg"    
-#    else
-#      AC_MSG_RESULT(no)
-#    fi
-#  ],
-#  [
-#    AC_MSG_RESULT(no)
-#  ])
-#fi
+AC_MSG_CHECKING(whether to enable gunzip support)
+AC_ARG_ENABLE(gunzip,
+[  --disable-gunzip        Disable use of gunzip],
+[
+ if test "$enableval" = "yes" ; then
+    AC_MSG_RESULT(yes)
+    AC_DEFINE_UNQUOTED(GUNZIP, 1, [Define if gunzip can be found])
+  else
+    AC_MSG_RESULT(no)
+  fi
+],
+[
+    AC_MSG_RESULT(yes)
+    AC_DEFINE_UNQUOTED(GUNZIP, 1, [Define if gunzip can be found])
+])
 
-#AC_MSG_CHECKING(whether to enable gunzip support)
-#AC_ARG_ENABLE(gunzip,
-#[  --disable-gunzip        Disable use of gunzip],
+
+#AC_MSG_CHECKING(whether to enable php support)
+#AC_ARG_ENABLE(php,
+#[  --disable-php        Disable use of php],
 #[
 # if test "$enableval" = "yes" ; then
 #    AC_MSG_RESULT(yes)
-#    AC_PATH_PROG(GUNZIP, gunzip)
-#    AC_DEFINE_UNQUOTED(GUNZIP, "$ac_cv_path_GUNZIP", [Define if gunzip can be found])
+#    AC_DEFINE_UNQUOTED(PHP, "$ac_cv_path_PHP", [Define if php can be found])
 #  else
 #    AC_MSG_RESULT(no)
 #  fi
 #],
 #[
 #    AC_MSG_RESULT(yes)
-#    AC_PATH_PROG(GUNZIP, gunzip)
-#    AC_DEFINE_UNQUOTED(GUNZIP, "$ac_cv_path_GUNZIP", [Define if gunzip can be found])
+#    AC_DEFINE_UNQUOTED(PHP, "$ac_cv_path_PHP", [Define if php can be found])
 #])
 
 AC_MSG_CHECKING(whether to enable cgi support)

@@ -28,7 +28,6 @@
 int mime_head_gzip(mime_t *mime, request *req)
 {
 
-fprintf(stderr, "DEBUG: mime_head_gzip()\n");
 
   if (req->http_version == HTTP09)
     return;
@@ -69,8 +68,7 @@ int mime_get_gzip(mime_t *mime, request *req)
     if (r_len < 1)
       break;
 
-/* DEBUG: better mem management here */
-fprintf(stderr, "DEBUG: mime_get_gzip(): %s\n", buff);
+    /* buffer is flushed by send_r_request_ok() call above. */
     memcpy(req->buffer + req->buffer_end, buff, r_len);
     req->buffer_end += r_len;
 

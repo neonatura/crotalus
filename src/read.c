@@ -370,14 +370,11 @@ int write_body(request * req)
     int bytes_written;
     unsigned int bytes_to_write = req->header_end - req->header_line;
 
-fprintf(stderr, "DEBUG: write_body(): req->filepos %d, req->filesize %d, bytes_to_write %d\n", req->filepos, req->filesize, bytes_to_write);
-
     if (req->filepos + bytes_to_write > req->filesize)
         bytes_to_write = req->filesize - req->filepos;
 
     if (bytes_to_write == 0) {  /* nothing left in buffer to write */
         req->header_line = req->header_end = req->buffer;
-fprintf(stderr, "DEBUG: write_body: req->filepos %d / req->filesize %d\n", req->filepos, req->filesize);
 
         if (req->filepos >= req->filesize)
             return init_cgi(req);

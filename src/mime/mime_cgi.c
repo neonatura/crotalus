@@ -407,8 +407,6 @@ int init_cgi(request * req)
     int pipes[2];
     int use_pipes = 0;
 
-fprintf(stderr, "DEBUG: init_cgi()\n");
-
     SQUASH_KA(req);
 
     if (req->cgi_type) {
@@ -625,13 +623,6 @@ fprintf(stderr, "DEBUG: init_cgi()\n");
         if (req->cgi_type) {
             char *aargv[CGI_ARGC_MAX + 1];
             create_argv(req, aargv);
-{
-char buf[256];
-memset(buf, 0, sizeof(buf));
-getcwd(buf, sizeof(buf)-1);
-fprintf(stderr, "DEBUG: execve getcwd: '%s'\n", buf);
-fprintf(stderr, "DEBUG: execve '%s'\n", req->pathname);
-}
             execve(req->pathname, aargv, req->cgi_env);
         } else {
             if (req->pathname[strlen(req->pathname) - 1] == '/')

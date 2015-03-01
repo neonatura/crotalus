@@ -9,6 +9,9 @@
 /* Define if sa_family_t is not defined */
 #undef DONT_HAVE_SA_FAMILY_T
 
+/* Define if gunzip can be found */
+#undef GUNZIP
+
 /* Define to 1 if you have the <alloca.h> header file. */
 #undef HAVE_ALLOCA_H
 

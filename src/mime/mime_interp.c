@@ -37,6 +37,8 @@ mime_t *mime_interp_extension(request *req)
   if (0 != strcmp(mime_str, default_type)) {
     for (i = 0; i < MAX_MIME_DEFINITION; i++) {
       m = mime_info(i);
+      if ((m->flags & MIMEF_INLINE))
+        continue;
       if ((m->flags & MIMEF_ENCODE))
         continue;
       if (0 == strcasecmp(mime_str, m->type)) {
@@ -46,12 +48,12 @@ mime_t *mime_interp_extension(request *req)
   } else {
     for (i = 0; i < MAX_MIME_DEFINITION; i++) {
       m = mime_info(i);
+      if ((m->flags & MIMEF_INLINE))
+        continue;
       if (!(m->flags & MIMEF_ENCODE))
         continue;
       sprintf(path, "%s.%s", req->pathname, m->ext);
-  fprintf(stderr, "DEBUG: seeking encode path '%s'\n", path);
       if (0 == stat(path, &st)) {
-  fprintf(stderr, "DEBUG: found encode path '%s'\n", path);
         return (m);
       }
     }
@@ -67,7 +69,6 @@ int mime_interp_request(request *req)
   int i;
 
   if (req->method == M_HEAD) {
-    fprintf(stderr, "DEBUG: mime_interp_req: M_HEAD\n");
     //    return 0;
   }
 
@@ -102,7 +103,6 @@ int mime_interp_request(request *req)
       break;
 
     default:
-      fprintf(stderr, "DEBUG: mime_interp_req: unknown request method %d\n", req->method);
       break;
   }
 
@@ -116,7 +116,6 @@ void mime_interp_head(mime_t *mime, request *req)
   if (req->http_version == HTTP09) 
     return;
 
-fprintf(stderr, "DEBUG: mime_interp_head: type '%s'\n", mime->type);
 
 
   if (mime->head) {
@@ -148,7 +147,6 @@ int mime_get_cgi(mime_t *mime, request *req)
 {
     req->script_name = strdup(req->request_uri);
     req->cgi_type = EXEC;
-fprintf(stderr, "DEBUG: mime_interp_request: script_name '%s'\n", req->script_name);
     return (init_cgi(req));
 } 
 

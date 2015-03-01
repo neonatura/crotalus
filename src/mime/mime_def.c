@@ -25,9 +25,18 @@
 #include "crotalus.h"
 
 mime_t mime_definition[MAX_MIME_DEFINITION] = {
+#ifdef CGI
   { CGI_MIME_TYPE, "cgi", mime_head_cgi, mime_get_cgi, NULL, NULL, 0 },
   { SH_MIME_TYPE, "sh", mime_head_cgi, mime_get_cgi, NULL, NULL, 0 },
-  { GZIP_MIME_TYPE, "gz", mime_head_gzip, mime_get_gzip, NULL, NULL, MIMEF_ENCODE },
+#else
+  { CGI_MIME_TYPE, "cgi", NULL, NULL, NULL, NULL, MIMEF_INLINE },
+  { SH_MIME_TYPE, "sh", NULL, NULL, NULL, NULL, MIMEF_INLINE },
+#endif
+#ifdef GUNZIP
+  { GZIP_MIME_TYPE, "gz", mime_head_gzip, mime_get_gzip, NULL, NULL, MIMEF_ENCODE }
+#else
+  { GZIP_MIME_TYPE, "gz", NULL, NULL, NULL, NULL, MIMEF_INLINE }
+#endif
   //{ PHP_MIME_TYPE, mime_interp_php, 0 }
 };  
 

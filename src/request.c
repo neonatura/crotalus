@@ -873,7 +873,6 @@ int process_header_end(request * req)
   }
 
   if (req->cgi_type) {
-fprintf(stderr, "DEBUG: process_header_end: init_cgi() [cgi-type %d]\n", req->cgi_type); 
     return init_cgi(req);
   }
 

@@ -99,8 +99,6 @@ void print_http_headers(request * req)
         "                             " CRLF;
     static char server_header[] = "Server: " SERVER_VERSION CRLF;
 
-fprintf(stderr, "DEBUG: print_http_headers()\n");
-
     rfc822_time_buf(date_header + 6, 0);
     req_write(req, date_header);
     if (!conceal_server_identity)

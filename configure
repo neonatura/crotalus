@@ -923,6 +923,7 @@ with_pic
 enable_fast_install
 with_gnu_ld
 enable_libtool_lock
+enable_gunzip
 enable_cgi
 enable_access_control
 enable_debug
@@ -1578,6 +1579,7 @@ Optional Features:
   --enable-fast-install[=PKGS]
                           optimize for fast installation [default=yes]
   --disable-libtool-lock  avoid locking (might break parallel builds)
+  --disable-gunzip        Disable use of gunzip
   --disable-cgi        Disable use of cgi
   --disable-access-control Disable support for allow/deny rules
   --enable-debug          Compile and link debugging code
@@ -4517,13 +4519,13 @@ if test "${lt_cv_nm_interface+set}" = set; then
 else
   lt_cv_nm_interface="BSD nm"
   echo "int some_variable = 0;" > conftest.$ac_ext
-  (eval echo "\"\$as_me:4520: $ac_compile\"" >&5)
+  (eval echo "\"\$as_me:4522: $ac_compile\"" >&5)
   (eval "$ac_compile" 2>conftest.err)
   cat conftest.err >&5
-  (eval echo "\"\$as_me:4523: $NM \\\"conftest.$ac_objext\\\"\"" >&5)
+  (eval echo "\"\$as_me:4525: $NM \\\"conftest.$ac_objext\\\"\"" >&5)
   (eval "$NM \"conftest.$ac_objext\"" 2>conftest.err > conftest.out)
   cat conftest.err >&5
-  (eval echo "\"\$as_me:4526: output\"" >&5)
+  (eval echo "\"\$as_me:4528: output\"" >&5)
   cat conftest.out >&5
   if $GREP 'External.*some_variable' conftest.out > /dev/null; then
     lt_cv_nm_interface="MS dumpbin"
@@ -5729,7 +5731,7 @@ ia64-*-hpux*)
   ;;
 *-*-irix6*)
   # Find out which ABI we are using.
-  echo '#line 5732 "configure"' > conftest.$ac_ext
+  echo '#line 5734 "configure"' > conftest.$ac_ext
   if { (eval echo "$as_me:$LINENO: \"$ac_compile\"") >&5
   (eval $ac_compile) 2>&5
   ac_status=$?
@@ -7586,11 +7588,11 @@ else
    -e 's:.*FLAGS}\{0,1\} :&$lt_compiler_flag :; t' \
    -e 's: [^ ]*conftest\.: $lt_compiler_flag&:; t' \
    -e 's:$: $lt_compiler_flag:'`
-   (eval echo "\"\$as_me:7589: $lt_compile\"" >&5)
+   (eval echo "\"\$as_me:7591: $lt_compile\"" >&5)
    (eval "$lt_compile" 2>conftest.err)
    ac_status=$?
    cat conftest.err >&5
-   echo "$as_me:7593: \$? = $ac_status" >&5
+   echo "$as_me:7595: \$? = $ac_status" >&5
    if (exit $ac_status) && test -s "$ac_outfile"; then
      # The compiler can only warn and ignore the option if not recognized
      # So say no if there are warnings other than the usual output.
@@ -7925,11 +7927,11 @@ else
    -e 's:.*FLAGS}\{0,1\} :&$lt_compiler_flag :; t' \
    -e 's: [^ ]*conftest\.: $lt_compiler_flag&:; t' \
    -e 's:$: $lt_compiler_flag:'`
-   (eval echo "\"\$as_me:7928: $lt_compile\"" >&5)
+   (eval echo "\"\$as_me:7930: $lt_compile\"" >&5)
    (eval "$lt_compile" 2>conftest.err)
    ac_status=$?
    cat conftest.err >&5
-   echo "$as_me:7932: \$? = $ac_status" >&5
+   echo "$as_me:7934: \$? = $ac_status" >&5
    if (exit $ac_status) && test -s "$ac_outfile"; then
      # The compiler can only warn and ignore the option if not recognized
      # So say no if there are warnings other than the usual output.
@@ -8030,11 +8032,11 @@ else
    -e 's:.*FLAGS}\{0,1\} :&$lt_compiler_flag :; t' \
    -e 's: [^ ]*conftest\.: $lt_compiler_flag&:; t' \
    -e 's:$: $lt_compiler_flag:'`
-   (eval echo "\"\$as_me:8033: $lt_compile\"" >&5)
+   (eval echo "\"\$as_me:8035: $lt_compile\"" >&5)
    (eval "$lt_compile" 2>out/conftest.err)
    ac_status=$?
    cat out/conftest.err >&5
-   echo "$as_me:8037: \$? = $ac_status" >&5
+   echo "$as_me:8039: \$? = $ac_status" >&5
    if (exit $ac_status) && test -s out/conftest2.$ac_objext
    then
      # The compiler can only warn and ignore the option if not recognized
@@ -8085,11 +8087,11 @@ else
    -e 's:.*FLAGS}\{0,1\} :&$lt_compiler_flag :; t' \
    -e 's: [^ ]*conftest\.: $lt_compiler_flag&:; t' \
    -e 's:$: $lt_compiler_flag:'`
-   (eval echo "\"\$as_me:8088: $lt_compile\"" >&5)
+   (eval echo "\"\$as_me:8090: $lt_compile\"" >&5)
    (eval "$lt_compile" 2>out/conftest.err)
    ac_status=$?
    cat out/conftest.err >&5
-   echo "$as_me:8092: \$? = $ac_status" >&5
+   echo "$as_me:8094: \$? = $ac_status" >&5
    if (exit $ac_status) && test -s out/conftest2.$ac_objext
    then
      # The compiler can only warn and ignore the option if not recognized
@@ -10888,7 +10890,7 @@ else
   lt_dlunknown=0; lt_dlno_uscore=1; lt_dlneed_uscore=2
   lt_status=$lt_dlunknown
   cat > conftest.$ac_ext <<_LT_EOF
-#line 10891 "configure"
+#line 10893 "configure"
 #include "confdefs.h"
 
 #if HAVE_DLFCN_H
@@ -10984,7 +10986,7 @@ else
   lt_dlunknown=0; lt_dlno_uscore=1; lt_dlneed_uscore=2
   lt_status=$lt_dlunknown
   cat > conftest.$ac_ext <<_LT_EOF
-#line 10987 "configure"
+#line 10989 "configure"
 #include "confdefs.h"
 
 #if HAVE_DLFCN_H
@@ -16913,43 +16915,52 @@ if test $ac_cv_func_strdup = no -o $ac_cv_func_strstr = no; then
 
 fi
 
-#if test -n "$GCC"; then
-#  dnl if we are running gcc, use -pipe
-#  test -n "$GCC" && CFLAGS="$CFLAGS -pipe"
-#
-#  AC_MSG_CHECKING(compile and link profiling code)
-#  AC_ARG_ENABLE(profiling,
-#  [  --enable-profiling      Compile and link profiling code],
-#  [
-#    if test "$enableval" = "yes" ; then
-#      AC_MSG_RESULT(yes)
-#      CFLAGS="$CFLAGS -pg"
-#      LDFLAGS="$LDFLAGS -g -pg"
-#    else
-#      AC_MSG_RESULT(no)
-#    fi
-#  ],
-#  [
-#    AC_MSG_RESULT(no)
-#  ])
-#fi
+{ $as_echo "$as_me:$LINENO: checking whether to enable gunzip support" >&5
+$as_echo_n "checking whether to enable gunzip support... " >&6; }
+# Check whether --enable-gunzip was given.
+if test "${enable_gunzip+set}" = set; then
+  enableval=$enable_gunzip;
+ if test "$enableval" = "yes" ; then
+    { $as_echo "$as_me:$LINENO: result: yes" >&5
+$as_echo "yes" >&6; }
 
-#AC_MSG_CHECKING(whether to enable gunzip support)
-#AC_ARG_ENABLE(gunzip,
-#[  --disable-gunzip        Disable use of gunzip],
+cat >>confdefs.h <<_ACEOF
+#define GUNZIP 1
+_ACEOF
+
+  else
+    { $as_echo "$as_me:$LINENO: result: no" >&5
+$as_echo "no" >&6; }
+  fi
+
+else
+
+    { $as_echo "$as_me:$LINENO: result: yes" >&5
+$as_echo "yes" >&6; }
+
+cat >>confdefs.h <<_ACEOF
+#define GUNZIP 1
+_ACEOF
+
+
+fi
+
+
+
+#AC_MSG_CHECKING(whether to enable php support)
+#AC_ARG_ENABLE(php,
+#[  --disable-php        Disable use of php],
 #[
 # if test "$enableval" = "yes" ; then
 #    AC_MSG_RESULT(yes)
-#    AC_PATH_PROG(GUNZIP, gunzip)
-#    AC_DEFINE_UNQUOTED(GUNZIP, "$ac_cv_path_GUNZIP", [Define if gunzip can be found])
+#    AC_DEFINE_UNQUOTED(PHP, "$ac_cv_path_PHP", [Define if php can be found])
 #  else
 #    AC_MSG_RESULT(no)
 #  fi
 #],
 #[
 #    AC_MSG_RESULT(yes)
-#    AC_PATH_PROG(GUNZIP, gunzip)
-#    AC_DEFINE_UNQUOTED(GUNZIP, "$ac_cv_path_GUNZIP", [Define if gunzip can be found])
+#    AC_DEFINE_UNQUOTED(PHP, "$ac_cv_path_PHP", [Define if php can be found])
 #])
 
 { $as_echo "$as_me:$LINENO: checking whether to enable cgi support" >&5

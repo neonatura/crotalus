@@ -27,6 +27,7 @@
  */
 
 #define MIMEF_ENCODE (1 << 0)
+#define MIMEF_INLINE (1 << 1)
 
 #define MAX_MIME_DEFINITION 3
 

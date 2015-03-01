@@ -164,8 +164,6 @@ int access_node_add(access_list *l, const char *pattern, enum access_type type)
 
   ++l->n_access;
 
-fprintf(stderr, "DEBUG: access_node_add: host '%s', pattern '%s'\n", l->hostname, pattern);
-
   return (0);
 }                               /* access_add */
 int access_add(char *hostname, const char *pattern, enum access_type type)
@@ -187,8 +185,6 @@ enum access_type access_allow(char *hostname, char *origin, char *filename)
   l = access_list_get(hostname);
   if (!l)
     return (-ENOMEM);
-
-fprintf(stderr, "DEBUG: access_allow: hostname '%s', origin '%s'\n", hostname, origin);
 
   /* find first match in allow / deny rules */
   for (i = 0; i < l->n_access; i++) {
