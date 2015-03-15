@@ -29,8 +29,8 @@ mime_t *mime_interp_extension(request *req);
 
 void mime_interp_head(mime_t *mime, request *req);
 
-int mime_head_cgi(mime_t *mime, request *req);
+int mime_head_cgi(request *req);
 
-int mime_get_cgi(mime_t *mime, request *req);
+int mime_get_cgi(request *req);
 
 

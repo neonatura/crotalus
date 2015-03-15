@@ -62,6 +62,24 @@ mime_t *mime_interp_extension(request *req)
   return (NULL);
 }
 
+mime_filter_t *mime_interp_filter(request *req)
+{
+  char *mime_type;
+  int i;
+
+  for (i = 0; i < MAX_MIME_FILTERS; i++) {
+    if (!strstr(req->encoding, mime_filter[i].type))
+      continue; /* not support by client. */
+
+    mime_type = get_mime_type(req->request_uri);
+    if (access_filter_allow(mime_filter[i].type, mime_type)) {
+      return (&mime_filter[i]);
+    }
+  }
+
+  return (NULL);
+}
+
 /* process mime-type file handling or indicate a normal HTML file is present. */
 int mime_interp_request(request *req)
 {
@@ -84,21 +102,21 @@ int mime_interp_request(request *req)
     case M_GET:
       if (m->get) {
 //        mime_interp_head(m, req);
-        return (m->get(m, req));
+        return (m->get(req));
       }
       break;
 
     case M_POST:
       if (m->post) {
 //        mime_interp_head(m, req);
-        return (m->post(m, req));
+        return (m->post(req));
       }
       break;
 
     case M_PUT:
       if (m->put) {
 //        mime_interp_head(m, req);
-        return (m->put(m, req));
+        return (m->put(req));
       }
       break;
 
@@ -116,10 +134,8 @@ void mime_interp_head(mime_t *mime, request *req)
   if (req->http_version == HTTP09) 
     return;
 
-
-
   if (mime->head) {
-    mime->head(mime, req);
+    mime->head(req);
   } else {
     req_write(req, http_ver_string(req->http_version));
     req_write(req, " 200 OK" CRLF);
@@ -133,7 +149,7 @@ void mime_interp_head(mime_t *mime, request *req)
 
 }
 
-int mime_head_cgi(mime_t *mime, request *req)
+int mime_head_cgi(request *req)
 {
 
     req_write(req, http_ver_string(req->http_version));
@@ -143,7 +159,7 @@ int mime_head_cgi(mime_t *mime, request *req)
   return (0);
 }
 
-int mime_get_cgi(mime_t *mime, request *req)
+int mime_get_cgi(request *req)
 {
     req->script_name = strdup(req->request_uri);
     req->cgi_type = EXEC;

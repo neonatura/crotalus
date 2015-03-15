@@ -805,10 +805,16 @@ STRUTIL
 ALPHASORT
 SCANDIR
 LIB@&t@OBJS
+HAVE_LIBZ_FALSE
+HAVE_LIBZ_TRUE
+HAVE_LIBSHARE_FALSE
+HAVE_LIBSHARE_TRUE
+HAVE_LIBRT_FALSE
+HAVE_LIBRT_TRUE
 HAVE_LIBXML_FALSE
 HAVE_LIBXML_TRUE
-HAVE_PTHREAD_FALSE
-HAVE_PTHREAD_TRUE
+HAVE_LIBPTHREAD_FALSE
+HAVE_LIBPTHREAD_TRUE
 CPP
 OTOOL64
 OTOOL
@@ -1579,9 +1585,9 @@ Optional Features:
   --enable-fast-install@<:@=PKGS@:>@ 
                           optimize for fast installation @<:@default=yes@:>@
   --disable-libtool-lock  avoid locking (might break parallel builds)
-  --disable-gunzip        Disable use of gunzip
-  --disable-cgi        Disable use of cgi
-  --disable-access-control Disable support for allow/deny rules
+  --disable-gunzip        Disable use of web file .gz decompression.
+  --disable-cgi           Disable use of cgi
+  --disable-access-control Disable support for HTACCESS rules
   --enable-debug          Compile and link debugging code
   --disable-verbose       Do not enable verbose/debug logging
   --disable-sendfile      Disable the use of the sendfile(2) system call
@@ -13408,9 +13414,9 @@ MAKEINFOHTMLFLAGS=--no-headers --no-split
 
 # AC_SEARCH_LIBS (function, search-libs, [action-if-found], [action-if-not-found], [other-libraries])
 
-{ $as_echo "$as_me:$LINENO: checking for pthread_self in -lpthread" >&5
-$as_echo_n "checking for pthread_self in -lpthread... " >&6; }
-if test "${ac_cv_lib_pthread_pthread_self+set}" = set; then
+{ $as_echo "$as_me:$LINENO: checking for pthread_create in -lpthread" >&5
+$as_echo_n "checking for pthread_create in -lpthread... " >&6; }
+if test "${ac_cv_lib_pthread_pthread_create+set}" = set; then
   $as_echo_n "(cached) " >&6
 else
   ac_check_lib_save_LIBS=$LIBS
@@ -13428,11 +13434,11 @@ cat >>conftest.$ac_ext <<_ACEOF
 #ifdef __cplusplus
 extern "C"
 #endif
-char pthread_self ();
+char pthread_create ();
 int
 main ()
 {
-return pthread_self ();
+return pthread_create ();
   ;
   return 0;
 }
@@ -13458,12 +13464,12 @@ $as_echo "$ac_try_echo") >&5
 	 test "$cross_compiling" = yes ||
 	 $as_test_x conftest$ac_exeext
        }; then
-  ac_cv_lib_pthread_pthread_self=yes
+  ac_cv_lib_pthread_pthread_create=yes
 else
   $as_echo "$as_me: failed program was:" >&5
 sed 's/^/| /' conftest.$ac_ext >&5
 
-	ac_cv_lib_pthread_pthread_self=no
+	ac_cv_lib_pthread_pthread_create=no
 fi
 
 rm -rf conftest.dSYM
@@ -13471,28 +13477,35 @@ rm -f core conftest.err conftest.$ac_objext conftest_ipa8_conftest.oo \
       conftest$ac_exeext conftest.$ac_ext
 LIBS=$ac_check_lib_save_LIBS
 fi
-{ $as_echo "$as_me:$LINENO: result: $ac_cv_lib_pthread_pthread_self" >&5
-$as_echo "$ac_cv_lib_pthread_pthread_self" >&6; }
-if test "x$ac_cv_lib_pthread_pthread_self" = x""yes; then
-  HAVE_PTHREAD=1
+{ $as_echo "$as_me:$LINENO: result: $ac_cv_lib_pthread_pthread_create" >&5
+$as_echo "$ac_cv_lib_pthread_pthread_create" >&6; }
+if test "x$ac_cv_lib_pthread_pthread_create" = x""yes; then
+  HAVE_LIBPTHREAD=1
 fi
 
- if test $HAVE_PTHREAD; then
-  HAVE_PTHREAD_TRUE=
-  HAVE_PTHREAD_FALSE='#'
+ if test $HAVE_LIBPTHREAD; then
+  HAVE_LIBPTHREAD_TRUE=
+  HAVE_LIBPTHREAD_FALSE='#'
 else
-  HAVE_PTHREAD_TRUE='#'
-  HAVE_PTHREAD_FALSE=
+  HAVE_LIBPTHREAD_TRUE='#'
+  HAVE_LIBPTHREAD_FALSE=
 fi
 
+if test $HAVE_LIBPTHREAD; then
+  
+cat >>confdefs.h <<_ACEOF
+@%:@define HAVE_LIBPTHREAD 1
+_ACEOF
 
-{ $as_echo "$as_me:$LINENO: checking for xmlInitGlobals in -llibxml2" >&5
-$as_echo_n "checking for xmlInitGlobals in -llibxml2... " >&6; }
-if test "${ac_cv_lib_libxml2_xmlInitGlobals+set}" = set; then
+fi
+
+{ $as_echo "$as_me:$LINENO: checking for xmlInitGlobals in -lxml2" >&5
+$as_echo_n "checking for xmlInitGlobals in -lxml2... " >&6; }
+if test "${ac_cv_lib_xml2_xmlInitGlobals+set}" = set; then
   $as_echo_n "(cached) " >&6
 else
   ac_check_lib_save_LIBS=$LIBS
-LIBS="-llibxml2  $LIBS"
+LIBS="-lxml2  $LIBS"
 cat >conftest.$ac_ext <<_ACEOF
 /* confdefs.h.  */
 _ACEOF
@@ -13536,12 +13549,12 @@ $as_echo "$ac_try_echo") >&5
 	 test "$cross_compiling" = yes ||
 	 $as_test_x conftest$ac_exeext
        }; then
-  ac_cv_lib_libxml2_xmlInitGlobals=yes
+  ac_cv_lib_xml2_xmlInitGlobals=yes
 else
   $as_echo "$as_me: failed program was:" >&5
 sed 's/^/| /' conftest.$ac_ext >&5
 
-	ac_cv_lib_libxml2_xmlInitGlobals=no
+	ac_cv_lib_xml2_xmlInitGlobals=no
 fi
 
 rm -rf conftest.dSYM
@@ -13549,9 +13562,9 @@ rm -f core conftest.err conftest.$ac_objext conftest_ipa8_conftest.oo \
       conftest$ac_exeext conftest.$ac_ext
 LIBS=$ac_check_lib_save_LIBS
 fi
-{ $as_echo "$as_me:$LINENO: result: $ac_cv_lib_libxml2_xmlInitGlobals" >&5
-$as_echo "$ac_cv_lib_libxml2_xmlInitGlobals" >&6; }
-if test "x$ac_cv_lib_libxml2_xmlInitGlobals" = x""yes; then
+{ $as_echo "$as_me:$LINENO: result: $ac_cv_lib_xml2_xmlInitGlobals" >&5
+$as_echo "$ac_cv_lib_xml2_xmlInitGlobals" >&6; }
+if test "x$ac_cv_lib_xml2_xmlInitGlobals" = x""yes; then
   HAVE_LIBXML=1
 fi
 
@@ -13562,6 +13575,275 @@ else
   HAVE_LIBXML_TRUE='#'
   HAVE_LIBXML_FALSE=
 fi
+
+if test $HAVE_LIBXML; then
+  
+cat >>confdefs.h <<_ACEOF
+@%:@define HAVE_LIBXML 1
+_ACEOF
+
+fi
+
+{ $as_echo "$as_me:$LINENO: checking for shm_open in -lrt" >&5
+$as_echo_n "checking for shm_open in -lrt... " >&6; }
+if test "${ac_cv_lib_rt_shm_open+set}" = set; then
+  $as_echo_n "(cached) " >&6
+else
+  ac_check_lib_save_LIBS=$LIBS
+LIBS="-lrt  $LIBS"
+cat >conftest.$ac_ext <<_ACEOF
+/* confdefs.h.  */
+_ACEOF
+cat confdefs.h >>conftest.$ac_ext
+cat >>conftest.$ac_ext <<_ACEOF
+/* end confdefs.h.  */
+
+/* Override any GCC internal prototype to avoid an error.
+   Use char because int might match the return type of a GCC
+   builtin and then its argument prototype would still apply.  */
+#ifdef __cplusplus
+extern "C"
+#endif
+char shm_open ();
+int
+main ()
+{
+return shm_open ();
+  ;
+  return 0;
+}
+_ACEOF
+rm -f conftest.$ac_objext conftest$ac_exeext
+if { (ac_try="$ac_link"
+case "(($ac_try" in
+  *\"* | *\`* | *\\*) ac_try_echo=\$ac_try;;
+  *) ac_try_echo=$ac_try;;
+esac
+eval ac_try_echo="\"\$as_me:$LINENO: $ac_try_echo\""
+$as_echo "$ac_try_echo") >&5
+  (eval "$ac_link") 2>conftest.er1
+  ac_status=$?
+  grep -v '^ *+' conftest.er1 >conftest.err
+  rm -f conftest.er1
+  cat conftest.err >&5
+  $as_echo "$as_me:$LINENO: \$? = $ac_status" >&5
+  (exit $ac_status); } && {
+	 test -z "$ac_c_werror_flag" ||
+	 test ! -s conftest.err
+       } && test -s conftest$ac_exeext && {
+	 test "$cross_compiling" = yes ||
+	 $as_test_x conftest$ac_exeext
+       }; then
+  ac_cv_lib_rt_shm_open=yes
+else
+  $as_echo "$as_me: failed program was:" >&5
+sed 's/^/| /' conftest.$ac_ext >&5
+
+	ac_cv_lib_rt_shm_open=no
+fi
+
+rm -rf conftest.dSYM
+rm -f core conftest.err conftest.$ac_objext conftest_ipa8_conftest.oo \
+      conftest$ac_exeext conftest.$ac_ext
+LIBS=$ac_check_lib_save_LIBS
+fi
+{ $as_echo "$as_me:$LINENO: result: $ac_cv_lib_rt_shm_open" >&5
+$as_echo "$ac_cv_lib_rt_shm_open" >&6; }
+if test "x$ac_cv_lib_rt_shm_open" = x""yes; then
+  HAVE_LIBRT=1
+fi
+
+ if test $HAVE_LIBRT; then
+  HAVE_LIBRT_TRUE=
+  HAVE_LIBRT_FALSE='#'
+else
+  HAVE_LIBRT_TRUE='#'
+  HAVE_LIBRT_FALSE=
+fi
+
+if test $HAVE_LIBRT; then
+  
+cat >>confdefs.h <<_ACEOF
+@%:@define HAVE_LIBRT 1
+_ACEOF
+
+fi
+
+{ $as_echo "$as_me:$LINENO: checking for get_libshare_version in -lshare" >&5
+$as_echo_n "checking for get_libshare_version in -lshare... " >&6; }
+if test "${ac_cv_lib_share_get_libshare_version+set}" = set; then
+  $as_echo_n "(cached) " >&6
+else
+  ac_check_lib_save_LIBS=$LIBS
+LIBS="-lshare  $LIBS"
+cat >conftest.$ac_ext <<_ACEOF
+/* confdefs.h.  */
+_ACEOF
+cat confdefs.h >>conftest.$ac_ext
+cat >>conftest.$ac_ext <<_ACEOF
+/* end confdefs.h.  */
+
+/* Override any GCC internal prototype to avoid an error.
+   Use char because int might match the return type of a GCC
+   builtin and then its argument prototype would still apply.  */
+#ifdef __cplusplus
+extern "C"
+#endif
+char get_libshare_version ();
+int
+main ()
+{
+return get_libshare_version ();
+  ;
+  return 0;
+}
+_ACEOF
+rm -f conftest.$ac_objext conftest$ac_exeext
+if { (ac_try="$ac_link"
+case "(($ac_try" in
+  *\"* | *\`* | *\\*) ac_try_echo=\$ac_try;;
+  *) ac_try_echo=$ac_try;;
+esac
+eval ac_try_echo="\"\$as_me:$LINENO: $ac_try_echo\""
+$as_echo "$ac_try_echo") >&5
+  (eval "$ac_link") 2>conftest.er1
+  ac_status=$?
+  grep -v '^ *+' conftest.er1 >conftest.err
+  rm -f conftest.er1
+  cat conftest.err >&5
+  $as_echo "$as_me:$LINENO: \$? = $ac_status" >&5
+  (exit $ac_status); } && {
+	 test -z "$ac_c_werror_flag" ||
+	 test ! -s conftest.err
+       } && test -s conftest$ac_exeext && {
+	 test "$cross_compiling" = yes ||
+	 $as_test_x conftest$ac_exeext
+       }; then
+  ac_cv_lib_share_get_libshare_version=yes
+else
+  $as_echo "$as_me: failed program was:" >&5
+sed 's/^/| /' conftest.$ac_ext >&5
+
+	ac_cv_lib_share_get_libshare_version=no
+fi
+
+rm -rf conftest.dSYM
+rm -f core conftest.err conftest.$ac_objext conftest_ipa8_conftest.oo \
+      conftest$ac_exeext conftest.$ac_ext
+LIBS=$ac_check_lib_save_LIBS
+fi
+{ $as_echo "$as_me:$LINENO: result: $ac_cv_lib_share_get_libshare_version" >&5
+$as_echo "$ac_cv_lib_share_get_libshare_version" >&6; }
+if test "x$ac_cv_lib_share_get_libshare_version" = x""yes; then
+  HAVE_LIBSHARE=1
+fi
+
+ if test $HAVE_LIBSHARE; then
+  HAVE_LIBSHARE_TRUE=
+  HAVE_LIBSHARE_FALSE='#'
+else
+  HAVE_LIBSHARE_TRUE='#'
+  HAVE_LIBSHARE_FALSE=
+fi
+
+if test $HAVE_LIBSHARE; then
+  
+cat >>confdefs.h <<_ACEOF
+@%:@define HAVE_LIBSHARE 1
+_ACEOF
+
+fi
+
+# determine whether "libz" library is available in system.
+{ $as_echo "$as_me:$LINENO: checking for gzdopen in -lz" >&5
+$as_echo_n "checking for gzdopen in -lz... " >&6; }
+if test "${ac_cv_lib_z_gzdopen+set}" = set; then
+  $as_echo_n "(cached) " >&6
+else
+  ac_check_lib_save_LIBS=$LIBS
+LIBS="-lz  $LIBS"
+cat >conftest.$ac_ext <<_ACEOF
+/* confdefs.h.  */
+_ACEOF
+cat confdefs.h >>conftest.$ac_ext
+cat >>conftest.$ac_ext <<_ACEOF
+/* end confdefs.h.  */
+
+/* Override any GCC internal prototype to avoid an error.
+   Use char because int might match the return type of a GCC
+   builtin and then its argument prototype would still apply.  */
+#ifdef __cplusplus
+extern "C"
+#endif
+char gzdopen ();
+int
+main ()
+{
+return gzdopen ();
+  ;
+  return 0;
+}
+_ACEOF
+rm -f conftest.$ac_objext conftest$ac_exeext
+if { (ac_try="$ac_link"
+case "(($ac_try" in
+  *\"* | *\`* | *\\*) ac_try_echo=\$ac_try;;
+  *) ac_try_echo=$ac_try;;
+esac
+eval ac_try_echo="\"\$as_me:$LINENO: $ac_try_echo\""
+$as_echo "$ac_try_echo") >&5
+  (eval "$ac_link") 2>conftest.er1
+  ac_status=$?
+  grep -v '^ *+' conftest.er1 >conftest.err
+  rm -f conftest.er1
+  cat conftest.err >&5
+  $as_echo "$as_me:$LINENO: \$? = $ac_status" >&5
+  (exit $ac_status); } && {
+	 test -z "$ac_c_werror_flag" ||
+	 test ! -s conftest.err
+       } && test -s conftest$ac_exeext && {
+	 test "$cross_compiling" = yes ||
+	 $as_test_x conftest$ac_exeext
+       }; then
+  ac_cv_lib_z_gzdopen=yes
+else
+  $as_echo "$as_me: failed program was:" >&5
+sed 's/^/| /' conftest.$ac_ext >&5
+
+	ac_cv_lib_z_gzdopen=no
+fi
+
+rm -rf conftest.dSYM
+rm -f core conftest.err conftest.$ac_objext conftest_ipa8_conftest.oo \
+      conftest$ac_exeext conftest.$ac_ext
+LIBS=$ac_check_lib_save_LIBS
+fi
+{ $as_echo "$as_me:$LINENO: result: $ac_cv_lib_z_gzdopen" >&5
+$as_echo "$ac_cv_lib_z_gzdopen" >&6; }
+if test "x$ac_cv_lib_z_gzdopen" = x""yes; then
+  HAVE_LIBZ=1
+fi
+
+ if test $HAVE_LIBZ; then
+  HAVE_LIBZ_TRUE=
+  HAVE_LIBZ_FALSE='#'
+else
+  HAVE_LIBZ_TRUE='#'
+  HAVE_LIBZ_FALSE=
+fi
+
+if test $HAVE_LIBZ; then
+  
+cat >>confdefs.h <<_ACEOF
+@%:@define HAVE_LIBZ 1
+_ACEOF
+
+fi
+# the "libz" library function calls are always available.
+
+cat >>confdefs.h <<_ACEOF
+@%:@define HAVE_ZLIB 1
+_ACEOF
 
 
 { $as_echo "$as_me:$LINENO: checking for library containing socket" >&5
@@ -14892,12 +15174,14 @@ done
 
 
 
+
 for ac_header in magic.h wchar.h wctype.h locale.h stdarg.h sys/mman.h sys/loadavg.h \
 utime.h \
 dirent.h \
 alloca.h \
 sys/utsname.h \
 fnmatch.h \
+pthread.h \
 
 do
 as_ac_Header=`$as_echo "ac_cv_header_$ac_header" | $as_tr_sh`
@@ -16994,17 +17278,21 @@ _ACEOF
 fi
 
 
-{ $as_echo "$as_me:$LINENO: checking whether to enable access control support" >&5
-$as_echo_n "checking whether to enable access control support... " >&6; }
+{ $as_echo "$as_me:$LINENO: checking whether to disable access control support" >&5
+$as_echo_n "checking whether to disable access control support... " >&6; }
 @%:@ Check whether --enable-access-control was given.
 if test "${enable_access_control+set}" = set; then
   enableval=$enable_access_control; 
  if test "$enableval" != "no" ; then
     { $as_echo "$as_me:$LINENO: result: yes" >&5
 $as_echo "yes" >&6; }
-    CFLAGS="$CFLAGS -DACCESS_CONTROL"
     ACCESSCONTROL_SOURCE="access.c"	
     access_control=true
+    
+cat >>confdefs.h <<_ACEOF
+@%:@define ACCESS_CONTROL 1
+_ACEOF
+
   else
     { $as_echo "$as_me:$LINENO: result: no" >&5
 $as_echo "no" >&6; }
@@ -17013,8 +17301,15 @@ $as_echo "no" >&6; }
 
 else
   
-    { $as_echo "$as_me:$LINENO: result: no" >&5
-$as_echo "no" >&6; }
+    { $as_echo "$as_me:$LINENO: result: yes" >&5
+$as_echo "yes" >&6; }
+    ACCESSCONTROL_SOURCE="access.c"	
+    access_control=true
+    
+cat >>confdefs.h <<_ACEOF
+@%:@define ACCESS_CONTROL 1
+_ACEOF
+
 
 fi
 
@@ -18720,7 +19015,7 @@ fi
 INITD_DIR="/etc/rc.d"
 
 
-ac_config_files="$ac_config_files Makefile lib/zlib/Makefile lib/pcre/Makefile lib/tsrm/Makefile php/Makefile src/Makefile docs/Makefile"
+ac_config_files="$ac_config_files Makefile lib/ancillary/Makefile lib/zlib/Makefile lib/pcre/Makefile lib/tsrm/Makefile php/Makefile src/Makefile docs/Makefile"
 
 cat >confcache <<\_ACEOF
 # This file is a shell script that caches the results of configure
@@ -18841,10 +19136,10 @@ $as_echo "$as_me: error: conditional \"am__fastdepCC\" was never defined.
 Usually this means the macro was only invoked conditionally." >&2;}
    { (exit 1); exit 1; }; }
 fi
-if test -z "${HAVE_PTHREAD_TRUE}" && test -z "${HAVE_PTHREAD_FALSE}"; then
-  { { $as_echo "$as_me:$LINENO: error: conditional \"HAVE_PTHREAD\" was never defined.
+if test -z "${HAVE_LIBPTHREAD_TRUE}" && test -z "${HAVE_LIBPTHREAD_FALSE}"; then
+  { { $as_echo "$as_me:$LINENO: error: conditional \"HAVE_LIBPTHREAD\" was never defined.
 Usually this means the macro was only invoked conditionally." >&5
-$as_echo "$as_me: error: conditional \"HAVE_PTHREAD\" was never defined.
+$as_echo "$as_me: error: conditional \"HAVE_LIBPTHREAD\" was never defined.
 Usually this means the macro was only invoked conditionally." >&2;}
    { (exit 1); exit 1; }; }
 fi
@@ -18852,6 +19147,27 @@ if test -z "${HAVE_LIBXML_TRUE}" && test -z "${HAVE_LIBXML_FALSE}"; then
   { { $as_echo "$as_me:$LINENO: error: conditional \"HAVE_LIBXML\" was never defined.
 Usually this means the macro was only invoked conditionally." >&5
 $as_echo "$as_me: error: conditional \"HAVE_LIBXML\" was never defined.
+Usually this means the macro was only invoked conditionally." >&2;}
+   { (exit 1); exit 1; }; }
+fi
+if test -z "${HAVE_LIBRT_TRUE}" && test -z "${HAVE_LIBRT_FALSE}"; then
+  { { $as_echo "$as_me:$LINENO: error: conditional \"HAVE_LIBRT\" was never defined.
+Usually this means the macro was only invoked conditionally." >&5
+$as_echo "$as_me: error: conditional \"HAVE_LIBRT\" was never defined.
+Usually this means the macro was only invoked conditionally." >&2;}
+   { (exit 1); exit 1; }; }
+fi
+if test -z "${HAVE_LIBSHARE_TRUE}" && test -z "${HAVE_LIBSHARE_FALSE}"; then
+  { { $as_echo "$as_me:$LINENO: error: conditional \"HAVE_LIBSHARE\" was never defined.
+Usually this means the macro was only invoked conditionally." >&5
+$as_echo "$as_me: error: conditional \"HAVE_LIBSHARE\" was never defined.
+Usually this means the macro was only invoked conditionally." >&2;}
+   { (exit 1); exit 1; }; }
+fi
+if test -z "${HAVE_LIBZ_TRUE}" && test -z "${HAVE_LIBZ_FALSE}"; then
+  { { $as_echo "$as_me:$LINENO: error: conditional \"HAVE_LIBZ\" was never defined.
+Usually this means the macro was only invoked conditionally." >&5
+$as_echo "$as_me: error: conditional \"HAVE_LIBZ\" was never defined.
 Usually this means the macro was only invoked conditionally." >&2;}
    { (exit 1); exit 1; }; }
 fi
@@ -19659,6 +19975,7 @@ do
     "libtool") CONFIG_COMMANDS="$CONFIG_COMMANDS libtool" ;;
     "docs/doxygen.conf") CONFIG_FILES="$CONFIG_FILES docs/doxygen.conf" ;;
     "Makefile") CONFIG_FILES="$CONFIG_FILES Makefile" ;;
+    "lib/ancillary/Makefile") CONFIG_FILES="$CONFIG_FILES lib/ancillary/Makefile" ;;
     "lib/zlib/Makefile") CONFIG_FILES="$CONFIG_FILES lib/zlib/Makefile" ;;
     "lib/pcre/Makefile") CONFIG_FILES="$CONFIG_FILES lib/pcre/Makefile" ;;
     "lib/tsrm/Makefile") CONFIG_FILES="$CONFIG_FILES lib/tsrm/Makefile" ;;

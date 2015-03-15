@@ -95,16 +95,23 @@ void print_ka_phrase(request * req)
 
 void print_http_headers(request * req)
 {
-    static char date_header[] = "Date: "
-        "                             " CRLF;
-    static char server_header[] = "Server: " SERVER_VERSION CRLF;
+  static char date_header[] = "Date: "
+    "                             " CRLF;
+  static char server_header[] = "Server: " SERVER_VERSION CRLF;
 
-    rfc822_time_buf(date_header + 6, 0);
-    req_write(req, date_header);
-    if (!conceal_server_identity)
-        req_write(req, server_header);
-    req_write(req, "Accept-Ranges: bytes" CRLF);
-    print_ka_phrase(req);
+  rfc822_time_buf(date_header + 6, 0);
+  req_write(req, date_header);
+  if (!conceal_server_identity)
+    req_write(req, server_header);
+  req_write(req, "Accept-Ranges: bytes" CRLF);
+  print_ka_phrase(req);
+
+  if (req->filter) {
+    char buf[256];
+    sprintf(buf, "Content-Encoding: %s%sTransfer-Encoding: chunked%s",
+        req->filter->type, CRLF, CRLF); 
+    req_write(req, buf);
+  }
 }
 
 void print_content_range(request * req)
@@ -184,7 +191,7 @@ void send_r_continue(request * req)
 /* R_REQUEST_OK: 200 */
 void send_r_request_ok(request * req)
 {
-  
+
   if (req->mime) {
     mime_interp_head(req->mime, req);
     return;
@@ -199,11 +206,19 @@ void send_r_request_ok(request * req)
   print_http_headers(req);
 
   if (!req->cgi_type) {
-    print_content_length(req);
     print_last_modified(req);
     print_content_type(req);
+
+    if (!req->filter) {
+      print_content_length(req);
+    }
     req_write(req, CRLF);
+
+    if (req->filter) {
+      req_flush_raw(req);
+    }
   }
+
 
 }
 
@@ -323,7 +338,7 @@ void send_r_not_modified(request * req)
     print_http_headers(req);
     print_content_type(req);
     req_write(req, CRLF);
-    req_flush(req);
+    req_flush_raw(req);
 }
 
 /* R_BAD_REQUEST: 400 */

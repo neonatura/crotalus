@@ -66,11 +66,38 @@ dnl i386-unknown-freebsd4.2
 dnl Checks for libraries.
 # AC_SEARCH_LIBS (function, search-libs, [action-if-found], [action-if-not-found], [other-libraries])
 
-AC_CHECK_LIB([pthread], [pthread_self], HAVE_PTHREAD=1)
-AM_CONDITIONAL(HAVE_PTHREAD, test $HAVE_PTHREAD)
+AC_CHECK_LIB([pthread], [pthread_create], HAVE_LIBPTHREAD=1)
+AM_CONDITIONAL(HAVE_LIBPTHREAD, test $HAVE_LIBPTHREAD)
+if test $HAVE_LIBPTHREAD; then
+  AC_DEFINE_UNQUOTED(HAVE_LIBPTHREAD, 1, [Define if libpthread can be found])
+fi
 
-AC_CHECK_LIB([libxml2], [xmlInitGlobals], HAVE_LIBXML=1)
+AC_CHECK_LIB([xml2], [xmlInitGlobals], HAVE_LIBXML=1)
 AM_CONDITIONAL(HAVE_LIBXML, test $HAVE_LIBXML)
+if test $HAVE_LIBXML; then
+  AC_DEFINE_UNQUOTED(HAVE_LIBXML, 1, [Define if libxml2 can be found])
+fi
+
+AC_CHECK_LIB([rt], [shm_open], HAVE_LIBRT=1)
+AM_CONDITIONAL(HAVE_LIBRT, test $HAVE_LIBRT)
+if test $HAVE_LIBRT; then
+  AC_DEFINE_UNQUOTED(HAVE_LIBRT, 1, [Define if librt can be found])
+fi
+
+AC_CHECK_LIB([share], [get_libshare_version], HAVE_LIBSHARE=1)
+AM_CONDITIONAL(HAVE_LIBSHARE, test $HAVE_LIBSHARE)
+if test $HAVE_LIBSHARE; then
+  AC_DEFINE_UNQUOTED(HAVE_LIBSHARE, 1, [Define if libshare can be found])
+fi
+
+# determine whether "libz" library is available in system.
+AC_CHECK_LIB([z], [gzdopen], HAVE_LIBZ=1)
+AM_CONDITIONAL(HAVE_LIBZ, test $HAVE_LIBZ)
+if test $HAVE_LIBZ; then
+  AC_DEFINE_UNQUOTED(HAVE_LIBZ, 1, [Define if libz can be found])
+fi
+# the "libz" library function calls are always available.
+AC_DEFINE_UNQUOTED(HAVE_ZLIB, 1, [Define if libz can be used])
 
 AC_SEARCH_LIBS(socket, socket net)
 AC_SEARCH_LIBS(inet_aton, resolv)
@@ -90,6 +117,7 @@ dirent.h \
 alloca.h \
 sys/utsname.h \
 fnmatch.h \
+pthread.h \
 )
 
 
@@ -187,7 +215,7 @@ fi
 
 AC_MSG_CHECKING(whether to enable gunzip support)
 AC_ARG_ENABLE(gunzip,
-[  --disable-gunzip        Disable use of gunzip],
+[  --disable-gunzip        Disable use of web file .gz decompression.],
 [
  if test "$enableval" = "yes" ; then
     AC_MSG_RESULT(yes)
@@ -220,7 +248,7 @@ AC_ARG_ENABLE(gunzip,
 
 AC_MSG_CHECKING(whether to enable cgi support)
 AC_ARG_ENABLE(cgi,
-[  --disable-cgi        Disable use of cgi],
+[  --disable-cgi           Disable use of cgi],
 [
  if test "$enableval" = "yes" ; then
     AC_MSG_RESULT(yes)
@@ -234,22 +262,25 @@ AC_ARG_ENABLE(cgi,
     AC_DEFINE_UNQUOTED(CGI, 1, [Define if cgi support is enabled])
 ])
 
-AC_MSG_CHECKING(whether to enable access control support)
+AC_MSG_CHECKING(whether to disable access control support)
 AC_ARG_ENABLE(access-control,
-[  --disable-access-control Disable support for allow/deny rules],
+[  --disable-access-control Disable support for HTACCESS rules],
 [
  if test "$enableval" != "no" ; then
     AC_MSG_RESULT(yes)
-    CFLAGS="$CFLAGS -DACCESS_CONTROL"
     ACCESSCONTROL_SOURCE="access.c"	
     access_control=true
+    AC_DEFINE_UNQUOTED(ACCESS_CONTROL, 1, Support for HTACCESS rules)
   else
     AC_MSG_RESULT(no)
     access_control=false
   fi
 ],
 [
-    AC_MSG_RESULT(no)
+    AC_MSG_RESULT(yes)
+    ACCESSCONTROL_SOURCE="access.c"	
+    access_control=true
+    AC_DEFINE_UNQUOTED(ACCESS_CONTROL, 1, Support for HTACCESS rules)
 ])
 AC_SUBST(ACCESSCONTROL_SOURCE)
 AM_CONDITIONAL(ACCESS_CONTROL, test x"$access_control" != x"false")
@@ -439,4 +470,4 @@ AM_CONDITIONAL(HAVE_INITD_DIR, [test -d /etc/rc.d])
 INITD_DIR="/etc/rc.d"
 AC_SUBST(INITD_DIR)
 
-AC_OUTPUT(Makefile lib/zlib/Makefile lib/pcre/Makefile lib/tsrm/Makefile php/Makefile src/Makefile docs/Makefile)
+AC_OUTPUT(Makefile lib/ancillary/Makefile lib/zlib/Makefile lib/pcre/Makefile lib/tsrm/Makefile php/Makefile src/Makefile docs/Makefile)

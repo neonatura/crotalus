@@ -194,6 +194,42 @@ int req_write_escape_html(request * req, const char *msg)
     return req->buffer_end;
 }
 
+int req_flush_raw(request * req)
+{
+  int bytes_to_write;
+  int bytes_written;
+
+  if (req->status > DONE)
+    return -2;
+
+  bytes_written = 0;
+  bytes_to_write = req->buffer_end - req->buffer_start;
+  if (bytes_to_write) {
+    bytes_written = write(req->fd, req->buffer + req->buffer_start,
+        bytes_to_write);
+    if (bytes_written < 0) {
+      if (errno == EWOULDBLOCK || errno == EAGAIN)
+        return -1;      /* request blocked at the pipe level, but keep going */
+      else {
+        req->buffer_start = req->buffer_end = 0;
+        if (errno != ECONNRESET && errno != EPIPE) {
+          log_error_doc(req);
+          perror("buffer flush");
+        }
+        req->status = DEAD;
+        req->buffer_end = 0;
+        return -2;
+      }
+    }
+  }
+
+  req->buffer_start += bytes_written;
+  if (req->buffer_start == req->buffer_end)
+    req->buffer_start = req->buffer_end = 0;
+
+  return req->buffer_end;     /* successful */
+}
+
 
 /*
  * Name: flush_req
@@ -205,48 +241,48 @@ int req_write_escape_html(request * req, const char *msg)
 
 int req_flush(request * req)
 {
-    unsigned bytes_to_write;
+  int bytes_to_write;
+  int bytes_written;
 
-    bytes_to_write = req->buffer_end - req->buffer_start;
-    if (req->status > DONE)
-        return -2;
+  if (req->status > DONE)
+    return -2;
 
-    if (bytes_to_write) {
-        int bytes_written;
-
-        bytes_written = write(req->fd, req->buffer + req->buffer_start,
-                              bytes_to_write);
-
-        if (bytes_written < 0) {
-            if (errno == EWOULDBLOCK || errno == EAGAIN)
-                return -1;      /* request blocked at the pipe level, but keep going */
-            else {
-                req->buffer_start = req->buffer_end = 0;
-                /* OK to disable if your logs get too big */
-#ifdef QUIET_DISCONNECT
-                if (errno != ECONNRESET && errno != EPIPE)
-#endif
-                {
-                    log_error_doc(req);
-                    perror("buffer flush");
-                }
-                req->status = DEAD;
-                req->buffer_end = 0;
-                return -2;
-            }
-        }
-#ifdef FASCIST_LOGGING
-        log_error_time();
-        fprintf(stderr, "%s:%d - Wrote \"", __FILE__, __LINE__);
-        fwrite(req->buffer + req->buffer_start, sizeof (char),
-               bytes_written, stderr);
-        fprintf(stderr, "\" (%d bytes)\n", bytes_written);
-#endif
-        req->buffer_start += bytes_written;
-    }
-    if (req->buffer_start == req->buffer_end)
+  bytes_written = 0;
+  bytes_to_write = req->buffer_end - req->buffer_start;
+  if (bytes_to_write) {
+    if (req->filter) {
+      bytes_written = req->filter->write(req);
+      if (bytes_written < 0) {
         req->buffer_start = req->buffer_end = 0;
-    return req->buffer_end;     /* successful */
+        req->status = DEAD;
+        req->buffer_end = 0;
+        return -2;
+      }
+    } else {
+      bytes_written = write(req->fd, req->buffer + req->buffer_start,
+          bytes_to_write);
+      if (bytes_written < 0) {
+        if (errno == EWOULDBLOCK || errno == EAGAIN)
+          return -1;      /* request blocked at the pipe level, but keep going */
+        else {
+          req->buffer_start = req->buffer_end = 0;
+          if (errno != ECONNRESET && errno != EPIPE) {
+            log_error_doc(req);
+            perror("buffer flush");
+          }
+          req->status = DEAD;
+          req->buffer_end = 0;
+          return -2;
+        }
+      }
+    }
+  }
+
+  req->buffer_start += bytes_written;
+  if (req->buffer_start == req->buffer_end)
+    req->buffer_start = req->buffer_end = 0;
+
+  return req->buffer_end;     /* successful */
 }
 
 /*

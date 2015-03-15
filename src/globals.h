@@ -25,6 +25,8 @@
 #ifndef _GLOBALS_H
 #define _GLOBALS_H
 
+#include "zlib.h"
+
 /********************** METHODS **********************/
 enum HTTP_METHOD { M_GET = 1, M_HEAD, M_PUT, M_POST,
     M_DELETE, M_LINK, M_UNLINK, M_MOVE, M_TRACE
@@ -112,7 +114,7 @@ struct mmap_entry {
 struct mime_t;
 struct request;
 
-typedef int mime_f(struct mime_t *mime, struct request *req);
+typedef int mime_f(struct request *req);
 
 /** A mime type definition. */
 typedef struct mime_t
@@ -132,6 +134,17 @@ typedef struct mime_t
   /* flags indicating the features of the mime definition (MIMEF_XXX). */
   int flags;
 } mime_t;
+
+typedef struct mime_filter_t {
+  /*** The short label for encoding ("deflate", "gzip", etc). */
+  char *type; 
+  /*** The function called to initialize an output stream. */
+  mime_f *init;
+  /*** The function called to write to a output stream. */
+  mime_f *write;
+  /*** The function called to close a output stream. */
+  mime_f *flush;
+} mime_filter_t;
 
 /** pending requests */
 struct request 
@@ -178,6 +191,7 @@ struct request
 
     /* specific mime-type file processing */
     mime_t *mime;
+    mime_filter_t *filter;
 
     /* Agent and referer for logfiles */
     char *header_host;
@@ -221,6 +235,13 @@ struct request
 #ifdef ACCEPT_ON
     char accept[MAX_ACCEPT_LENGTH]; /* Accept: fields */
 #endif
+    char encoding[BUFFER_SIZE + 1]; /* Accept-Encoding: fields */ 
+
+    /* zlib DEFLATE/GZIP compression */
+    z_stream zlib;
+    int gzip_fd;
+    int gzip_of;
+    gzFile gzip_fl;
 
     struct request *next;       /* next */
     struct request *prev;       /* previous */

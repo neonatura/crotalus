@@ -26,42 +26,23 @@
  * @{
  */
 
+#define MAX_MIME_DEFINITION 3
+#define MAX_MIME_FILTERS 2 
+
 #define MIMEF_ENCODE (1 << 0)
 #define MIMEF_INLINE (1 << 1)
 
-#define MAX_MIME_DEFINITION 3
+#define ADD_OUTPUT_FILTER_LABEL "addoutputfilterbytype"
+#define OUTPUT_FILTER_DEFLATE "deflate"
+#define OUTPUT_FILTER_GZIP "gzip"
 
-#if 0
-struct mime_t;
-
-typedef int mime_f(struct mime_t *mime, request *req);
-   
-/** A mime type definition. */
-typedef struct mime_t 
-{
-  /* the mime type iso name */
-  char *type;
-  /* the filename extension referencing this mime definition. */
-  char *ext;
-  /* the "HEAD" http function. */
-  mime_f *head;
-  /* the "GET" http function. */
-  mime_f *get;
-  /* the "POST" http function. */
-  mime_f *post;
-  /* the "PUT" http function. */
-  mime_f *put;
-  /* method to decode stored content. */
-  mime_f *decode;
-  /* flags indicating the features of the mime definition (MIMEF_XXX). */
-  int flags;
-} mime_t;
-#endif
 
 extern mime_t mime_definition[MAX_MIME_DEFINITION];
 
+extern mime_filter_t mime_filter[MAX_MIME_FILTERS];
 
 mime_t *mime_info(int index);
+
 
 /**
  * @}

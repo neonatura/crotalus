@@ -217,10 +217,6 @@ void timestamp(void);
 struct mmap_entry *find_mmap(int data_fd, struct stat *s);
 void release_mmap(struct mmap_entry *e);
 
-/* sublog */
-int open_gen_fd(char *spec);
-int process_cgi_header(request * req);
-
 /* pipe */
 int read_from_pipe(request * req);
 int write_from_pipe(request * req);

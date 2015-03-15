@@ -34,7 +34,7 @@ POST_UNINSTALL = :
 build_triplet = @build@
 host_triplet = @host@
 subdir = .
-DIST_COMMON = README $(am__configure_deps) $(srcdir)/Makefile.am \
+DIST_COMMON = $(am__configure_deps) $(srcdir)/Makefile.am \
 	$(srcdir)/Makefile.in $(top_srcdir)/configure \
 	$(top_srcdir)/php/TSRM/tsrm_config.h.in \
 	$(top_srcdir)/php/Zend/zend_config.h.in \
@@ -240,7 +240,7 @@ top_builddir = @top_builddir@
 top_srcdir = @top_srcdir@
 ACLOCAL_AMFLAGS = -I m4
 AUTOMAKE_OPTIONS = foreign
-SUBDIRS = lib/zlib lib/pcre lib/tsrm php src docs
+SUBDIRS = lib/ancillary lib/zlib lib/pcre lib/tsrm php src docs
 all: all-recursive
 
 .SUFFIXES:

@@ -40,6 +40,11 @@ mime_t mime_definition[MAX_MIME_DEFINITION] = {
   //{ PHP_MIME_TYPE, mime_interp_php, 0 }
 };  
 
+mime_filter_t mime_filter[MAX_MIME_FILTERS] = {
+  { OUTPUT_FILTER_DEFLATE, mime_filter_init_deflate, mime_filter_write_deflate, mime_filter_flush_deflate },
+  { OUTPUT_FILTER_GZIP, mime_filter_init_gzip, mime_filter_write_gzip, mime_filter_flush_gzip },
+};
+
 
 mime_t *mime_info(int index)
 {

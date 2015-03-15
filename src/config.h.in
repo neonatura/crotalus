@@ -1,5 +1,8 @@
 /* src/config.h.in.  Generated from configure.ac by autoheader.  */
 
+/* Support for HTACCESS rules */
+#undef ACCESS_CONTROL
+
 /* Whether to use native BeOS threads */
 #undef BETHREADS
 
@@ -90,6 +93,21 @@
 /* Define to 1 if you have the `efence' library (-lefence). */
 #undef HAVE_LIBEFENCE
 
+/* Define if libpthread can be found */
+#undef HAVE_LIBPTHREAD
+
+/* Define if librt can be found */
+#undef HAVE_LIBRT
+
+/* Define if libshare can be found */
+#undef HAVE_LIBSHARE
+
+/* Define if libxml2 can be found */
+#undef HAVE_LIBXML
+
+/* Define if libz can be found */
+#undef HAVE_LIBZ
+
 /* Define to 1 if you have the <limits.h> header file. */
 #undef HAVE_LIMITS_H
 
@@ -113,6 +131,9 @@
 
 /* Define to 1 if you have the <netinet/in.h> header file. */
 #undef HAVE_NETINET_IN_H
+
+/* Define to 1 if you have the <pthread.h> header file. */
+#undef HAVE_PTHREAD_H
 
 /* Define to 1 if you have the <pwd.h> header file. */
 #undef HAVE_PWD_H
@@ -241,6 +262,9 @@
 
 /* Define to 1 if you have the <wctype.h> header file. */
 #undef HAVE_WCTYPE_H
+
+/* Define if libz can be used */
+#undef HAVE_ZLIB
 
 /* The value of LINK_SIZE determines the number of bytes used to store links
    as offsets within the compiled regex. The default is 2, which allows for

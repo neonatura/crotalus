@@ -526,6 +526,11 @@ int get_dir(request * req, struct stat *statbuf)
       send_r_forbidden(req);
       return -1;
     } else if (errno != ENOENT) {
+      char ebuf[8096];
+
+      sprintf(ebuf, "get_dir: open '%s': %s [errno %d].", pathname_with_index, strerror(errno), errno);
+      WARN(ebuf);
+
       /* if there is an error *other* than EACCES or ENOENT */
       send_r_not_found(req);
       return -1;

@@ -290,6 +290,9 @@ static void sanitize_request(request * req, int new_req)
 
     req->status = READ_HEADER;
     req->header_line = req->client_stream;
+
+  memset(req->encoding, 0, sizeof(req->encoding));
+
 }
 
 /*
@@ -324,6 +327,12 @@ static void free_request(request * req)
             return;
         }
     }
+
+    /* flush encoding stream */
+    if (req->filter) {
+      req->filter->flush(req);
+    }
+
     /* put request on the free list */
     dequeue(&request_ready, req); /* dequeue from ready or block list */
 
@@ -880,8 +889,24 @@ int process_header_end(request * req)
   if (!req->mime)
     req->mime = mime_interp_extension(req);
   err = mime_interp_request(req);
-  if (err != 0)
+  if (err != 0) {
     return (err);
+}
+
+#if 0
+  /* check for output filter */
+  if (req->mime) {
+    req->filter = mime_interp_filter(req);
+  }
+#endif
+
+  if (*req->encoding) {
+    req->filter = mime_interp_filter(req);
+  }
+
+  if (req->filter) {
+    req->filter->init(req);
+  }
 
   req->status = WRITE;
   return init_get(req);       /* get and head */
@@ -926,6 +951,10 @@ int process_option_line(request * req)
 
     switch (line[0]) {
     case 'A':
+        if (!memcmp(line, "ACCEPT_ENCODING", strlen("ACCEPT_ENCODING"))) {
+          strncpy(req->encoding, value, sizeof(req->encoding) - 1);
+          return 1;
+        }
         if (!memcmp(line, "ACCEPT", 7)) {
 #ifdef ACCEPT_ON
             add_accept_header(req, value);
