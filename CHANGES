@@ -7,13 +7,16 @@
      * Pprocess thread queue management.
      * OAUTH validated libshare authentification.
 ** Crotalus v2.29
- * Multi-threaded PHP requests.
-** Crotalus v2.28
  * OAUTH server authentification support, use --disable-oauth to exclude from compile.
-** Crotalus v2.27
+** Crotalus v2.28
  * SSL web protocol support, use --disable-ssl to exclude from compile.
-** Crotalus v2.26
+** Crotalus v2.27
  * inline PHP cgi support, use --disable-php to exclude from compile.
+** Crotalus v2.26
+ * pre-spawns child worker procesess to handle external (i.e. cgi) requests.
+ - preference "WorkerLifeSpan": specifies the maximum time duration a worker process will serve requests. 
+ - preference "MaxWorkers": specifies the maximum number of child processes to spawn for handling external (i.e. cgi) rendering.
+ - note: child workers handles individual requests as opposed to individual client connections. this, among other things, prohibits "process build-up" when keep-alive is utilized. 
 ** Crotalus v2.25
  * preference "ParentIndex": recursive parent directory search for web path
  * executable is built optimized, use --enable-debug for debugging symbols
