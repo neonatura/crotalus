@@ -470,4 +470,8 @@ AM_CONDITIONAL(HAVE_INITD_DIR, [test -d /etc/rc.d])
 INITD_DIR="/etc/rc.d"
 AC_SUBST(INITD_DIR)
 
-AC_OUTPUT(Makefile lib/ancillary/Makefile lib/zlib/Makefile lib/pcre/Makefile lib/tsrm/Makefile lib/oauth/Makefile php/Makefile src/Makefile docs/Makefile)
+AC_CHECK_LIB([curl], [curl_global_init], HAVE_CURL=1)
+AM_CONDITIONAL(HAVE_CURL, test $HAVE_CURL)
+
+
+AC_OUTPUT(Makefile lib/ancillary/Makefile lib/zlib/Makefile lib/pcre/Makefile lib/tsrm/Makefile lib/oauth/Makefile lib/oauth/tests/Makefile php/Makefile src/Makefile docs/Makefile)

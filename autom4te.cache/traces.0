@@ -2628,15 +2628,20 @@ m4trace:configure.ac:469: -1- m4_pattern_allow([^HAVE_INITD_DIR_FALSE$])
 m4trace:configure.ac:469: -1- _AM_SUBST_NOTMAKE([HAVE_INITD_DIR_TRUE])
 m4trace:configure.ac:469: -1- _AM_SUBST_NOTMAKE([HAVE_INITD_DIR_FALSE])
 m4trace:configure.ac:471: -1- m4_pattern_allow([^INITD_DIR$])
-m4trace:configure.ac:473: -1- _m4_warn([obsolete], [AC_OUTPUT should be used without arguments.
+m4trace:configure.ac:474: -1- AM_CONDITIONAL([HAVE_CURL], [test $HAVE_CURL])
+m4trace:configure.ac:474: -1- m4_pattern_allow([^HAVE_CURL_TRUE$])
+m4trace:configure.ac:474: -1- m4_pattern_allow([^HAVE_CURL_FALSE$])
+m4trace:configure.ac:474: -1- _AM_SUBST_NOTMAKE([HAVE_CURL_TRUE])
+m4trace:configure.ac:474: -1- _AM_SUBST_NOTMAKE([HAVE_CURL_FALSE])
+m4trace:configure.ac:477: -1- _m4_warn([obsolete], [AC_OUTPUT should be used without arguments.
 You should run autoupdate.], [])
-m4trace:configure.ac:473: -1- m4_pattern_allow([^LIB@&t@OBJS$])
-m4trace:configure.ac:473: -1- m4_pattern_allow([^LTLIBOBJS$])
-m4trace:configure.ac:473: -1- AM_CONDITIONAL([am__EXEEXT], [test -n "$EXEEXT"])
-m4trace:configure.ac:473: -1- m4_pattern_allow([^am__EXEEXT_TRUE$])
-m4trace:configure.ac:473: -1- m4_pattern_allow([^am__EXEEXT_FALSE$])
-m4trace:configure.ac:473: -1- _AM_SUBST_NOTMAKE([am__EXEEXT_TRUE])
-m4trace:configure.ac:473: -1- _AM_SUBST_NOTMAKE([am__EXEEXT_FALSE])
-m4trace:configure.ac:473: -1- _AC_AM_CONFIG_HEADER_HOOK(["$ac_file"])
-m4trace:configure.ac:473: -1- _AM_OUTPUT_DEPENDENCY_COMMANDS
-m4trace:configure.ac:473: -1- _LT_PROG_LTMAIN
+m4trace:configure.ac:477: -1- m4_pattern_allow([^LIB@&t@OBJS$])
+m4trace:configure.ac:477: -1- m4_pattern_allow([^LTLIBOBJS$])
+m4trace:configure.ac:477: -1- AM_CONDITIONAL([am__EXEEXT], [test -n "$EXEEXT"])
+m4trace:configure.ac:477: -1- m4_pattern_allow([^am__EXEEXT_TRUE$])
+m4trace:configure.ac:477: -1- m4_pattern_allow([^am__EXEEXT_FALSE$])
+m4trace:configure.ac:477: -1- _AM_SUBST_NOTMAKE([am__EXEEXT_TRUE])
+m4trace:configure.ac:477: -1- _AM_SUBST_NOTMAKE([am__EXEEXT_FALSE])
+m4trace:configure.ac:477: -1- _AC_AM_CONFIG_HEADER_HOOK(["$ac_file"])
+m4trace:configure.ac:477: -1- _AM_OUTPUT_DEPENDENCY_COMMANDS
+m4trace:configure.ac:477: -1- _LT_PROG_LTMAIN
