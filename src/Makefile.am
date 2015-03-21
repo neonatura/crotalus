@@ -14,7 +14,8 @@ crotalus_CFLAGS = -I$(top_srcdir)/lib/zlib
 crotalus_LDADD = \
 	$(top_builddir)/lib/ancillary/libancillary.a \
 	$(top_builddir)/lib/pcre/libpcre.a \
-	$(top_builddir)/lib/tsrm/libtsrm.a
+	$(top_builddir)/lib/tsrm/libtsrm.a \
+	$(top_builddir)/lib/oauth/liboauth.a
 
 if ACCESS_CONTROL
 crotalus_SOURCES += cache/cr_access.c cache/cr_access.h
