@@ -447,6 +447,7 @@ libphp_sapi_a_CFLAGS = \
 		-I$(srcdir)/TSRM -I$(builddir)/TSRM \
 		-I$(srcdir)/ext \
 		-I$(srcdir)/ext/opcache \
+		-I$(srcdir)/ext/sqlite3/libsqlite \
 		-I$(srcdir)/ext/date/lib -I$(builddir)/ext/date/lib \
 		-I$(top_srcdir)/libxml2/include
 
