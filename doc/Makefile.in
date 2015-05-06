@@ -34,9 +34,10 @@ PRE_UNINSTALL = :
 POST_UNINSTALL = :
 build_triplet = @build@
 host_triplet = @host@
-subdir = docs
+subdir = doc
 DIST_COMMON = $(am__dist_doc_DATA_DIST) $(srcdir)/Makefile.am \
-	$(srcdir)/Makefile.in $(srcdir)/doxygen.conf.in
+	$(srcdir)/Makefile.in $(srcdir)/NEWS.in \
+	$(srcdir)/doxygen.conf.in
 ACLOCAL_M4 = $(top_srcdir)/aclocal.m4
 am__aclocal_m4_deps = $(top_srcdir)/m4/ax_check_compile_flag.m4 \
 	$(top_srcdir)/m4/libtool.m4 $(top_srcdir)/m4/ltoptions.m4 \
@@ -52,7 +53,7 @@ CONFIG_HEADER = $(top_builddir)/src/config.h \
 	$(top_builddir)/php/Zend/zend_config.h \
 	$(top_builddir)/php/TSRM/tsrm_config.h \
 	$(top_builddir)/php/ext/date/lib/timelib_config.h
-CONFIG_CLEAN_FILES = doxygen.conf
+CONFIG_CLEAN_FILES = NEWS doxygen.conf
 CONFIG_CLEAN_VPATH_FILES =
 SOURCES =
 DIST_SOURCES =
@@ -132,6 +133,7 @@ LD = @LD@
 LDFLAGS = @LDFLAGS@
 LIBOBJS = @LIBOBJS@
 LIBS = @LIBS@
+LIBSHARE = @LIBSHARE@
 LIBTOOL = @LIBTOOL@
 LIPO = @LIPO@
 LN_S = @LN_S@
@@ -230,9 +232,9 @@ $(srcdir)/Makefile.in:  $(srcdir)/Makefile.am  $(am__configure_deps)
 	      exit 1;; \
 	  esac; \
 	done; \
-	echo ' cd $(top_srcdir) && $(AUTOMAKE) --gnu docs/Makefile'; \
+	echo ' cd $(top_srcdir) && $(AUTOMAKE) --gnu doc/Makefile'; \
 	$(am__cd) $(top_srcdir) && \
-	  $(AUTOMAKE) --gnu docs/Makefile
+	  $(AUTOMAKE) --gnu doc/Makefile
 .PRECIOUS: Makefile
 Makefile: $(srcdir)/Makefile.in $(top_builddir)/config.status
 	@case '$?' in \
@@ -251,6 +253,8 @@ $(top_srcdir)/configure:  $(am__configure_deps)
 $(ACLOCAL_M4):  $(am__aclocal_m4_deps)
 	cd $(top_builddir) && $(MAKE) $(AM_MAKEFLAGS) am--refresh
 $(am__aclocal_m4_deps):
+NEWS: $(top_builddir)/config.status $(srcdir)/NEWS.in
+	cd $(top_builddir) && $(SHELL) ./config.status $(subdir)/$@
 @HAVE_DOXYGEN_TRUE@doxygen.conf: $(top_builddir)/config.status $(srcdir)/doxygen.conf.in
 @HAVE_DOXYGEN_TRUE@	cd $(top_builddir) && $(SHELL) ./config.status $(subdir)/$@
 

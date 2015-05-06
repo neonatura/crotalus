@@ -159,6 +159,7 @@ LD = @LD@
 LDFLAGS = @LDFLAGS@
 LIBOBJS = @LIBOBJS@
 LIBS = @LIBS@
+LIBSHARE = @LIBSHARE@
 LIBTOOL = @LIBTOOL@
 LIPO = @LIPO@
 LN_S = @LN_S@
@@ -240,7 +241,7 @@ top_builddir = @top_builddir@
 top_srcdir = @top_srcdir@
 ACLOCAL_AMFLAGS = -I m4
 AUTOMAKE_OPTIONS = foreign
-SUBDIRS = lib/ancillary lib/zlib lib/pcre lib/tsrm lib/oauth lib/oauth/tests php src docs
+SUBDIRS = lib/ancillary lib/zlib lib/pcre lib/tsrm lib/oauth lib/oauth/tests php src doc
 all: all-recursive
 
 .SUFFIXES:

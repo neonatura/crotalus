@@ -131,6 +131,7 @@ int process_logline(request * req);
 int process_option_line(request * req);
 void add_accept_header(request * req, const char *mime_type);
 void free_requests(void);
+struct request *find_request_by_fd(int fd);
 
 /* response */
 const char *http_ver_string(enum HTTP_VERSION ver);
@@ -225,6 +226,10 @@ int io_shuffle(request * req);
 #include <sys/sendfile.h>
 int io_shuffle_sendfile(request * req);
 #endif
+
+int write_from_shbuff(request *req);
+int read_from_shbuff(request *req);
+
 
 /* ip */
 int bind_server(int sock, char *ip, unsigned int port);

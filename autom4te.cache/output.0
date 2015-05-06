@@ -809,8 +809,9 @@ SCANDIR
 LIB@&t@OBJS
 HAVE_LIBZ_FALSE
 HAVE_LIBZ_TRUE
-HAVE_LIBSHARE_FALSE
-HAVE_LIBSHARE_TRUE
+STATIC_LIBSHARE_FALSE
+STATIC_LIBSHARE_TRUE
+LIBSHARE
 HAVE_LIBRT_FALSE
 HAVE_LIBRT_TRUE
 HAVE_LIBXML_FALSE
@@ -931,6 +932,7 @@ with_pic
 enable_fast_install
 with_gnu_ld
 enable_libtool_lock
+with_libshare
 enable_gunzip
 enable_cgi
 enable_access_control
@@ -1600,6 +1602,7 @@ Optional Packages:
   --with-pic              try to use only PIC/non-PIC objects @<:@default=use
                           both@:>@
   --with-gnu-ld           assume the C compiler uses GNU ld @<:@default=no@:>@
+  --with-libshare         specify a path to the libshare build directory
   --with-dmalloc          Link with the Dmalloc memory debugger/profiler
   --with-efence           Link with the Electric Fence memory debugger
   --with-link-size=N      internal link size (2, 3, or 4 allowed; default=2)
@@ -13402,19 +13405,8 @@ $as_echo "$ac_cv_type_uint" >&6; }
 
 MAKEINFOHTMLFLAGS=--no-headers --no-split
 
-#CHECK_GNU_MAKE
-#if test "x$_cv_gnu_make_command" != "x"; then
-#  MAKE="$_cv_gnu_make_command"
-#  ALLSOURCES="\$^"
-#else
-#  MAKE="make"
-#  ALLSOURCES="\$(.ALLSRC)"
-#fi
-#AC_SUBST(ALLSOURCES)
-#AC_SUBST(MAKE)
+ac_config_files="$ac_config_files doc/NEWS"
 
-
-# AC_SEARCH_LIBS (function, search-libs, [action-if-found], [action-if-not-found], [other-libraries])
 
 { $as_echo "$as_me:$LINENO: checking for pthread_create in -lpthread" >&5
 $as_echo_n "checking for pthread_create in -lpthread... " >&6; }
@@ -13671,6 +13663,17 @@ _ACEOF
 
 fi
 
+
+@%:@ Check whether --with-libshare was given.
+if test "${with_libshare+set}" = set; then
+  withval=$with_libshare; 
+else
+  with_libshare=yes
+fi
+
+LIBSHARE=
+if test "x$with_libshare" = "xyes"; then
+  
 { $as_echo "$as_me:$LINENO: checking for get_libshare_version in -lshare" >&5
 $as_echo_n "checking for get_libshare_version in -lshare... " >&6; }
 if test "${ac_cv_lib_share_get_libshare_version+set}" = set; then
@@ -13737,24 +13740,26 @@ fi
 { $as_echo "$as_me:$LINENO: result: $ac_cv_lib_share_get_libshare_version" >&5
 $as_echo "$ac_cv_lib_share_get_libshare_version" >&6; }
 if test "x$ac_cv_lib_share_get_libshare_version" = x""yes; then
-  HAVE_LIBSHARE=1
-fi
-
- if test $HAVE_LIBSHARE; then
-  HAVE_LIBSHARE_TRUE=
-  HAVE_LIBSHARE_FALSE='#'
-else
-  HAVE_LIBSHARE_TRUE='#'
-  HAVE_LIBSHARE_FALSE=
-fi
-
-if test $HAVE_LIBSHARE; then
-  
-cat >>confdefs.h <<_ACEOF
+  cat >>confdefs.h <<_ACEOF
 @%:@define HAVE_LIBSHARE 1
 _ACEOF
 
+  LIBS="-lshare $LIBS"
+
 fi
+
+fi
+
+LIBSHARE=$with_libshare
+
+ if test x"$with_libshare" != x"yes"; then
+  STATIC_LIBSHARE_TRUE=
+  STATIC_LIBSHARE_FALSE='#'
+else
+  STATIC_LIBSHARE_TRUE='#'
+  STATIC_LIBSHARE_FALSE=
+fi
+
 
 # determine whether "libz" library is available in system.
 { $as_echo "$as_me:$LINENO: checking for gzdopen in -lz" >&5
@@ -19004,7 +19009,7 @@ else
 fi
 
 if test -n "$DOXYGEN"; then
-  ac_config_files="$ac_config_files docs/doxygen.conf"
+  ac_config_files="$ac_config_files doc/doxygen.conf"
 
 fi
 
@@ -19098,7 +19103,7 @@ fi
 
 
 
-ac_config_files="$ac_config_files Makefile lib/ancillary/Makefile lib/zlib/Makefile lib/pcre/Makefile lib/tsrm/Makefile lib/oauth/Makefile lib/oauth/tests/Makefile php/Makefile src/Makefile docs/Makefile"
+ac_config_files="$ac_config_files Makefile lib/ancillary/Makefile lib/zlib/Makefile lib/pcre/Makefile lib/tsrm/Makefile lib/oauth/Makefile lib/oauth/tests/Makefile php/Makefile src/Makefile doc/Makefile"
 
 cat >confcache <<\_ACEOF
 # This file is a shell script that caches the results of configure
@@ -19240,10 +19245,10 @@ $as_echo "$as_me: error: conditional \"HAVE_LIBRT\" was never defined.
 Usually this means the macro was only invoked conditionally." >&2;}
    { (exit 1); exit 1; }; }
 fi
-if test -z "${HAVE_LIBSHARE_TRUE}" && test -z "${HAVE_LIBSHARE_FALSE}"; then
-  { { $as_echo "$as_me:$LINENO: error: conditional \"HAVE_LIBSHARE\" was never defined.
+if test -z "${STATIC_LIBSHARE_TRUE}" && test -z "${STATIC_LIBSHARE_FALSE}"; then
+  { { $as_echo "$as_me:$LINENO: error: conditional \"STATIC_LIBSHARE\" was never defined.
 Usually this means the macro was only invoked conditionally." >&5
-$as_echo "$as_me: error: conditional \"HAVE_LIBSHARE\" was never defined.
+$as_echo "$as_me: error: conditional \"STATIC_LIBSHARE\" was never defined.
 Usually this means the macro was only invoked conditionally." >&2;}
    { (exit 1); exit 1; }; }
 fi
@@ -20063,7 +20068,8 @@ do
     "scripts/initd/crotalus") CONFIG_FILES="$CONFIG_FILES scripts/initd/crotalus" ;;
     "depfiles") CONFIG_COMMANDS="$CONFIG_COMMANDS depfiles" ;;
     "libtool") CONFIG_COMMANDS="$CONFIG_COMMANDS libtool" ;;
-    "docs/doxygen.conf") CONFIG_FILES="$CONFIG_FILES docs/doxygen.conf" ;;
+    "doc/NEWS") CONFIG_FILES="$CONFIG_FILES doc/NEWS" ;;
+    "doc/doxygen.conf") CONFIG_FILES="$CONFIG_FILES doc/doxygen.conf" ;;
     "Makefile") CONFIG_FILES="$CONFIG_FILES Makefile" ;;
     "lib/ancillary/Makefile") CONFIG_FILES="$CONFIG_FILES lib/ancillary/Makefile" ;;
     "lib/zlib/Makefile") CONFIG_FILES="$CONFIG_FILES lib/zlib/Makefile" ;;
@@ -20073,7 +20079,7 @@ do
     "lib/oauth/tests/Makefile") CONFIG_FILES="$CONFIG_FILES lib/oauth/tests/Makefile" ;;
     "php/Makefile") CONFIG_FILES="$CONFIG_FILES php/Makefile" ;;
     "src/Makefile") CONFIG_FILES="$CONFIG_FILES src/Makefile" ;;
-    "docs/Makefile") CONFIG_FILES="$CONFIG_FILES docs/Makefile" ;;
+    "doc/Makefile") CONFIG_FILES="$CONFIG_FILES doc/Makefile" ;;
 
   *) { { $as_echo "$as_me:$LINENO: error: invalid argument: $ac_config_target" >&5
 $as_echo "$as_me: error: invalid argument: $ac_config_target" >&2;}

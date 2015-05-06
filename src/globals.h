@@ -26,6 +26,9 @@
 #define _GLOBALS_H
 
 #include "zlib.h"
+#ifdef HAVE_LIBSHARE
+#include <share.h>
+#endif
 
 /********************** METHODS **********************/
 enum HTTP_METHOD { M_GET = 1, M_HEAD, M_PUT, M_POST,
@@ -39,6 +42,7 @@ enum HTTP_VERSION { HTTP09=1, HTTP10, HTTP11 };
 enum REQ_STATUS { READ_HEADER, ONE_CR, ONE_LF, TWO_CR,
     BODY_READ, BODY_WRITE,
     WRITE,
+    BUFF_POLL, BUFF_READ, BUFF_WRITE,
     PIPE_READ, PIPE_WRITE,
     IOSHUFFLE,
     DONE,
@@ -92,7 +96,7 @@ enum KA_STATUS { KA_INACTIVE, KA_ACTIVE, KA_STOPPED };
 enum CGI_STATUS { CGI_PARSE, CGI_BUFFER, CGI_DONE };
 
 /************** CGI TYPE (req->is_cgi) ******************/
-enum CGI_TYPE { NPH = 1, EXEC };
+enum CGI_TYPE { NPH = 1, EXEC = 2, WORK = 3 };
 
 /**************** STRUCTURES ****************************/
 struct range {
@@ -228,6 +232,9 @@ struct request
 
     /* everything below this line is kept regardless */
     char buffer[BUFFER_SIZE + 1]; /* generic I/O buffer */
+#ifdef HAVE_LIBSHARE
+    shbuf_t *buff; /* worker process returned data */
+#endif
     char request_uri[MAX_HEADER_LENGTH + 1]; /* uri */
     char client_stream[CLIENT_STREAM_SIZE]; /* data from client - fit or be hosed */
     char *cgi_env[CGI_ENV_MAX + 4]; /* CGI environment */
@@ -246,6 +253,15 @@ struct request
     struct request *next;       /* next */
     struct request *prev;       /* previous */
 };
+
+typedef struct work_t
+{
+  char pathname[PATH_MAX+1];
+  int method;
+  int cgi_type;
+  int cgi_status;
+  int fd; /* fd ref'd is only valid in parent process */
+} work_t;
 
 typedef struct request request;
 

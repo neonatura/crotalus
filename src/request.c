@@ -515,6 +515,15 @@ void process_requests(int server_sock)
             case WRITE:
                 retval = process_get(current);
                 break;
+            case BUFF_POLL:
+                retval = poll_from_shbuff(current);
+                break;
+            case BUFF_READ:
+                retval = read_from_shbuff(current);
+                break;
+            case BUFF_WRITE:
+                retval = write_from_shbuff(current);
+                break;
             case PIPE_READ:
                 retval = read_from_pipe(current);
                 break;
@@ -1064,3 +1073,33 @@ void free_requests(void) {
     }
     request_free = NULL;
 }
+
+extern request *request_ready;
+extern request *request_block;
+extern request *request_free;
+struct request *find_request_by_fd(int fd)
+{
+  struct request *node;
+
+
+  for (node = request_ready; node ; node = node->next) {
+    if (node->fd == fd) {
+      return (node);
+    }
+  }
+  for (node = request_block; node ; node = node->next) {
+    if (node->fd == fd) {
+      return (node);
+    }
+  }
+  for (node = request_free; node ; node = node->next) {
+    if (node->fd == fd) {
+      return (node);
+    }
+  }
+
+  return (NULL);
+}
+
+
+

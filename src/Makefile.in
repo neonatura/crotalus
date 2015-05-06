@@ -35,13 +35,14 @@ POST_UNINSTALL = :
 build_triplet = @build@
 host_triplet = @host@
 sbin_PROGRAMS = crotalus$(EXEEXT)
-@ACCESS_CONTROL_TRUE@am__append_1 = cache/cr_access.c cache/cr_access.h
-@HAVE_LIBRT_TRUE@am__append_2 = -lrt
-@HAVE_LIBXML_TRUE@am__append_3 = -lxml2
-@HAVE_LIBPTHREAD_TRUE@am__append_4 = -lpthread
-@HAVE_LIBSHARE_TRUE@am__append_5 = -lshare
-@HAVE_LIBZ_TRUE@am__append_6 = -lz
-@HAVE_LIBZ_FALSE@am__append_7 = $(top_builddir)/lib/zlib/libz.a
+@STATIC_LIBSHARE_TRUE@am__append_1 = $(LIBSHARE)/src/share-lib/libshare.a
+@STATIC_LIBSHARE_TRUE@am__append_2 = -I$(LIBSHARE)/include
+@ACCESS_CONTROL_TRUE@am__append_3 = cache/cr_access.c cache/cr_access.h
+@HAVE_LIBRT_TRUE@am__append_4 = -lrt
+@HAVE_LIBXML_TRUE@am__append_5 = -lxml2
+@HAVE_LIBPTHREAD_TRUE@am__append_6 = -lpthread
+@HAVE_LIBZ_TRUE@am__append_7 = -lz
+@HAVE_LIBZ_FALSE@am__append_8 = $(top_builddir)/lib/zlib/libz.a
 subdir = src
 DIST_COMMON = $(srcdir)/Makefile.am $(srcdir)/Makefile.in \
 	$(srcdir)/config.h.in
@@ -64,36 +65,36 @@ CONFIG_CLEAN_VPATH_FILES =
 am__installdirs = "$(DESTDIR)$(sbindir)"
 PROGRAMS = $(sbin_PROGRAMS)
 am__crotalus_SOURCES_DIST = alias.c boa.c buffer.c cgi_header.c \
-	config.c escape.c get.c ip.c log.c mmap_cache.c pipe.c queue.c \
-	range.c read.c request.c response.c signals.c util.c select.c \
-	crotalus.c cache/cr_hash.c cache/cr_hash.h cache/cr_pref.c \
-	cache/cr_pref.h mime/mime_interp.c mime/mime_interp.h \
-	mime/mime_def.c mime/mime_def.h mime/mime_cgi.c \
-	mime/mime_cgi.h mime/mime_zlib.c mime/mime_zlib.h \
-	cache/cr_access.c cache/cr_access.h
+	config.c escape.c get.c ip.c log.c mmap_cache.c pipe.c \
+	shbuff.c queue.c range.c read.c request.c response.c signals.c \
+	util.c select.c crotalus.c cache/cr_hash.c cache/cr_hash.h \
+	cache/cr_pref.c cache/cr_pref.h mime/mime_interp.c \
+	mime/mime_interp.h mime/mime_def.c mime/mime_def.h \
+	mime/mime_cgi.c mime/mime_cgi.h mime/mime_zlib.c \
+	mime/mime_zlib.h cache/cr_access.c cache/cr_access.h
 @ACCESS_CONTROL_TRUE@am__objects_1 = crotalus-cr_access.$(OBJEXT)
 am_crotalus_OBJECTS = crotalus-alias.$(OBJEXT) crotalus-boa.$(OBJEXT) \
 	crotalus-buffer.$(OBJEXT) crotalus-cgi_header.$(OBJEXT) \
 	crotalus-config.$(OBJEXT) crotalus-escape.$(OBJEXT) \
 	crotalus-get.$(OBJEXT) crotalus-ip.$(OBJEXT) \
 	crotalus-log.$(OBJEXT) crotalus-mmap_cache.$(OBJEXT) \
-	crotalus-pipe.$(OBJEXT) crotalus-queue.$(OBJEXT) \
-	crotalus-range.$(OBJEXT) crotalus-read.$(OBJEXT) \
-	crotalus-request.$(OBJEXT) crotalus-response.$(OBJEXT) \
-	crotalus-signals.$(OBJEXT) crotalus-util.$(OBJEXT) \
-	crotalus-select.$(OBJEXT) crotalus-crotalus.$(OBJEXT) \
-	crotalus-cr_hash.$(OBJEXT) crotalus-cr_pref.$(OBJEXT) \
-	crotalus-mime_interp.$(OBJEXT) crotalus-mime_def.$(OBJEXT) \
-	crotalus-mime_cgi.$(OBJEXT) crotalus-mime_zlib.$(OBJEXT) \
-	$(am__objects_1)
+	crotalus-pipe.$(OBJEXT) crotalus-shbuff.$(OBJEXT) \
+	crotalus-queue.$(OBJEXT) crotalus-range.$(OBJEXT) \
+	crotalus-read.$(OBJEXT) crotalus-request.$(OBJEXT) \
+	crotalus-response.$(OBJEXT) crotalus-signals.$(OBJEXT) \
+	crotalus-util.$(OBJEXT) crotalus-select.$(OBJEXT) \
+	crotalus-crotalus.$(OBJEXT) crotalus-cr_hash.$(OBJEXT) \
+	crotalus-cr_pref.$(OBJEXT) crotalus-mime_interp.$(OBJEXT) \
+	crotalus-mime_def.$(OBJEXT) crotalus-mime_cgi.$(OBJEXT) \
+	crotalus-mime_zlib.$(OBJEXT) $(am__objects_1)
 crotalus_OBJECTS = $(am_crotalus_OBJECTS)
 am__DEPENDENCIES_1 =
 crotalus_DEPENDENCIES = $(top_builddir)/lib/ancillary/libancillary.a \
 	$(top_builddir)/lib/pcre/libpcre.a \
 	$(top_builddir)/lib/tsrm/libtsrm.a \
-	$(top_builddir)/lib/oauth/liboauth.a $(am__DEPENDENCIES_1) \
+	$(top_builddir)/lib/oauth/liboauth.a $(am__append_1) \
 	$(am__DEPENDENCIES_1) $(am__DEPENDENCIES_1) \
-	$(am__DEPENDENCIES_1) $(am__DEPENDENCIES_1) $(am__append_7)
+	$(am__DEPENDENCIES_1) $(am__DEPENDENCIES_1) $(am__append_8)
 crotalus_LINK = $(LIBTOOL) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) \
 	--mode=link $(CCLD) $(crotalus_CFLAGS) $(CFLAGS) $(AM_LDFLAGS) \
 	$(LDFLAGS) -o $@
@@ -153,6 +154,7 @@ LD = @LD@
 LDFLAGS = @LDFLAGS@
 LIBOBJS = @LIBOBJS@
 LIBS = @LIBS@
+LIBSHARE = @LIBSHARE@
 LIBTOOL = @LIBTOOL@
 LIPO = @LIPO@
 LN_S = @LN_S@
@@ -233,20 +235,20 @@ top_build_prefix = @top_build_prefix@
 top_builddir = @top_builddir@
 top_srcdir = @top_srcdir@
 crotalus_SOURCES = alias.c boa.c buffer.c cgi_header.c config.c \
-	escape.c get.c ip.c log.c mmap_cache.c pipe.c queue.c range.c \
-	read.c request.c response.c signals.c util.c select.c \
+	escape.c get.c ip.c log.c mmap_cache.c pipe.c shbuff.c queue.c \
+	range.c read.c request.c response.c signals.c util.c select.c \
 	crotalus.c cache/cr_hash.c cache/cr_hash.h cache/cr_pref.c \
 	cache/cr_pref.h mime/mime_interp.c mime/mime_interp.h \
 	mime/mime_def.c mime/mime_def.h mime/mime_cgi.c \
 	mime/mime_cgi.h mime/mime_zlib.c mime/mime_zlib.h \
-	$(am__append_1)
-crotalus_CFLAGS = -I$(top_srcdir)/lib/zlib
+	$(am__append_3)
+crotalus_CFLAGS = -I$(top_srcdir)/lib/zlib $(am__append_2)
 crotalus_LDADD = $(top_builddir)/lib/ancillary/libancillary.a \
 	$(top_builddir)/lib/pcre/libpcre.a \
 	$(top_builddir)/lib/tsrm/libtsrm.a \
-	$(top_builddir)/lib/oauth/liboauth.a $(am__append_2) \
-	$(am__append_3) $(am__append_4) $(am__append_5) \
-	$(am__append_6) $(am__append_7)
+	$(top_builddir)/lib/oauth/liboauth.a $(am__append_1) \
+	$(am__append_4) $(am__append_5) $(am__append_6) \
+	$(am__append_7) $(am__append_8)
 @HAVE_INITD_DIR_TRUE@EXTRA_DIST = $(top_builddir)/scripts/initd/shared
 all: config.h
 	$(MAKE) $(AM_MAKEFLAGS) all-am
@@ -378,6 +380,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/crotalus-request.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/crotalus-response.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/crotalus-select.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/crotalus-shbuff.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/crotalus-signals.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/crotalus-util.Po@am__quote@
 
@@ -555,6 +558,20 @@ crotalus-pipe.obj: pipe.c
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	source='pipe.c' object='crotalus-pipe.obj' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(crotalus_CFLAGS) $(CFLAGS) -c -o crotalus-pipe.obj `if test -f 'pipe.c'; then $(CYGPATH_W) 'pipe.c'; else $(CYGPATH_W) '$(srcdir)/pipe.c'; fi`
+
+crotalus-shbuff.o: shbuff.c
+@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(crotalus_CFLAGS) $(CFLAGS) -MT crotalus-shbuff.o -MD -MP -MF $(DEPDIR)/crotalus-shbuff.Tpo -c -o crotalus-shbuff.o `test -f 'shbuff.c' || echo '$(srcdir)/'`shbuff.c
+@am__fastdepCC_TRUE@	$(am__mv) $(DEPDIR)/crotalus-shbuff.Tpo $(DEPDIR)/crotalus-shbuff.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='shbuff.c' object='crotalus-shbuff.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(crotalus_CFLAGS) $(CFLAGS) -c -o crotalus-shbuff.o `test -f 'shbuff.c' || echo '$(srcdir)/'`shbuff.c
+
+crotalus-shbuff.obj: shbuff.c
+@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(crotalus_CFLAGS) $(CFLAGS) -MT crotalus-shbuff.obj -MD -MP -MF $(DEPDIR)/crotalus-shbuff.Tpo -c -o crotalus-shbuff.obj `if test -f 'shbuff.c'; then $(CYGPATH_W) 'shbuff.c'; else $(CYGPATH_W) '$(srcdir)/shbuff.c'; fi`
+@am__fastdepCC_TRUE@	$(am__mv) $(DEPDIR)/crotalus-shbuff.Tpo $(DEPDIR)/crotalus-shbuff.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='shbuff.c' object='crotalus-shbuff.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(crotalus_CFLAGS) $(CFLAGS) -c -o crotalus-shbuff.obj `if test -f 'shbuff.c'; then $(CYGPATH_W) 'shbuff.c'; else $(CYGPATH_W) '$(srcdir)/shbuff.c'; fi`
 
 crotalus-queue.o: queue.c
 @am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(crotalus_CFLAGS) $(CFLAGS) -MT crotalus-queue.o -MD -MP -MF $(DEPDIR)/crotalus-queue.Tpo -c -o crotalus-queue.o `test -f 'queue.c' || echo '$(srcdir)/'`queue.c

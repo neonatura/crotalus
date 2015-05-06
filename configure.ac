@@ -46,25 +46,7 @@ AC_CHECK_TYPE([uint])
 
 MAKEINFOHTMLFLAGS=--no-headers --no-split
 
-#CHECK_GNU_MAKE
-#if test "x$_cv_gnu_make_command" != "x"; then
-#  MAKE="$_cv_gnu_make_command"
-#  ALLSOURCES="\$^"
-#else
-#  MAKE="make"
-#  ALLSOURCES="\$(.ALLSRC)"
-#fi
-#AC_SUBST(ALLSOURCES)
-#AC_SUBST(MAKE)
-
-dnl AC_MSG_RESULT($host) dnl i686-pc-linux-gnu
-dnl AC_MSG_RESULT($host_cpu) dnl i686
-dnl AC_MSG_RESULT($host_vendor) dnl pc
-dnl AC_MSG_RESULT($host_os) dnl linux-gnu
-dnl i386-unknown-freebsd4.2
-
-dnl Checks for libraries.
-# AC_SEARCH_LIBS (function, search-libs, [action-if-found], [action-if-not-found], [other-libraries])
+AC_CONFIG_FILES([doc/NEWS])
 
 AC_CHECK_LIB([pthread], [pthread_create], HAVE_LIBPTHREAD=1)
 AM_CONDITIONAL(HAVE_LIBPTHREAD, test $HAVE_LIBPTHREAD)
@@ -84,11 +66,16 @@ if test $HAVE_LIBRT; then
   AC_DEFINE_UNQUOTED(HAVE_LIBRT, 1, [Define if librt can be found])
 fi
 
-AC_CHECK_LIB([share], [get_libshare_version], HAVE_LIBSHARE=1)
-AM_CONDITIONAL(HAVE_LIBSHARE, test $HAVE_LIBSHARE)
-if test $HAVE_LIBSHARE; then
-  AC_DEFINE_UNQUOTED(HAVE_LIBSHARE, 1, [Define if libshare can be found])
-fi
+AC_ARG_WITH([libshare],
+  [AS_HELP_STRING([--with-libshare],
+  [specify a path to the libshare build directory])],
+  [],
+  [with_libshare=yes])
+LIBSHARE=
+AS_IF([test "x$with_libshare" = "xyes"],
+  AC_CHECK_LIB([share], [get_libshare_version]))
+AC_SUBST([LIBSHARE], $with_libshare)
+AM_CONDITIONAL([STATIC_LIBSHARE], test x"$with_libshare" != x"yes")
 
 # determine whether "libz" library is available in system.
 AC_CHECK_LIB([z], [gzdopen], HAVE_LIBZ=1)
@@ -464,7 +451,7 @@ if test -z "$DOXYGEN";
   then AC_MSG_WARN([Doxygen not found - continuing without Doxygen support])
 fi
 AM_CONDITIONAL([HAVE_DOXYGEN], [test -n "$DOXYGEN"])
-AM_COND_IF([HAVE_DOXYGEN], [AC_CONFIG_FILES([docs/doxygen.conf])])
+AM_COND_IF([HAVE_DOXYGEN], [AC_CONFIG_FILES([doc/doxygen.conf])])
 
 AM_CONDITIONAL(HAVE_INITD_DIR, [test -d /etc/rc.d])
 INITD_DIR="/etc/rc.d"
@@ -474,4 +461,4 @@ AC_CHECK_LIB([curl], [curl_global_init], HAVE_CURL=1)
 AM_CONDITIONAL(HAVE_CURL, test $HAVE_CURL)
 
 
-AC_OUTPUT(Makefile lib/ancillary/Makefile lib/zlib/Makefile lib/pcre/Makefile lib/tsrm/Makefile lib/oauth/Makefile lib/oauth/tests/Makefile php/Makefile src/Makefile docs/Makefile)
+AC_OUTPUT(Makefile lib/ancillary/Makefile lib/zlib/Makefile lib/pcre/Makefile lib/tsrm/Makefile lib/oauth/Makefile lib/oauth/tests/Makefile php/Makefile src/Makefile doc/Makefile)

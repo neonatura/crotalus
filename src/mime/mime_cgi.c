@@ -149,28 +149,28 @@ void clear_common_env(void)
 static char *env_gen_extra(const char *key, const char *value,
                            unsigned int extra)
 {
-    char *result;
-    unsigned int key_len, value_len;
+  char *result;
+  unsigned int key_len, value_len;
 
-    if (value == NULL)          /* ServerAdmin may not be defined, eg */
-        value = "";
-    key_len = strlen(key);
-    value_len = strlen(value);
-    /* leave room for '=' sign and null terminator */
-    result = malloc(extra + key_len + value_len + 2);
-    if (result) {
-        memcpy(result + extra, key, key_len);
-        *(result + extra + key_len) = '=';
-        memcpy(result + extra + key_len + 1, value, value_len);
-        *(result + extra + key_len + value_len + 1) = '\0';
-    } else {
-        log_error_time();
-        perror("malloc");
-        log_error_time();
-        fprintf(stderr, "tried to allocate (key=value) extra=%u: %s=%s\n",
-                extra, key, value);
-    }
-    return result;
+  if (value == NULL)          /* ServerAdmin may not be defined, eg */
+    value = "";
+  key_len = strlen(key);
+  value_len = strlen(value);
+  /* leave room for '=' sign and null terminator */
+  result = malloc(extra + key_len + value_len + 2);
+  if (result) {
+    memcpy(result + extra, key, key_len);
+    *(result + extra + key_len) = '=';
+    memcpy(result + extra + key_len + 1, value, value_len);
+    *(result + extra + key_len + value_len + 1) = '\0';
+  } else {
+    log_error_time();
+    perror("malloc");
+    log_error_time();
+    fprintf(stderr, "tried to allocate (key=value) extra=%u: %s=%s\n",
+        extra, key, value);
+  }
+  return result;
 }
 
 /*
@@ -388,6 +388,167 @@ static void create_argv(request * req, char **aargv)
     }
 }
 
+#ifdef HAVE_LIBSHARE
+static int cgi_work_main(int post_data_fd, shbuf_t *buff) /* child */
+{
+  work_t *work;
+  char readbuf[4096];
+  char pathname[PATH_MAX-1];
+  FILE *pfl;
+  uint32_t fd;
+
+  work = (work_t *)shbuf_data(buff);
+
+  memset(pathname, 0, sizeof(pathname));
+  strncpy(pathname, work->pathname, sizeof(pathname)-1);
+
+  fd = (uint32_t)work->fd;
+
+  if (work->cgi_type == EXEC || work->cgi_type == NPH) {  
+    char *c;
+    unsigned int l;
+    char *newpath, *oldpath;
+    char *ptr;
+
+    c = strrchr(pathname, '/');
+    if (!c) {
+      /* there will always be a '.' */
+      fprintf(stderr,
+          "unable to find '/' in req->pathname: \"%s\"\n",
+          pathname);
+      return -1;
+    }
+
+    *c = '\0';
+
+    if (chdir(pathname) != 0) {
+      int saved_errno = errno;
+      fprintf(stderr, "Could not chdir to \"%s\":",
+          pathname);
+      errno = saved_errno;
+      perror("chdir");
+      return -1;
+    }
+
+    ptr = ++c;
+    l = strlen(ptr) + 3;
+    /* prefix './' */
+    newpath = malloc(sizeof (char) * l);
+    if (!newpath) {
+      /* there will always be a '.' */
+      perror("unable to malloc for newpath");
+      return -1;
+    }
+    newpath[0] = '.';
+    newpath[1] = '/';
+    memcpy(&newpath[2], ptr, l - 2); /* includes the trailing '\0' */
+    strncpy(pathname, newpath, sizeof(pathname)-1);
+  }
+
+  /* tie post_data_fd to POST stdin */
+  if (work->method == M_POST) { /* tie stdin to file */
+    lseek(post_data_fd, SEEK_SET, 0);
+    dup2(post_data_fd, STDIN_FILENO);
+    close(post_data_fd);
+  }
+
+  /* pipe contents to return buffer */
+  pfl = popen(pathname, "r");
+  if (!pfl)
+    return (-errno);
+
+  /* clear request data */
+  shbuf_clear(buff);
+
+  /* return work request fd */
+  shbuf_cat(buff, &fd, sizeof(uint32_t));
+
+  /* return work response */
+  memset(readbuf, 0, sizeof(readbuf));
+  while (fgets(readbuf, sizeof(readbuf) - 1, pfl)) {
+    shbuf_cat(buff, readbuf, strlen(readbuf));
+    memset(readbuf, 0, sizeof(readbuf));
+  }
+  pclose(pfl);
+
+  return (0);
+}
+
+static int cgi_work_resp(int err_code, shbuf_t *buff)
+{
+  struct request *req;
+  uint32_t fd;
+
+  if (err_code)
+    return 0; /* done */
+
+  memcpy(&fd, shbuf_data(buff), sizeof(uint32_t));
+  req = find_request_by_fd(fd);
+  shbuf_trim(buff, sizeof(uint32_t));
+  if (!req) {
+    return 0; /* error */
+  }
+
+  if (req->method == M_POST) {
+    close(req->post_data_fd); /* child closed it too */
+    req->post_data_fd = 0;
+  }
+
+  if (!req->buff)
+    req->buff = shbuf_init();
+  shbuf_append(buff, req->buff);
+  req->status = BUFF_READ;
+
+ if (req->cgi_type == EXEC) {
+    req->cgi_status = CGI_PARSE; /* got to parse cgi header */
+    /* for cgi_header... I get half the buffer! */
+    req->header_line = req->header_end =
+      (req->buffer + BUFFER_SIZE / 2);
+  } else {
+    req->cgi_status = CGI_BUFFER;
+    /* I get all the buffer! */
+    req->header_line = req->header_end = req->buffer;
+  }     
+  req->filepos = 0;
+
+  return 1;
+}
+
+static int init_work_cgi(request * req)
+{
+  shproc_pool_t *pool;
+  shproc_t *proc;
+  work_t work;
+  char buf[8192];
+  int err;
+
+  pool = shproc_pool();
+  if (!pool)
+    pool = shproc_init(cgi_work_main, cgi_work_resp);
+
+  complete_env(req);
+
+  memset(&work, 0, sizeof(work));
+  strncpy(work.pathname, req->pathname, sizeof(work.pathname));
+  work.fd = req->fd;
+  work.method = req->method;
+  work.cgi_status = req->cgi_status;
+  work.cgi_type = req->cgi_type;
+
+  if (req->method == M_POST) {
+    err = shproc_push(pool, req->post_data_fd, 
+        (unsigned char *)&work, sizeof(work)); 
+  } else {
+    err = shproc_push(pool, 0, (unsigned char *)&work, sizeof(work));
+  }
+  if (err)
+    return (err);
+
+  req->status = BUFF_POLL;
+  return (1);
+}
+#endif
+
 /*
  * Name: init_cgi
  *
@@ -408,6 +569,12 @@ int init_cgi(request * req)
     int use_pipes = 0;
 
     SQUASH_KA(req);
+
+#ifdef HAVE_LIBSHARE
+    if (req->cgi_type == WORK) {
+      return (init_work_cgi(req)); 
+    }
+#endif
 
     if (req->cgi_type) {
         if (complete_env(req) == 0) {
@@ -683,3 +850,4 @@ int init_cgi(request * req)
 
     return 1;
 }
+

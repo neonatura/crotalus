@@ -99,7 +99,7 @@
 /* Define if librt can be found */
 #undef HAVE_LIBRT
 
-/* Define if libshare can be found */
+/* Define to 1 if you have the `share' library (-lshare). */
 #undef HAVE_LIBSHARE
 
 /* Define if libxml2 can be found */

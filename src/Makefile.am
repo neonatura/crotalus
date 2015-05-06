@@ -1,7 +1,7 @@
 
 sbin_PROGRAMS = crotalus
 crotalus_SOURCES = alias.c boa.c buffer.c cgi_header.c config.c escape.c \
-	get.c ip.c log.c mmap_cache.c pipe.c queue.c range.c \
+	get.c ip.c log.c mmap_cache.c pipe.c shbuff.c queue.c range.c \
 	read.c request.c response.c signals.c util.c \
 	select.c crotalus.c \
 	cache/cr_hash.c cache/cr_hash.h \
@@ -17,6 +17,11 @@ crotalus_LDADD = \
 	$(top_builddir)/lib/tsrm/libtsrm.a \
 	$(top_builddir)/lib/oauth/liboauth.a
 
+if STATIC_LIBSHARE
+crotalus_LDADD += $(LIBSHARE)/src/share-lib/libshare.a
+crotalus_CFLAGS += -I$(LIBSHARE)/include
+endif
+
 if ACCESS_CONTROL
 crotalus_SOURCES += cache/cr_access.c cache/cr_access.h
 endif
@@ -29,9 +34,6 @@ crotalus_LDADD += -lxml2
 endif
 if HAVE_LIBPTHREAD
 crotalus_LDADD += -lpthread
-endif
-if HAVE_LIBSHARE
-crotalus_LDADD += -lshare
 endif
 if HAVE_LIBZ
 crotalus_LDADD += -lz

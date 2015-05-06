@@ -382,6 +382,7 @@ int write_body(request * req)
         req->status = BODY_READ;
         return 1;
     }
+/* todo: alternatively use pipe if data < 4096 bytes */
     bytes_written = write(req->post_data_fd,
                           req->header_line, bytes_to_write);
 
