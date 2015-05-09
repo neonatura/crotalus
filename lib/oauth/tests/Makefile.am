@@ -1,10 +1,10 @@
 check_PROGRAMS = tceran tcother tcwiki
 ACLOCAL_AMFLAGS= -I m4
 
-OAUTHDIR =..
+OAUTHDIR = $(top_builddir)/lib/oauth
 INCLUDES = -I$(srcdir)/$(OAUTHDIR)
 MYCFLAGS =  
-MYLDADD  = $(OAUTHDIR)/libshare_oauth.a
+MYLDADD  = $(OAUTHDIR)/liboauth.a
 LIBS     = -lm -lcrypto
 
 TESTS = tceran tcother tcwiki 
