@@ -29,6 +29,8 @@ AC_PROG_LIBTOOL
 AM_PROG_CC_C_O
 #AC_C_VAR_FUNC
 
+AC_CHECK_HEADERS(sys/types.h)
+
 AC_TYPE_INT16_T
 AC_TYPE_INT32_T
 AC_TYPE_INT64_T
@@ -96,7 +98,7 @@ dnl Checks for header files.
 AC_HEADER_DIRENT
 AC_HEADER_STDC
 AC_HEADER_SYS_WAIT
-AC_CHECK_HEADERS(stdio.h stdint.h inttypes.h features.h sys/types.h fcntl.h sys/fcntl.h limits.h sys/time.h)
+AC_CHECK_HEADERS(stdio.h stdint.h inttypes.h features.h fcntl.h sys/fcntl.h limits.h sys/time.h)
 AC_CHECK_HEADERS(getopt.h unistd.h sys/resource.h sys/socket.h string.h arpa/inet.h pwd.h grp.h shadow.h)
 AC_CHECK_HEADERS(assert.h netinet/in.h)
 AC_CHECK_HEADERS(magic.h wchar.h wctype.h locale.h stdarg.h sys/mman.h sys/loadavg.h \

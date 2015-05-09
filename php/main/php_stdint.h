@@ -143,14 +143,6 @@ typedef unsigned long uint32_t;
 # define UINT32_C(c) c ## U
 #endif
 
-#ifndef HAVE_INT64_T
-#if SIZEOF_LONG_LONG == 8
-typedef long long int64_t;
-#else
-typedef long int64_t;
-#endif
-#endif
-
 #if 0
 
 #ifndef HAVE_INT64_T

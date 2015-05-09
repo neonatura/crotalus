@@ -56,10 +56,13 @@
 #include <sys/resource.h>
 #endif
 
+#ifdef HAVE_LIBSHARE
+#include <share.h>
+#endif
+
 #include "compat.h"             /* oh what fun is porting */
 #include "defines.h"
 #include "globals.h"
-
 
 #include "cache/cr_hash.h"
 #include "cache/cr_pref.h"
@@ -68,6 +71,8 @@
 #include "mime/mime_def.h"
 #include "mime/mime_interp.h"
 #include "mime/mime_zlib.h"
+
+
 
 
 /**
