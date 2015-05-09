@@ -149,7 +149,10 @@ typedef long long int64_t;
 #else
 typedef long int64_t;
 #endif
+#endif
+
 #if 0
+
 #ifndef HAVE_INT64_T
 # ifdef HAVE_INT64
 typedef int64 int64_t;
@@ -163,6 +166,7 @@ typedef long long int64_t;
 #  error "No suitable 64bit integer type found"
 # endif
 #endif
+
 #endif
 
 #ifndef INT64_C
