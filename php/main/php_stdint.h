@@ -144,6 +144,13 @@ typedef unsigned long uint32_t;
 #endif
 
 #ifndef HAVE_INT64_T
+#if SIZEOF_LONG_LONG == 8
+typedef long long int64_t;
+#else
+typedef long int64_t;
+#endif
+#if 0
+#ifndef HAVE_INT64_T
 # ifdef HAVE_INT64
 typedef int64 int64_t;
 # elif SIZEOF_INT >= 8
@@ -155,6 +162,7 @@ typedef long long int64_t;
 # else
 #  error "No suitable 64bit integer type found"
 # endif
+#endif
 #endif
 
 #ifndef INT64_C

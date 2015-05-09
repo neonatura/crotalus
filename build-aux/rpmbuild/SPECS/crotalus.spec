@@ -44,6 +44,9 @@ rm -rf $RPM_BUILD_ROOT
 
 %files
 %{_sbindir}/crotalus
+%{_infodir}/crotalus.info.gz
+%{_docdir}/crotalus/crotalus_html.zip
+%{_docdir}/dir
 
 %changelog
 * Fri May  9 2015 Neo Natura <support@neo-natura.com> - 2.26
