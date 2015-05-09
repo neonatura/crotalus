@@ -509,20 +509,25 @@ static int init_script_alias(request * req, alias * current1, unsigned int uri_l
         }
         memcpy(pathname, current1->realname, current1->real_len);
         memcpy(pathname + current1->real_len,
-               &req->request_uri[current1->fake_len],
-               uri_len - current1->fake_len + 1); /* the +1 copies the NUL */
+            &req->request_uri[current1->fake_len],
+            uri_len - current1->fake_len + 1); /* the +1 copies the NUL */
     }
 #ifdef FASCIST_LOGGING
     log_error_time();
     fprintf(stderr,
-            "%s:%d - pathname in init_script_alias is: \"%s\" (\"%s\")\n",
-            __FILE__, __LINE__, pathname, pathname + current1->real_len);
+        "%s:%d - pathname in init_script_alias is: \"%s\" (\"%s\")\n",
+        __FILE__, __LINE__, pathname, pathname + current1->real_len);
 #endif
     if (strncmp("nph-", pathname + current1->real_len, 4) == 0
-        || (req->http_version == HTTP09))
-        req->cgi_type = NPH;
-    else
-        req->cgi_type = EXEC;
+        || (req->http_version == HTTP09)) {
+      req->cgi_type = NPH;
+    } else {
+#ifdef HAVE_LIBSHARE
+      req->cgi_type = WORK;
+#else
+      req->cgi_type = EXEC;
+#endif
+    }
 
     /* start at the beginning of the actual uri...
        (in /cgi-bin/bob, start at the 'b' in bob */
