@@ -10,6 +10,8 @@ Source0:        http://www.sharelib.net/release/crotalus-2.26.tar.gz
 
 BuildRequires:  libshare-devel
 Requires:       libshare
+Requires(post): info
+Requires(preun): info
 
 %description
 
@@ -39,14 +41,18 @@ make check
 rm -rf $RPM_BUILD_ROOT
 
 %post -p /sbin/ldconfig
+/sbin/install-info %{_infodir}/%{name}.info %{_infodir}/dir || :
 
 %postun -p /sbin/ldconfig
+if [ $1 = 0 ] ; then
+  /sbin/install-info --delete %{_infodir}/%{name}.info %{_infodir}/dir || :
+fi
 
 %files
 %{_sbindir}/crotalus
 %{_infodir}/crotalus.info.gz
+%{_infodir}/dir
 %{_docdir}/crotalus/crotalus_html.zip
-%{_docdir}/dir
 
 %changelog
 * Fri May  9 2015 Neo Natura <support@neo-natura.com> - 2.26

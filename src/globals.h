@@ -26,9 +26,6 @@
 #define _GLOBALS_H
 
 #include "zlib.h"
-#ifdef HAVE_LIBSHARE
-#include <share.h>
-#endif
 
 /********************** METHODS **********************/
 enum HTTP_METHOD { M_GET = 1, M_HEAD, M_PUT, M_POST,

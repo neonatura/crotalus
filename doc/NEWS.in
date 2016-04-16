@@ -1,3 +1,3 @@
-v2.25 Crotalus
+v2.26 Crotalus
 --
-Version 2.25 brings additional ".htaccess" support such as "DEFLATE/GZIP" specification. Additional frame-work and minor enhancements have been included to prep the daemon for implementation of worker processes in version 2.26.
+Support for libshare "spawned worker processes" implementation for running CGI scripts.
