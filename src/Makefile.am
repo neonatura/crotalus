@@ -15,7 +15,12 @@ crotalus_LDADD = \
 	$(top_builddir)/lib/ancillary/libancillary.a \
 	$(top_builddir)/lib/pcre/libpcre.a \
 	$(top_builddir)/lib/tsrm/libtsrm.a \
-	$(top_builddir)/lib/oauth/liboauth.a
+	$(top_builddir)/lib/oauth/liboauth.a \
+	$(top_builddir)/lib/libxml2/libxml2.a
+if USE_PHP_RUNTIME
+crotalus_LDADD += \
+	$(top_builddir)/php/libphp_sapi.a
+endif
 
 if STATIC_LIBSHARE
 crotalus_LDADD += $(LIBSHARE)/src/share-lib/libshare.a
@@ -28,9 +33,6 @@ endif
 
 if HAVE_LIBRT
 crotalus_LDADD += -lrt
-endif
-if HAVE_LIBXML
-crotalus_LDADD += -lxml2
 endif
 if HAVE_LIBPTHREAD
 crotalus_LDADD += -lpthread

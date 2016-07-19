@@ -389,6 +389,14 @@ static void create_argv(request * req, char **aargv)
 }
 
 #ifdef HAVE_LIBSHARE
+static int php_work_main(work_t *work, int post_data_fd)
+{
+
+/* DEBUG: .. */
+fprintf(stderr, "DEBUG: php_work_main()\n");
+
+return (0);
+}
 static int cgi_work_main(int post_data_fd, shbuf_t *buff) /* child */
 {
   work_t *work;
@@ -399,12 +407,16 @@ static int cgi_work_main(int post_data_fd, shbuf_t *buff) /* child */
 
   work = (work_t *)shbuf_data(buff);
 
+  if (work->cgi_type == PHP) {
+    return (php_work_main(work, post_data_fd));
+  }
+
   memset(pathname, 0, sizeof(pathname));
   strncpy(pathname, work->pathname, sizeof(pathname)-1);
 
   fd = (uint32_t)work->fd;
 
-  if (work->cgi_type == EXEC || work->cgi_type == NPH) {  
+  if (work->cgi_type == EXEC || work->cgi_type == NPH) {
     char *c;
     unsigned int l;
     char *newpath, *oldpath;

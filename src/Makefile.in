@@ -35,11 +35,13 @@ POST_UNINSTALL = :
 build_triplet = @build@
 host_triplet = @host@
 sbin_PROGRAMS = crotalus$(EXEEXT)
-@STATIC_LIBSHARE_TRUE@am__append_1 = $(LIBSHARE)/src/share-lib/libshare.a
-@STATIC_LIBSHARE_TRUE@am__append_2 = -I$(LIBSHARE)/include
-@ACCESS_CONTROL_TRUE@am__append_3 = cache/cr_access.c cache/cr_access.h
-@HAVE_LIBRT_TRUE@am__append_4 = -lrt
-@HAVE_LIBXML_TRUE@am__append_5 = -lxml2
+@USE_PHP_RUNTIME_TRUE@am__append_1 = \
+@USE_PHP_RUNTIME_TRUE@	$(top_builddir)/php/libphp_sapi.a
+
+@STATIC_LIBSHARE_TRUE@am__append_2 = $(LIBSHARE)/src/share-lib/libshare.a
+@STATIC_LIBSHARE_TRUE@am__append_3 = -I$(LIBSHARE)/include
+@ACCESS_CONTROL_TRUE@am__append_4 = cache/cr_access.c cache/cr_access.h
+@HAVE_LIBRT_TRUE@am__append_5 = -lrt
 @HAVE_LIBPTHREAD_TRUE@am__append_6 = -lpthread
 @HAVE_LIBZ_TRUE@am__append_7 = -lz
 @HAVE_LIBZ_FALSE@am__append_8 = $(top_builddir)/lib/zlib/libz.a
@@ -92,9 +94,10 @@ am__DEPENDENCIES_1 =
 crotalus_DEPENDENCIES = $(top_builddir)/lib/ancillary/libancillary.a \
 	$(top_builddir)/lib/pcre/libpcre.a \
 	$(top_builddir)/lib/tsrm/libtsrm.a \
-	$(top_builddir)/lib/oauth/liboauth.a $(am__append_1) \
-	$(am__DEPENDENCIES_1) $(am__DEPENDENCIES_1) \
-	$(am__DEPENDENCIES_1) $(am__DEPENDENCIES_1) $(am__append_8)
+	$(top_builddir)/lib/oauth/liboauth.a \
+	$(top_builddir)/lib/libxml2/libxml2.a $(am__append_1) \
+	$(am__append_2) $(am__DEPENDENCIES_1) $(am__DEPENDENCIES_1) \
+	$(am__DEPENDENCIES_1) $(am__append_8)
 crotalus_LINK = $(LIBTOOL) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) \
 	--mode=link $(CCLD) $(crotalus_CFLAGS) $(CFLAGS) $(AM_LDFLAGS) \
 	$(LDFLAGS) -o $@
@@ -126,6 +129,7 @@ AUTOCONF = @AUTOCONF@
 AUTOHEADER = @AUTOHEADER@
 AUTOMAKE = @AUTOMAKE@
 AWK = @AWK@
+BASE_THREAD_LIBS = @BASE_THREAD_LIBS@
 CC = @CC@
 CCDEPMODE = @CCDEPMODE@
 CFLAGS = @CFLAGS@
@@ -181,7 +185,16 @@ SET_MAKE = @SET_MAKE@
 SHELL = @SHELL@
 STRIP = @STRIP@
 STRUTIL = @STRUTIL@
+TEST_SAX = @TEST_SAX@
+TEST_THREADS = @TEST_THREADS@
+THREAD_CFLAGS = @THREAD_CFLAGS@
+THREAD_LIBS = @THREAD_LIBS@
 VERSION = @VERSION@
+VERSION_SCRIPT_FLAGS = @VERSION_SCRIPT_FLAGS@
+WITH_SAX1 = @WITH_SAX1@
+WITH_THREADS = @WITH_THREADS@
+WITH_THREAD_ALLOC = @WITH_THREAD_ALLOC@
+WITH_TRIO = @WITH_TRIO@
 abs_builddir = @abs_builddir@
 abs_srcdir = @abs_srcdir@
 abs_top_builddir = @abs_top_builddir@
@@ -241,13 +254,14 @@ crotalus_SOURCES = alias.c boa.c buffer.c cgi_header.c config.c \
 	cache/cr_pref.h mime/mime_interp.c mime/mime_interp.h \
 	mime/mime_def.c mime/mime_def.h mime/mime_cgi.c \
 	mime/mime_cgi.h mime/mime_zlib.c mime/mime_zlib.h \
-	$(am__append_3)
-crotalus_CFLAGS = -I$(top_srcdir)/lib/zlib $(am__append_2)
+	$(am__append_4)
+crotalus_CFLAGS = -I$(top_srcdir)/lib/zlib $(am__append_3)
 crotalus_LDADD = $(top_builddir)/lib/ancillary/libancillary.a \
 	$(top_builddir)/lib/pcre/libpcre.a \
 	$(top_builddir)/lib/tsrm/libtsrm.a \
-	$(top_builddir)/lib/oauth/liboauth.a $(am__append_1) \
-	$(am__append_4) $(am__append_5) $(am__append_6) \
+	$(top_builddir)/lib/oauth/liboauth.a \
+	$(top_builddir)/lib/libxml2/libxml2.a $(am__append_1) \
+	$(am__append_2) $(am__append_5) $(am__append_6) \
 	$(am__append_7) $(am__append_8)
 @HAVE_INITD_DIR_TRUE@EXTRA_DIST = $(top_builddir)/scripts/initd/shared
 all: config.h

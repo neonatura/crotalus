@@ -167,5 +167,20 @@ int mime_get_cgi(request *req)
 } 
 
 
+int mime_head_php(request *req)
+{
+
+    req_write(req, http_ver_string(req->http_version));
+    req_write(req, " 200 OK" CRLF);
+    print_http_headers(req);
+  /* let script write rest of header */
+  return (0);
+}
 
 
+int mime_get_php(request *req)
+{
+    req->script_name = strdup(req->request_uri);
+    req->cgi_type = PHP;
+    return (init_cgi(req));
+} 

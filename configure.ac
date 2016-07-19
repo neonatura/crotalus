@@ -57,10 +57,23 @@ if test $HAVE_LIBPTHREAD; then
   AC_DEFINE_UNQUOTED(HAVE_LIBPTHREAD, 1, [Define if libpthread can be found])
 fi
 
-AC_CHECK_LIB([xml2], [xmlInitGlobals], HAVE_LIBXML=1)
+#AC_CHECK_LIB([xml2], [xmlInitGlobals], HAVE_LIBXML=1)
+#AM_CONDITIONAL(HAVE_LIBXML, test $HAVE_LIBXML)
+#if test $HAVE_LIBXML; then
+#  AC_DEFINE_UNQUOTED(HAVE_LIBXML, 1, [Define if libxml2 can be found])
+#  AC_DEFINE_UNQUOTED(HAVE_SIMPLEXML, 1, [Define if libxml2 can be found])
+#  AC_DEFINE_UNQUOTED(HAVE_DOM, 1, [Define if libxml2 can be found])
+#fi
+HAVE_LIBXML=1
 AM_CONDITIONAL(HAVE_LIBXML, test $HAVE_LIBXML)
-if test $HAVE_LIBXML; then
-  AC_DEFINE_UNQUOTED(HAVE_LIBXML, 1, [Define if libxml2 can be found])
+AC_DEFINE_UNQUOTED(HAVE_LIBXML, 1, [Define if libxml2 can be found])
+AC_DEFINE_UNQUOTED(HAVE_SIMPLEXML, 1, [Define if libxml2 can be found])
+AC_DEFINE_UNQUOTED(HAVE_DOM, 1, [Define if libxml2 can be found])
+
+AC_CHECK_LIB([crypt], [crypt], HAVE_CRYPT=1)
+AM_CONDITIONAL(HAVE_CRYPT, test $HAVE_CRYPT)
+if test $HAVE_CRYPT; then
+  AC_DEFINE_UNQUOTED(HAVE_CRYPT, 1, [Define if libcrypt can be found])
 fi
 
 AC_CHECK_LIB([rt], [shm_open], HAVE_LIBRT=1)
@@ -136,7 +149,7 @@ AC_FUNC_FNMATCH
 AC_FUNC_MEMCMP
 AC_FUNC_MMAP
 AC_FUNC_SETVBUF_REVERSED
-AC_CHECK_FUNCS(getcwd strdup strstr strcspn strtol)
+AC_CHECK_FUNCS(getcwd strdup strstr strcspn strtol utime symlink)
 AC_CHECK_FUNCS(gethostname gethostbyname socket inet_aton herror inet_addr)
 AC_CHECK_FUNCS(scandir alphasort)
 AC_CHECK_FUNCS(madvise)
@@ -284,7 +297,6 @@ AC_ARG_ENABLE(debug,
   if test "$enableval" = "no" ; then
     AC_MSG_RESULT(no)
     AX_CHECK_COMPILE_FLAG([-fexpensive-optimizations], [CFLAGS="$CFLAGS -fexpensive-optimizations"], [], [])
-    AX_CHECK_COMPILE_FLAG([-ffast-math], [CFLAGS="$CFLAGS -ffast-math"], [], [])
     AX_CHECK_COMPILE_FLAG([-fthread-jumps], [CFLAGS="$CFLAGS -fthread-jumps"], [], [])
     AX_CHECK_COMPILE_FLAG([-funroll-loops], [CFLAGS="$CFLAGS -funroll-loops"], [], [])
     debug=0
@@ -296,7 +308,6 @@ AC_ARG_ENABLE(debug,
 [
     AC_MSG_RESULT(no)
     AX_CHECK_COMPILE_FLAG([-fexpensive-optimizations], [CFLAGS="$CFLAGS -fexpensive-optimizations"], [], [])
-    AX_CHECK_COMPILE_FLAG([-ffast-math], [CFLAGS="$CFLAGS -ffast-math"], [], [])
     AX_CHECK_COMPILE_FLAG([-fthread-jumps], [CFLAGS="$CFLAGS -fthread-jumps"], [], [])
     AX_CHECK_COMPILE_FLAG([-funroll-loops], [CFLAGS="$CFLAGS -funroll-loops"], [], [])
     debug=0
@@ -305,9 +316,9 @@ AM_CONDITIONAL(DEBUG, test x"$debug" = x"1")
 AC_DEFINE([ZEND_DEBUG], [], [Zend Debug])
 AC_DEFINE_UNQUOTED([ZEND_DEBUG], [$debug])
 
-AC_MSG_CHECKING(whether to disable verbose/debug logging)
-AC_ARG_ENABLE(verbose,
-[  --disable-verbose       Do not enable verbose/debug logging],
+AC_MSG_CHECKING(whether to disable debug logging)
+AC_ARG_ENABLE(debug,
+[  --disable-debug       Do not enable debug logging],
 [
   if test "$enableval" = "yes" ; then
     AC_MSG_RESULT(yes)
@@ -319,6 +330,23 @@ AC_ARG_ENABLE(verbose,
 [
     AC_MSG_RESULT(yes)
 ])
+
+AC_MSG_CHECKING(whether to disable the php runtime)
+AC_ARG_ENABLE([php],
+[  --disable-php           Do not enable the php runtime],
+[
+  if test "$enableval" = "yes" ; then
+    AC_MSG_RESULT(yes)
+    AC_DEFINE(PHP_RUNTIME, 1, [Enable the PHP runtime])
+  else
+    AC_MSG_RESULT(no)
+  fi
+],
+[
+    AC_MSG_RESULT(yes)
+    AC_DEFINE(PHP_RUNTIME, 1, [Enable the PHP runtime])
+])
+AM_CONDITIONAL(USE_PHP_RUNTIME, [test "x$enable_php" != "xno"])
 
 AC_MSG_CHECKING(whether to link with the Dmalloc memory debugger/profiler)
 AC_ARG_WITH(dmalloc, 
@@ -464,4 +492,125 @@ AC_CHECK_LIB([curl], [curl_global_init], HAVE_CURL=1)
 AM_CONDITIONAL(HAVE_CURL, test $HAVE_CURL)
 
 
-AC_OUTPUT(Makefile lib/ancillary/Makefile lib/zlib/Makefile lib/pcre/Makefile lib/tsrm/Makefile lib/oauth/Makefile lib/oauth/tests/Makefile php/Makefile src/Makefile doc/Makefile)
+VERSION_SCRIPT_FLAGS=
+# lt_cv_prog_gnu_ld is from libtool 2.+
+if test "$lt_cv_prog_gnu_ld" = yes; then
+  VERSION_SCRIPT_FLAGS=-Wl,--version-script=
+else
+  case $host in
+  *-*-sunos*) VERSION_SCRIPT_FLAGS="-Wl,-M -Wl,";;
+  esac
+fi
+AC_SUBST(VERSION_SCRIPT_FLAGS)
+AM_CONDITIONAL([USE_VERSION_SCRIPT], [test -n "$VERSION_SCRIPT_FLAGS"])
+
+
+if test "$with_sax1" = "no" ; then
+    echo Disabling the older SAX1 interface
+    WITH_SAX1=0
+    TEST_SAX=
+else
+    WITH_SAX1=1
+    TEST_SAX=SAXtests
+fi
+AC_SUBST(WITH_SAX1)
+AM_CONDITIONAL(WITH_SAX1_SOURCES, test "${WITH_TRIO}" = "1")
+AC_SUBST(TEST_SAX)
+
+
+if test "${NEED_TRIO}" = "1" ; then
+    echo Adding trio library for string functions
+    WITH_TRIO=1
+else
+    WITH_TRIO=0
+fi
+AM_CONDITIONAL(WITH_TRIO_SOURCES, test "${NEED_TRIO}" = "1")
+AC_SUBST(WITH_TRIO)
+
+
+THREAD_LIBS=""
+BASE_THREAD_LIBS=""
+WITH_THREADS=0
+THREAD_CFLAGS=""
+TEST_THREADS=""
+THREADS_W32=""
+WITH_THREAD_ALLOC=0
+
+if test "$with_threads" = "no" ; then
+    echo Disabling multithreaded support
+else
+    echo Enabling multithreaded support
+
+    dnl Default to native threads on Win32
+    case $host_os in
+       *mingw32*) if test "$with_threads" != "pthread" && test "$with_threads" != "no"; then
+               WITH_THREADS="1"
+               THREADS_W32="1"
+               THREAD_CFLAGS="$THREAD_CFLAGS -DHAVE_WIN32_THREADS"
+           fi
+       ;;
+    esac
+
+    dnl Use pthread by default in other cases
+    if test -z "$THREADS_W32"; then
+        if test "$with_threads" = "pthread" || test "$with_threads" = "" || test "$with_threads" = "yes" ; then
+            AC_CHECK_HEADER(pthread.h,
+                AC_CHECK_LIB(pthread, pthread_join,[
+                THREAD_LIBS="-lpthread"
+                AC_DEFINE([HAVE_LIBPTHREAD], [], [Define if pthread library is there (-lpthread)])
+                AC_DEFINE([HAVE_PTHREAD_H], [], [Define if <pthread.h> is there])
+                WITH_THREADS="1"]))
+        fi
+    fi
+
+    case $host_os in
+       *cygwin*) THREAD_LIBS=""
+       ;;
+       *beos*) WITH_THREADS="1"
+	   THREAD_CFLAGS="$THREAD_CFLAGS -DHAVE_BEOS_THREADS"
+       ;;
+       *linux*)
+           if test "${GCC}" = "yes" ; then
+	       GCC_VERSION=`${CC} --version | head -1 | awk '{print $3}'`
+	       GCC_MAJOR=`echo ${GCC_VERSION} | sed 's+\..*++'`
+	       GCC_MEDIUM=`echo ${GCC_VERSION} | sed 's+[[0-9]]*\.++' | sed 's+\..*++'`
+	       if test "${THREAD_LIBS}" = "-lpthread" ; then
+	           if expr ${GCC_MEDIUM} \> 2 \& ${GCC_MAJOR} = 3 > /dev/null
+		   then
+		       THREAD_LIBS=""
+		       BASE_THREAD_LIBS="-lpthread"
+		   else
+		   if expr ${GCC_MAJOR} \> 3 > /dev/null
+		   then
+		       THREAD_LIBS=""
+		       BASE_THREAD_LIBS="-lpthread"
+		   else
+		       echo old GCC disabling weak symbols for pthread
+		   fi
+		   fi
+	       fi
+	   fi
+       ;;
+    esac
+    if test "$WITH_THREADS" = "1" ; then
+	THREAD_CFLAGS="$THREAD_CFLAGS -D_REENTRANT"
+	TEST_THREADS="Threadtests"
+    fi
+fi
+if test "$with_thread_alloc" = "yes" -a "$WITH_THREADS" = "1" ; then
+    WITH_THREAD_ALLOC=1
+fi
+
+AC_SUBST(THREAD_LIBS)
+AC_SUBST(BASE_THREAD_LIBS)
+AC_SUBST(WITH_THREADS)
+AC_SUBST(THREAD_CFLAGS)
+AC_SUBST(TEST_THREADS)
+AC_SUBST(WITH_THREAD_ALLOC)
+AM_CONDITIONAL([THREADS_W32],[test -n "$THREADS_W32"])
+
+
+
+
+
+AC_OUTPUT(Makefile lib/libxml2/Makefile lib/ancillary/Makefile lib/zlib/Makefile lib/pcre/Makefile lib/tsrm/Makefile lib/oauth/Makefile lib/oauth/tests/Makefile php/Makefile src/Makefile src/crphp/Makefile doc/Makefile)

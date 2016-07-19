@@ -26,22 +26,33 @@
 
 #define HTML "text/html; charset=ISO-8859-1"
 
-const char *http_ver_string(enum HTTP_VERSION ver)
+const char *http_ver_string(int ver)
 {
-    switch(ver) {
+  switch(ver) {
     case HTTP09:
-        return "HTTP/0.9";
-        break;
+      return "HTTP/0.9";
     case HTTP10:
-        return "HTTP/1.0";
-        break;
+      return "HTTP/1.0";
     case HTTP11:
-        return "HTTP/1.1";
-        break;
+      return "HTTP/1.1";
     default:
-        return "HTTP/1.0";
-    }
-    return NULL;
+      return "HTTP/1.0";
+  }
+}
+const char *http_method_string(int method)
+{
+  switch(method) {
+    case M_GET:
+      return "GET";
+    case M_HEAD:
+      return "HEAD";
+    case M_PUT:
+      return "PUT";
+    case M_POST:
+      return "POST";
+    default:
+      return "MISC";
+  }
 }
 
 void print_content_type(request * req)

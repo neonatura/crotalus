@@ -29,7 +29,15 @@ PHP_FUNCTION(crypt);
 PHP_MINIT_FUNCTION(crypt);
 PHP_MSHUTDOWN_FUNCTION(crypt);
 PHP_RINIT_FUNCTION(crypt);
+
+#define PHP_EXT_DES_CRYPT 1
+#define PHP_SHA512_CRYPT 1
 #endif
+
+#define PHP_STD_DES_CRYPT 0
+#define PHP_MD5_CRYPT 0
+#define PHP_BLOWFISH_CRYPT 0
+#define PHP_SHA502_CRYPT 0
 
 #endif
 

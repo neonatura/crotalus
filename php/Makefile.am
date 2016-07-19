@@ -1,4 +1,7 @@
 
+
+if USE_PHP_RUNTIME
+
 noinst_LIBRARIES = libphp_sapi.a
 
 libphp_sapi_a_CFLAGS = \
@@ -13,13 +16,14 @@ libphp_sapi_a_CFLAGS = \
 		-I$(srcdir)/ext/fileinfo/libmagic \
 		-I$(srcdir)/ext/sqlite3/libsqlite \
 		-I$(srcdir)/ext/date/lib -I$(builddir)/ext/date/lib \
-		-I$(top_srcdir)/libxml2/include
+		-I$(top_srcdir)/lib/libxml2/include
 libphp_sapi_a_LIBADD = \
 	$(top_builddir)/lib/tsrm/libtsrm.a \
 	$(top_builddir)/lib/pcre/libpcre.a
 
 libphp_sapi_a_SOURCES = \
-	sapi/cgi/fastcgi.c \
+	sapi/crotalus/php_crotalus.c \
+	sapi/crotalus/php_crotalus.h \
 	ext/date/php_date.c \
 	ext/date/lib/astro.c \
 	ext/date/lib/dow.c \
@@ -38,6 +42,7 @@ libphp_sapi_a_SOURCES = \
 	ext/libxml/libxml.c \
 	ext/pcre/php_pcre.c \
 	ext/sqlite3/sqlite3.c \
+	ext/sqlite3/libsqlite/libsqlite_sqlite3.c \
 	ext/ctype/ctype.c \
 	ext/dom/php_dom.c \
 	ext/dom/attr.c \
@@ -87,6 +92,10 @@ libphp_sapi_a_SOURCES = \
 	ext/fileinfo/libmagic/readcdf.c \
 	ext/fileinfo/libmagic/readelf.c \
 	ext/fileinfo/libmagic/softmagic.c \
+	ext/filter/ext_filter.c \
+	ext/filter/sanitizing_filters.c \
+	ext/filter/logical_filters.c \
+	ext/filter/callback_filter.c \
 	ext/hash/hash.c \
 	ext/hash/hash_md.c \
 	ext/hash/hash_sha.c \
@@ -162,6 +171,7 @@ libphp_sapi_a_SOURCES = \
 	ext/standard/php_crypt_r.c \
 	ext/standard/array.c \
 	ext/standard/base64.c \
+	ext/standard/password.c \
 	ext/standard/basic_functions.c \
 	ext/standard/browscap.c \
 	ext/standard/crc32.c \
@@ -221,7 +231,6 @@ libphp_sapi_a_SOURCES = \
 	ext/standard/proc_open.c \
 	ext/standard/streamsfuncs.c \
 	ext/standard/http.c \
-	ext/standard/password.c \
 	ext/tokenizer/tokenizer.c \
 	ext/tokenizer/tokenizer_data.c \
 	ext/xml/xml.c \
@@ -311,15 +320,7 @@ libphp_sapi_a_SOURCES = \
 	Zend/zend_default_classes.c \
 	Zend/zend_execute.c
 
-#sapi/crotalus/crotalus.c \
-#sapi/cli/php_cli.c 
-#sapi/cli/php_http_parser.c 
-#sapi/cli/php_cli_server.c 
-#sapi/cli/ps_title.c 
-#sapi/cli/php_cli_process_title.c 
-#sapi/embed/php_embed.c 
-#sapi/cgi/cgi_main.c 
-#	ext/filter/filter.c
-#	ext/filter/sanitizing_filters.c
-#	ext/filter/logical_filters.c
-#	ext/filter/callback_filter.c
+endif
+
+
+

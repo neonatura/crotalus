@@ -57,250 +57,444 @@ CONFIG_CLEAN_VPATH_FILES =
 LIBRARIES = $(noinst_LIBRARIES)
 ARFLAGS = cru
 libphp_sapi_a_AR = $(AR) $(ARFLAGS)
-libphp_sapi_a_DEPENDENCIES = $(top_builddir)/lib/tsrm/libtsrm.a \
-	$(top_builddir)/lib/pcre/libpcre.a
-am_libphp_sapi_a_OBJECTS = libphp_sapi_a-fastcgi.$(OBJEXT) \
-	libphp_sapi_a-php_date.$(OBJEXT) libphp_sapi_a-astro.$(OBJEXT) \
-	libphp_sapi_a-dow.$(OBJEXT) libphp_sapi_a-parse_date.$(OBJEXT) \
-	libphp_sapi_a-parse_tz.$(OBJEXT) \
-	libphp_sapi_a-timelib.$(OBJEXT) \
-	libphp_sapi_a-tm2unixtime.$(OBJEXT) \
-	libphp_sapi_a-unixtime2tm.$(OBJEXT) \
-	libphp_sapi_a-parse_iso_intervals.$(OBJEXT) \
-	libphp_sapi_a-interval.$(OBJEXT) libphp_sapi_a-ereg.$(OBJEXT) \
-	libphp_sapi_a-regcomp.$(OBJEXT) \
-	libphp_sapi_a-regexec.$(OBJEXT) \
-	libphp_sapi_a-regerror.$(OBJEXT) \
-	libphp_sapi_a-regfree.$(OBJEXT) libphp_sapi_a-libxml.$(OBJEXT) \
-	libphp_sapi_a-php_pcre.$(OBJEXT) \
-	libphp_sapi_a-sqlite3.$(OBJEXT) libphp_sapi_a-ctype.$(OBJEXT) \
-	libphp_sapi_a-php_dom.$(OBJEXT) libphp_sapi_a-attr.$(OBJEXT) \
-	libphp_sapi_a-document.$(OBJEXT) \
-	libphp_sapi_a-domerrorhandler.$(OBJEXT) \
-	libphp_sapi_a-domstringlist.$(OBJEXT) \
-	libphp_sapi_a-domexception.$(OBJEXT) \
-	libphp_sapi_a-namelist.$(OBJEXT) \
-	libphp_sapi_a-processinginstruction.$(OBJEXT) \
-	libphp_sapi_a-cdatasection.$(OBJEXT) \
-	libphp_sapi_a-documentfragment.$(OBJEXT) \
-	libphp_sapi_a-domimplementation.$(OBJEXT) \
-	libphp_sapi_a-element.$(OBJEXT) libphp_sapi_a-node.$(OBJEXT) \
-	libphp_sapi_a-string_extend.$(OBJEXT) \
-	libphp_sapi_a-characterdata.$(OBJEXT) \
-	libphp_sapi_a-documenttype.$(OBJEXT) \
-	libphp_sapi_a-domimplementationlist.$(OBJEXT) \
-	libphp_sapi_a-entity.$(OBJEXT) \
-	libphp_sapi_a-nodelist.$(OBJEXT) libphp_sapi_a-text.$(OBJEXT) \
-	libphp_sapi_a-comment.$(OBJEXT) \
-	libphp_sapi_a-domconfiguration.$(OBJEXT) \
-	libphp_sapi_a-domimplementationsource.$(OBJEXT) \
-	libphp_sapi_a-entityreference.$(OBJEXT) \
-	libphp_sapi_a-notation.$(OBJEXT) libphp_sapi_a-xpath.$(OBJEXT) \
-	libphp_sapi_a-dom_iterators.$(OBJEXT) \
-	libphp_sapi_a-typeinfo.$(OBJEXT) \
-	libphp_sapi_a-domerror.$(OBJEXT) \
-	libphp_sapi_a-domlocator.$(OBJEXT) \
-	libphp_sapi_a-namednodemap.$(OBJEXT) \
-	libphp_sapi_a-userdatahandler.$(OBJEXT) \
-	libphp_sapi_a-fileinfo.$(OBJEXT) \
-	libphp_sapi_a-apprentice.$(OBJEXT) \
-	libphp_sapi_a-apptype.$(OBJEXT) \
-	libphp_sapi_a-ascmagic.$(OBJEXT) libphp_sapi_a-cdf.$(OBJEXT) \
-	libphp_sapi_a-cdf_time.$(OBJEXT) \
-	libphp_sapi_a-compress.$(OBJEXT) \
-	libphp_sapi_a-encoding.$(OBJEXT) \
-	libphp_sapi_a-fsmagic.$(OBJEXT) libphp_sapi_a-funcs.$(OBJEXT) \
-	libphp_sapi_a-is_tar.$(OBJEXT) libphp_sapi_a-magic.$(OBJEXT) \
-	libphp_sapi_a-print.$(OBJEXT) libphp_sapi_a-readcdf.$(OBJEXT) \
-	libphp_sapi_a-readelf.$(OBJEXT) \
-	libphp_sapi_a-softmagic.$(OBJEXT) libphp_sapi_a-hash.$(OBJEXT) \
-	libphp_sapi_a-hash_md.$(OBJEXT) \
-	libphp_sapi_a-hash_sha.$(OBJEXT) \
-	libphp_sapi_a-hash_ripemd.$(OBJEXT) \
-	libphp_sapi_a-hash_haval.$(OBJEXT) \
-	libphp_sapi_a-hash_tiger.$(OBJEXT) \
-	libphp_sapi_a-hash_gost.$(OBJEXT) \
-	libphp_sapi_a-hash_snefru.$(OBJEXT) \
-	libphp_sapi_a-hash_whirlpool.$(OBJEXT) \
-	libphp_sapi_a-hash_adler32.$(OBJEXT) \
-	libphp_sapi_a-hash_crc32.$(OBJEXT) \
-	libphp_sapi_a-hash_fnv.$(OBJEXT) \
-	libphp_sapi_a-hash_joaat.$(OBJEXT) \
-	libphp_sapi_a-iconv.$(OBJEXT) libphp_sapi_a-json.$(OBJEXT) \
-	libphp_sapi_a-utf8_decode.$(OBJEXT) \
-	libphp_sapi_a-JSON_parser.$(OBJEXT) \
-	libphp_sapi_a-ZendAccelerator.$(OBJEXT) \
-	libphp_sapi_a-zend_accelerator_blacklist.$(OBJEXT) \
-	libphp_sapi_a-zend_accelerator_debug.$(OBJEXT) \
-	libphp_sapi_a-zend_accelerator_hash.$(OBJEXT) \
-	libphp_sapi_a-zend_accelerator_module.$(OBJEXT) \
-	libphp_sapi_a-zend_persist.$(OBJEXT) \
-	libphp_sapi_a-zend_persist_calc.$(OBJEXT) \
-	libphp_sapi_a-zend_shared_alloc.$(OBJEXT) \
-	libphp_sapi_a-zend_accelerator_util_funcs.$(OBJEXT) \
-	libphp_sapi_a-shared_alloc_shm.$(OBJEXT) \
-	libphp_sapi_a-shared_alloc_mmap.$(OBJEXT) \
-	libphp_sapi_a-shared_alloc_posix.$(OBJEXT) \
-	libphp_sapi_a-zend_optimizer.$(OBJEXT) \
-	libphp_sapi_a-pdo.$(OBJEXT) libphp_sapi_a-pdo_dbh.$(OBJEXT) \
-	libphp_sapi_a-pdo_stmt.$(OBJEXT) \
-	libphp_sapi_a-pdo_sql_parser.$(OBJEXT) \
-	libphp_sapi_a-pdo_sqlstate.$(OBJEXT) \
-	libphp_sapi_a-pdo_sqlite.$(OBJEXT) \
-	libphp_sapi_a-sqlite_driver.$(OBJEXT) \
-	libphp_sapi_a-sqlite_statement.$(OBJEXT) \
-	libphp_sapi_a-util.$(OBJEXT) libphp_sapi_a-tar.$(OBJEXT) \
-	libphp_sapi_a-zip.$(OBJEXT) libphp_sapi_a-stream.$(OBJEXT) \
-	libphp_sapi_a-func_interceptors.$(OBJEXT) \
-	libphp_sapi_a-dirstream.$(OBJEXT) libphp_sapi_a-phar.$(OBJEXT) \
-	libphp_sapi_a-phar_object.$(OBJEXT) \
-	libphp_sapi_a-phar_path_check.$(OBJEXT) \
-	libphp_sapi_a-posix.$(OBJEXT) \
-	libphp_sapi_a-php_reflection.$(OBJEXT) \
-	libphp_sapi_a-mod_user_class.$(OBJEXT) \
-	libphp_sapi_a-session.$(OBJEXT) \
-	libphp_sapi_a-mod_files.$(OBJEXT) \
-	libphp_sapi_a-mod_mm.$(OBJEXT) \
-	libphp_sapi_a-mod_user.$(OBJEXT) \
-	libphp_sapi_a-simplexml.$(OBJEXT) libphp_sapi_a-sxe.$(OBJEXT) \
-	libphp_sapi_a-php_spl.$(OBJEXT) \
-	libphp_sapi_a-spl_functions.$(OBJEXT) \
-	libphp_sapi_a-spl_engine.$(OBJEXT) \
-	libphp_sapi_a-spl_iterators.$(OBJEXT) \
-	libphp_sapi_a-spl_array.$(OBJEXT) \
-	libphp_sapi_a-spl_directory.$(OBJEXT) \
-	libphp_sapi_a-spl_exceptions.$(OBJEXT) \
-	libphp_sapi_a-spl_observer.$(OBJEXT) \
-	libphp_sapi_a-spl_dllist.$(OBJEXT) \
-	libphp_sapi_a-spl_heap.$(OBJEXT) \
-	libphp_sapi_a-spl_fixedarray.$(OBJEXT) \
-	libphp_sapi_a-crypt_freesec.$(OBJEXT) \
-	libphp_sapi_a-crypt_blowfish.$(OBJEXT) \
-	libphp_sapi_a-crypt_sha512.$(OBJEXT) \
-	libphp_sapi_a-crypt_sha256.$(OBJEXT) \
-	libphp_sapi_a-php_crypt_r.$(OBJEXT) \
-	libphp_sapi_a-array.$(OBJEXT) libphp_sapi_a-base64.$(OBJEXT) \
-	libphp_sapi_a-basic_functions.$(OBJEXT) \
-	libphp_sapi_a-browscap.$(OBJEXT) libphp_sapi_a-crc32.$(OBJEXT) \
-	libphp_sapi_a-crypt.$(OBJEXT) \
-	libphp_sapi_a-cyr_convert.$(OBJEXT) \
-	libphp_sapi_a-datetime.$(OBJEXT) libphp_sapi_a-dir.$(OBJEXT) \
-	libphp_sapi_a-dl.$(OBJEXT) libphp_sapi_a-dns.$(OBJEXT) \
-	libphp_sapi_a-exec.$(OBJEXT) libphp_sapi_a-file.$(OBJEXT) \
-	libphp_sapi_a-filestat.$(OBJEXT) \
-	libphp_sapi_a-flock_compat.$(OBJEXT) \
-	libphp_sapi_a-formatted_print.$(OBJEXT) \
-	libphp_sapi_a-fsock.$(OBJEXT) libphp_sapi_a-head.$(OBJEXT) \
-	libphp_sapi_a-html.$(OBJEXT) libphp_sapi_a-image.$(OBJEXT) \
-	libphp_sapi_a-info.$(OBJEXT) libphp_sapi_a-iptc.$(OBJEXT) \
-	libphp_sapi_a-lcg.$(OBJEXT) libphp_sapi_a-link.$(OBJEXT) \
-	libphp_sapi_a-mail.$(OBJEXT) libphp_sapi_a-math.$(OBJEXT) \
-	libphp_sapi_a-md5.$(OBJEXT) libphp_sapi_a-metaphone.$(OBJEXT) \
-	libphp_sapi_a-microtime.$(OBJEXT) libphp_sapi_a-pack.$(OBJEXT) \
-	libphp_sapi_a-pageinfo.$(OBJEXT) \
-	libphp_sapi_a-quot_print.$(OBJEXT) \
-	libphp_sapi_a-rand.$(OBJEXT) libphp_sapi_a-soundex.$(OBJEXT) \
-	libphp_sapi_a-string.$(OBJEXT) libphp_sapi_a-scanf.$(OBJEXT) \
-	libphp_sapi_a-syslog.$(OBJEXT) libphp_sapi_a-type.$(OBJEXT) \
-	libphp_sapi_a-uniqid.$(OBJEXT) libphp_sapi_a-url.$(OBJEXT) \
-	libphp_sapi_a-var.$(OBJEXT) libphp_sapi_a-versioning.$(OBJEXT) \
-	libphp_sapi_a-assert.$(OBJEXT) \
-	libphp_sapi_a-strnatcmp.$(OBJEXT) \
-	libphp_sapi_a-levenshtein.$(OBJEXT) \
-	libphp_sapi_a-incomplete_class.$(OBJEXT) \
-	libphp_sapi_a-url_scanner_ex.$(OBJEXT) \
-	libphp_sapi_a-ftp_fopen_wrapper.$(OBJEXT) \
-	libphp_sapi_a-http_fopen_wrapper.$(OBJEXT) \
-	libphp_sapi_a-php_fopen_wrapper.$(OBJEXT) \
-	libphp_sapi_a-credits.$(OBJEXT) libphp_sapi_a-css.$(OBJEXT) \
-	libphp_sapi_a-var_unserializer.$(OBJEXT) \
-	libphp_sapi_a-ftok.$(OBJEXT) libphp_sapi_a-sha1.$(OBJEXT) \
-	libphp_sapi_a-user_filters.$(OBJEXT) \
-	libphp_sapi_a-uuencode.$(OBJEXT) \
-	libphp_sapi_a-filters.$(OBJEXT) \
-	libphp_sapi_a-proc_open.$(OBJEXT) \
-	libphp_sapi_a-streamsfuncs.$(OBJEXT) \
-	libphp_sapi_a-http.$(OBJEXT) libphp_sapi_a-password.$(OBJEXT) \
-	libphp_sapi_a-tokenizer.$(OBJEXT) \
-	libphp_sapi_a-tokenizer_data.$(OBJEXT) \
-	libphp_sapi_a-xml.$(OBJEXT) libphp_sapi_a-compat.$(OBJEXT) \
-	libphp_sapi_a-php_xmlreader.$(OBJEXT) \
-	libphp_sapi_a-php_xmlwriter.$(OBJEXT) \
-	libphp_sapi_a-tsrm_win32.$(OBJEXT) \
-	libphp_sapi_a-main.$(OBJEXT) libphp_sapi_a-snprintf.$(OBJEXT) \
-	libphp_sapi_a-spprintf.$(OBJEXT) \
-	libphp_sapi_a-php_sprintf.$(OBJEXT) \
-	libphp_sapi_a-fopen_wrappers.$(OBJEXT) \
-	libphp_sapi_a-alloca.$(OBJEXT) \
-	libphp_sapi_a-php_scandir.$(OBJEXT) \
-	libphp_sapi_a-php_ini.$(OBJEXT) libphp_sapi_a-SAPI.$(OBJEXT) \
-	libphp_sapi_a-rfc1867.$(OBJEXT) \
-	libphp_sapi_a-php_content_types.$(OBJEXT) \
-	libphp_sapi_a-strlcpy.$(OBJEXT) \
-	libphp_sapi_a-strlcat.$(OBJEXT) \
-	libphp_sapi_a-mergesort.$(OBJEXT) \
-	libphp_sapi_a-reentrancy.$(OBJEXT) \
-	libphp_sapi_a-php_variables.$(OBJEXT) \
-	libphp_sapi_a-php_ticks.$(OBJEXT) \
-	libphp_sapi_a-network.$(OBJEXT) \
-	libphp_sapi_a-php_open_temporary_file.$(OBJEXT) \
-	libphp_sapi_a-output.$(OBJEXT) libphp_sapi_a-getopt.$(OBJEXT) \
-	libphp_sapi_a-streams.$(OBJEXT) libphp_sapi_a-cast.$(OBJEXT) \
-	libphp_sapi_a-memory.$(OBJEXT) libphp_sapi_a-filter.$(OBJEXT) \
-	libphp_sapi_a-plain_wrapper.$(OBJEXT) \
-	libphp_sapi_a-userspace.$(OBJEXT) \
-	libphp_sapi_a-transports.$(OBJEXT) \
-	libphp_sapi_a-xp_socket.$(OBJEXT) libphp_sapi_a-mmap.$(OBJEXT) \
-	libphp_sapi_a-glob_wrapper.$(OBJEXT) \
-	libphp_sapi_a-internal_functions.$(OBJEXT) \
-	libphp_sapi_a-internal_functions_cli.$(OBJEXT) \
-	libphp_sapi_a-zend_language_parser.$(OBJEXT) \
-	libphp_sapi_a-zend_language_scanner.$(OBJEXT) \
-	libphp_sapi_a-zend_ini_parser.$(OBJEXT) \
-	libphp_sapi_a-zend_ini_scanner.$(OBJEXT) \
-	libphp_sapi_a-zend_alloc.$(OBJEXT) \
-	libphp_sapi_a-zend_compile.$(OBJEXT) \
-	libphp_sapi_a-zend_constants.$(OBJEXT) \
-	libphp_sapi_a-zend_dynamic_array.$(OBJEXT) \
-	libphp_sapi_a-zend_dtrace.$(OBJEXT) \
-	libphp_sapi_a-zend_execute_API.$(OBJEXT) \
-	libphp_sapi_a-zend_highlight.$(OBJEXT) \
-	libphp_sapi_a-zend_llist.$(OBJEXT) \
-	libphp_sapi_a-zend_vm_opcodes.$(OBJEXT) \
-	libphp_sapi_a-zend_opcode.$(OBJEXT) \
-	libphp_sapi_a-zend_operators.$(OBJEXT) \
-	libphp_sapi_a-zend_ptr_stack.$(OBJEXT) \
-	libphp_sapi_a-zend_stack.$(OBJEXT) \
-	libphp_sapi_a-zend_variables.$(OBJEXT) \
-	libphp_sapi_a-zend.$(OBJEXT) libphp_sapi_a-zend_API.$(OBJEXT) \
-	libphp_sapi_a-zend_extensions.$(OBJEXT) \
-	libphp_sapi_a-zend_hash.$(OBJEXT) \
-	libphp_sapi_a-zend_list.$(OBJEXT) \
-	libphp_sapi_a-zend_indent.$(OBJEXT) \
-	libphp_sapi_a-zend_builtin_functions.$(OBJEXT) \
-	libphp_sapi_a-zend_sprintf.$(OBJEXT) \
-	libphp_sapi_a-zend_ini.$(OBJEXT) \
-	libphp_sapi_a-zend_qsort.$(OBJEXT) \
-	libphp_sapi_a-zend_multibyte.$(OBJEXT) \
-	libphp_sapi_a-zend_ts_hash.$(OBJEXT) \
-	libphp_sapi_a-zend_stream.$(OBJEXT) \
-	libphp_sapi_a-zend_iterators.$(OBJEXT) \
-	libphp_sapi_a-zend_interfaces.$(OBJEXT) \
-	libphp_sapi_a-zend_exceptions.$(OBJEXT) \
-	libphp_sapi_a-zend_strtod.$(OBJEXT) \
-	libphp_sapi_a-zend_gc.$(OBJEXT) \
-	libphp_sapi_a-zend_closures.$(OBJEXT) \
-	libphp_sapi_a-zend_float.$(OBJEXT) \
-	libphp_sapi_a-zend_string.$(OBJEXT) \
-	libphp_sapi_a-zend_signal.$(OBJEXT) \
-	libphp_sapi_a-zend_generators.$(OBJEXT) \
-	libphp_sapi_a-zend_virtual_cwd.$(OBJEXT) \
-	libphp_sapi_a-zend_ast.$(OBJEXT) \
-	libphp_sapi_a-zend_objects.$(OBJEXT) \
-	libphp_sapi_a-zend_object_handlers.$(OBJEXT) \
-	libphp_sapi_a-zend_objects_API.$(OBJEXT) \
-	libphp_sapi_a-zend_default_classes.$(OBJEXT) \
-	libphp_sapi_a-zend_execute.$(OBJEXT)
+@USE_PHP_RUNTIME_TRUE@libphp_sapi_a_DEPENDENCIES =  \
+@USE_PHP_RUNTIME_TRUE@	$(top_builddir)/lib/tsrm/libtsrm.a \
+@USE_PHP_RUNTIME_TRUE@	$(top_builddir)/lib/pcre/libpcre.a
+am__libphp_sapi_a_SOURCES_DIST = sapi/crotalus/php_crotalus.c \
+	sapi/crotalus/php_crotalus.h ext/date/php_date.c \
+	ext/date/lib/astro.c ext/date/lib/dow.c \
+	ext/date/lib/parse_date.c ext/date/lib/parse_tz.c \
+	ext/date/lib/timelib.c ext/date/lib/tm2unixtime.c \
+	ext/date/lib/unixtime2tm.c ext/date/lib/parse_iso_intervals.c \
+	ext/date/lib/interval.c ext/ereg/ereg.c \
+	ext/ereg/regex/regcomp.c ext/ereg/regex/regexec.c \
+	ext/ereg/regex/regerror.c ext/ereg/regex/regfree.c \
+	ext/libxml/libxml.c ext/pcre/php_pcre.c ext/sqlite3/sqlite3.c \
+	ext/sqlite3/libsqlite/libsqlite_sqlite3.c ext/ctype/ctype.c \
+	ext/dom/php_dom.c ext/dom/attr.c ext/dom/document.c \
+	ext/dom/domerrorhandler.c ext/dom/domstringlist.c \
+	ext/dom/domexception.c ext/dom/namelist.c \
+	ext/dom/processinginstruction.c ext/dom/cdatasection.c \
+	ext/dom/documentfragment.c ext/dom/domimplementation.c \
+	ext/dom/element.c ext/dom/node.c ext/dom/string_extend.c \
+	ext/dom/characterdata.c ext/dom/documenttype.c \
+	ext/dom/domimplementationlist.c ext/dom/entity.c \
+	ext/dom/nodelist.c ext/dom/text.c ext/dom/comment.c \
+	ext/dom/domconfiguration.c ext/dom/domimplementationsource.c \
+	ext/dom/entityreference.c ext/dom/notation.c ext/dom/xpath.c \
+	ext/dom/dom_iterators.c ext/dom/typeinfo.c ext/dom/domerror.c \
+	ext/dom/domlocator.c ext/dom/namednodemap.c \
+	ext/dom/userdatahandler.c ext/fileinfo/fileinfo.c \
+	ext/fileinfo/libmagic/apprentice.c \
+	ext/fileinfo/libmagic/apptype.c \
+	ext/fileinfo/libmagic/ascmagic.c ext/fileinfo/libmagic/cdf.c \
+	ext/fileinfo/libmagic/cdf_time.c \
+	ext/fileinfo/libmagic/compress.c \
+	ext/fileinfo/libmagic/encoding.c \
+	ext/fileinfo/libmagic/fsmagic.c ext/fileinfo/libmagic/funcs.c \
+	ext/fileinfo/libmagic/is_tar.c ext/fileinfo/libmagic/magic.c \
+	ext/fileinfo/libmagic/print.c ext/fileinfo/libmagic/readcdf.c \
+	ext/fileinfo/libmagic/readelf.c \
+	ext/fileinfo/libmagic/softmagic.c ext/filter/ext_filter.c \
+	ext/filter/sanitizing_filters.c ext/filter/logical_filters.c \
+	ext/filter/callback_filter.c ext/hash/hash.c \
+	ext/hash/hash_md.c ext/hash/hash_sha.c ext/hash/hash_ripemd.c \
+	ext/hash/hash_haval.c ext/hash/hash_tiger.c \
+	ext/hash/hash_gost.c ext/hash/hash_snefru.c \
+	ext/hash/hash_whirlpool.c ext/hash/hash_adler32.c \
+	ext/hash/hash_crc32.c ext/hash/hash_fnv.c \
+	ext/hash/hash_joaat.c ext/iconv/iconv.c ext/json/json.c \
+	ext/json/utf8_decode.c ext/json/JSON_parser.c \
+	ext/opcache/ZendAccelerator.c \
+	ext/opcache/zend_accelerator_blacklist.c \
+	ext/opcache/zend_accelerator_debug.c \
+	ext/opcache/zend_accelerator_hash.c \
+	ext/opcache/zend_accelerator_module.c \
+	ext/opcache/zend_persist.c ext/opcache/zend_persist_calc.c \
+	ext/opcache/zend_shared_alloc.c \
+	ext/opcache/zend_accelerator_util_funcs.c \
+	ext/opcache/shared_alloc_shm.c ext/opcache/shared_alloc_mmap.c \
+	ext/opcache/shared_alloc_posix.c \
+	ext/opcache/Optimizer/zend_optimizer.c ext/opcache/opcache.la \
+	ext/pdo/pdo.c ext/pdo/pdo_dbh.c ext/pdo/pdo_stmt.c \
+	ext/pdo/pdo_sql_parser.c ext/pdo/pdo_sqlstate.c \
+	ext/pdo_sqlite/pdo_sqlite.c ext/pdo_sqlite/sqlite_driver.c \
+	ext/pdo_sqlite/sqlite_statement.c ext/phar/util.c \
+	ext/phar/tar.c ext/phar/zip.c ext/phar/stream.c \
+	ext/phar/func_interceptors.c ext/phar/dirstream.c \
+	ext/phar/phar.c ext/phar/phar_object.c \
+	ext/phar/phar_path_check.c ext/posix/posix.c \
+	ext/reflection/php_reflection.c ext/session/mod_user_class.c \
+	ext/session/session.c ext/session/mod_files.c \
+	ext/session/mod_mm.c ext/session/mod_user.c \
+	ext/simplexml/simplexml.c ext/simplexml/sxe.c \
+	ext/spl/php_spl.c ext/spl/spl_functions.c ext/spl/spl_engine.c \
+	ext/spl/spl_iterators.c ext/spl/spl_array.c \
+	ext/spl/spl_directory.c ext/spl/spl_exceptions.c \
+	ext/spl/spl_observer.c ext/spl/spl_dllist.c ext/spl/spl_heap.c \
+	ext/spl/spl_fixedarray.c ext/standard/crypt_freesec.c \
+	ext/standard/crypt_blowfish.c ext/standard/crypt_sha512.c \
+	ext/standard/crypt_sha256.c ext/standard/php_crypt_r.c \
+	ext/standard/array.c ext/standard/base64.c \
+	ext/standard/password.c ext/standard/basic_functions.c \
+	ext/standard/browscap.c ext/standard/crc32.c \
+	ext/standard/crypt.c ext/standard/cyr_convert.c \
+	ext/standard/datetime.c ext/standard/dir.c ext/standard/dl.c \
+	ext/standard/dns.c ext/standard/exec.c ext/standard/file.c \
+	ext/standard/filestat.c ext/standard/flock_compat.c \
+	ext/standard/formatted_print.c ext/standard/fsock.c \
+	ext/standard/head.c ext/standard/html.c ext/standard/image.c \
+	ext/standard/info.c ext/standard/iptc.c ext/standard/lcg.c \
+	ext/standard/link.c ext/standard/mail.c ext/standard/math.c \
+	ext/standard/md5.c ext/standard/metaphone.c \
+	ext/standard/microtime.c ext/standard/pack.c \
+	ext/standard/pageinfo.c ext/standard/quot_print.c \
+	ext/standard/rand.c ext/standard/soundex.c \
+	ext/standard/string.c ext/standard/scanf.c \
+	ext/standard/syslog.c ext/standard/type.c \
+	ext/standard/uniqid.c ext/standard/url.c ext/standard/var.c \
+	ext/standard/versioning.c ext/standard/assert.c \
+	ext/standard/strnatcmp.c ext/standard/levenshtein.c \
+	ext/standard/incomplete_class.c ext/standard/url_scanner_ex.c \
+	ext/standard/ftp_fopen_wrapper.c \
+	ext/standard/http_fopen_wrapper.c \
+	ext/standard/php_fopen_wrapper.c ext/standard/credits.c \
+	ext/standard/css.c ext/standard/var_unserializer.c \
+	ext/standard/ftok.c ext/standard/sha1.c \
+	ext/standard/user_filters.c ext/standard/uuencode.c \
+	ext/standard/filters.c ext/standard/proc_open.c \
+	ext/standard/streamsfuncs.c ext/standard/http.c \
+	ext/tokenizer/tokenizer.c ext/tokenizer/tokenizer_data.c \
+	ext/xml/xml.c ext/xml/compat.c ext/xmlreader/php_xmlreader.c \
+	ext/xmlwriter/php_xmlwriter.c TSRM/tsrm_win32.c main/main.c \
+	main/snprintf.c main/spprintf.c main/php_sprintf.c \
+	main/fopen_wrappers.c main/alloca.c main/php_scandir.c \
+	main/php_ini.c main/SAPI.c main/rfc1867.c \
+	main/php_content_types.c main/strlcpy.c main/strlcat.c \
+	main/mergesort.c main/reentrancy.c main/php_variables.c \
+	main/php_ticks.c main/network.c main/php_open_temporary_file.c \
+	main/output.c main/getopt.c main/streams/streams.c \
+	main/streams/cast.c main/streams/memory.c \
+	main/streams/filter.c main/streams/plain_wrapper.c \
+	main/streams/userspace.c main/streams/transports.c \
+	main/streams/xp_socket.c main/streams/mmap.c \
+	main/streams/glob_wrapper.c main/internal_functions.c \
+	main/internal_functions_cli.c Zend/zend_language_parser.c \
+	Zend/zend_language_scanner.c Zend/zend_ini_parser.c \
+	Zend/zend_ini_scanner.c Zend/zend_alloc.c Zend/zend_compile.c \
+	Zend/zend_constants.c Zend/zend_dynamic_array.c \
+	Zend/zend_dtrace.c Zend/zend_execute_API.c \
+	Zend/zend_highlight.c Zend/zend_llist.c Zend/zend_vm_opcodes.c \
+	Zend/zend_opcode.c Zend/zend_operators.c Zend/zend_ptr_stack.c \
+	Zend/zend_stack.c Zend/zend_variables.c Zend/zend.c \
+	Zend/zend_API.c Zend/zend_extensions.c Zend/zend_hash.c \
+	Zend/zend_list.c Zend/zend_indent.c \
+	Zend/zend_builtin_functions.c Zend/zend_sprintf.c \
+	Zend/zend_ini.c Zend/zend_qsort.c Zend/zend_multibyte.c \
+	Zend/zend_ts_hash.c Zend/zend_stream.c Zend/zend_iterators.c \
+	Zend/zend_interfaces.c Zend/zend_exceptions.c \
+	Zend/zend_strtod.c Zend/zend_gc.c Zend/zend_closures.c \
+	Zend/zend_float.c Zend/zend_string.c Zend/zend_signal.c \
+	Zend/zend_generators.c Zend/zend_virtual_cwd.c Zend/zend_ast.c \
+	Zend/zend_objects.c Zend/zend_object_handlers.c \
+	Zend/zend_objects_API.c Zend/zend_default_classes.c \
+	Zend/zend_execute.c
+@USE_PHP_RUNTIME_TRUE@am_libphp_sapi_a_OBJECTS =  \
+@USE_PHP_RUNTIME_TRUE@	libphp_sapi_a-php_crotalus.$(OBJEXT) \
+@USE_PHP_RUNTIME_TRUE@	libphp_sapi_a-php_date.$(OBJEXT) \
+@USE_PHP_RUNTIME_TRUE@	libphp_sapi_a-astro.$(OBJEXT) \
+@USE_PHP_RUNTIME_TRUE@	libphp_sapi_a-dow.$(OBJEXT) \
+@USE_PHP_RUNTIME_TRUE@	libphp_sapi_a-parse_date.$(OBJEXT) \
+@USE_PHP_RUNTIME_TRUE@	libphp_sapi_a-parse_tz.$(OBJEXT) \
+@USE_PHP_RUNTIME_TRUE@	libphp_sapi_a-timelib.$(OBJEXT) \
+@USE_PHP_RUNTIME_TRUE@	libphp_sapi_a-tm2unixtime.$(OBJEXT) \
+@USE_PHP_RUNTIME_TRUE@	libphp_sapi_a-unixtime2tm.$(OBJEXT) \
+@USE_PHP_RUNTIME_TRUE@	libphp_sapi_a-parse_iso_intervals.$(OBJEXT) \
+@USE_PHP_RUNTIME_TRUE@	libphp_sapi_a-interval.$(OBJEXT) \
+@USE_PHP_RUNTIME_TRUE@	libphp_sapi_a-ereg.$(OBJEXT) \
+@USE_PHP_RUNTIME_TRUE@	libphp_sapi_a-regcomp.$(OBJEXT) \
+@USE_PHP_RUNTIME_TRUE@	libphp_sapi_a-regexec.$(OBJEXT) \
+@USE_PHP_RUNTIME_TRUE@	libphp_sapi_a-regerror.$(OBJEXT) \
+@USE_PHP_RUNTIME_TRUE@	libphp_sapi_a-regfree.$(OBJEXT) \
+@USE_PHP_RUNTIME_TRUE@	libphp_sapi_a-libxml.$(OBJEXT) \
+@USE_PHP_RUNTIME_TRUE@	libphp_sapi_a-php_pcre.$(OBJEXT) \
+@USE_PHP_RUNTIME_TRUE@	libphp_sapi_a-sqlite3.$(OBJEXT) \
+@USE_PHP_RUNTIME_TRUE@	libphp_sapi_a-libsqlite_sqlite3.$(OBJEXT) \
+@USE_PHP_RUNTIME_TRUE@	libphp_sapi_a-ctype.$(OBJEXT) \
+@USE_PHP_RUNTIME_TRUE@	libphp_sapi_a-php_dom.$(OBJEXT) \
+@USE_PHP_RUNTIME_TRUE@	libphp_sapi_a-attr.$(OBJEXT) \
+@USE_PHP_RUNTIME_TRUE@	libphp_sapi_a-document.$(OBJEXT) \
+@USE_PHP_RUNTIME_TRUE@	libphp_sapi_a-domerrorhandler.$(OBJEXT) \
+@USE_PHP_RUNTIME_TRUE@	libphp_sapi_a-domstringlist.$(OBJEXT) \
+@USE_PHP_RUNTIME_TRUE@	libphp_sapi_a-domexception.$(OBJEXT) \
+@USE_PHP_RUNTIME_TRUE@	libphp_sapi_a-namelist.$(OBJEXT) \
+@USE_PHP_RUNTIME_TRUE@	libphp_sapi_a-processinginstruction.$(OBJEXT) \
+@USE_PHP_RUNTIME_TRUE@	libphp_sapi_a-cdatasection.$(OBJEXT) \
+@USE_PHP_RUNTIME_TRUE@	libphp_sapi_a-documentfragment.$(OBJEXT) \
+@USE_PHP_RUNTIME_TRUE@	libphp_sapi_a-domimplementation.$(OBJEXT) \
+@USE_PHP_RUNTIME_TRUE@	libphp_sapi_a-element.$(OBJEXT) \
+@USE_PHP_RUNTIME_TRUE@	libphp_sapi_a-node.$(OBJEXT) \
+@USE_PHP_RUNTIME_TRUE@	libphp_sapi_a-string_extend.$(OBJEXT) \
+@USE_PHP_RUNTIME_TRUE@	libphp_sapi_a-characterdata.$(OBJEXT) \
+@USE_PHP_RUNTIME_TRUE@	libphp_sapi_a-documenttype.$(OBJEXT) \
+@USE_PHP_RUNTIME_TRUE@	libphp_sapi_a-domimplementationlist.$(OBJEXT) \
+@USE_PHP_RUNTIME_TRUE@	libphp_sapi_a-entity.$(OBJEXT) \
+@USE_PHP_RUNTIME_TRUE@	libphp_sapi_a-nodelist.$(OBJEXT) \
+@USE_PHP_RUNTIME_TRUE@	libphp_sapi_a-text.$(OBJEXT) \
+@USE_PHP_RUNTIME_TRUE@	libphp_sapi_a-comment.$(OBJEXT) \
+@USE_PHP_RUNTIME_TRUE@	libphp_sapi_a-domconfiguration.$(OBJEXT) \
+@USE_PHP_RUNTIME_TRUE@	libphp_sapi_a-domimplementationsource.$(OBJEXT) \
+@USE_PHP_RUNTIME_TRUE@	libphp_sapi_a-entityreference.$(OBJEXT) \
+@USE_PHP_RUNTIME_TRUE@	libphp_sapi_a-notation.$(OBJEXT) \
+@USE_PHP_RUNTIME_TRUE@	libphp_sapi_a-xpath.$(OBJEXT) \
+@USE_PHP_RUNTIME_TRUE@	libphp_sapi_a-dom_iterators.$(OBJEXT) \
+@USE_PHP_RUNTIME_TRUE@	libphp_sapi_a-typeinfo.$(OBJEXT) \
+@USE_PHP_RUNTIME_TRUE@	libphp_sapi_a-domerror.$(OBJEXT) \
+@USE_PHP_RUNTIME_TRUE@	libphp_sapi_a-domlocator.$(OBJEXT) \
+@USE_PHP_RUNTIME_TRUE@	libphp_sapi_a-namednodemap.$(OBJEXT) \
+@USE_PHP_RUNTIME_TRUE@	libphp_sapi_a-userdatahandler.$(OBJEXT) \
+@USE_PHP_RUNTIME_TRUE@	libphp_sapi_a-fileinfo.$(OBJEXT) \
+@USE_PHP_RUNTIME_TRUE@	libphp_sapi_a-apprentice.$(OBJEXT) \
+@USE_PHP_RUNTIME_TRUE@	libphp_sapi_a-apptype.$(OBJEXT) \
+@USE_PHP_RUNTIME_TRUE@	libphp_sapi_a-ascmagic.$(OBJEXT) \
+@USE_PHP_RUNTIME_TRUE@	libphp_sapi_a-cdf.$(OBJEXT) \
+@USE_PHP_RUNTIME_TRUE@	libphp_sapi_a-cdf_time.$(OBJEXT) \
+@USE_PHP_RUNTIME_TRUE@	libphp_sapi_a-compress.$(OBJEXT) \
+@USE_PHP_RUNTIME_TRUE@	libphp_sapi_a-encoding.$(OBJEXT) \
+@USE_PHP_RUNTIME_TRUE@	libphp_sapi_a-fsmagic.$(OBJEXT) \
+@USE_PHP_RUNTIME_TRUE@	libphp_sapi_a-funcs.$(OBJEXT) \
+@USE_PHP_RUNTIME_TRUE@	libphp_sapi_a-is_tar.$(OBJEXT) \
+@USE_PHP_RUNTIME_TRUE@	libphp_sapi_a-magic.$(OBJEXT) \
+@USE_PHP_RUNTIME_TRUE@	libphp_sapi_a-print.$(OBJEXT) \
+@USE_PHP_RUNTIME_TRUE@	libphp_sapi_a-readcdf.$(OBJEXT) \
+@USE_PHP_RUNTIME_TRUE@	libphp_sapi_a-readelf.$(OBJEXT) \
+@USE_PHP_RUNTIME_TRUE@	libphp_sapi_a-softmagic.$(OBJEXT) \
+@USE_PHP_RUNTIME_TRUE@	libphp_sapi_a-ext_filter.$(OBJEXT) \
+@USE_PHP_RUNTIME_TRUE@	libphp_sapi_a-sanitizing_filters.$(OBJEXT) \
+@USE_PHP_RUNTIME_TRUE@	libphp_sapi_a-logical_filters.$(OBJEXT) \
+@USE_PHP_RUNTIME_TRUE@	libphp_sapi_a-callback_filter.$(OBJEXT) \
+@USE_PHP_RUNTIME_TRUE@	libphp_sapi_a-hash.$(OBJEXT) \
+@USE_PHP_RUNTIME_TRUE@	libphp_sapi_a-hash_md.$(OBJEXT) \
+@USE_PHP_RUNTIME_TRUE@	libphp_sapi_a-hash_sha.$(OBJEXT) \
+@USE_PHP_RUNTIME_TRUE@	libphp_sapi_a-hash_ripemd.$(OBJEXT) \
+@USE_PHP_RUNTIME_TRUE@	libphp_sapi_a-hash_haval.$(OBJEXT) \
+@USE_PHP_RUNTIME_TRUE@	libphp_sapi_a-hash_tiger.$(OBJEXT) \
+@USE_PHP_RUNTIME_TRUE@	libphp_sapi_a-hash_gost.$(OBJEXT) \
+@USE_PHP_RUNTIME_TRUE@	libphp_sapi_a-hash_snefru.$(OBJEXT) \
+@USE_PHP_RUNTIME_TRUE@	libphp_sapi_a-hash_whirlpool.$(OBJEXT) \
+@USE_PHP_RUNTIME_TRUE@	libphp_sapi_a-hash_adler32.$(OBJEXT) \
+@USE_PHP_RUNTIME_TRUE@	libphp_sapi_a-hash_crc32.$(OBJEXT) \
+@USE_PHP_RUNTIME_TRUE@	libphp_sapi_a-hash_fnv.$(OBJEXT) \
+@USE_PHP_RUNTIME_TRUE@	libphp_sapi_a-hash_joaat.$(OBJEXT) \
+@USE_PHP_RUNTIME_TRUE@	libphp_sapi_a-iconv.$(OBJEXT) \
+@USE_PHP_RUNTIME_TRUE@	libphp_sapi_a-json.$(OBJEXT) \
+@USE_PHP_RUNTIME_TRUE@	libphp_sapi_a-utf8_decode.$(OBJEXT) \
+@USE_PHP_RUNTIME_TRUE@	libphp_sapi_a-JSON_parser.$(OBJEXT) \
+@USE_PHP_RUNTIME_TRUE@	libphp_sapi_a-ZendAccelerator.$(OBJEXT) \
+@USE_PHP_RUNTIME_TRUE@	libphp_sapi_a-zend_accelerator_blacklist.$(OBJEXT) \
+@USE_PHP_RUNTIME_TRUE@	libphp_sapi_a-zend_accelerator_debug.$(OBJEXT) \
+@USE_PHP_RUNTIME_TRUE@	libphp_sapi_a-zend_accelerator_hash.$(OBJEXT) \
+@USE_PHP_RUNTIME_TRUE@	libphp_sapi_a-zend_accelerator_module.$(OBJEXT) \
+@USE_PHP_RUNTIME_TRUE@	libphp_sapi_a-zend_persist.$(OBJEXT) \
+@USE_PHP_RUNTIME_TRUE@	libphp_sapi_a-zend_persist_calc.$(OBJEXT) \
+@USE_PHP_RUNTIME_TRUE@	libphp_sapi_a-zend_shared_alloc.$(OBJEXT) \
+@USE_PHP_RUNTIME_TRUE@	libphp_sapi_a-zend_accelerator_util_funcs.$(OBJEXT) \
+@USE_PHP_RUNTIME_TRUE@	libphp_sapi_a-shared_alloc_shm.$(OBJEXT) \
+@USE_PHP_RUNTIME_TRUE@	libphp_sapi_a-shared_alloc_mmap.$(OBJEXT) \
+@USE_PHP_RUNTIME_TRUE@	libphp_sapi_a-shared_alloc_posix.$(OBJEXT) \
+@USE_PHP_RUNTIME_TRUE@	libphp_sapi_a-zend_optimizer.$(OBJEXT) \
+@USE_PHP_RUNTIME_TRUE@	libphp_sapi_a-pdo.$(OBJEXT) \
+@USE_PHP_RUNTIME_TRUE@	libphp_sapi_a-pdo_dbh.$(OBJEXT) \
+@USE_PHP_RUNTIME_TRUE@	libphp_sapi_a-pdo_stmt.$(OBJEXT) \
+@USE_PHP_RUNTIME_TRUE@	libphp_sapi_a-pdo_sql_parser.$(OBJEXT) \
+@USE_PHP_RUNTIME_TRUE@	libphp_sapi_a-pdo_sqlstate.$(OBJEXT) \
+@USE_PHP_RUNTIME_TRUE@	libphp_sapi_a-pdo_sqlite.$(OBJEXT) \
+@USE_PHP_RUNTIME_TRUE@	libphp_sapi_a-sqlite_driver.$(OBJEXT) \
+@USE_PHP_RUNTIME_TRUE@	libphp_sapi_a-sqlite_statement.$(OBJEXT) \
+@USE_PHP_RUNTIME_TRUE@	libphp_sapi_a-util.$(OBJEXT) \
+@USE_PHP_RUNTIME_TRUE@	libphp_sapi_a-tar.$(OBJEXT) \
+@USE_PHP_RUNTIME_TRUE@	libphp_sapi_a-zip.$(OBJEXT) \
+@USE_PHP_RUNTIME_TRUE@	libphp_sapi_a-stream.$(OBJEXT) \
+@USE_PHP_RUNTIME_TRUE@	libphp_sapi_a-func_interceptors.$(OBJEXT) \
+@USE_PHP_RUNTIME_TRUE@	libphp_sapi_a-dirstream.$(OBJEXT) \
+@USE_PHP_RUNTIME_TRUE@	libphp_sapi_a-phar.$(OBJEXT) \
+@USE_PHP_RUNTIME_TRUE@	libphp_sapi_a-phar_object.$(OBJEXT) \
+@USE_PHP_RUNTIME_TRUE@	libphp_sapi_a-phar_path_check.$(OBJEXT) \
+@USE_PHP_RUNTIME_TRUE@	libphp_sapi_a-posix.$(OBJEXT) \
+@USE_PHP_RUNTIME_TRUE@	libphp_sapi_a-php_reflection.$(OBJEXT) \
+@USE_PHP_RUNTIME_TRUE@	libphp_sapi_a-mod_user_class.$(OBJEXT) \
+@USE_PHP_RUNTIME_TRUE@	libphp_sapi_a-session.$(OBJEXT) \
+@USE_PHP_RUNTIME_TRUE@	libphp_sapi_a-mod_files.$(OBJEXT) \
+@USE_PHP_RUNTIME_TRUE@	libphp_sapi_a-mod_mm.$(OBJEXT) \
+@USE_PHP_RUNTIME_TRUE@	libphp_sapi_a-mod_user.$(OBJEXT) \
+@USE_PHP_RUNTIME_TRUE@	libphp_sapi_a-simplexml.$(OBJEXT) \
+@USE_PHP_RUNTIME_TRUE@	libphp_sapi_a-sxe.$(OBJEXT) \
+@USE_PHP_RUNTIME_TRUE@	libphp_sapi_a-php_spl.$(OBJEXT) \
+@USE_PHP_RUNTIME_TRUE@	libphp_sapi_a-spl_functions.$(OBJEXT) \
+@USE_PHP_RUNTIME_TRUE@	libphp_sapi_a-spl_engine.$(OBJEXT) \
+@USE_PHP_RUNTIME_TRUE@	libphp_sapi_a-spl_iterators.$(OBJEXT) \
+@USE_PHP_RUNTIME_TRUE@	libphp_sapi_a-spl_array.$(OBJEXT) \
+@USE_PHP_RUNTIME_TRUE@	libphp_sapi_a-spl_directory.$(OBJEXT) \
+@USE_PHP_RUNTIME_TRUE@	libphp_sapi_a-spl_exceptions.$(OBJEXT) \
+@USE_PHP_RUNTIME_TRUE@	libphp_sapi_a-spl_observer.$(OBJEXT) \
+@USE_PHP_RUNTIME_TRUE@	libphp_sapi_a-spl_dllist.$(OBJEXT) \
+@USE_PHP_RUNTIME_TRUE@	libphp_sapi_a-spl_heap.$(OBJEXT) \
+@USE_PHP_RUNTIME_TRUE@	libphp_sapi_a-spl_fixedarray.$(OBJEXT) \
+@USE_PHP_RUNTIME_TRUE@	libphp_sapi_a-crypt_freesec.$(OBJEXT) \
+@USE_PHP_RUNTIME_TRUE@	libphp_sapi_a-crypt_blowfish.$(OBJEXT) \
+@USE_PHP_RUNTIME_TRUE@	libphp_sapi_a-crypt_sha512.$(OBJEXT) \
+@USE_PHP_RUNTIME_TRUE@	libphp_sapi_a-crypt_sha256.$(OBJEXT) \
+@USE_PHP_RUNTIME_TRUE@	libphp_sapi_a-php_crypt_r.$(OBJEXT) \
+@USE_PHP_RUNTIME_TRUE@	libphp_sapi_a-array.$(OBJEXT) \
+@USE_PHP_RUNTIME_TRUE@	libphp_sapi_a-base64.$(OBJEXT) \
+@USE_PHP_RUNTIME_TRUE@	libphp_sapi_a-password.$(OBJEXT) \
+@USE_PHP_RUNTIME_TRUE@	libphp_sapi_a-basic_functions.$(OBJEXT) \
+@USE_PHP_RUNTIME_TRUE@	libphp_sapi_a-browscap.$(OBJEXT) \
+@USE_PHP_RUNTIME_TRUE@	libphp_sapi_a-crc32.$(OBJEXT) \
+@USE_PHP_RUNTIME_TRUE@	libphp_sapi_a-crypt.$(OBJEXT) \
+@USE_PHP_RUNTIME_TRUE@	libphp_sapi_a-cyr_convert.$(OBJEXT) \
+@USE_PHP_RUNTIME_TRUE@	libphp_sapi_a-datetime.$(OBJEXT) \
+@USE_PHP_RUNTIME_TRUE@	libphp_sapi_a-dir.$(OBJEXT) \
+@USE_PHP_RUNTIME_TRUE@	libphp_sapi_a-dl.$(OBJEXT) \
+@USE_PHP_RUNTIME_TRUE@	libphp_sapi_a-dns.$(OBJEXT) \
+@USE_PHP_RUNTIME_TRUE@	libphp_sapi_a-exec.$(OBJEXT) \
+@USE_PHP_RUNTIME_TRUE@	libphp_sapi_a-file.$(OBJEXT) \
+@USE_PHP_RUNTIME_TRUE@	libphp_sapi_a-filestat.$(OBJEXT) \
+@USE_PHP_RUNTIME_TRUE@	libphp_sapi_a-flock_compat.$(OBJEXT) \
+@USE_PHP_RUNTIME_TRUE@	libphp_sapi_a-formatted_print.$(OBJEXT) \
+@USE_PHP_RUNTIME_TRUE@	libphp_sapi_a-fsock.$(OBJEXT) \
+@USE_PHP_RUNTIME_TRUE@	libphp_sapi_a-head.$(OBJEXT) \
+@USE_PHP_RUNTIME_TRUE@	libphp_sapi_a-html.$(OBJEXT) \
+@USE_PHP_RUNTIME_TRUE@	libphp_sapi_a-image.$(OBJEXT) \
+@USE_PHP_RUNTIME_TRUE@	libphp_sapi_a-info.$(OBJEXT) \
+@USE_PHP_RUNTIME_TRUE@	libphp_sapi_a-iptc.$(OBJEXT) \
+@USE_PHP_RUNTIME_TRUE@	libphp_sapi_a-lcg.$(OBJEXT) \
+@USE_PHP_RUNTIME_TRUE@	libphp_sapi_a-link.$(OBJEXT) \
+@USE_PHP_RUNTIME_TRUE@	libphp_sapi_a-mail.$(OBJEXT) \
+@USE_PHP_RUNTIME_TRUE@	libphp_sapi_a-math.$(OBJEXT) \
+@USE_PHP_RUNTIME_TRUE@	libphp_sapi_a-md5.$(OBJEXT) \
+@USE_PHP_RUNTIME_TRUE@	libphp_sapi_a-metaphone.$(OBJEXT) \
+@USE_PHP_RUNTIME_TRUE@	libphp_sapi_a-microtime.$(OBJEXT) \
+@USE_PHP_RUNTIME_TRUE@	libphp_sapi_a-pack.$(OBJEXT) \
+@USE_PHP_RUNTIME_TRUE@	libphp_sapi_a-pageinfo.$(OBJEXT) \
+@USE_PHP_RUNTIME_TRUE@	libphp_sapi_a-quot_print.$(OBJEXT) \
+@USE_PHP_RUNTIME_TRUE@	libphp_sapi_a-rand.$(OBJEXT) \
+@USE_PHP_RUNTIME_TRUE@	libphp_sapi_a-soundex.$(OBJEXT) \
+@USE_PHP_RUNTIME_TRUE@	libphp_sapi_a-string.$(OBJEXT) \
+@USE_PHP_RUNTIME_TRUE@	libphp_sapi_a-scanf.$(OBJEXT) \
+@USE_PHP_RUNTIME_TRUE@	libphp_sapi_a-syslog.$(OBJEXT) \
+@USE_PHP_RUNTIME_TRUE@	libphp_sapi_a-type.$(OBJEXT) \
+@USE_PHP_RUNTIME_TRUE@	libphp_sapi_a-uniqid.$(OBJEXT) \
+@USE_PHP_RUNTIME_TRUE@	libphp_sapi_a-url.$(OBJEXT) \
+@USE_PHP_RUNTIME_TRUE@	libphp_sapi_a-var.$(OBJEXT) \
+@USE_PHP_RUNTIME_TRUE@	libphp_sapi_a-versioning.$(OBJEXT) \
+@USE_PHP_RUNTIME_TRUE@	libphp_sapi_a-assert.$(OBJEXT) \
+@USE_PHP_RUNTIME_TRUE@	libphp_sapi_a-strnatcmp.$(OBJEXT) \
+@USE_PHP_RUNTIME_TRUE@	libphp_sapi_a-levenshtein.$(OBJEXT) \
+@USE_PHP_RUNTIME_TRUE@	libphp_sapi_a-incomplete_class.$(OBJEXT) \
+@USE_PHP_RUNTIME_TRUE@	libphp_sapi_a-url_scanner_ex.$(OBJEXT) \
+@USE_PHP_RUNTIME_TRUE@	libphp_sapi_a-ftp_fopen_wrapper.$(OBJEXT) \
+@USE_PHP_RUNTIME_TRUE@	libphp_sapi_a-http_fopen_wrapper.$(OBJEXT) \
+@USE_PHP_RUNTIME_TRUE@	libphp_sapi_a-php_fopen_wrapper.$(OBJEXT) \
+@USE_PHP_RUNTIME_TRUE@	libphp_sapi_a-credits.$(OBJEXT) \
+@USE_PHP_RUNTIME_TRUE@	libphp_sapi_a-css.$(OBJEXT) \
+@USE_PHP_RUNTIME_TRUE@	libphp_sapi_a-var_unserializer.$(OBJEXT) \
+@USE_PHP_RUNTIME_TRUE@	libphp_sapi_a-ftok.$(OBJEXT) \
+@USE_PHP_RUNTIME_TRUE@	libphp_sapi_a-sha1.$(OBJEXT) \
+@USE_PHP_RUNTIME_TRUE@	libphp_sapi_a-user_filters.$(OBJEXT) \
+@USE_PHP_RUNTIME_TRUE@	libphp_sapi_a-uuencode.$(OBJEXT) \
+@USE_PHP_RUNTIME_TRUE@	libphp_sapi_a-filters.$(OBJEXT) \
+@USE_PHP_RUNTIME_TRUE@	libphp_sapi_a-proc_open.$(OBJEXT) \
+@USE_PHP_RUNTIME_TRUE@	libphp_sapi_a-streamsfuncs.$(OBJEXT) \
+@USE_PHP_RUNTIME_TRUE@	libphp_sapi_a-http.$(OBJEXT) \
+@USE_PHP_RUNTIME_TRUE@	libphp_sapi_a-tokenizer.$(OBJEXT) \
+@USE_PHP_RUNTIME_TRUE@	libphp_sapi_a-tokenizer_data.$(OBJEXT) \
+@USE_PHP_RUNTIME_TRUE@	libphp_sapi_a-xml.$(OBJEXT) \
+@USE_PHP_RUNTIME_TRUE@	libphp_sapi_a-compat.$(OBJEXT) \
+@USE_PHP_RUNTIME_TRUE@	libphp_sapi_a-php_xmlreader.$(OBJEXT) \
+@USE_PHP_RUNTIME_TRUE@	libphp_sapi_a-php_xmlwriter.$(OBJEXT) \
+@USE_PHP_RUNTIME_TRUE@	libphp_sapi_a-tsrm_win32.$(OBJEXT) \
+@USE_PHP_RUNTIME_TRUE@	libphp_sapi_a-main.$(OBJEXT) \
+@USE_PHP_RUNTIME_TRUE@	libphp_sapi_a-snprintf.$(OBJEXT) \
+@USE_PHP_RUNTIME_TRUE@	libphp_sapi_a-spprintf.$(OBJEXT) \
+@USE_PHP_RUNTIME_TRUE@	libphp_sapi_a-php_sprintf.$(OBJEXT) \
+@USE_PHP_RUNTIME_TRUE@	libphp_sapi_a-fopen_wrappers.$(OBJEXT) \
+@USE_PHP_RUNTIME_TRUE@	libphp_sapi_a-alloca.$(OBJEXT) \
+@USE_PHP_RUNTIME_TRUE@	libphp_sapi_a-php_scandir.$(OBJEXT) \
+@USE_PHP_RUNTIME_TRUE@	libphp_sapi_a-php_ini.$(OBJEXT) \
+@USE_PHP_RUNTIME_TRUE@	libphp_sapi_a-SAPI.$(OBJEXT) \
+@USE_PHP_RUNTIME_TRUE@	libphp_sapi_a-rfc1867.$(OBJEXT) \
+@USE_PHP_RUNTIME_TRUE@	libphp_sapi_a-php_content_types.$(OBJEXT) \
+@USE_PHP_RUNTIME_TRUE@	libphp_sapi_a-strlcpy.$(OBJEXT) \
+@USE_PHP_RUNTIME_TRUE@	libphp_sapi_a-strlcat.$(OBJEXT) \
+@USE_PHP_RUNTIME_TRUE@	libphp_sapi_a-mergesort.$(OBJEXT) \
+@USE_PHP_RUNTIME_TRUE@	libphp_sapi_a-reentrancy.$(OBJEXT) \
+@USE_PHP_RUNTIME_TRUE@	libphp_sapi_a-php_variables.$(OBJEXT) \
+@USE_PHP_RUNTIME_TRUE@	libphp_sapi_a-php_ticks.$(OBJEXT) \
+@USE_PHP_RUNTIME_TRUE@	libphp_sapi_a-network.$(OBJEXT) \
+@USE_PHP_RUNTIME_TRUE@	libphp_sapi_a-php_open_temporary_file.$(OBJEXT) \
+@USE_PHP_RUNTIME_TRUE@	libphp_sapi_a-output.$(OBJEXT) \
+@USE_PHP_RUNTIME_TRUE@	libphp_sapi_a-getopt.$(OBJEXT) \
+@USE_PHP_RUNTIME_TRUE@	libphp_sapi_a-streams.$(OBJEXT) \
+@USE_PHP_RUNTIME_TRUE@	libphp_sapi_a-cast.$(OBJEXT) \
+@USE_PHP_RUNTIME_TRUE@	libphp_sapi_a-memory.$(OBJEXT) \
+@USE_PHP_RUNTIME_TRUE@	libphp_sapi_a-filter.$(OBJEXT) \
+@USE_PHP_RUNTIME_TRUE@	libphp_sapi_a-plain_wrapper.$(OBJEXT) \
+@USE_PHP_RUNTIME_TRUE@	libphp_sapi_a-userspace.$(OBJEXT) \
+@USE_PHP_RUNTIME_TRUE@	libphp_sapi_a-transports.$(OBJEXT) \
+@USE_PHP_RUNTIME_TRUE@	libphp_sapi_a-xp_socket.$(OBJEXT) \
+@USE_PHP_RUNTIME_TRUE@	libphp_sapi_a-mmap.$(OBJEXT) \
+@USE_PHP_RUNTIME_TRUE@	libphp_sapi_a-glob_wrapper.$(OBJEXT) \
+@USE_PHP_RUNTIME_TRUE@	libphp_sapi_a-internal_functions.$(OBJEXT) \
+@USE_PHP_RUNTIME_TRUE@	libphp_sapi_a-internal_functions_cli.$(OBJEXT) \
+@USE_PHP_RUNTIME_TRUE@	libphp_sapi_a-zend_language_parser.$(OBJEXT) \
+@USE_PHP_RUNTIME_TRUE@	libphp_sapi_a-zend_language_scanner.$(OBJEXT) \
+@USE_PHP_RUNTIME_TRUE@	libphp_sapi_a-zend_ini_parser.$(OBJEXT) \
+@USE_PHP_RUNTIME_TRUE@	libphp_sapi_a-zend_ini_scanner.$(OBJEXT) \
+@USE_PHP_RUNTIME_TRUE@	libphp_sapi_a-zend_alloc.$(OBJEXT) \
+@USE_PHP_RUNTIME_TRUE@	libphp_sapi_a-zend_compile.$(OBJEXT) \
+@USE_PHP_RUNTIME_TRUE@	libphp_sapi_a-zend_constants.$(OBJEXT) \
+@USE_PHP_RUNTIME_TRUE@	libphp_sapi_a-zend_dynamic_array.$(OBJEXT) \
+@USE_PHP_RUNTIME_TRUE@	libphp_sapi_a-zend_dtrace.$(OBJEXT) \
+@USE_PHP_RUNTIME_TRUE@	libphp_sapi_a-zend_execute_API.$(OBJEXT) \
+@USE_PHP_RUNTIME_TRUE@	libphp_sapi_a-zend_highlight.$(OBJEXT) \
+@USE_PHP_RUNTIME_TRUE@	libphp_sapi_a-zend_llist.$(OBJEXT) \
+@USE_PHP_RUNTIME_TRUE@	libphp_sapi_a-zend_vm_opcodes.$(OBJEXT) \
+@USE_PHP_RUNTIME_TRUE@	libphp_sapi_a-zend_opcode.$(OBJEXT) \
+@USE_PHP_RUNTIME_TRUE@	libphp_sapi_a-zend_operators.$(OBJEXT) \
+@USE_PHP_RUNTIME_TRUE@	libphp_sapi_a-zend_ptr_stack.$(OBJEXT) \
+@USE_PHP_RUNTIME_TRUE@	libphp_sapi_a-zend_stack.$(OBJEXT) \
+@USE_PHP_RUNTIME_TRUE@	libphp_sapi_a-zend_variables.$(OBJEXT) \
+@USE_PHP_RUNTIME_TRUE@	libphp_sapi_a-zend.$(OBJEXT) \
+@USE_PHP_RUNTIME_TRUE@	libphp_sapi_a-zend_API.$(OBJEXT) \
+@USE_PHP_RUNTIME_TRUE@	libphp_sapi_a-zend_extensions.$(OBJEXT) \
+@USE_PHP_RUNTIME_TRUE@	libphp_sapi_a-zend_hash.$(OBJEXT) \
+@USE_PHP_RUNTIME_TRUE@	libphp_sapi_a-zend_list.$(OBJEXT) \
+@USE_PHP_RUNTIME_TRUE@	libphp_sapi_a-zend_indent.$(OBJEXT) \
+@USE_PHP_RUNTIME_TRUE@	libphp_sapi_a-zend_builtin_functions.$(OBJEXT) \
+@USE_PHP_RUNTIME_TRUE@	libphp_sapi_a-zend_sprintf.$(OBJEXT) \
+@USE_PHP_RUNTIME_TRUE@	libphp_sapi_a-zend_ini.$(OBJEXT) \
+@USE_PHP_RUNTIME_TRUE@	libphp_sapi_a-zend_qsort.$(OBJEXT) \
+@USE_PHP_RUNTIME_TRUE@	libphp_sapi_a-zend_multibyte.$(OBJEXT) \
+@USE_PHP_RUNTIME_TRUE@	libphp_sapi_a-zend_ts_hash.$(OBJEXT) \
+@USE_PHP_RUNTIME_TRUE@	libphp_sapi_a-zend_stream.$(OBJEXT) \
+@USE_PHP_RUNTIME_TRUE@	libphp_sapi_a-zend_iterators.$(OBJEXT) \
+@USE_PHP_RUNTIME_TRUE@	libphp_sapi_a-zend_interfaces.$(OBJEXT) \
+@USE_PHP_RUNTIME_TRUE@	libphp_sapi_a-zend_exceptions.$(OBJEXT) \
+@USE_PHP_RUNTIME_TRUE@	libphp_sapi_a-zend_strtod.$(OBJEXT) \
+@USE_PHP_RUNTIME_TRUE@	libphp_sapi_a-zend_gc.$(OBJEXT) \
+@USE_PHP_RUNTIME_TRUE@	libphp_sapi_a-zend_closures.$(OBJEXT) \
+@USE_PHP_RUNTIME_TRUE@	libphp_sapi_a-zend_float.$(OBJEXT) \
+@USE_PHP_RUNTIME_TRUE@	libphp_sapi_a-zend_string.$(OBJEXT) \
+@USE_PHP_RUNTIME_TRUE@	libphp_sapi_a-zend_signal.$(OBJEXT) \
+@USE_PHP_RUNTIME_TRUE@	libphp_sapi_a-zend_generators.$(OBJEXT) \
+@USE_PHP_RUNTIME_TRUE@	libphp_sapi_a-zend_virtual_cwd.$(OBJEXT) \
+@USE_PHP_RUNTIME_TRUE@	libphp_sapi_a-zend_ast.$(OBJEXT) \
+@USE_PHP_RUNTIME_TRUE@	libphp_sapi_a-zend_objects.$(OBJEXT) \
+@USE_PHP_RUNTIME_TRUE@	libphp_sapi_a-zend_object_handlers.$(OBJEXT) \
+@USE_PHP_RUNTIME_TRUE@	libphp_sapi_a-zend_objects_API.$(OBJEXT) \
+@USE_PHP_RUNTIME_TRUE@	libphp_sapi_a-zend_default_classes.$(OBJEXT) \
+@USE_PHP_RUNTIME_TRUE@	libphp_sapi_a-zend_execute.$(OBJEXT)
 libphp_sapi_a_OBJECTS = $(am_libphp_sapi_a_OBJECTS)
 DEFAULT_INCLUDES = -I.@am__isrc@ -I$(top_builddir)/src -I$(top_builddir)/php/main -I$(top_builddir)/php/Zend -I$(top_builddir)/php/TSRM -I$(top_builddir)/php/ext/date/lib
 depcomp = $(SHELL) $(top_srcdir)/build-aux/depcomp
@@ -316,7 +510,7 @@ LINK = $(LIBTOOL) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) \
 	--mode=link $(CCLD) $(AM_CFLAGS) $(CFLAGS) $(AM_LDFLAGS) \
 	$(LDFLAGS) -o $@
 SOURCES = $(libphp_sapi_a_SOURCES)
-DIST_SOURCES = $(libphp_sapi_a_SOURCES)
+DIST_SOURCES = $(am__libphp_sapi_a_SOURCES_DIST)
 ETAGS = etags
 CTAGS = ctags
 DISTFILES = $(DIST_COMMON) $(DIST_SOURCES) $(TEXINFOS) $(EXTRA_DIST)
@@ -330,6 +524,7 @@ AUTOCONF = @AUTOCONF@
 AUTOHEADER = @AUTOHEADER@
 AUTOMAKE = @AUTOMAKE@
 AWK = @AWK@
+BASE_THREAD_LIBS = @BASE_THREAD_LIBS@
 CC = @CC@
 CCDEPMODE = @CCDEPMODE@
 CFLAGS = @CFLAGS@
@@ -385,7 +580,16 @@ SET_MAKE = @SET_MAKE@
 SHELL = @SHELL@
 STRIP = @STRIP@
 STRUTIL = @STRUTIL@
+TEST_SAX = @TEST_SAX@
+TEST_THREADS = @TEST_THREADS@
+THREAD_CFLAGS = @THREAD_CFLAGS@
+THREAD_LIBS = @THREAD_LIBS@
 VERSION = @VERSION@
+VERSION_SCRIPT_FLAGS = @VERSION_SCRIPT_FLAGS@
+WITH_SAX1 = @WITH_SAX1@
+WITH_THREADS = @WITH_THREADS@
+WITH_THREAD_ALLOC = @WITH_THREAD_ALLOC@
+WITH_TRIO = @WITH_TRIO@
 abs_builddir = @abs_builddir@
 abs_srcdir = @abs_srcdir@
 abs_top_builddir = @abs_top_builddir@
@@ -438,317 +642,323 @@ target_alias = @target_alias@
 top_build_prefix = @top_build_prefix@
 top_builddir = @top_builddir@
 top_srcdir = @top_srcdir@
-noinst_LIBRARIES = libphp_sapi.a
-libphp_sapi_a_CFLAGS = \
-		-I$(top_srcdir)/src \
-		-I$(top_srcdir)/lib/pcre \
-		-I$(top_srcdir)/php/main \
-		-I$(top_builddir)/php/main \
-		-I$(srcdir)/Zend -I$(builddir)/Zend \
-		-I$(srcdir)/TSRM -I$(builddir)/TSRM \
-		-I$(srcdir)/ext \
-		-I$(srcdir)/ext/opcache \
-		-I$(srcdir)/ext/fileinfo/libmagic \
-		-I$(srcdir)/ext/sqlite3/libsqlite \
-		-I$(srcdir)/ext/date/lib -I$(builddir)/ext/date/lib \
-		-I$(top_srcdir)/libxml2/include
+@USE_PHP_RUNTIME_TRUE@noinst_LIBRARIES = libphp_sapi.a
+@USE_PHP_RUNTIME_TRUE@libphp_sapi_a_CFLAGS = \
+@USE_PHP_RUNTIME_TRUE@		-I$(top_srcdir)/src \
+@USE_PHP_RUNTIME_TRUE@		-I$(top_srcdir)/lib/pcre \
+@USE_PHP_RUNTIME_TRUE@		-I$(top_srcdir)/php/main \
+@USE_PHP_RUNTIME_TRUE@		-I$(top_builddir)/php/main \
+@USE_PHP_RUNTIME_TRUE@		-I$(srcdir)/Zend -I$(builddir)/Zend \
+@USE_PHP_RUNTIME_TRUE@		-I$(srcdir)/TSRM -I$(builddir)/TSRM \
+@USE_PHP_RUNTIME_TRUE@		-I$(srcdir)/ext \
+@USE_PHP_RUNTIME_TRUE@		-I$(srcdir)/ext/opcache \
+@USE_PHP_RUNTIME_TRUE@		-I$(srcdir)/ext/fileinfo/libmagic \
+@USE_PHP_RUNTIME_TRUE@		-I$(srcdir)/ext/sqlite3/libsqlite \
+@USE_PHP_RUNTIME_TRUE@		-I$(srcdir)/ext/date/lib -I$(builddir)/ext/date/lib \
+@USE_PHP_RUNTIME_TRUE@		-I$(top_srcdir)/lib/libxml2/include
 
-libphp_sapi_a_LIBADD = \
-	$(top_builddir)/lib/tsrm/libtsrm.a \
-	$(top_builddir)/lib/pcre/libpcre.a
+@USE_PHP_RUNTIME_TRUE@libphp_sapi_a_LIBADD = \
+@USE_PHP_RUNTIME_TRUE@	$(top_builddir)/lib/tsrm/libtsrm.a \
+@USE_PHP_RUNTIME_TRUE@	$(top_builddir)/lib/pcre/libpcre.a
 
-libphp_sapi_a_SOURCES = \
-	sapi/cgi/fastcgi.c \
-	ext/date/php_date.c \
-	ext/date/lib/astro.c \
-	ext/date/lib/dow.c \
-	ext/date/lib/parse_date.c \
-	ext/date/lib/parse_tz.c \
-	ext/date/lib/timelib.c \
-	ext/date/lib/tm2unixtime.c \
-	ext/date/lib/unixtime2tm.c \
-	ext/date/lib/parse_iso_intervals.c \
-	ext/date/lib/interval.c \
-	ext/ereg/ereg.c \
-	ext/ereg/regex/regcomp.c \
-	ext/ereg/regex/regexec.c \
-	ext/ereg/regex/regerror.c \
-	ext/ereg/regex/regfree.c \
-	ext/libxml/libxml.c \
-	ext/pcre/php_pcre.c \
-	ext/sqlite3/sqlite3.c \
-	ext/ctype/ctype.c \
-	ext/dom/php_dom.c \
-	ext/dom/attr.c \
-	ext/dom/document.c \
-	ext/dom/domerrorhandler.c \
-	ext/dom/domstringlist.c \
-	ext/dom/domexception.c \
-	ext/dom/namelist.c \
-	ext/dom/processinginstruction.c \
-	ext/dom/cdatasection.c \
-	ext/dom/documentfragment.c \
-	ext/dom/domimplementation.c \
-	ext/dom/element.c \
-	ext/dom/node.c \
-	ext/dom/string_extend.c \
-	ext/dom/characterdata.c \
-	ext/dom/documenttype.c \
-	ext/dom/domimplementationlist.c \
-	ext/dom/entity.c \
-	ext/dom/nodelist.c \
-	ext/dom/text.c \
-	ext/dom/comment.c \
-	ext/dom/domconfiguration.c \
-	ext/dom/domimplementationsource.c \
-	ext/dom/entityreference.c \
-	ext/dom/notation.c \
-	ext/dom/xpath.c \
-	ext/dom/dom_iterators.c \
-	ext/dom/typeinfo.c \
-	ext/dom/domerror.c \
-	ext/dom/domlocator.c \
-	ext/dom/namednodemap.c \
-	ext/dom/userdatahandler.c \
-	ext/fileinfo/fileinfo.c \
-	ext/fileinfo/libmagic/apprentice.c \
-	ext/fileinfo/libmagic/apptype.c \
-	ext/fileinfo/libmagic/ascmagic.c \
-	ext/fileinfo/libmagic/cdf.c \
-	ext/fileinfo/libmagic/cdf_time.c \
-	ext/fileinfo/libmagic/compress.c \
-	ext/fileinfo/libmagic/encoding.c \
-	ext/fileinfo/libmagic/fsmagic.c \
-	ext/fileinfo/libmagic/funcs.c \
-	ext/fileinfo/libmagic/is_tar.c \
-	ext/fileinfo/libmagic/magic.c \
-	ext/fileinfo/libmagic/print.c \
-	ext/fileinfo/libmagic/readcdf.c \
-	ext/fileinfo/libmagic/readelf.c \
-	ext/fileinfo/libmagic/softmagic.c \
-	ext/hash/hash.c \
-	ext/hash/hash_md.c \
-	ext/hash/hash_sha.c \
-	ext/hash/hash_ripemd.c \
-	ext/hash/hash_haval.c \
-	ext/hash/hash_tiger.c \
-	ext/hash/hash_gost.c \
-	ext/hash/hash_snefru.c \
-	ext/hash/hash_whirlpool.c \
-	ext/hash/hash_adler32.c \
-	ext/hash/hash_crc32.c \
-	ext/hash/hash_fnv.c \
-	ext/hash/hash_joaat.c \
-	ext/iconv/iconv.c \
-	ext/json/json.c \
-	ext/json/utf8_decode.c \
-	ext/json/JSON_parser.c \
-	ext/opcache/ZendAccelerator.c \
-	ext/opcache/zend_accelerator_blacklist.c \
-	ext/opcache/zend_accelerator_debug.c \
-	ext/opcache/zend_accelerator_hash.c \
-	ext/opcache/zend_accelerator_module.c \
-	ext/opcache/zend_persist.c \
-	ext/opcache/zend_persist_calc.c \
-	ext/opcache/zend_shared_alloc.c \
-	ext/opcache/zend_accelerator_util_funcs.c \
-	ext/opcache/shared_alloc_shm.c \
-	ext/opcache/shared_alloc_mmap.c \
-	ext/opcache/shared_alloc_posix.c \
-	ext/opcache/Optimizer/zend_optimizer.c \
-	ext/opcache/opcache.la \
-	ext/pdo/pdo.c \
-	ext/pdo/pdo_dbh.c \
-	ext/pdo/pdo_stmt.c \
-	ext/pdo/pdo_sql_parser.c \
-	ext/pdo/pdo_sqlstate.c \
-	ext/pdo_sqlite/pdo_sqlite.c \
-	ext/pdo_sqlite/sqlite_driver.c \
-	ext/pdo_sqlite/sqlite_statement.c \
-	ext/phar/util.c \
-	ext/phar/tar.c \
-	ext/phar/zip.c \
-	ext/phar/stream.c \
-	ext/phar/func_interceptors.c \
-	ext/phar/dirstream.c \
-	ext/phar/phar.c \
-	ext/phar/phar_object.c \
-	ext/phar/phar_path_check.c \
-	ext/posix/posix.c \
-	ext/reflection/php_reflection.c \
-	ext/session/mod_user_class.c \
-	ext/session/session.c \
-	ext/session/mod_files.c \
-	ext/session/mod_mm.c \
-	ext/session/mod_user.c \
-	ext/simplexml/simplexml.c \
-	ext/simplexml/sxe.c \
-	ext/spl/php_spl.c \
-	ext/spl/spl_functions.c \
-	ext/spl/spl_engine.c \
-	ext/spl/spl_iterators.c \
-	ext/spl/spl_array.c \
-	ext/spl/spl_directory.c \
-	ext/spl/spl_exceptions.c \
-	ext/spl/spl_observer.c \
-	ext/spl/spl_dllist.c \
-	ext/spl/spl_heap.c \
-	ext/spl/spl_fixedarray.c \
-	ext/standard/crypt_freesec.c \
-	ext/standard/crypt_blowfish.c \
-	ext/standard/crypt_sha512.c \
-	ext/standard/crypt_sha256.c \
-	ext/standard/php_crypt_r.c \
-	ext/standard/array.c \
-	ext/standard/base64.c \
-	ext/standard/basic_functions.c \
-	ext/standard/browscap.c \
-	ext/standard/crc32.c \
-	ext/standard/crypt.c \
-	ext/standard/cyr_convert.c \
-	ext/standard/datetime.c \
-	ext/standard/dir.c \
-	ext/standard/dl.c \
-	ext/standard/dns.c \
-	ext/standard/exec.c \
-	ext/standard/file.c \
-	ext/standard/filestat.c \
-	ext/standard/flock_compat.c \
-	ext/standard/formatted_print.c \
-	ext/standard/fsock.c \
-	ext/standard/head.c \
-	ext/standard/html.c \
-	ext/standard/image.c \
-	ext/standard/info.c \
-	ext/standard/iptc.c \
-	ext/standard/lcg.c \
-	ext/standard/link.c \
-	ext/standard/mail.c \
-	ext/standard/math.c \
-	ext/standard/md5.c \
-	ext/standard/metaphone.c \
-	ext/standard/microtime.c \
-	ext/standard/pack.c \
-	ext/standard/pageinfo.c \
-	ext/standard/quot_print.c \
-	ext/standard/rand.c \
-	ext/standard/soundex.c \
-	ext/standard/string.c \
-	ext/standard/scanf.c \
-	ext/standard/syslog.c \
-	ext/standard/type.c \
-	ext/standard/uniqid.c \
-	ext/standard/url.c \
-	ext/standard/var.c \
-	ext/standard/versioning.c \
-	ext/standard/assert.c \
-	ext/standard/strnatcmp.c \
-	ext/standard/levenshtein.c \
-	ext/standard/incomplete_class.c \
-	ext/standard/url_scanner_ex.c \
-	ext/standard/ftp_fopen_wrapper.c \
-	ext/standard/http_fopen_wrapper.c \
-	ext/standard/php_fopen_wrapper.c \
-	ext/standard/credits.c \
-	ext/standard/css.c \
-	ext/standard/var_unserializer.c \
-	ext/standard/ftok.c \
-	ext/standard/sha1.c \
-	ext/standard/user_filters.c \
-	ext/standard/uuencode.c \
-	ext/standard/filters.c \
-	ext/standard/proc_open.c \
-	ext/standard/streamsfuncs.c \
-	ext/standard/http.c \
-	ext/standard/password.c \
-	ext/tokenizer/tokenizer.c \
-	ext/tokenizer/tokenizer_data.c \
-	ext/xml/xml.c \
-	ext/xml/compat.c \
-	ext/xmlreader/php_xmlreader.c \
-	ext/xmlwriter/php_xmlwriter.c \
-	TSRM/tsrm_win32.c \
-	main/main.c \
-	main/snprintf.c \
-	main/spprintf.c \
-	main/php_sprintf.c \
-	main/fopen_wrappers.c \
-	main/alloca.c \
-	main/php_scandir.c \
-	main/php_ini.c \
-	main/SAPI.c \
-	main/rfc1867.c \
-	main/php_content_types.c \
-	main/strlcpy.c \
-	main/strlcat.c \
-	main/mergesort.c \
-	main/reentrancy.c \
-	main/php_variables.c \
-	main/php_ticks.c \
-	main/network.c \
-	main/php_open_temporary_file.c \
-	main/output.c \
-	main/getopt.c \
-	main/streams/streams.c \
-	main/streams/cast.c \
-	main/streams/memory.c \
-	main/streams/filter.c \
-	main/streams/plain_wrapper.c \
-	main/streams/userspace.c \
-	main/streams/transports.c \
-	main/streams/xp_socket.c \
-	main/streams/mmap.c \
-	main/streams/glob_wrapper.c \
-	main/internal_functions.c \
-	main/internal_functions_cli.c \
-	Zend/zend_language_parser.c \
-	Zend/zend_language_scanner.c \
-	Zend/zend_ini_parser.c \
-	Zend/zend_ini_scanner.c \
-	Zend/zend_alloc.c \
-	Zend/zend_compile.c \
-	Zend/zend_constants.c \
-	Zend/zend_dynamic_array.c \
-	Zend/zend_dtrace.c \
-	Zend/zend_execute_API.c \
-	Zend/zend_highlight.c \
-	Zend/zend_llist.c \
-	Zend/zend_vm_opcodes.c \
-	Zend/zend_opcode.c \
-	Zend/zend_operators.c \
-	Zend/zend_ptr_stack.c \
-	Zend/zend_stack.c \
-	Zend/zend_variables.c \
-	Zend/zend.c \
-	Zend/zend_API.c \
-	Zend/zend_extensions.c \
-	Zend/zend_hash.c \
-	Zend/zend_list.c \
-	Zend/zend_indent.c \
-	Zend/zend_builtin_functions.c \
-	Zend/zend_sprintf.c \
-	Zend/zend_ini.c \
-	Zend/zend_qsort.c \
-	Zend/zend_multibyte.c \
-	Zend/zend_ts_hash.c \
-	Zend/zend_stream.c \
-	Zend/zend_iterators.c \
-	Zend/zend_interfaces.c \
-	Zend/zend_exceptions.c \
-	Zend/zend_strtod.c \
-	Zend/zend_gc.c \
-	Zend/zend_closures.c \
-	Zend/zend_float.c \
-	Zend/zend_string.c \
-	Zend/zend_signal.c \
-	Zend/zend_generators.c \
-	Zend/zend_virtual_cwd.c \
-	Zend/zend_ast.c \
-	Zend/zend_objects.c \
-	Zend/zend_object_handlers.c \
-	Zend/zend_objects_API.c \
-	Zend/zend_default_classes.c \
-	Zend/zend_execute.c
+@USE_PHP_RUNTIME_TRUE@libphp_sapi_a_SOURCES = \
+@USE_PHP_RUNTIME_TRUE@	sapi/crotalus/php_crotalus.c \
+@USE_PHP_RUNTIME_TRUE@	sapi/crotalus/php_crotalus.h \
+@USE_PHP_RUNTIME_TRUE@	ext/date/php_date.c \
+@USE_PHP_RUNTIME_TRUE@	ext/date/lib/astro.c \
+@USE_PHP_RUNTIME_TRUE@	ext/date/lib/dow.c \
+@USE_PHP_RUNTIME_TRUE@	ext/date/lib/parse_date.c \
+@USE_PHP_RUNTIME_TRUE@	ext/date/lib/parse_tz.c \
+@USE_PHP_RUNTIME_TRUE@	ext/date/lib/timelib.c \
+@USE_PHP_RUNTIME_TRUE@	ext/date/lib/tm2unixtime.c \
+@USE_PHP_RUNTIME_TRUE@	ext/date/lib/unixtime2tm.c \
+@USE_PHP_RUNTIME_TRUE@	ext/date/lib/parse_iso_intervals.c \
+@USE_PHP_RUNTIME_TRUE@	ext/date/lib/interval.c \
+@USE_PHP_RUNTIME_TRUE@	ext/ereg/ereg.c \
+@USE_PHP_RUNTIME_TRUE@	ext/ereg/regex/regcomp.c \
+@USE_PHP_RUNTIME_TRUE@	ext/ereg/regex/regexec.c \
+@USE_PHP_RUNTIME_TRUE@	ext/ereg/regex/regerror.c \
+@USE_PHP_RUNTIME_TRUE@	ext/ereg/regex/regfree.c \
+@USE_PHP_RUNTIME_TRUE@	ext/libxml/libxml.c \
+@USE_PHP_RUNTIME_TRUE@	ext/pcre/php_pcre.c \
+@USE_PHP_RUNTIME_TRUE@	ext/sqlite3/sqlite3.c \
+@USE_PHP_RUNTIME_TRUE@	ext/sqlite3/libsqlite/libsqlite_sqlite3.c \
+@USE_PHP_RUNTIME_TRUE@	ext/ctype/ctype.c \
+@USE_PHP_RUNTIME_TRUE@	ext/dom/php_dom.c \
+@USE_PHP_RUNTIME_TRUE@	ext/dom/attr.c \
+@USE_PHP_RUNTIME_TRUE@	ext/dom/document.c \
+@USE_PHP_RUNTIME_TRUE@	ext/dom/domerrorhandler.c \
+@USE_PHP_RUNTIME_TRUE@	ext/dom/domstringlist.c \
+@USE_PHP_RUNTIME_TRUE@	ext/dom/domexception.c \
+@USE_PHP_RUNTIME_TRUE@	ext/dom/namelist.c \
+@USE_PHP_RUNTIME_TRUE@	ext/dom/processinginstruction.c \
+@USE_PHP_RUNTIME_TRUE@	ext/dom/cdatasection.c \
+@USE_PHP_RUNTIME_TRUE@	ext/dom/documentfragment.c \
+@USE_PHP_RUNTIME_TRUE@	ext/dom/domimplementation.c \
+@USE_PHP_RUNTIME_TRUE@	ext/dom/element.c \
+@USE_PHP_RUNTIME_TRUE@	ext/dom/node.c \
+@USE_PHP_RUNTIME_TRUE@	ext/dom/string_extend.c \
+@USE_PHP_RUNTIME_TRUE@	ext/dom/characterdata.c \
+@USE_PHP_RUNTIME_TRUE@	ext/dom/documenttype.c \
+@USE_PHP_RUNTIME_TRUE@	ext/dom/domimplementationlist.c \
+@USE_PHP_RUNTIME_TRUE@	ext/dom/entity.c \
+@USE_PHP_RUNTIME_TRUE@	ext/dom/nodelist.c \
+@USE_PHP_RUNTIME_TRUE@	ext/dom/text.c \
+@USE_PHP_RUNTIME_TRUE@	ext/dom/comment.c \
+@USE_PHP_RUNTIME_TRUE@	ext/dom/domconfiguration.c \
+@USE_PHP_RUNTIME_TRUE@	ext/dom/domimplementationsource.c \
+@USE_PHP_RUNTIME_TRUE@	ext/dom/entityreference.c \
+@USE_PHP_RUNTIME_TRUE@	ext/dom/notation.c \
+@USE_PHP_RUNTIME_TRUE@	ext/dom/xpath.c \
+@USE_PHP_RUNTIME_TRUE@	ext/dom/dom_iterators.c \
+@USE_PHP_RUNTIME_TRUE@	ext/dom/typeinfo.c \
+@USE_PHP_RUNTIME_TRUE@	ext/dom/domerror.c \
+@USE_PHP_RUNTIME_TRUE@	ext/dom/domlocator.c \
+@USE_PHP_RUNTIME_TRUE@	ext/dom/namednodemap.c \
+@USE_PHP_RUNTIME_TRUE@	ext/dom/userdatahandler.c \
+@USE_PHP_RUNTIME_TRUE@	ext/fileinfo/fileinfo.c \
+@USE_PHP_RUNTIME_TRUE@	ext/fileinfo/libmagic/apprentice.c \
+@USE_PHP_RUNTIME_TRUE@	ext/fileinfo/libmagic/apptype.c \
+@USE_PHP_RUNTIME_TRUE@	ext/fileinfo/libmagic/ascmagic.c \
+@USE_PHP_RUNTIME_TRUE@	ext/fileinfo/libmagic/cdf.c \
+@USE_PHP_RUNTIME_TRUE@	ext/fileinfo/libmagic/cdf_time.c \
+@USE_PHP_RUNTIME_TRUE@	ext/fileinfo/libmagic/compress.c \
+@USE_PHP_RUNTIME_TRUE@	ext/fileinfo/libmagic/encoding.c \
+@USE_PHP_RUNTIME_TRUE@	ext/fileinfo/libmagic/fsmagic.c \
+@USE_PHP_RUNTIME_TRUE@	ext/fileinfo/libmagic/funcs.c \
+@USE_PHP_RUNTIME_TRUE@	ext/fileinfo/libmagic/is_tar.c \
+@USE_PHP_RUNTIME_TRUE@	ext/fileinfo/libmagic/magic.c \
+@USE_PHP_RUNTIME_TRUE@	ext/fileinfo/libmagic/print.c \
+@USE_PHP_RUNTIME_TRUE@	ext/fileinfo/libmagic/readcdf.c \
+@USE_PHP_RUNTIME_TRUE@	ext/fileinfo/libmagic/readelf.c \
+@USE_PHP_RUNTIME_TRUE@	ext/fileinfo/libmagic/softmagic.c \
+@USE_PHP_RUNTIME_TRUE@	ext/filter/ext_filter.c \
+@USE_PHP_RUNTIME_TRUE@	ext/filter/sanitizing_filters.c \
+@USE_PHP_RUNTIME_TRUE@	ext/filter/logical_filters.c \
+@USE_PHP_RUNTIME_TRUE@	ext/filter/callback_filter.c \
+@USE_PHP_RUNTIME_TRUE@	ext/hash/hash.c \
+@USE_PHP_RUNTIME_TRUE@	ext/hash/hash_md.c \
+@USE_PHP_RUNTIME_TRUE@	ext/hash/hash_sha.c \
+@USE_PHP_RUNTIME_TRUE@	ext/hash/hash_ripemd.c \
+@USE_PHP_RUNTIME_TRUE@	ext/hash/hash_haval.c \
+@USE_PHP_RUNTIME_TRUE@	ext/hash/hash_tiger.c \
+@USE_PHP_RUNTIME_TRUE@	ext/hash/hash_gost.c \
+@USE_PHP_RUNTIME_TRUE@	ext/hash/hash_snefru.c \
+@USE_PHP_RUNTIME_TRUE@	ext/hash/hash_whirlpool.c \
+@USE_PHP_RUNTIME_TRUE@	ext/hash/hash_adler32.c \
+@USE_PHP_RUNTIME_TRUE@	ext/hash/hash_crc32.c \
+@USE_PHP_RUNTIME_TRUE@	ext/hash/hash_fnv.c \
+@USE_PHP_RUNTIME_TRUE@	ext/hash/hash_joaat.c \
+@USE_PHP_RUNTIME_TRUE@	ext/iconv/iconv.c \
+@USE_PHP_RUNTIME_TRUE@	ext/json/json.c \
+@USE_PHP_RUNTIME_TRUE@	ext/json/utf8_decode.c \
+@USE_PHP_RUNTIME_TRUE@	ext/json/JSON_parser.c \
+@USE_PHP_RUNTIME_TRUE@	ext/opcache/ZendAccelerator.c \
+@USE_PHP_RUNTIME_TRUE@	ext/opcache/zend_accelerator_blacklist.c \
+@USE_PHP_RUNTIME_TRUE@	ext/opcache/zend_accelerator_debug.c \
+@USE_PHP_RUNTIME_TRUE@	ext/opcache/zend_accelerator_hash.c \
+@USE_PHP_RUNTIME_TRUE@	ext/opcache/zend_accelerator_module.c \
+@USE_PHP_RUNTIME_TRUE@	ext/opcache/zend_persist.c \
+@USE_PHP_RUNTIME_TRUE@	ext/opcache/zend_persist_calc.c \
+@USE_PHP_RUNTIME_TRUE@	ext/opcache/zend_shared_alloc.c \
+@USE_PHP_RUNTIME_TRUE@	ext/opcache/zend_accelerator_util_funcs.c \
+@USE_PHP_RUNTIME_TRUE@	ext/opcache/shared_alloc_shm.c \
+@USE_PHP_RUNTIME_TRUE@	ext/opcache/shared_alloc_mmap.c \
+@USE_PHP_RUNTIME_TRUE@	ext/opcache/shared_alloc_posix.c \
+@USE_PHP_RUNTIME_TRUE@	ext/opcache/Optimizer/zend_optimizer.c \
+@USE_PHP_RUNTIME_TRUE@	ext/opcache/opcache.la \
+@USE_PHP_RUNTIME_TRUE@	ext/pdo/pdo.c \
+@USE_PHP_RUNTIME_TRUE@	ext/pdo/pdo_dbh.c \
+@USE_PHP_RUNTIME_TRUE@	ext/pdo/pdo_stmt.c \
+@USE_PHP_RUNTIME_TRUE@	ext/pdo/pdo_sql_parser.c \
+@USE_PHP_RUNTIME_TRUE@	ext/pdo/pdo_sqlstate.c \
+@USE_PHP_RUNTIME_TRUE@	ext/pdo_sqlite/pdo_sqlite.c \
+@USE_PHP_RUNTIME_TRUE@	ext/pdo_sqlite/sqlite_driver.c \
+@USE_PHP_RUNTIME_TRUE@	ext/pdo_sqlite/sqlite_statement.c \
+@USE_PHP_RUNTIME_TRUE@	ext/phar/util.c \
+@USE_PHP_RUNTIME_TRUE@	ext/phar/tar.c \
+@USE_PHP_RUNTIME_TRUE@	ext/phar/zip.c \
+@USE_PHP_RUNTIME_TRUE@	ext/phar/stream.c \
+@USE_PHP_RUNTIME_TRUE@	ext/phar/func_interceptors.c \
+@USE_PHP_RUNTIME_TRUE@	ext/phar/dirstream.c \
+@USE_PHP_RUNTIME_TRUE@	ext/phar/phar.c \
+@USE_PHP_RUNTIME_TRUE@	ext/phar/phar_object.c \
+@USE_PHP_RUNTIME_TRUE@	ext/phar/phar_path_check.c \
+@USE_PHP_RUNTIME_TRUE@	ext/posix/posix.c \
+@USE_PHP_RUNTIME_TRUE@	ext/reflection/php_reflection.c \
+@USE_PHP_RUNTIME_TRUE@	ext/session/mod_user_class.c \
+@USE_PHP_RUNTIME_TRUE@	ext/session/session.c \
+@USE_PHP_RUNTIME_TRUE@	ext/session/mod_files.c \
+@USE_PHP_RUNTIME_TRUE@	ext/session/mod_mm.c \
+@USE_PHP_RUNTIME_TRUE@	ext/session/mod_user.c \
+@USE_PHP_RUNTIME_TRUE@	ext/simplexml/simplexml.c \
+@USE_PHP_RUNTIME_TRUE@	ext/simplexml/sxe.c \
+@USE_PHP_RUNTIME_TRUE@	ext/spl/php_spl.c \
+@USE_PHP_RUNTIME_TRUE@	ext/spl/spl_functions.c \
+@USE_PHP_RUNTIME_TRUE@	ext/spl/spl_engine.c \
+@USE_PHP_RUNTIME_TRUE@	ext/spl/spl_iterators.c \
+@USE_PHP_RUNTIME_TRUE@	ext/spl/spl_array.c \
+@USE_PHP_RUNTIME_TRUE@	ext/spl/spl_directory.c \
+@USE_PHP_RUNTIME_TRUE@	ext/spl/spl_exceptions.c \
+@USE_PHP_RUNTIME_TRUE@	ext/spl/spl_observer.c \
+@USE_PHP_RUNTIME_TRUE@	ext/spl/spl_dllist.c \
+@USE_PHP_RUNTIME_TRUE@	ext/spl/spl_heap.c \
+@USE_PHP_RUNTIME_TRUE@	ext/spl/spl_fixedarray.c \
+@USE_PHP_RUNTIME_TRUE@	ext/standard/crypt_freesec.c \
+@USE_PHP_RUNTIME_TRUE@	ext/standard/crypt_blowfish.c \
+@USE_PHP_RUNTIME_TRUE@	ext/standard/crypt_sha512.c \
+@USE_PHP_RUNTIME_TRUE@	ext/standard/crypt_sha256.c \
+@USE_PHP_RUNTIME_TRUE@	ext/standard/php_crypt_r.c \
+@USE_PHP_RUNTIME_TRUE@	ext/standard/array.c \
+@USE_PHP_RUNTIME_TRUE@	ext/standard/base64.c \
+@USE_PHP_RUNTIME_TRUE@	ext/standard/password.c \
+@USE_PHP_RUNTIME_TRUE@	ext/standard/basic_functions.c \
+@USE_PHP_RUNTIME_TRUE@	ext/standard/browscap.c \
+@USE_PHP_RUNTIME_TRUE@	ext/standard/crc32.c \
+@USE_PHP_RUNTIME_TRUE@	ext/standard/crypt.c \
+@USE_PHP_RUNTIME_TRUE@	ext/standard/cyr_convert.c \
+@USE_PHP_RUNTIME_TRUE@	ext/standard/datetime.c \
+@USE_PHP_RUNTIME_TRUE@	ext/standard/dir.c \
+@USE_PHP_RUNTIME_TRUE@	ext/standard/dl.c \
+@USE_PHP_RUNTIME_TRUE@	ext/standard/dns.c \
+@USE_PHP_RUNTIME_TRUE@	ext/standard/exec.c \
+@USE_PHP_RUNTIME_TRUE@	ext/standard/file.c \
+@USE_PHP_RUNTIME_TRUE@	ext/standard/filestat.c \
+@USE_PHP_RUNTIME_TRUE@	ext/standard/flock_compat.c \
+@USE_PHP_RUNTIME_TRUE@	ext/standard/formatted_print.c \
+@USE_PHP_RUNTIME_TRUE@	ext/standard/fsock.c \
+@USE_PHP_RUNTIME_TRUE@	ext/standard/head.c \
+@USE_PHP_RUNTIME_TRUE@	ext/standard/html.c \
+@USE_PHP_RUNTIME_TRUE@	ext/standard/image.c \
+@USE_PHP_RUNTIME_TRUE@	ext/standard/info.c \
+@USE_PHP_RUNTIME_TRUE@	ext/standard/iptc.c \
+@USE_PHP_RUNTIME_TRUE@	ext/standard/lcg.c \
+@USE_PHP_RUNTIME_TRUE@	ext/standard/link.c \
+@USE_PHP_RUNTIME_TRUE@	ext/standard/mail.c \
+@USE_PHP_RUNTIME_TRUE@	ext/standard/math.c \
+@USE_PHP_RUNTIME_TRUE@	ext/standard/md5.c \
+@USE_PHP_RUNTIME_TRUE@	ext/standard/metaphone.c \
+@USE_PHP_RUNTIME_TRUE@	ext/standard/microtime.c \
+@USE_PHP_RUNTIME_TRUE@	ext/standard/pack.c \
+@USE_PHP_RUNTIME_TRUE@	ext/standard/pageinfo.c \
+@USE_PHP_RUNTIME_TRUE@	ext/standard/quot_print.c \
+@USE_PHP_RUNTIME_TRUE@	ext/standard/rand.c \
+@USE_PHP_RUNTIME_TRUE@	ext/standard/soundex.c \
+@USE_PHP_RUNTIME_TRUE@	ext/standard/string.c \
+@USE_PHP_RUNTIME_TRUE@	ext/standard/scanf.c \
+@USE_PHP_RUNTIME_TRUE@	ext/standard/syslog.c \
+@USE_PHP_RUNTIME_TRUE@	ext/standard/type.c \
+@USE_PHP_RUNTIME_TRUE@	ext/standard/uniqid.c \
+@USE_PHP_RUNTIME_TRUE@	ext/standard/url.c \
+@USE_PHP_RUNTIME_TRUE@	ext/standard/var.c \
+@USE_PHP_RUNTIME_TRUE@	ext/standard/versioning.c \
+@USE_PHP_RUNTIME_TRUE@	ext/standard/assert.c \
+@USE_PHP_RUNTIME_TRUE@	ext/standard/strnatcmp.c \
+@USE_PHP_RUNTIME_TRUE@	ext/standard/levenshtein.c \
+@USE_PHP_RUNTIME_TRUE@	ext/standard/incomplete_class.c \
+@USE_PHP_RUNTIME_TRUE@	ext/standard/url_scanner_ex.c \
+@USE_PHP_RUNTIME_TRUE@	ext/standard/ftp_fopen_wrapper.c \
+@USE_PHP_RUNTIME_TRUE@	ext/standard/http_fopen_wrapper.c \
+@USE_PHP_RUNTIME_TRUE@	ext/standard/php_fopen_wrapper.c \
+@USE_PHP_RUNTIME_TRUE@	ext/standard/credits.c \
+@USE_PHP_RUNTIME_TRUE@	ext/standard/css.c \
+@USE_PHP_RUNTIME_TRUE@	ext/standard/var_unserializer.c \
+@USE_PHP_RUNTIME_TRUE@	ext/standard/ftok.c \
+@USE_PHP_RUNTIME_TRUE@	ext/standard/sha1.c \
+@USE_PHP_RUNTIME_TRUE@	ext/standard/user_filters.c \
+@USE_PHP_RUNTIME_TRUE@	ext/standard/uuencode.c \
+@USE_PHP_RUNTIME_TRUE@	ext/standard/filters.c \
+@USE_PHP_RUNTIME_TRUE@	ext/standard/proc_open.c \
+@USE_PHP_RUNTIME_TRUE@	ext/standard/streamsfuncs.c \
+@USE_PHP_RUNTIME_TRUE@	ext/standard/http.c \
+@USE_PHP_RUNTIME_TRUE@	ext/tokenizer/tokenizer.c \
+@USE_PHP_RUNTIME_TRUE@	ext/tokenizer/tokenizer_data.c \
+@USE_PHP_RUNTIME_TRUE@	ext/xml/xml.c \
+@USE_PHP_RUNTIME_TRUE@	ext/xml/compat.c \
+@USE_PHP_RUNTIME_TRUE@	ext/xmlreader/php_xmlreader.c \
+@USE_PHP_RUNTIME_TRUE@	ext/xmlwriter/php_xmlwriter.c \
+@USE_PHP_RUNTIME_TRUE@	TSRM/tsrm_win32.c \
+@USE_PHP_RUNTIME_TRUE@	main/main.c \
+@USE_PHP_RUNTIME_TRUE@	main/snprintf.c \
+@USE_PHP_RUNTIME_TRUE@	main/spprintf.c \
+@USE_PHP_RUNTIME_TRUE@	main/php_sprintf.c \
+@USE_PHP_RUNTIME_TRUE@	main/fopen_wrappers.c \
+@USE_PHP_RUNTIME_TRUE@	main/alloca.c \
+@USE_PHP_RUNTIME_TRUE@	main/php_scandir.c \
+@USE_PHP_RUNTIME_TRUE@	main/php_ini.c \
+@USE_PHP_RUNTIME_TRUE@	main/SAPI.c \
+@USE_PHP_RUNTIME_TRUE@	main/rfc1867.c \
+@USE_PHP_RUNTIME_TRUE@	main/php_content_types.c \
+@USE_PHP_RUNTIME_TRUE@	main/strlcpy.c \
+@USE_PHP_RUNTIME_TRUE@	main/strlcat.c \
+@USE_PHP_RUNTIME_TRUE@	main/mergesort.c \
+@USE_PHP_RUNTIME_TRUE@	main/reentrancy.c \
+@USE_PHP_RUNTIME_TRUE@	main/php_variables.c \
+@USE_PHP_RUNTIME_TRUE@	main/php_ticks.c \
+@USE_PHP_RUNTIME_TRUE@	main/network.c \
+@USE_PHP_RUNTIME_TRUE@	main/php_open_temporary_file.c \
+@USE_PHP_RUNTIME_TRUE@	main/output.c \
+@USE_PHP_RUNTIME_TRUE@	main/getopt.c \
+@USE_PHP_RUNTIME_TRUE@	main/streams/streams.c \
+@USE_PHP_RUNTIME_TRUE@	main/streams/cast.c \
+@USE_PHP_RUNTIME_TRUE@	main/streams/memory.c \
+@USE_PHP_RUNTIME_TRUE@	main/streams/filter.c \
+@USE_PHP_RUNTIME_TRUE@	main/streams/plain_wrapper.c \
+@USE_PHP_RUNTIME_TRUE@	main/streams/userspace.c \
+@USE_PHP_RUNTIME_TRUE@	main/streams/transports.c \
+@USE_PHP_RUNTIME_TRUE@	main/streams/xp_socket.c \
+@USE_PHP_RUNTIME_TRUE@	main/streams/mmap.c \
+@USE_PHP_RUNTIME_TRUE@	main/streams/glob_wrapper.c \
+@USE_PHP_RUNTIME_TRUE@	main/internal_functions.c \
+@USE_PHP_RUNTIME_TRUE@	main/internal_functions_cli.c \
+@USE_PHP_RUNTIME_TRUE@	Zend/zend_language_parser.c \
+@USE_PHP_RUNTIME_TRUE@	Zend/zend_language_scanner.c \
+@USE_PHP_RUNTIME_TRUE@	Zend/zend_ini_parser.c \
+@USE_PHP_RUNTIME_TRUE@	Zend/zend_ini_scanner.c \
+@USE_PHP_RUNTIME_TRUE@	Zend/zend_alloc.c \
+@USE_PHP_RUNTIME_TRUE@	Zend/zend_compile.c \
+@USE_PHP_RUNTIME_TRUE@	Zend/zend_constants.c \
+@USE_PHP_RUNTIME_TRUE@	Zend/zend_dynamic_array.c \
+@USE_PHP_RUNTIME_TRUE@	Zend/zend_dtrace.c \
+@USE_PHP_RUNTIME_TRUE@	Zend/zend_execute_API.c \
+@USE_PHP_RUNTIME_TRUE@	Zend/zend_highlight.c \
+@USE_PHP_RUNTIME_TRUE@	Zend/zend_llist.c \
+@USE_PHP_RUNTIME_TRUE@	Zend/zend_vm_opcodes.c \
+@USE_PHP_RUNTIME_TRUE@	Zend/zend_opcode.c \
+@USE_PHP_RUNTIME_TRUE@	Zend/zend_operators.c \
+@USE_PHP_RUNTIME_TRUE@	Zend/zend_ptr_stack.c \
+@USE_PHP_RUNTIME_TRUE@	Zend/zend_stack.c \
+@USE_PHP_RUNTIME_TRUE@	Zend/zend_variables.c \
+@USE_PHP_RUNTIME_TRUE@	Zend/zend.c \
+@USE_PHP_RUNTIME_TRUE@	Zend/zend_API.c \
+@USE_PHP_RUNTIME_TRUE@	Zend/zend_extensions.c \
+@USE_PHP_RUNTIME_TRUE@	Zend/zend_hash.c \
+@USE_PHP_RUNTIME_TRUE@	Zend/zend_list.c \
+@USE_PHP_RUNTIME_TRUE@	Zend/zend_indent.c \
+@USE_PHP_RUNTIME_TRUE@	Zend/zend_builtin_functions.c \
+@USE_PHP_RUNTIME_TRUE@	Zend/zend_sprintf.c \
+@USE_PHP_RUNTIME_TRUE@	Zend/zend_ini.c \
+@USE_PHP_RUNTIME_TRUE@	Zend/zend_qsort.c \
+@USE_PHP_RUNTIME_TRUE@	Zend/zend_multibyte.c \
+@USE_PHP_RUNTIME_TRUE@	Zend/zend_ts_hash.c \
+@USE_PHP_RUNTIME_TRUE@	Zend/zend_stream.c \
+@USE_PHP_RUNTIME_TRUE@	Zend/zend_iterators.c \
+@USE_PHP_RUNTIME_TRUE@	Zend/zend_interfaces.c \
+@USE_PHP_RUNTIME_TRUE@	Zend/zend_exceptions.c \
+@USE_PHP_RUNTIME_TRUE@	Zend/zend_strtod.c \
+@USE_PHP_RUNTIME_TRUE@	Zend/zend_gc.c \
+@USE_PHP_RUNTIME_TRUE@	Zend/zend_closures.c \
+@USE_PHP_RUNTIME_TRUE@	Zend/zend_float.c \
+@USE_PHP_RUNTIME_TRUE@	Zend/zend_string.c \
+@USE_PHP_RUNTIME_TRUE@	Zend/zend_signal.c \
+@USE_PHP_RUNTIME_TRUE@	Zend/zend_generators.c \
+@USE_PHP_RUNTIME_TRUE@	Zend/zend_virtual_cwd.c \
+@USE_PHP_RUNTIME_TRUE@	Zend/zend_ast.c \
+@USE_PHP_RUNTIME_TRUE@	Zend/zend_objects.c \
+@USE_PHP_RUNTIME_TRUE@	Zend/zend_object_handlers.c \
+@USE_PHP_RUNTIME_TRUE@	Zend/zend_objects_API.c \
+@USE_PHP_RUNTIME_TRUE@	Zend/zend_default_classes.c \
+@USE_PHP_RUNTIME_TRUE@	Zend/zend_execute.c
 
 all: all-am
 
@@ -812,6 +1022,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libphp_sapi_a-base64.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libphp_sapi_a-basic_functions.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libphp_sapi_a-browscap.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libphp_sapi_a-callback_filter.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libphp_sapi_a-cast.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libphp_sapi_a-cdatasection.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libphp_sapi_a-cdf.Po@am__quote@
@@ -855,7 +1066,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libphp_sapi_a-entityreference.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libphp_sapi_a-ereg.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libphp_sapi_a-exec.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libphp_sapi_a-fastcgi.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libphp_sapi_a-ext_filter.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libphp_sapi_a-file.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libphp_sapi_a-fileinfo.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libphp_sapi_a-filestat.Po@am__quote@
@@ -901,8 +1112,10 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libphp_sapi_a-json.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libphp_sapi_a-lcg.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libphp_sapi_a-levenshtein.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libphp_sapi_a-libsqlite_sqlite3.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libphp_sapi_a-libxml.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libphp_sapi_a-link.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libphp_sapi_a-logical_filters.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libphp_sapi_a-magic.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libphp_sapi_a-mail.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libphp_sapi_a-main.Po@am__quote@
@@ -940,6 +1153,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libphp_sapi_a-phar_object.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libphp_sapi_a-phar_path_check.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libphp_sapi_a-php_content_types.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libphp_sapi_a-php_crotalus.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libphp_sapi_a-php_crypt_r.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libphp_sapi_a-php_date.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libphp_sapi_a-php_dom.Po@am__quote@
@@ -970,6 +1184,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libphp_sapi_a-regexec.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libphp_sapi_a-regfree.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libphp_sapi_a-rfc1867.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libphp_sapi_a-sanitizing_filters.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libphp_sapi_a-scanf.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libphp_sapi_a-session.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libphp_sapi_a-sha1.Po@am__quote@
@@ -1110,19 +1325,19 @@ distclean-compile:
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCC_FALSE@	$(LTCOMPILE) -c -o $@ $<
 
-libphp_sapi_a-fastcgi.o: sapi/cgi/fastcgi.c
-@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libphp_sapi_a_CFLAGS) $(CFLAGS) -MT libphp_sapi_a-fastcgi.o -MD -MP -MF $(DEPDIR)/libphp_sapi_a-fastcgi.Tpo -c -o libphp_sapi_a-fastcgi.o `test -f 'sapi/cgi/fastcgi.c' || echo '$(srcdir)/'`sapi/cgi/fastcgi.c
-@am__fastdepCC_TRUE@	$(am__mv) $(DEPDIR)/libphp_sapi_a-fastcgi.Tpo $(DEPDIR)/libphp_sapi_a-fastcgi.Po
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='sapi/cgi/fastcgi.c' object='libphp_sapi_a-fastcgi.o' libtool=no @AMDEPBACKSLASH@
+libphp_sapi_a-php_crotalus.o: sapi/crotalus/php_crotalus.c
+@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libphp_sapi_a_CFLAGS) $(CFLAGS) -MT libphp_sapi_a-php_crotalus.o -MD -MP -MF $(DEPDIR)/libphp_sapi_a-php_crotalus.Tpo -c -o libphp_sapi_a-php_crotalus.o `test -f 'sapi/crotalus/php_crotalus.c' || echo '$(srcdir)/'`sapi/crotalus/php_crotalus.c
+@am__fastdepCC_TRUE@	$(am__mv) $(DEPDIR)/libphp_sapi_a-php_crotalus.Tpo $(DEPDIR)/libphp_sapi_a-php_crotalus.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='sapi/crotalus/php_crotalus.c' object='libphp_sapi_a-php_crotalus.o' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libphp_sapi_a_CFLAGS) $(CFLAGS) -c -o libphp_sapi_a-fastcgi.o `test -f 'sapi/cgi/fastcgi.c' || echo '$(srcdir)/'`sapi/cgi/fastcgi.c
+@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libphp_sapi_a_CFLAGS) $(CFLAGS) -c -o libphp_sapi_a-php_crotalus.o `test -f 'sapi/crotalus/php_crotalus.c' || echo '$(srcdir)/'`sapi/crotalus/php_crotalus.c
 
-libphp_sapi_a-fastcgi.obj: sapi/cgi/fastcgi.c
-@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libphp_sapi_a_CFLAGS) $(CFLAGS) -MT libphp_sapi_a-fastcgi.obj -MD -MP -MF $(DEPDIR)/libphp_sapi_a-fastcgi.Tpo -c -o libphp_sapi_a-fastcgi.obj `if test -f 'sapi/cgi/fastcgi.c'; then $(CYGPATH_W) 'sapi/cgi/fastcgi.c'; else $(CYGPATH_W) '$(srcdir)/sapi/cgi/fastcgi.c'; fi`
-@am__fastdepCC_TRUE@	$(am__mv) $(DEPDIR)/libphp_sapi_a-fastcgi.Tpo $(DEPDIR)/libphp_sapi_a-fastcgi.Po
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='sapi/cgi/fastcgi.c' object='libphp_sapi_a-fastcgi.obj' libtool=no @AMDEPBACKSLASH@
+libphp_sapi_a-php_crotalus.obj: sapi/crotalus/php_crotalus.c
+@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libphp_sapi_a_CFLAGS) $(CFLAGS) -MT libphp_sapi_a-php_crotalus.obj -MD -MP -MF $(DEPDIR)/libphp_sapi_a-php_crotalus.Tpo -c -o libphp_sapi_a-php_crotalus.obj `if test -f 'sapi/crotalus/php_crotalus.c'; then $(CYGPATH_W) 'sapi/crotalus/php_crotalus.c'; else $(CYGPATH_W) '$(srcdir)/sapi/crotalus/php_crotalus.c'; fi`
+@am__fastdepCC_TRUE@	$(am__mv) $(DEPDIR)/libphp_sapi_a-php_crotalus.Tpo $(DEPDIR)/libphp_sapi_a-php_crotalus.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='sapi/crotalus/php_crotalus.c' object='libphp_sapi_a-php_crotalus.obj' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libphp_sapi_a_CFLAGS) $(CFLAGS) -c -o libphp_sapi_a-fastcgi.obj `if test -f 'sapi/cgi/fastcgi.c'; then $(CYGPATH_W) 'sapi/cgi/fastcgi.c'; else $(CYGPATH_W) '$(srcdir)/sapi/cgi/fastcgi.c'; fi`
+@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libphp_sapi_a_CFLAGS) $(CFLAGS) -c -o libphp_sapi_a-php_crotalus.obj `if test -f 'sapi/crotalus/php_crotalus.c'; then $(CYGPATH_W) 'sapi/crotalus/php_crotalus.c'; else $(CYGPATH_W) '$(srcdir)/sapi/crotalus/php_crotalus.c'; fi`
 
 libphp_sapi_a-php_date.o: ext/date/php_date.c
 @am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libphp_sapi_a_CFLAGS) $(CFLAGS) -MT libphp_sapi_a-php_date.o -MD -MP -MF $(DEPDIR)/libphp_sapi_a-php_date.Tpo -c -o libphp_sapi_a-php_date.o `test -f 'ext/date/php_date.c' || echo '$(srcdir)/'`ext/date/php_date.c
@@ -1375,6 +1590,20 @@ libphp_sapi_a-sqlite3.obj: ext/sqlite3/sqlite3.c
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	source='ext/sqlite3/sqlite3.c' object='libphp_sapi_a-sqlite3.obj' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libphp_sapi_a_CFLAGS) $(CFLAGS) -c -o libphp_sapi_a-sqlite3.obj `if test -f 'ext/sqlite3/sqlite3.c'; then $(CYGPATH_W) 'ext/sqlite3/sqlite3.c'; else $(CYGPATH_W) '$(srcdir)/ext/sqlite3/sqlite3.c'; fi`
+
+libphp_sapi_a-libsqlite_sqlite3.o: ext/sqlite3/libsqlite/libsqlite_sqlite3.c
+@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libphp_sapi_a_CFLAGS) $(CFLAGS) -MT libphp_sapi_a-libsqlite_sqlite3.o -MD -MP -MF $(DEPDIR)/libphp_sapi_a-libsqlite_sqlite3.Tpo -c -o libphp_sapi_a-libsqlite_sqlite3.o `test -f 'ext/sqlite3/libsqlite/libsqlite_sqlite3.c' || echo '$(srcdir)/'`ext/sqlite3/libsqlite/libsqlite_sqlite3.c
+@am__fastdepCC_TRUE@	$(am__mv) $(DEPDIR)/libphp_sapi_a-libsqlite_sqlite3.Tpo $(DEPDIR)/libphp_sapi_a-libsqlite_sqlite3.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='ext/sqlite3/libsqlite/libsqlite_sqlite3.c' object='libphp_sapi_a-libsqlite_sqlite3.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libphp_sapi_a_CFLAGS) $(CFLAGS) -c -o libphp_sapi_a-libsqlite_sqlite3.o `test -f 'ext/sqlite3/libsqlite/libsqlite_sqlite3.c' || echo '$(srcdir)/'`ext/sqlite3/libsqlite/libsqlite_sqlite3.c
+
+libphp_sapi_a-libsqlite_sqlite3.obj: ext/sqlite3/libsqlite/libsqlite_sqlite3.c
+@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libphp_sapi_a_CFLAGS) $(CFLAGS) -MT libphp_sapi_a-libsqlite_sqlite3.obj -MD -MP -MF $(DEPDIR)/libphp_sapi_a-libsqlite_sqlite3.Tpo -c -o libphp_sapi_a-libsqlite_sqlite3.obj `if test -f 'ext/sqlite3/libsqlite/libsqlite_sqlite3.c'; then $(CYGPATH_W) 'ext/sqlite3/libsqlite/libsqlite_sqlite3.c'; else $(CYGPATH_W) '$(srcdir)/ext/sqlite3/libsqlite/libsqlite_sqlite3.c'; fi`
+@am__fastdepCC_TRUE@	$(am__mv) $(DEPDIR)/libphp_sapi_a-libsqlite_sqlite3.Tpo $(DEPDIR)/libphp_sapi_a-libsqlite_sqlite3.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='ext/sqlite3/libsqlite/libsqlite_sqlite3.c' object='libphp_sapi_a-libsqlite_sqlite3.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libphp_sapi_a_CFLAGS) $(CFLAGS) -c -o libphp_sapi_a-libsqlite_sqlite3.obj `if test -f 'ext/sqlite3/libsqlite/libsqlite_sqlite3.c'; then $(CYGPATH_W) 'ext/sqlite3/libsqlite/libsqlite_sqlite3.c'; else $(CYGPATH_W) '$(srcdir)/ext/sqlite3/libsqlite/libsqlite_sqlite3.c'; fi`
 
 libphp_sapi_a-ctype.o: ext/ctype/ctype.c
 @am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libphp_sapi_a_CFLAGS) $(CFLAGS) -MT libphp_sapi_a-ctype.o -MD -MP -MF $(DEPDIR)/libphp_sapi_a-ctype.Tpo -c -o libphp_sapi_a-ctype.o `test -f 'ext/ctype/ctype.c' || echo '$(srcdir)/'`ext/ctype/ctype.c
@@ -2061,6 +2290,62 @@ libphp_sapi_a-softmagic.obj: ext/fileinfo/libmagic/softmagic.c
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	source='ext/fileinfo/libmagic/softmagic.c' object='libphp_sapi_a-softmagic.obj' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libphp_sapi_a_CFLAGS) $(CFLAGS) -c -o libphp_sapi_a-softmagic.obj `if test -f 'ext/fileinfo/libmagic/softmagic.c'; then $(CYGPATH_W) 'ext/fileinfo/libmagic/softmagic.c'; else $(CYGPATH_W) '$(srcdir)/ext/fileinfo/libmagic/softmagic.c'; fi`
+
+libphp_sapi_a-ext_filter.o: ext/filter/ext_filter.c
+@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libphp_sapi_a_CFLAGS) $(CFLAGS) -MT libphp_sapi_a-ext_filter.o -MD -MP -MF $(DEPDIR)/libphp_sapi_a-ext_filter.Tpo -c -o libphp_sapi_a-ext_filter.o `test -f 'ext/filter/ext_filter.c' || echo '$(srcdir)/'`ext/filter/ext_filter.c
+@am__fastdepCC_TRUE@	$(am__mv) $(DEPDIR)/libphp_sapi_a-ext_filter.Tpo $(DEPDIR)/libphp_sapi_a-ext_filter.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='ext/filter/ext_filter.c' object='libphp_sapi_a-ext_filter.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libphp_sapi_a_CFLAGS) $(CFLAGS) -c -o libphp_sapi_a-ext_filter.o `test -f 'ext/filter/ext_filter.c' || echo '$(srcdir)/'`ext/filter/ext_filter.c
+
+libphp_sapi_a-ext_filter.obj: ext/filter/ext_filter.c
+@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libphp_sapi_a_CFLAGS) $(CFLAGS) -MT libphp_sapi_a-ext_filter.obj -MD -MP -MF $(DEPDIR)/libphp_sapi_a-ext_filter.Tpo -c -o libphp_sapi_a-ext_filter.obj `if test -f 'ext/filter/ext_filter.c'; then $(CYGPATH_W) 'ext/filter/ext_filter.c'; else $(CYGPATH_W) '$(srcdir)/ext/filter/ext_filter.c'; fi`
+@am__fastdepCC_TRUE@	$(am__mv) $(DEPDIR)/libphp_sapi_a-ext_filter.Tpo $(DEPDIR)/libphp_sapi_a-ext_filter.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='ext/filter/ext_filter.c' object='libphp_sapi_a-ext_filter.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libphp_sapi_a_CFLAGS) $(CFLAGS) -c -o libphp_sapi_a-ext_filter.obj `if test -f 'ext/filter/ext_filter.c'; then $(CYGPATH_W) 'ext/filter/ext_filter.c'; else $(CYGPATH_W) '$(srcdir)/ext/filter/ext_filter.c'; fi`
+
+libphp_sapi_a-sanitizing_filters.o: ext/filter/sanitizing_filters.c
+@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libphp_sapi_a_CFLAGS) $(CFLAGS) -MT libphp_sapi_a-sanitizing_filters.o -MD -MP -MF $(DEPDIR)/libphp_sapi_a-sanitizing_filters.Tpo -c -o libphp_sapi_a-sanitizing_filters.o `test -f 'ext/filter/sanitizing_filters.c' || echo '$(srcdir)/'`ext/filter/sanitizing_filters.c
+@am__fastdepCC_TRUE@	$(am__mv) $(DEPDIR)/libphp_sapi_a-sanitizing_filters.Tpo $(DEPDIR)/libphp_sapi_a-sanitizing_filters.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='ext/filter/sanitizing_filters.c' object='libphp_sapi_a-sanitizing_filters.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libphp_sapi_a_CFLAGS) $(CFLAGS) -c -o libphp_sapi_a-sanitizing_filters.o `test -f 'ext/filter/sanitizing_filters.c' || echo '$(srcdir)/'`ext/filter/sanitizing_filters.c
+
+libphp_sapi_a-sanitizing_filters.obj: ext/filter/sanitizing_filters.c
+@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libphp_sapi_a_CFLAGS) $(CFLAGS) -MT libphp_sapi_a-sanitizing_filters.obj -MD -MP -MF $(DEPDIR)/libphp_sapi_a-sanitizing_filters.Tpo -c -o libphp_sapi_a-sanitizing_filters.obj `if test -f 'ext/filter/sanitizing_filters.c'; then $(CYGPATH_W) 'ext/filter/sanitizing_filters.c'; else $(CYGPATH_W) '$(srcdir)/ext/filter/sanitizing_filters.c'; fi`
+@am__fastdepCC_TRUE@	$(am__mv) $(DEPDIR)/libphp_sapi_a-sanitizing_filters.Tpo $(DEPDIR)/libphp_sapi_a-sanitizing_filters.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='ext/filter/sanitizing_filters.c' object='libphp_sapi_a-sanitizing_filters.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libphp_sapi_a_CFLAGS) $(CFLAGS) -c -o libphp_sapi_a-sanitizing_filters.obj `if test -f 'ext/filter/sanitizing_filters.c'; then $(CYGPATH_W) 'ext/filter/sanitizing_filters.c'; else $(CYGPATH_W) '$(srcdir)/ext/filter/sanitizing_filters.c'; fi`
+
+libphp_sapi_a-logical_filters.o: ext/filter/logical_filters.c
+@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libphp_sapi_a_CFLAGS) $(CFLAGS) -MT libphp_sapi_a-logical_filters.o -MD -MP -MF $(DEPDIR)/libphp_sapi_a-logical_filters.Tpo -c -o libphp_sapi_a-logical_filters.o `test -f 'ext/filter/logical_filters.c' || echo '$(srcdir)/'`ext/filter/logical_filters.c
+@am__fastdepCC_TRUE@	$(am__mv) $(DEPDIR)/libphp_sapi_a-logical_filters.Tpo $(DEPDIR)/libphp_sapi_a-logical_filters.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='ext/filter/logical_filters.c' object='libphp_sapi_a-logical_filters.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libphp_sapi_a_CFLAGS) $(CFLAGS) -c -o libphp_sapi_a-logical_filters.o `test -f 'ext/filter/logical_filters.c' || echo '$(srcdir)/'`ext/filter/logical_filters.c
+
+libphp_sapi_a-logical_filters.obj: ext/filter/logical_filters.c
+@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libphp_sapi_a_CFLAGS) $(CFLAGS) -MT libphp_sapi_a-logical_filters.obj -MD -MP -MF $(DEPDIR)/libphp_sapi_a-logical_filters.Tpo -c -o libphp_sapi_a-logical_filters.obj `if test -f 'ext/filter/logical_filters.c'; then $(CYGPATH_W) 'ext/filter/logical_filters.c'; else $(CYGPATH_W) '$(srcdir)/ext/filter/logical_filters.c'; fi`
+@am__fastdepCC_TRUE@	$(am__mv) $(DEPDIR)/libphp_sapi_a-logical_filters.Tpo $(DEPDIR)/libphp_sapi_a-logical_filters.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='ext/filter/logical_filters.c' object='libphp_sapi_a-logical_filters.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libphp_sapi_a_CFLAGS) $(CFLAGS) -c -o libphp_sapi_a-logical_filters.obj `if test -f 'ext/filter/logical_filters.c'; then $(CYGPATH_W) 'ext/filter/logical_filters.c'; else $(CYGPATH_W) '$(srcdir)/ext/filter/logical_filters.c'; fi`
+
+libphp_sapi_a-callback_filter.o: ext/filter/callback_filter.c
+@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libphp_sapi_a_CFLAGS) $(CFLAGS) -MT libphp_sapi_a-callback_filter.o -MD -MP -MF $(DEPDIR)/libphp_sapi_a-callback_filter.Tpo -c -o libphp_sapi_a-callback_filter.o `test -f 'ext/filter/callback_filter.c' || echo '$(srcdir)/'`ext/filter/callback_filter.c
+@am__fastdepCC_TRUE@	$(am__mv) $(DEPDIR)/libphp_sapi_a-callback_filter.Tpo $(DEPDIR)/libphp_sapi_a-callback_filter.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='ext/filter/callback_filter.c' object='libphp_sapi_a-callback_filter.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libphp_sapi_a_CFLAGS) $(CFLAGS) -c -o libphp_sapi_a-callback_filter.o `test -f 'ext/filter/callback_filter.c' || echo '$(srcdir)/'`ext/filter/callback_filter.c
+
+libphp_sapi_a-callback_filter.obj: ext/filter/callback_filter.c
+@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libphp_sapi_a_CFLAGS) $(CFLAGS) -MT libphp_sapi_a-callback_filter.obj -MD -MP -MF $(DEPDIR)/libphp_sapi_a-callback_filter.Tpo -c -o libphp_sapi_a-callback_filter.obj `if test -f 'ext/filter/callback_filter.c'; then $(CYGPATH_W) 'ext/filter/callback_filter.c'; else $(CYGPATH_W) '$(srcdir)/ext/filter/callback_filter.c'; fi`
+@am__fastdepCC_TRUE@	$(am__mv) $(DEPDIR)/libphp_sapi_a-callback_filter.Tpo $(DEPDIR)/libphp_sapi_a-callback_filter.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='ext/filter/callback_filter.c' object='libphp_sapi_a-callback_filter.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libphp_sapi_a_CFLAGS) $(CFLAGS) -c -o libphp_sapi_a-callback_filter.obj `if test -f 'ext/filter/callback_filter.c'; then $(CYGPATH_W) 'ext/filter/callback_filter.c'; else $(CYGPATH_W) '$(srcdir)/ext/filter/callback_filter.c'; fi`
 
 libphp_sapi_a-hash.o: ext/hash/hash.c
 @am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libphp_sapi_a_CFLAGS) $(CFLAGS) -MT libphp_sapi_a-hash.o -MD -MP -MF $(DEPDIR)/libphp_sapi_a-hash.Tpo -c -o libphp_sapi_a-hash.o `test -f 'ext/hash/hash.c' || echo '$(srcdir)/'`ext/hash/hash.c
@@ -3098,6 +3383,20 @@ libphp_sapi_a-base64.obj: ext/standard/base64.c
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libphp_sapi_a_CFLAGS) $(CFLAGS) -c -o libphp_sapi_a-base64.obj `if test -f 'ext/standard/base64.c'; then $(CYGPATH_W) 'ext/standard/base64.c'; else $(CYGPATH_W) '$(srcdir)/ext/standard/base64.c'; fi`
 
+libphp_sapi_a-password.o: ext/standard/password.c
+@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libphp_sapi_a_CFLAGS) $(CFLAGS) -MT libphp_sapi_a-password.o -MD -MP -MF $(DEPDIR)/libphp_sapi_a-password.Tpo -c -o libphp_sapi_a-password.o `test -f 'ext/standard/password.c' || echo '$(srcdir)/'`ext/standard/password.c
+@am__fastdepCC_TRUE@	$(am__mv) $(DEPDIR)/libphp_sapi_a-password.Tpo $(DEPDIR)/libphp_sapi_a-password.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='ext/standard/password.c' object='libphp_sapi_a-password.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libphp_sapi_a_CFLAGS) $(CFLAGS) -c -o libphp_sapi_a-password.o `test -f 'ext/standard/password.c' || echo '$(srcdir)/'`ext/standard/password.c
+
+libphp_sapi_a-password.obj: ext/standard/password.c
+@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libphp_sapi_a_CFLAGS) $(CFLAGS) -MT libphp_sapi_a-password.obj -MD -MP -MF $(DEPDIR)/libphp_sapi_a-password.Tpo -c -o libphp_sapi_a-password.obj `if test -f 'ext/standard/password.c'; then $(CYGPATH_W) 'ext/standard/password.c'; else $(CYGPATH_W) '$(srcdir)/ext/standard/password.c'; fi`
+@am__fastdepCC_TRUE@	$(am__mv) $(DEPDIR)/libphp_sapi_a-password.Tpo $(DEPDIR)/libphp_sapi_a-password.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='ext/standard/password.c' object='libphp_sapi_a-password.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libphp_sapi_a_CFLAGS) $(CFLAGS) -c -o libphp_sapi_a-password.obj `if test -f 'ext/standard/password.c'; then $(CYGPATH_W) 'ext/standard/password.c'; else $(CYGPATH_W) '$(srcdir)/ext/standard/password.c'; fi`
+
 libphp_sapi_a-basic_functions.o: ext/standard/basic_functions.c
 @am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libphp_sapi_a_CFLAGS) $(CFLAGS) -MT libphp_sapi_a-basic_functions.o -MD -MP -MF $(DEPDIR)/libphp_sapi_a-basic_functions.Tpo -c -o libphp_sapi_a-basic_functions.o `test -f 'ext/standard/basic_functions.c' || echo '$(srcdir)/'`ext/standard/basic_functions.c
 @am__fastdepCC_TRUE@	$(am__mv) $(DEPDIR)/libphp_sapi_a-basic_functions.Tpo $(DEPDIR)/libphp_sapi_a-basic_functions.Po
@@ -3923,20 +4222,6 @@ libphp_sapi_a-http.obj: ext/standard/http.c
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	source='ext/standard/http.c' object='libphp_sapi_a-http.obj' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libphp_sapi_a_CFLAGS) $(CFLAGS) -c -o libphp_sapi_a-http.obj `if test -f 'ext/standard/http.c'; then $(CYGPATH_W) 'ext/standard/http.c'; else $(CYGPATH_W) '$(srcdir)/ext/standard/http.c'; fi`
-
-libphp_sapi_a-password.o: ext/standard/password.c
-@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libphp_sapi_a_CFLAGS) $(CFLAGS) -MT libphp_sapi_a-password.o -MD -MP -MF $(DEPDIR)/libphp_sapi_a-password.Tpo -c -o libphp_sapi_a-password.o `test -f 'ext/standard/password.c' || echo '$(srcdir)/'`ext/standard/password.c
-@am__fastdepCC_TRUE@	$(am__mv) $(DEPDIR)/libphp_sapi_a-password.Tpo $(DEPDIR)/libphp_sapi_a-password.Po
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='ext/standard/password.c' object='libphp_sapi_a-password.o' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libphp_sapi_a_CFLAGS) $(CFLAGS) -c -o libphp_sapi_a-password.o `test -f 'ext/standard/password.c' || echo '$(srcdir)/'`ext/standard/password.c
-
-libphp_sapi_a-password.obj: ext/standard/password.c
-@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libphp_sapi_a_CFLAGS) $(CFLAGS) -MT libphp_sapi_a-password.obj -MD -MP -MF $(DEPDIR)/libphp_sapi_a-password.Tpo -c -o libphp_sapi_a-password.obj `if test -f 'ext/standard/password.c'; then $(CYGPATH_W) 'ext/standard/password.c'; else $(CYGPATH_W) '$(srcdir)/ext/standard/password.c'; fi`
-@am__fastdepCC_TRUE@	$(am__mv) $(DEPDIR)/libphp_sapi_a-password.Tpo $(DEPDIR)/libphp_sapi_a-password.Po
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='ext/standard/password.c' object='libphp_sapi_a-password.obj' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libphp_sapi_a_CFLAGS) $(CFLAGS) -c -o libphp_sapi_a-password.obj `if test -f 'ext/standard/password.c'; then $(CYGPATH_W) 'ext/standard/password.c'; else $(CYGPATH_W) '$(srcdir)/ext/standard/password.c'; fi`
 
 libphp_sapi_a-tokenizer.o: ext/tokenizer/tokenizer.c
 @am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libphp_sapi_a_CFLAGS) $(CFLAGS) -MT libphp_sapi_a-tokenizer.o -MD -MP -MF $(DEPDIR)/libphp_sapi_a-tokenizer.Tpo -c -o libphp_sapi_a-tokenizer.o `test -f 'ext/tokenizer/tokenizer.c' || echo '$(srcdir)/'`ext/tokenizer/tokenizer.c
@@ -5373,19 +5658,6 @@ uninstall-am:
 	mostlyclean-compile mostlyclean-generic mostlyclean-libtool \
 	pdf pdf-am ps ps-am tags uninstall uninstall-am
 
-
-#sapi/crotalus/crotalus.c \
-#sapi/cli/php_cli.c 
-#sapi/cli/php_http_parser.c 
-#sapi/cli/php_cli_server.c 
-#sapi/cli/ps_title.c 
-#sapi/cli/php_cli_process_title.c 
-#sapi/embed/php_embed.c 
-#sapi/cgi/cgi_main.c 
-#	ext/filter/filter.c
-#	ext/filter/sanitizing_filters.c
-#	ext/filter/logical_filters.c
-#	ext/filter/callback_filter.c
 
 # Tell versions [3.59,3.63) of GNU make to not export all variables.
 # Otherwise a system limit (for SysV at least) may be exceeded.

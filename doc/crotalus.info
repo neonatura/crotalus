@@ -1,5 +1,5 @@
-This is ../../docs/crotalus.info, produced by makeinfo version 4.13
-from ../../docs/crotalus.texi.
+This is ../../doc/crotalus.info, produced by makeinfo version 4.13 from
+../../doc/crotalus.texi.
 
 This file documents Crotalus (Boa), an HTTP daemon for UN*X like
 machines.
@@ -64,18 +64,27 @@ nor does it fork many copies of itself to handle multiple connections.
 It internally multiplexes all of the ongoing HTTP connections, and
 forks only for CGI programs (which must be separate processes),
 automatic directory generation, and automatic file gunzipping.
-The exception is PHP scripts with are handled on seperate threads.
+Preliminary tests show Crotalus (Boa) is capable of handling several
+thousand hits per second on a 300 MHz Pentium and dozens of hits per
+second on a lowly 20 MHz 386/SX.
 
-Modifications to the Crotalus web server that improve its speed, security,
+The primary design goals of Crotalus (Boa) are speed and security.
+Security, in the sense of _can't be subverted by a malicious user,_ not
+_fine grained access control and encrypted communications_.  Crotalus
+(Boa) is not intended as a feature-packed server; if you want one of
+those, check out WN (`http://hopf.math.nwu.edu/') from John Franks.
+Modifications to Crotalus (Boa) that improve its speed, security,
 robustness, and portability, are eagerly sought.  Other features may be
 added if they can be achieved without hurting the primary goals.
 
-Boa, the program Crotalus is designed from, was created in 1991 by Paul 
-Phillips, and further enhanced by Larry Doolittle and Jon Nelson.
+Crotalus (Boa) was created in 1991 by Paul Phillips (<psp@well.com>).
+It is now being maintained and enhanced by Larry Doolittle
+(<ldoolitt@crotalus.org>) and Jon Nelson (<jnelson@crotalus.org>).
 Please see the acknowledgment section for further details.
 
-GNU/Linux is the primary development platform at the moment, but is
-also intended to be able to be compiled in a msys win32 environment.
+GNU/Linux is the development platform at the moment, other OS's are
+known to work.  If you'd like to contribute to this effort, contact
+Larry or Jon via e-mail.
 
 
 File: crotalus.info,  Node: Installation and Usage,  Next: Limits and Design Philosophy,  Prev: Introduction,  Up: Top
@@ -821,25 +830,25 @@ A.7 Authors
 
 
 Tag Table:
-Node: Top314
-Node: Introduction1296
-Node: Installation and Usage2973
-Node: Installation3651
-Node: Files Used by Crotalus (Boa)6220
-Node: Compile-Time and Command-Line Options6866
-Node: crotalus.conf Directives7428
-Node: Security17494
-Node: Limits and Design Philosophy18969
-Node: Limits19469
-Node: Differences between Crotalus (Boa) and other web servers22060
-Node: Unexpected Behavior23622
-Node: Appendix24597
-Node: License24851
-Node: Acknowledgments25980
-Node: Reference Documents27352
-Node: Other HTTP Servers28540
-Node: Benchmarks29865
-Node: Tools30315
-Node: Authors30984
+Node: Top312
+Node: Introduction1294
+Node: Installation and Usage2971
+Node: Installation3649
+Node: Files Used by Crotalus (Boa)6218
+Node: Compile-Time and Command-Line Options6864
+Node: crotalus.conf Directives7426
+Node: Security17492
+Node: Limits and Design Philosophy18967
+Node: Limits19467
+Node: Differences between Crotalus (Boa) and other web servers22058
+Node: Unexpected Behavior23620
+Node: Appendix24595
+Node: License24849
+Node: Acknowledgments25978
+Node: Reference Documents27350
+Node: Other HTTP Servers28538
+Node: Benchmarks29863
+Node: Tools30313
+Node: Authors30982
 
 End Tag Table

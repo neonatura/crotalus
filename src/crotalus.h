@@ -139,7 +139,8 @@ void free_requests(void);
 struct request *find_request_by_fd(int fd);
 
 /* response */
-const char *http_ver_string(enum HTTP_VERSION ver);
+const char *http_ver_string(int ver);
+const char *http_method_string(int method);
 void print_ka_phrase(request * req);
 void print_content_type(request * req);
 void print_content_length(request * req);

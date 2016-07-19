@@ -27,11 +27,17 @@
 /* Define to 1 if you have the <assert.h> header file. */
 #undef HAVE_ASSERT_H
 
+/* Define if libcrypt can be found */
+#undef HAVE_CRYPT
+
 /* Define to 1 if you have the <dirent.h> header file. */
 #undef HAVE_DIRENT_H
 
 /* Define to 1 if you have the <dlfcn.h> header file. */
 #undef HAVE_DLFCN_H
+
+/* Define if libxml2 can be found */
+#undef HAVE_DOM
 
 /* Define to 1 if you have the <fcntl.h> header file. */
 #undef HAVE_FCNTL_H
@@ -93,7 +99,7 @@
 /* Define to 1 if you have the `efence' library (-lefence). */
 #undef HAVE_LIBEFENCE
 
-/* Define if libpthread can be found */
+/* Define if pthread library is there (-lpthread) */
 #undef HAVE_LIBPTHREAD
 
 /* Define if librt can be found */
@@ -132,7 +138,7 @@
 /* Define to 1 if you have the <netinet/in.h> header file. */
 #undef HAVE_NETINET_IN_H
 
-/* Define to 1 if you have the <pthread.h> header file. */
+/* Define if <pthread.h> is there */
 #undef HAVE_PTHREAD_H
 
 /* Define to 1 if you have the <pwd.h> header file. */
@@ -149,6 +155,9 @@
 
 /* Define to 1 if you have the <shadow.h> header file. */
 #undef HAVE_SHADOW_H
+
+/* Define if libxml2 can be found */
+#undef HAVE_SIMPLEXML
 
 /* Define if struct sockaddr_in has sin_len member */
 #undef HAVE_SIN_LEN
@@ -204,6 +213,9 @@
 /* Define to 1 if you have the `strtol' function. */
 #undef HAVE_STRTOL
 
+/* Define to 1 if you have the `symlink' function. */
+#undef HAVE_SYMLINK
+
 /* Define to 1 if you have the <sys/dir.h> header file, and it defines `DIR'.
    */
 #undef HAVE_SYS_DIR_H
@@ -253,6 +265,9 @@
 
 /* Define to 1 if you have the <unistd.h> header file. */
 #undef HAVE_UNISTD_H
+
+/* Define to 1 if you have the `utime' function. */
+#undef HAVE_UTIME
 
 /* Define to 1 if you have the <utime.h> header file. */
 #undef HAVE_UTIME_H
@@ -311,6 +326,9 @@
 
 /* uname output */
 #undef PHP_OS
+
+/* Enable the PHP runtime */
+#undef PHP_RUNTIME
 
 /* uname -a output */
 #undef PHP_UNAME

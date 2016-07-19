@@ -59,10 +59,8 @@
 #include "php_crypt.h"
 #include "php_rand.h"
 
-/* The capabilities of the crypt() function is determined by the test programs
- * run by configure from aclocal.m4.  They will set PHP_STD_DES_CRYPT,
- * PHP_EXT_DES_CRYPT, PHP_MD5_CRYPT and PHP_BLOWFISH_CRYPT as appropriate
- * for the target platform. */
+
+
 
 #if PHP_STD_DES_CRYPT
 #define PHP_MAX_SALT_LEN 2

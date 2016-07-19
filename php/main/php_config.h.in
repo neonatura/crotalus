@@ -2,6 +2,6 @@
 #define HAVE_PCRE 1
 #define HAVE_SPL 1
 #define HAVE_LIBXML 1
-#define ZTS 1
+//#define ZTS 1
 #define HAVE_BUILD_DEFS_H 1
 #define DEFAULT_SHORT_OPEN_TAG "1"

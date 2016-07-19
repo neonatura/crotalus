@@ -33,4 +33,7 @@ int mime_head_cgi(request *req);
 
 int mime_get_cgi(request *req);
 
+int mime_head_php(request *req);
+int mime_get_php(request *req);
+
 

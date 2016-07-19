@@ -93,7 +93,7 @@ enum KA_STATUS { KA_INACTIVE, KA_ACTIVE, KA_STOPPED };
 enum CGI_STATUS { CGI_PARSE, CGI_BUFFER, CGI_DONE };
 
 /************** CGI TYPE (req->is_cgi) ******************/
-enum CGI_TYPE { NPH = 1, EXEC = 2, WORK = 3 };
+enum CGI_TYPE { NPH = 1, EXEC = 2, WORK = 3, PHP = 4 };
 
 /**************** STRUCTURES ****************************/
 struct range {
@@ -199,6 +199,8 @@ struct request
     char *header_user_agent;
     char *header_referer;
     char *header_ifrange;
+    char *header_cookie; /* TODO: not implem'd */
+    char *header_authorization;
     char *host;                 /* what we end up using for 'host', no matter the contents of header_host */
 
     int post_data_fd;           /* fd for post data tmpfile */
@@ -232,6 +234,8 @@ struct request
 #ifdef HAVE_LIBSHARE
     shbuf_t *buff; /* worker process returned data */
 #endif
+    char encodedurl[MAX_HEADER_LENGTH + 1]; /* not implem'd (sapi) */
+    char decodedurl[MAX_HEADER_LENGTH + 1]; /* not implem'd (sapi) */
     char request_uri[MAX_HEADER_LENGTH + 1]; /* uri */
     char client_stream[CLIENT_STREAM_SIZE]; /* data from client - fit or be hosed */
     char *cgi_env[CGI_ENV_MAX + 4]; /* CGI environment */
@@ -240,6 +244,7 @@ struct request
     char accept[MAX_ACCEPT_LENGTH]; /* Accept: fields */
 #endif
     char encoding[BUFFER_SIZE + 1]; /* Accept-Encoding: fields */ 
+    char language[BUFFER_SIZE + 1]; /* Accept-Language: fields */ 
 
     /* zlib DEFLATE/GZIP compression */
     z_stream zlib;

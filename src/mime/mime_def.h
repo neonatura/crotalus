@@ -26,7 +26,7 @@
  * @{
  */
 
-#define MAX_MIME_DEFINITION 3
+#define MAX_MIME_DEFINITION 4
 #define MAX_MIME_FILTERS 2 
 
 #define MIMEF_ENCODE (1 << 0)

@@ -131,6 +131,7 @@ AUTOCONF = @AUTOCONF@
 AUTOHEADER = @AUTOHEADER@
 AUTOMAKE = @AUTOMAKE@
 AWK = @AWK@
+BASE_THREAD_LIBS = @BASE_THREAD_LIBS@
 CC = @CC@
 CCDEPMODE = @CCDEPMODE@
 CFLAGS = @CFLAGS@
@@ -186,7 +187,16 @@ SET_MAKE = @SET_MAKE@
 SHELL = @SHELL@
 STRIP = @STRIP@
 STRUTIL = @STRUTIL@
+TEST_SAX = @TEST_SAX@
+TEST_THREADS = @TEST_THREADS@
+THREAD_CFLAGS = @THREAD_CFLAGS@
+THREAD_LIBS = @THREAD_LIBS@
 VERSION = @VERSION@
+VERSION_SCRIPT_FLAGS = @VERSION_SCRIPT_FLAGS@
+WITH_SAX1 = @WITH_SAX1@
+WITH_THREADS = @WITH_THREADS@
+WITH_THREAD_ALLOC = @WITH_THREAD_ALLOC@
+WITH_TRIO = @WITH_TRIO@
 abs_builddir = @abs_builddir@
 abs_srcdir = @abs_srcdir@
 abs_top_builddir = @abs_top_builddir@
@@ -241,7 +251,7 @@ top_builddir = @top_builddir@
 top_srcdir = @top_srcdir@
 ACLOCAL_AMFLAGS = -I m4
 AUTOMAKE_OPTIONS = foreign
-SUBDIRS = lib/ancillary lib/zlib lib/pcre lib/tsrm lib/oauth lib/oauth/tests php src doc
+SUBDIRS = lib/libxml2 lib/ancillary lib/zlib lib/pcre lib/tsrm lib/oauth lib/oauth/tests php src src/crphp doc
 all: all-recursive
 
 .SUFFIXES:

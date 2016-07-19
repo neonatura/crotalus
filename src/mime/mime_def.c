@@ -33,11 +33,15 @@ mime_t mime_definition[MAX_MIME_DEFINITION] = {
   { SH_MIME_TYPE, "sh", NULL, NULL, NULL, NULL, MIMEF_INLINE },
 #endif
 #ifdef GUNZIP
-  { GZIP_MIME_TYPE, "gz", mime_head_gzip, mime_get_gzip, NULL, NULL, MIMEF_ENCODE }
+  { GZIP_MIME_TYPE, "gz", mime_head_gzip, mime_get_gzip, NULL, NULL, MIMEF_ENCODE },
 #else
-  { GZIP_MIME_TYPE, "gz", NULL, NULL, NULL, NULL, MIMEF_INLINE }
+  { GZIP_MIME_TYPE, "gz", NULL, NULL, NULL, NULL, MIMEF_INLINE },
 #endif
-  //{ PHP_MIME_TYPE, mime_interp_php, 0 }
+#ifdef PHP_RUNTIME
+  { PHP_MIME_TYPE, "php", mime_head_php, mime_get_php, NULL, NULL, 0 },
+#else
+  { PHP_MIME_TYPE, "php", NULL, NULL, NULL, NULL, MIMEF_INLINE }
+#endif
 };  
 
 mime_filter_t mime_filter[MAX_MIME_FILTERS] = {
