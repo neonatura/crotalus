@@ -80,7 +80,6 @@ static zend_module_entry *php_builtin_extensions[] = {
 	phpext_xml_ptr,
 	phpext_xmlreader_ptr,
 	phpext_xmlwriter_ptr,
-
 };
 
 #define EXTCOUNT (sizeof(php_builtin_extensions)/sizeof(zend_module_entry *))

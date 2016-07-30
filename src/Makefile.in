@@ -34,17 +34,15 @@ PRE_UNINSTALL = :
 POST_UNINSTALL = :
 build_triplet = @build@
 host_triplet = @host@
+@STATIC_LIBSHARE_TRUE@am__append_1 = $(LIBSHARE)/src/share-lib/libshare.a
+@HAVE_LIBRT_TRUE@am__append_2 = -lrt
+@HAVE_LIBXML_TRUE@am__append_3 = -lxml2
+@HAVE_LIBPTHREAD_TRUE@am__append_4 = -lpthread
+@HAVE_LIBZ_TRUE@am__append_5 = -lz
+@HAVE_LIBZ_FALSE@am__append_6 = $(top_builddir)/lib/zlib/libz.a
 sbin_PROGRAMS = crotalus$(EXEEXT)
-@USE_PHP_RUNTIME_TRUE@am__append_1 = \
-@USE_PHP_RUNTIME_TRUE@	$(top_builddir)/php/libphp_sapi.a
-
-@STATIC_LIBSHARE_TRUE@am__append_2 = $(LIBSHARE)/src/share-lib/libshare.a
-@STATIC_LIBSHARE_TRUE@am__append_3 = -I$(LIBSHARE)/include
-@ACCESS_CONTROL_TRUE@am__append_4 = cache/cr_access.c cache/cr_access.h
-@HAVE_LIBRT_TRUE@am__append_5 = -lrt
-@HAVE_LIBPTHREAD_TRUE@am__append_6 = -lpthread
-@HAVE_LIBZ_TRUE@am__append_7 = -lz
-@HAVE_LIBZ_FALSE@am__append_8 = $(top_builddir)/lib/zlib/libz.a
+@STATIC_LIBSHARE_TRUE@am__append_7 = $(crotalus_includes)
+@ACCESS_CONTROL_TRUE@am__append_8 = cache/cr_access.c cache/cr_access.h
 subdir = src
 DIST_COMMON = $(srcdir)/Makefile.am $(srcdir)/Makefile.in \
 	$(srcdir)/config.h.in
@@ -91,13 +89,18 @@ am_crotalus_OBJECTS = crotalus-alias.$(OBJEXT) crotalus-boa.$(OBJEXT) \
 	crotalus-mime_zlib.$(OBJEXT) $(am__objects_1)
 crotalus_OBJECTS = $(am_crotalus_OBJECTS)
 am__DEPENDENCIES_1 =
+am__DEPENDENCIES_2 = $(top_builddir)/php/libphp_sapi.a \
+	$(top_builddir)/lib/ancillary/libancillary.a \
+	$(top_builddir)/lib/pcre/libpcre.a \
+	$(top_builddir)/lib/tsrm/libtsrm.a \
+	$(top_builddir)/lib/libxml2/libxml2.a $(am__append_1) \
+	$(am__DEPENDENCIES_1) $(am__DEPENDENCIES_1) \
+	$(am__DEPENDENCIES_1) $(am__DEPENDENCIES_1) $(am__append_6)
 crotalus_DEPENDENCIES = $(top_builddir)/lib/ancillary/libancillary.a \
 	$(top_builddir)/lib/pcre/libpcre.a \
 	$(top_builddir)/lib/tsrm/libtsrm.a \
 	$(top_builddir)/lib/oauth/liboauth.a \
-	$(top_builddir)/lib/libxml2/libxml2.a $(am__append_1) \
-	$(am__append_2) $(am__DEPENDENCIES_1) $(am__DEPENDENCIES_1) \
-	$(am__DEPENDENCIES_1) $(am__append_8)
+	$(top_builddir)/lib/libxml2/libxml2.a $(am__DEPENDENCIES_2)
 crotalus_LINK = $(LIBTOOL) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) \
 	--mode=link $(CCLD) $(crotalus_CFLAGS) $(CFLAGS) $(AM_LDFLAGS) \
 	$(LDFLAGS) -o $@
@@ -247,6 +250,21 @@ target_alias = @target_alias@
 top_build_prefix = @top_build_prefix@
 top_builddir = @top_builddir@
 top_srcdir = @top_srcdir@
+crotalus_includes = \
+	-I$(LIBSHARE)/include \
+	-I$(top_srcdir)/lib/zlib \
+	-I$(top_srcdir)/php/main \
+	-I$(top_srcdir)/php/Zend \
+	-I$(top_srcdir)/php/TSRM \
+	-I$(top_srcdir)/php/sapi/crotalus
+
+crotalus_libs = $(top_builddir)/php/libphp_sapi.a \
+	$(top_builddir)/lib/ancillary/libancillary.a \
+	$(top_builddir)/lib/pcre/libpcre.a \
+	$(top_builddir)/lib/tsrm/libtsrm.a \
+	$(top_builddir)/lib/libxml2/libxml2.a $(am__append_1) \
+	$(am__append_2) $(am__append_3) $(am__append_4) \
+	$(am__append_5) $(am__append_6)
 crotalus_SOURCES = alias.c boa.c buffer.c cgi_header.c config.c \
 	escape.c get.c ip.c log.c mmap_cache.c pipe.c shbuff.c queue.c \
 	range.c read.c request.c response.c signals.c util.c select.c \
@@ -254,15 +272,13 @@ crotalus_SOURCES = alias.c boa.c buffer.c cgi_header.c config.c \
 	cache/cr_pref.h mime/mime_interp.c mime/mime_interp.h \
 	mime/mime_def.c mime/mime_def.h mime/mime_cgi.c \
 	mime/mime_cgi.h mime/mime_zlib.c mime/mime_zlib.h \
-	$(am__append_4)
-crotalus_CFLAGS = -I$(top_srcdir)/lib/zlib $(am__append_3)
+	$(am__append_8)
+crotalus_CFLAGS = $(crotalus_includes) $(am__append_7)
 crotalus_LDADD = $(top_builddir)/lib/ancillary/libancillary.a \
 	$(top_builddir)/lib/pcre/libpcre.a \
 	$(top_builddir)/lib/tsrm/libtsrm.a \
 	$(top_builddir)/lib/oauth/liboauth.a \
-	$(top_builddir)/lib/libxml2/libxml2.a $(am__append_1) \
-	$(am__append_2) $(am__append_5) $(am__append_6) \
-	$(am__append_7) $(am__append_8)
+	$(top_builddir)/lib/libxml2/libxml2.a $(crotalus_libs)
 @HAVE_INITD_DIR_TRUE@EXTRA_DIST = $(top_builddir)/scripts/initd/shared
 all: config.h
 	$(MAKE) $(AM_MAKEFLAGS) all-am

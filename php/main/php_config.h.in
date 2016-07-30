@@ -5,3 +5,11 @@
 //#define ZTS 1
 #define HAVE_BUILD_DEFS_H 1
 #define DEFAULT_SHORT_OPEN_TAG "1"
+
+#define HAVE_MYSQL 1
+#define HAVE_MYSQLILIB 1
+
+
+#define MYSQL_USE_MYSQLND 1
+#define MYSQLI_USE_MYSQLND 1
+#define MYSQLI_USE_MYSQLND 1

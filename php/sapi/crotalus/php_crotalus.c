@@ -66,10 +66,13 @@ static php_crotalus_globals crotalus_globals;
 
 static int sapi_crotalus_ub_write(const char *str, uint str_length TSRMLS_DC)
 {
+  shbuf_cat(TG(hc)->buff, str, str_length);
+  TG(hc)->bytes_written += str_length;
+  return (str_length);
+#if 0
 	int n;
 	uint sent = 0;
 
-fprintf(stderr, "DEBUG: sapi_crotalus_ub_write(): %s\n", str);
 	
 	if (TG(sbuf).c != 0) {
 		smart_str_appendl_ex(&TG(sbuf), str, str_length, 1);
@@ -95,76 +98,10 @@ fprintf(stderr, "DEBUG: sapi_crotalus_ub_write(): %s\n", str);
 	}
 
 	return sent;
+#endif
 }
 
-#define COMBINE_HEADERS 64
 
-#if defined(IOV_MAX)
-# if IOV_MAX - 64 <= 0
-#  define SERIALIZE_HEADERS
-# endif
-#endif
-
-static int do_writev(struct iovec *vec, int nvec, int len TSRMLS_DC)
-{
-	int n;
-
-	assert(nvec <= IOV_MAX);
-
-	if (TG(sbuf).c == 0) {
-		PHP_SYS_CALL(n = writev(TG(hc)->fd, vec, nvec););
-
-		if (n == -1) {
-			if (errno == EAGAIN) {
-				n = 0;
-			} else {
-				php_handle_aborted_connection();
-			}
-		}
-
-
-		TG(hc)->bytes_written += n;
-	} else {
-		n = 0;
-	}
-
-	if (n < len) {
-		int i;
-
-		/* merge all unwritten data into sbuf */
-		for (i = 0; i < nvec; vec++, i++) {
-			/* has this vector been written completely? */
-			if (n >= vec->iov_len) {
-				/* yes, proceed */
-				n -= vec->iov_len;
-				continue;
-			}
-
-			if (n > 0) {
-				/* adjust vector */
-				vec->iov_base = (char *) vec->iov_base + n;
-				vec->iov_len -= n;
-				n = 0;
-			}
-
-			smart_str_appendl_ex(&TG(sbuf), vec->iov_base, vec->iov_len, 1);
-		}
-	}
-	
-	return 0;
-}
-
-#ifdef SERIALIZE_HEADERS
-# define ADD_VEC(str,l) smart_str_appendl(&vec_str, (str), (l))
-# define VEC_BASE() smart_str vec_str = {0}
-# define VEC_FREE() smart_str_free(&vec_str)
-#else
-# define ADD_VEC(str,l) vec[n].iov_base=str;len += (vec[n].iov_len=l); n++
-# define VEC_BASE() struct iovec vec[COMBINE_HEADERS]
-# define VEC_FREE() do {} while (0)
-#endif
-
-#define ADD_VEC_S(str) ADD_VEC((str), sizeof(str)-1)
 
 #define CL_TOKEN "Content-length: "
 #define CN_TOKEN "Connection: "
@@ -175,27 +112,53 @@ static int do_writev(struct iovec *vec, int nvec, int len TSRMLS_DC)
 static int sapi_crotalus_send_headers(sapi_headers_struct *sapi_headers TSRMLS_DC)
 {
 	char buf[1024], *p;
+#if 0
 	VEC_BASE();
+#endif
 	int n = 0;
 	zend_llist_position pos;
 	sapi_header_struct *h;
 	size_t len = 0;
+
 	
 	if (!SG(sapi_headers).http_status_line) {
+#if 0
 		ADD_VEC_S("HTTP/1.1 ");
 		p = smart_str_print_long(buf+sizeof(buf)-1, 
 				SG(sapi_headers).http_response_code);
 		ADD_VEC(p, strlen(p));
 		ADD_VEC_S(" HTTP\r\n");
+#endif
+		shbuf_catstr(TG(hc)->buff, "HTTP/1.1 ");
+		p = smart_str_print_long(buf+sizeof(buf)-1, 
+				SG(sapi_headers).http_response_code);
+    shbuf_catstr(TG(hc)->buff, p);
+    shbuf_catstr(TG(hc)->buff, " HTTP\r\n");
 	} else {
+#if 0
 		ADD_VEC(SG(sapi_headers).http_status_line, 
 				strlen(SG(sapi_headers).http_status_line));
 		ADD_VEC("\r\n", 2);
+#endif
+    shbuf_catstr(TG(hc)->buff, SG(sapi_headers).http_status_line);
+    shbuf_catstr(TG(hc)->buff, "\r\n");
 	}
 	TG(hc)->status = SG(sapi_headers).http_response_code;
 
+shbuf_catstr(TG(hc)->buff,
+"Server: Crotalus/2.24\r\n"
+"Accept-Ranges: bytes\r\n"
+);
+
+
+  /* overwritten at end of request */
+  shbuf_catstr(TG(hc)->buff, "Content-Length: 00000000\r\n");
+
 	if (SG(sapi_headers).send_default_content_type) {
+#if 0
 		ADD_VEC(DEF_CT, strlen(DEF_CT));
+#endif
+		shbuf_cat(TG(hc)->buff, DEF_CT, strlen(DEF_CT));
 	}
 
 	h = zend_llist_get_first_ex(&sapi_headers->headers, &pos);
@@ -210,34 +173,18 @@ static int sapi_crotalus_send_headers(sapi_headers_struct *sapi_headers TSRMLS_D
 				}
 		}
 
-		ADD_VEC(h->header, h->header_len);
-#ifndef SERIALIZE_HEADERS
-		if (n >= COMBINE_HEADERS - 1) {
-			len = do_writev(vec, n, len TSRMLS_CC);
-			n = 0;
-		}
-#endif
-		ADD_VEC("\r\n", 2);
+		shbuf_cat(TG(hc)->buff, h->header, h->header_len);
+    shbuf_cat(TG(hc)->buff, "\r\n", 2);
 		
 		h = zend_llist_get_next_ex(&sapi_headers->headers, &pos);
 	}
 
 	if (TG(seen_cl) && !TG(seen_cn) && TG(hc)->keepalive == KA_ACTIVE) {
-		ADD_VEC(KA_DO, sizeof(KA_DO)-1);
-	} else {
-		TG(hc)->keepalive = KA_INACTIVE;
-		ADD_VEC(KA_NO, sizeof(KA_NO)-1);
-	}
-		
-	ADD_VEC("\r\n", 2);
-
-#ifdef SERIALIZE_HEADERS
-	sapi_crotalus_ub_write(vec_str.c, vec_str.len TSRMLS_CC);
-#else			
-	do_writev(vec, n, len TSRMLS_CC);
-#endif
-
-	VEC_FREE();
+    shbuf_cat(TG(hc)->buff, KA_DO, sizeof(KA_DO)-1);
+  } else {
+    shbuf_cat(TG(hc)->buff, KA_NO, sizeof(KA_NO)-1);
+  }
+  shbuf_cat(TG(hc)->buff, "\r\n", 2);
 
 	return SAPI_HEADER_SENT_SUCCESSFULLY;
 }
@@ -251,12 +198,10 @@ static int sapi_crotalus_read_post(char *buffer, uint count_bytes TSRMLS_DC)
 {
 	size_t read_bytes = 0;
 
-fprintf(stderr, "DEBUG: sapi_crotalus_read_post(<max %u bytes>)\n", count_bytes);
 
-  read_bytes = MIN(shbuf_size(TG(hc)->buff), count_bytes);
-  memcpy(buffer, shbuf_data(TG(hc)->buff), read_bytes);
-  shbuf_trim(TG(hc)->buff, read_bytes);
- 
+/*
+ * read in from TG(hc)->fd pipe for post data 
+ */
 #if 0
 	if (TG(unconsumed_length) > 0) {
 		read_bytes = MIN(TG(unconsumed_length), count_bytes);
@@ -388,10 +333,8 @@ static int php_crotalus_startup(sapi_module_struct *sapi_module)
 	if (php_module_startup(sapi_module) == FAILURE
 			|| zend_startup_module(&php_crotalus_module) == FAILURE) {
 #endif
-fprintf(stderr, "DEBUG: php_crotalus_startup(): failure\n");
 		return FAILURE;
 	}
-fprintf(stderr, "DEBUG: php_crotalus_startup(): success\n");
 	return SUCCESS;
 }
 
@@ -668,7 +611,9 @@ static void *worker_thread(void *dummy)
 		thread_atomic_dec(nr_free_threads);
 
 		crotalus_real_php_request(hc, 0 TSRMLS_CC);
+#if 0
 		shutdown(hc->fd, 0);
+#endif
 		destroy_conn(hc);
 		free(hc);
 
@@ -710,8 +655,6 @@ static off_t crotalus_real_php_request(httpd_conn *hc, int show_source TSRMLS_DC
 {
 	TG(hc) = hc;
 	hc->bytes_written = 0;
-
-fprintf(stderr, "DEBUG: crotalus_real_php_request()\n");
 
 	if (hc->content_length) {
 #ifdef UNIMPLEMTED_LINGER
@@ -783,7 +726,6 @@ void crotalus_closed_conn(int fd)
 
 int crotalus_get_fd(void)
 {
-fprintf(stderr, "DEBUG: crotalus_get_fd: fd %d\n", TG(hc)->fd);
 	TSRMLS_FETCH();
 	return TG(hc)->fd;
 }

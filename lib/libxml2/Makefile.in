@@ -758,8 +758,8 @@ info: info-am
 
 info-am:
 
-install-data-am: install-cmakeDATA install-data-local \
-	install-m4dataDATA install-man install-pkgconfigDATA
+install-data-am: install-cmakeDATA install-m4dataDATA install-man \
+	install-pkgconfigDATA
 
 install-dvi: install-dvi-am
 
@@ -805,8 +805,8 @@ ps: ps-am
 
 ps-am:
 
-uninstall-am: uninstall-cmakeDATA uninstall-local uninstall-m4dataDATA \
-	uninstall-man uninstall-pkgconfigDATA
+uninstall-am: uninstall-cmakeDATA uninstall-m4dataDATA uninstall-man \
+	uninstall-pkgconfigDATA
 
 uninstall-man: uninstall-man1 uninstall-man3
 
@@ -817,17 +817,17 @@ uninstall-man: uninstall-man1 uninstall-man3
 	distclean-compile distclean-generic distclean-libtool \
 	distclean-tags distdir dvi dvi-am html html-am info info-am \
 	install install-am install-cmakeDATA install-data \
-	install-data-am install-data-local install-dvi install-dvi-am \
-	install-exec install-exec-am install-html install-html-am \
-	install-info install-info-am install-m4dataDATA install-man \
-	install-man1 install-man3 install-pdf install-pdf-am \
-	install-pkgconfigDATA install-ps install-ps-am install-strip \
-	installcheck installcheck-am installdirs maintainer-clean \
+	install-data-am install-dvi install-dvi-am install-exec \
+	install-exec-am install-html install-html-am install-info \
+	install-info-am install-m4dataDATA install-man install-man1 \
+	install-man3 install-pdf install-pdf-am install-pkgconfigDATA \
+	install-ps install-ps-am install-strip installcheck \
+	installcheck-am installdirs maintainer-clean \
 	maintainer-clean-generic mostlyclean mostlyclean-compile \
 	mostlyclean-generic mostlyclean-libtool pdf pdf-am ps ps-am \
 	tags uninstall uninstall-am uninstall-cmakeDATA \
-	uninstall-local uninstall-m4dataDATA uninstall-man \
-	uninstall-man1 uninstall-man3 uninstall-pkgconfigDATA
+	uninstall-m4dataDATA uninstall-man uninstall-man1 \
+	uninstall-man3 uninstall-pkgconfigDATA
 
 
 #runtest_SOURCES=runtest.c
@@ -1960,23 +1960,23 @@ xml2Conf.sh: xml2Conf.sh.in Makefile
 #DOC_MODULE=libxml2-$(VERSION)
 #EXAMPLES_DIR=$(BASE_DIR)/$(DOC_MODULE)/examples
 
-install-data-local: 
-	$(MKDIR_P) $(DESTDIR)$(BASE_DIR)/$(DOC_MODULE)
-	-$(INSTALL) -m 0644 $(srcdir)/Copyright $(DESTDIR)$(BASE_DIR)/$(DOC_MODULE)
-	$(MKDIR_P) $(DESTDIR)$(EXAMPLES_DIR)
-	-$(INSTALL) -m 0644 $(srcdir)/xmllint.c $(DESTDIR)$(EXAMPLES_DIR)
-	-$(INSTALL) -m 0644 $(srcdir)/testSAX.c $(DESTDIR)$(EXAMPLES_DIR)
-	-$(INSTALL) -m 0644 $(srcdir)/testHTML.c $(DESTDIR)$(EXAMPLES_DIR)
-	-$(INSTALL) -m 0644 $(srcdir)/testXPath.c $(DESTDIR)$(EXAMPLES_DIR)
-
-uninstall-local:
-	rm -f $(DESTDIR)$(EXAMPLES_DIR)/testXPath.c
-	rm -f $(DESTDIR)$(EXAMPLES_DIR)/testHTML.c
-	rm -f $(DESTDIR)$(EXAMPLES_DIR)/testSAX.c
-	rm -f $(DESTDIR)$(EXAMPLES_DIR)/xmllint.c
-	rm -rf $(DESTDIR)$(EXAMPLES_DIR)
-	rm -f $(DESTDIR)$(BASE_DIR)/$(DOC_MODULE)/Copyright
-	rm -rf $(DESTDIR)$(BASE_DIR)/$(DOC_MODULE)
+#install-data-local: 
+#	$(MKDIR_P) $(DESTDIR)$(BASE_DIR)/$(DOC_MODULE)
+#	-$(INSTALL) -m 0644 $(srcdir)/Copyright $(DESTDIR)$(BASE_DIR)/$(DOC_MODULE)
+#	$(MKDIR_P) $(DESTDIR)$(EXAMPLES_DIR)
+#	-$(INSTALL) -m 0644 $(srcdir)/xmllint.c $(DESTDIR)$(EXAMPLES_DIR)
+#	-$(INSTALL) -m 0644 $(srcdir)/testSAX.c $(DESTDIR)$(EXAMPLES_DIR)
+#	-$(INSTALL) -m 0644 $(srcdir)/testHTML.c $(DESTDIR)$(EXAMPLES_DIR)
+#	-$(INSTALL) -m 0644 $(srcdir)/testXPath.c $(DESTDIR)$(EXAMPLES_DIR)
+#
+#uninstall-local:
+#	rm -f $(DESTDIR)$(EXAMPLES_DIR)/testXPath.c
+#	rm -f $(DESTDIR)$(EXAMPLES_DIR)/testHTML.c
+#	rm -f $(DESTDIR)$(EXAMPLES_DIR)/testSAX.c
+#	rm -f $(DESTDIR)$(EXAMPLES_DIR)/xmllint.c
+#	rm -rf $(DESTDIR)$(EXAMPLES_DIR)
+#	rm -f $(DESTDIR)$(BASE_DIR)/$(DOC_MODULE)/Copyright
+#	rm -rf $(DESTDIR)$(BASE_DIR)/$(DOC_MODULE)
 
 tst: tst.c
 	$(CC) $(CFLAGS) -Iinclude -o tst tst.c .libs/libxml2.a -lpthread -lm -lz -llzma

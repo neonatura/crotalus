@@ -52,7 +52,9 @@ void init_signals(void)
     sa.sa_flags = 0;
 
     sigemptyset(&sa.sa_mask);
+#if 0
     sigaddset(&sa.sa_mask, SIGSEGV);
+#endif
     sigaddset(&sa.sa_mask, SIGBUS);
     sigaddset(&sa.sa_mask, SIGTERM);
     sigaddset(&sa.sa_mask, SIGHUP);
@@ -63,8 +65,10 @@ void init_signals(void)
     sigaddset(&sa.sa_mask, SIGUSR1);
     sigaddset(&sa.sa_mask, SIGUSR2);
 
+#if 0
     sa.sa_handler = sigsegv;
     sigaction(SIGSEGV, &sa, NULL);
+#endif
 
     sa.sa_handler = sigbus;
     sigaction(SIGBUS, &sa, NULL);

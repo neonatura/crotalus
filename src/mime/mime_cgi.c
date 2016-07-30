@@ -22,7 +22,9 @@
  *  @endcopyright
  */
 
+#include <libgen.h>
 #include "crotalus.h"
+#include "php_crotalus.h" /* php/sapi/crotalu */
 
 static char *env_gen_extra(const char *key, const char *value,
                            unsigned int extra);
@@ -389,13 +391,72 @@ static void create_argv(request * req, char **aargv)
 }
 
 #ifdef HAVE_LIBSHARE
-static int php_work_main(work_t *work, int post_data_fd)
+static int php_work_main(work_t *work, int post_data_fd, shbuf_t *resp_buff)
 {
+  httpd_conn hc;
+  struct stat st;
+  char path[PATH_MAX+1];
+  char buf[256];
+  char curpath[PATH_MAX+1];
+  char *str;
+  off_t of;
+  int err;
 
-/* DEBUG: .. */
-fprintf(stderr, "DEBUG: php_work_main()\n");
+#ifdef PHP_RUNTIME
+  crotalus_php_init();
+#endif
 
-return (0);
+memset(&hc, 0, sizeof(hc));
+
+memset(curpath, 0, sizeof(curpath));
+getcwd(curpath, sizeof(curpath)-1);
+
+  memset(path, 0, sizeof(path));
+  strncpy(path, work->pathname, sizeof(path)-1);
+  hc.script_name = basename(path);
+
+  memset(path, 0, sizeof(path));
+  strncpy(path, work->pathname, sizeof(path)-1);
+  hc.pathname = strdup(work->pathname);//strdup(dirname(path));
+//  hc.buff = shbuf_init();
+  hc.buff = resp_buff;
+  hc.method = work->method;
+
+#if 0
+  hc.fd = work->fd;
+#endif
+  hc.fd = post_data_fd;
+
+
+//open(work->pathname, O_RDWR);
+
+#if 0
+  shbuf_catstr(hc.buff, 
+      "<?php\n"
+      "echo \"hi\n\";\n"
+      "?>\n");
+#endif
+
+  err = stat(work->pathname, &st); 
+  sprintf(buf, "%u", st.st_size);
+  hc.content_length = strdup(buf);
+
+  of = crotalus_php_request(&hc, FALSE);
+
+  /* prepend content-length */
+  str = strstr(shbuf_data(hc.buff) + sizeof(uint32_t), "Content-Length:");
+  if (str) {
+    sprintf(buf, "Content-Length: %-8.8u\r\n", hc.bytes_written);
+    strncpy(str, buf, strlen(buf));
+  }
+
+// /* DEBUG: */ close(hc.fd);
+
+#ifdef PHP_RUNTIME
+  crotalus_php_shutdown();
+#endif
+
+  return (0);
 }
 static int cgi_work_main(int post_data_fd, shbuf_t *buff) /* child */
 {
@@ -406,15 +467,24 @@ static int cgi_work_main(int post_data_fd, shbuf_t *buff) /* child */
   uint32_t fd;
 
   work = (work_t *)shbuf_data(buff);
+  fd = (uint32_t)work->fd;
 
   if (work->cgi_type == PHP) {
-    return (php_work_main(work, post_data_fd));
+    work_t t_work;
+    memcpy(&t_work, work, sizeof(t_work));
+
+    /* clear request data */
+    shbuf_clear(buff);
+
+    /* return work request fd */
+    shbuf_cat(buff, &fd, sizeof(uint32_t));
+
+    return (php_work_main(&t_work, post_data_fd, buff));
   }
 
   memset(pathname, 0, sizeof(pathname));
   strncpy(pathname, work->pathname, sizeof(pathname)-1);
 
-  fd = (uint32_t)work->fd;
 
   if (work->cgi_type == EXEC || work->cgi_type == NPH) {
     char *c;
@@ -583,7 +653,8 @@ int init_cgi(request * req)
     SQUASH_KA(req);
 
 #ifdef HAVE_LIBSHARE
-    if (req->cgi_type == WORK) {
+    if (req->cgi_type == WORK ||
+        req->cgi_type == PHP) {
       return (init_work_cgi(req)); 
     }
 #endif

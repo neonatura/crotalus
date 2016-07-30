@@ -2,11 +2,17 @@
 if USE_PHP_RUNTIME
 bin_PROGRAMS = crphp
 
-crphp_SOURCES = crphp_main.c
+#crphp_SOURCES = crphp_main.c
+crphp_SOURCES = php_cli.c ps_title.c php_cli_process_title.c php_cli_server.c php_http_parser.c
 
 crphp_CFLAGS = -DCRPHP \
 	-I$(top_srcdir)/src \
-	-I$(top_srcdir)/php/sapi/crotalus
+	-I$(top_srcdir)/php \
+	-I$(top_srcdir)/php/main \
+	-I$(top_srcdir)/php/Zend \
+	-I$(top_srcdir)/php/TSRM \
+	-I$(top_srcdir)/php/sapi/cli
+#	-I$(top_srcdir)/php/sapi/crotalus
 
 crphp_LDADD = \
 	$(top_builddir)/php/libphp_sapi.a \

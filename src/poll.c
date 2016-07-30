@@ -40,6 +40,11 @@ void loop(int server_s)
     pfd_len = server_pfd = 0;
     watch_server = 1;
 
+#ifdef PHP_RUNTIME
+  crotalus_php_init();
+  atexit(crotalus_php_shutdown());
+#endif
+
     while (1) {
         int timeout;
 

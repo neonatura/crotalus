@@ -706,7 +706,7 @@ void read_config_files(void)
     DIE("DefaultType *must* be set!");
   }
 
-#ifdef PHP
+#ifdef PHP_RUNTIME
   add_mime_type("php", PHP_MIME_TYPE);
 #endif
 #ifdef CGI

@@ -63,8 +63,13 @@ CONFIG_CLEAN_FILES =
 CONFIG_CLEAN_VPATH_FILES =
 am__installdirs = "$(DESTDIR)$(bindir)"
 PROGRAMS = $(bin_PROGRAMS)
-am__crphp_SOURCES_DIST = crphp_main.c
-@USE_PHP_RUNTIME_TRUE@am_crphp_OBJECTS = crphp-crphp_main.$(OBJEXT)
+am__crphp_SOURCES_DIST = php_cli.c ps_title.c php_cli_process_title.c \
+	php_cli_server.c php_http_parser.c
+@USE_PHP_RUNTIME_TRUE@am_crphp_OBJECTS = crphp-php_cli.$(OBJEXT) \
+@USE_PHP_RUNTIME_TRUE@	crphp-ps_title.$(OBJEXT) \
+@USE_PHP_RUNTIME_TRUE@	crphp-php_cli_process_title.$(OBJEXT) \
+@USE_PHP_RUNTIME_TRUE@	crphp-php_cli_server.$(OBJEXT) \
+@USE_PHP_RUNTIME_TRUE@	crphp-php_http_parser.$(OBJEXT)
 crphp_OBJECTS = $(am_crphp_OBJECTS)
 am__DEPENDENCIES_1 =
 @USE_PHP_RUNTIME_TRUE@crphp_DEPENDENCIES =  \
@@ -226,10 +231,17 @@ target_alias = @target_alias@
 top_build_prefix = @top_build_prefix@
 top_builddir = @top_builddir@
 top_srcdir = @top_srcdir@
-@USE_PHP_RUNTIME_TRUE@crphp_SOURCES = crphp_main.c
+
+#crphp_SOURCES = crphp_main.c
+@USE_PHP_RUNTIME_TRUE@crphp_SOURCES = php_cli.c ps_title.c php_cli_process_title.c php_cli_server.c php_http_parser.c
 @USE_PHP_RUNTIME_TRUE@crphp_CFLAGS = -DCRPHP -I$(top_srcdir)/src \
-@USE_PHP_RUNTIME_TRUE@	-I$(top_srcdir)/php/sapi/crotalus \
+@USE_PHP_RUNTIME_TRUE@	-I$(top_srcdir)/php \
+@USE_PHP_RUNTIME_TRUE@	-I$(top_srcdir)/php/main \
+@USE_PHP_RUNTIME_TRUE@	-I$(top_srcdir)/php/Zend \
+@USE_PHP_RUNTIME_TRUE@	-I$(top_srcdir)/php/TSRM \
+@USE_PHP_RUNTIME_TRUE@	-I$(top_srcdir)/php/sapi/cli \
 @USE_PHP_RUNTIME_TRUE@	$(am__append_2)
+#	-I$(top_srcdir)/php/sapi/crotalus
 @USE_PHP_RUNTIME_TRUE@crphp_LDADD = $(top_builddir)/php/libphp_sapi.a \
 @USE_PHP_RUNTIME_TRUE@	$(top_builddir)/lib/ancillary/libancillary.a \
 @USE_PHP_RUNTIME_TRUE@	$(top_builddir)/lib/pcre/libpcre.a \
@@ -325,7 +337,11 @@ mostlyclean-compile:
 distclean-compile:
 	-rm -f *.tab.c
 
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/crphp-crphp_main.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/crphp-php_cli.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/crphp-php_cli_process_title.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/crphp-php_cli_server.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/crphp-php_http_parser.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/crphp-ps_title.Po@am__quote@
 
 .c.o:
 @am__fastdepCC_TRUE@	$(COMPILE) -MT $@ -MD -MP -MF $(DEPDIR)/$*.Tpo -c -o $@ $<
@@ -348,19 +364,75 @@ distclean-compile:
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCC_FALSE@	$(LTCOMPILE) -c -o $@ $<
 
-crphp-crphp_main.o: crphp_main.c
-@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(crphp_CFLAGS) $(CFLAGS) -MT crphp-crphp_main.o -MD -MP -MF $(DEPDIR)/crphp-crphp_main.Tpo -c -o crphp-crphp_main.o `test -f 'crphp_main.c' || echo '$(srcdir)/'`crphp_main.c
-@am__fastdepCC_TRUE@	$(am__mv) $(DEPDIR)/crphp-crphp_main.Tpo $(DEPDIR)/crphp-crphp_main.Po
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='crphp_main.c' object='crphp-crphp_main.o' libtool=no @AMDEPBACKSLASH@
+crphp-php_cli.o: php_cli.c
+@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(crphp_CFLAGS) $(CFLAGS) -MT crphp-php_cli.o -MD -MP -MF $(DEPDIR)/crphp-php_cli.Tpo -c -o crphp-php_cli.o `test -f 'php_cli.c' || echo '$(srcdir)/'`php_cli.c
+@am__fastdepCC_TRUE@	$(am__mv) $(DEPDIR)/crphp-php_cli.Tpo $(DEPDIR)/crphp-php_cli.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='php_cli.c' object='crphp-php_cli.o' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(crphp_CFLAGS) $(CFLAGS) -c -o crphp-crphp_main.o `test -f 'crphp_main.c' || echo '$(srcdir)/'`crphp_main.c
+@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(crphp_CFLAGS) $(CFLAGS) -c -o crphp-php_cli.o `test -f 'php_cli.c' || echo '$(srcdir)/'`php_cli.c
 
-crphp-crphp_main.obj: crphp_main.c
-@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(crphp_CFLAGS) $(CFLAGS) -MT crphp-crphp_main.obj -MD -MP -MF $(DEPDIR)/crphp-crphp_main.Tpo -c -o crphp-crphp_main.obj `if test -f 'crphp_main.c'; then $(CYGPATH_W) 'crphp_main.c'; else $(CYGPATH_W) '$(srcdir)/crphp_main.c'; fi`
-@am__fastdepCC_TRUE@	$(am__mv) $(DEPDIR)/crphp-crphp_main.Tpo $(DEPDIR)/crphp-crphp_main.Po
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='crphp_main.c' object='crphp-crphp_main.obj' libtool=no @AMDEPBACKSLASH@
+crphp-php_cli.obj: php_cli.c
+@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(crphp_CFLAGS) $(CFLAGS) -MT crphp-php_cli.obj -MD -MP -MF $(DEPDIR)/crphp-php_cli.Tpo -c -o crphp-php_cli.obj `if test -f 'php_cli.c'; then $(CYGPATH_W) 'php_cli.c'; else $(CYGPATH_W) '$(srcdir)/php_cli.c'; fi`
+@am__fastdepCC_TRUE@	$(am__mv) $(DEPDIR)/crphp-php_cli.Tpo $(DEPDIR)/crphp-php_cli.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='php_cli.c' object='crphp-php_cli.obj' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(crphp_CFLAGS) $(CFLAGS) -c -o crphp-crphp_main.obj `if test -f 'crphp_main.c'; then $(CYGPATH_W) 'crphp_main.c'; else $(CYGPATH_W) '$(srcdir)/crphp_main.c'; fi`
+@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(crphp_CFLAGS) $(CFLAGS) -c -o crphp-php_cli.obj `if test -f 'php_cli.c'; then $(CYGPATH_W) 'php_cli.c'; else $(CYGPATH_W) '$(srcdir)/php_cli.c'; fi`
+
+crphp-ps_title.o: ps_title.c
+@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(crphp_CFLAGS) $(CFLAGS) -MT crphp-ps_title.o -MD -MP -MF $(DEPDIR)/crphp-ps_title.Tpo -c -o crphp-ps_title.o `test -f 'ps_title.c' || echo '$(srcdir)/'`ps_title.c
+@am__fastdepCC_TRUE@	$(am__mv) $(DEPDIR)/crphp-ps_title.Tpo $(DEPDIR)/crphp-ps_title.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='ps_title.c' object='crphp-ps_title.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(crphp_CFLAGS) $(CFLAGS) -c -o crphp-ps_title.o `test -f 'ps_title.c' || echo '$(srcdir)/'`ps_title.c
+
+crphp-ps_title.obj: ps_title.c
+@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(crphp_CFLAGS) $(CFLAGS) -MT crphp-ps_title.obj -MD -MP -MF $(DEPDIR)/crphp-ps_title.Tpo -c -o crphp-ps_title.obj `if test -f 'ps_title.c'; then $(CYGPATH_W) 'ps_title.c'; else $(CYGPATH_W) '$(srcdir)/ps_title.c'; fi`
+@am__fastdepCC_TRUE@	$(am__mv) $(DEPDIR)/crphp-ps_title.Tpo $(DEPDIR)/crphp-ps_title.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='ps_title.c' object='crphp-ps_title.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(crphp_CFLAGS) $(CFLAGS) -c -o crphp-ps_title.obj `if test -f 'ps_title.c'; then $(CYGPATH_W) 'ps_title.c'; else $(CYGPATH_W) '$(srcdir)/ps_title.c'; fi`
+
+crphp-php_cli_process_title.o: php_cli_process_title.c
+@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(crphp_CFLAGS) $(CFLAGS) -MT crphp-php_cli_process_title.o -MD -MP -MF $(DEPDIR)/crphp-php_cli_process_title.Tpo -c -o crphp-php_cli_process_title.o `test -f 'php_cli_process_title.c' || echo '$(srcdir)/'`php_cli_process_title.c
+@am__fastdepCC_TRUE@	$(am__mv) $(DEPDIR)/crphp-php_cli_process_title.Tpo $(DEPDIR)/crphp-php_cli_process_title.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='php_cli_process_title.c' object='crphp-php_cli_process_title.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(crphp_CFLAGS) $(CFLAGS) -c -o crphp-php_cli_process_title.o `test -f 'php_cli_process_title.c' || echo '$(srcdir)/'`php_cli_process_title.c
+
+crphp-php_cli_process_title.obj: php_cli_process_title.c
+@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(crphp_CFLAGS) $(CFLAGS) -MT crphp-php_cli_process_title.obj -MD -MP -MF $(DEPDIR)/crphp-php_cli_process_title.Tpo -c -o crphp-php_cli_process_title.obj `if test -f 'php_cli_process_title.c'; then $(CYGPATH_W) 'php_cli_process_title.c'; else $(CYGPATH_W) '$(srcdir)/php_cli_process_title.c'; fi`
+@am__fastdepCC_TRUE@	$(am__mv) $(DEPDIR)/crphp-php_cli_process_title.Tpo $(DEPDIR)/crphp-php_cli_process_title.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='php_cli_process_title.c' object='crphp-php_cli_process_title.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(crphp_CFLAGS) $(CFLAGS) -c -o crphp-php_cli_process_title.obj `if test -f 'php_cli_process_title.c'; then $(CYGPATH_W) 'php_cli_process_title.c'; else $(CYGPATH_W) '$(srcdir)/php_cli_process_title.c'; fi`
+
+crphp-php_cli_server.o: php_cli_server.c
+@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(crphp_CFLAGS) $(CFLAGS) -MT crphp-php_cli_server.o -MD -MP -MF $(DEPDIR)/crphp-php_cli_server.Tpo -c -o crphp-php_cli_server.o `test -f 'php_cli_server.c' || echo '$(srcdir)/'`php_cli_server.c
+@am__fastdepCC_TRUE@	$(am__mv) $(DEPDIR)/crphp-php_cli_server.Tpo $(DEPDIR)/crphp-php_cli_server.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='php_cli_server.c' object='crphp-php_cli_server.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(crphp_CFLAGS) $(CFLAGS) -c -o crphp-php_cli_server.o `test -f 'php_cli_server.c' || echo '$(srcdir)/'`php_cli_server.c
+
+crphp-php_cli_server.obj: php_cli_server.c
+@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(crphp_CFLAGS) $(CFLAGS) -MT crphp-php_cli_server.obj -MD -MP -MF $(DEPDIR)/crphp-php_cli_server.Tpo -c -o crphp-php_cli_server.obj `if test -f 'php_cli_server.c'; then $(CYGPATH_W) 'php_cli_server.c'; else $(CYGPATH_W) '$(srcdir)/php_cli_server.c'; fi`
+@am__fastdepCC_TRUE@	$(am__mv) $(DEPDIR)/crphp-php_cli_server.Tpo $(DEPDIR)/crphp-php_cli_server.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='php_cli_server.c' object='crphp-php_cli_server.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(crphp_CFLAGS) $(CFLAGS) -c -o crphp-php_cli_server.obj `if test -f 'php_cli_server.c'; then $(CYGPATH_W) 'php_cli_server.c'; else $(CYGPATH_W) '$(srcdir)/php_cli_server.c'; fi`
+
+crphp-php_http_parser.o: php_http_parser.c
+@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(crphp_CFLAGS) $(CFLAGS) -MT crphp-php_http_parser.o -MD -MP -MF $(DEPDIR)/crphp-php_http_parser.Tpo -c -o crphp-php_http_parser.o `test -f 'php_http_parser.c' || echo '$(srcdir)/'`php_http_parser.c
+@am__fastdepCC_TRUE@	$(am__mv) $(DEPDIR)/crphp-php_http_parser.Tpo $(DEPDIR)/crphp-php_http_parser.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='php_http_parser.c' object='crphp-php_http_parser.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(crphp_CFLAGS) $(CFLAGS) -c -o crphp-php_http_parser.o `test -f 'php_http_parser.c' || echo '$(srcdir)/'`php_http_parser.c
+
+crphp-php_http_parser.obj: php_http_parser.c
+@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(crphp_CFLAGS) $(CFLAGS) -MT crphp-php_http_parser.obj -MD -MP -MF $(DEPDIR)/crphp-php_http_parser.Tpo -c -o crphp-php_http_parser.obj `if test -f 'php_http_parser.c'; then $(CYGPATH_W) 'php_http_parser.c'; else $(CYGPATH_W) '$(srcdir)/php_http_parser.c'; fi`
+@am__fastdepCC_TRUE@	$(am__mv) $(DEPDIR)/crphp-php_http_parser.Tpo $(DEPDIR)/crphp-php_http_parser.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='php_http_parser.c' object='crphp-php_http_parser.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(crphp_CFLAGS) $(CFLAGS) -c -o crphp-php_http_parser.obj `if test -f 'php_http_parser.c'; then $(CYGPATH_W) 'php_http_parser.c'; else $(CYGPATH_W) '$(srcdir)/php_http_parser.c'; fi`
 
 mostlyclean-libtool:
 	-rm -f *.lo

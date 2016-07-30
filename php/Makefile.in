@@ -105,6 +105,23 @@ am__libphp_sapi_a_SOURCES_DIST = sapi/crotalus/php_crotalus.c \
 	ext/hash/hash_crc32.c ext/hash/hash_fnv.c \
 	ext/hash/hash_joaat.c ext/iconv/iconv.c ext/json/json.c \
 	ext/json/utf8_decode.c ext/json/JSON_parser.c \
+	ext/mysql/php_mysql.c ext/mysqli/mysqli.c \
+	ext/mysqli/mysqli_api.c ext/mysqli/mysqli_prop.c \
+	ext/mysqli/mysqli_nonapi.c ext/mysqli/mysqli_fe.c \
+	ext/mysqli/mysqli_report.c ext/mysqli/mysqli_driver.c \
+	ext/mysqli/mysqli_warning.c ext/mysqli/mysqli_exception.c \
+	ext/mysqli/mysqli_result_iterator.c ext/mysqlnd/mysqlnd.c \
+	ext/mysqlnd/mysqlnd_alloc.c ext/mysqlnd/mysqlnd_bt.c \
+	ext/mysqlnd/mysqlnd_charset.c \
+	ext/mysqlnd/mysqlnd_wireprotocol.c \
+	ext/mysqlnd/mysqlnd_loaddata.c \
+	ext/mysqlnd/mysqlnd_reverse_api.c ext/mysqlnd/mysqlnd_net.c \
+	ext/mysqlnd/mysqlnd_statistics.c ext/mysqlnd/mysqlnd_driver.c \
+	ext/mysqlnd/mysqlnd_ext_plugin.c ext/mysqlnd/mysqlnd_auth.c \
+	ext/mysqlnd/mysqlnd_result.c ext/mysqlnd/mysqlnd_result_meta.c \
+	ext/mysqlnd/mysqlnd_debug.c ext/mysqlnd/mysqlnd_block_alloc.c \
+	ext/mysqlnd/mysqlnd_plugin.c ext/mysqlnd/php_mysqlnd.c \
+	ext/mysqlnd/mysqlnd_ps.c ext/mysqlnd/mysqlnd_ps_codec.c \
 	ext/opcache/ZendAccelerator.c \
 	ext/opcache/zend_accelerator_blacklist.c \
 	ext/opcache/zend_accelerator_debug.c \
@@ -290,6 +307,37 @@ am__libphp_sapi_a_SOURCES_DIST = sapi/crotalus/php_crotalus.c \
 @USE_PHP_RUNTIME_TRUE@	libphp_sapi_a-json.$(OBJEXT) \
 @USE_PHP_RUNTIME_TRUE@	libphp_sapi_a-utf8_decode.$(OBJEXT) \
 @USE_PHP_RUNTIME_TRUE@	libphp_sapi_a-JSON_parser.$(OBJEXT) \
+@USE_PHP_RUNTIME_TRUE@	libphp_sapi_a-php_mysql.$(OBJEXT) \
+@USE_PHP_RUNTIME_TRUE@	libphp_sapi_a-mysqli.$(OBJEXT) \
+@USE_PHP_RUNTIME_TRUE@	libphp_sapi_a-mysqli_api.$(OBJEXT) \
+@USE_PHP_RUNTIME_TRUE@	libphp_sapi_a-mysqli_prop.$(OBJEXT) \
+@USE_PHP_RUNTIME_TRUE@	libphp_sapi_a-mysqli_nonapi.$(OBJEXT) \
+@USE_PHP_RUNTIME_TRUE@	libphp_sapi_a-mysqli_fe.$(OBJEXT) \
+@USE_PHP_RUNTIME_TRUE@	libphp_sapi_a-mysqli_report.$(OBJEXT) \
+@USE_PHP_RUNTIME_TRUE@	libphp_sapi_a-mysqli_driver.$(OBJEXT) \
+@USE_PHP_RUNTIME_TRUE@	libphp_sapi_a-mysqli_warning.$(OBJEXT) \
+@USE_PHP_RUNTIME_TRUE@	libphp_sapi_a-mysqli_exception.$(OBJEXT) \
+@USE_PHP_RUNTIME_TRUE@	libphp_sapi_a-mysqli_result_iterator.$(OBJEXT) \
+@USE_PHP_RUNTIME_TRUE@	libphp_sapi_a-mysqlnd.$(OBJEXT) \
+@USE_PHP_RUNTIME_TRUE@	libphp_sapi_a-mysqlnd_alloc.$(OBJEXT) \
+@USE_PHP_RUNTIME_TRUE@	libphp_sapi_a-mysqlnd_bt.$(OBJEXT) \
+@USE_PHP_RUNTIME_TRUE@	libphp_sapi_a-mysqlnd_charset.$(OBJEXT) \
+@USE_PHP_RUNTIME_TRUE@	libphp_sapi_a-mysqlnd_wireprotocol.$(OBJEXT) \
+@USE_PHP_RUNTIME_TRUE@	libphp_sapi_a-mysqlnd_loaddata.$(OBJEXT) \
+@USE_PHP_RUNTIME_TRUE@	libphp_sapi_a-mysqlnd_reverse_api.$(OBJEXT) \
+@USE_PHP_RUNTIME_TRUE@	libphp_sapi_a-mysqlnd_net.$(OBJEXT) \
+@USE_PHP_RUNTIME_TRUE@	libphp_sapi_a-mysqlnd_statistics.$(OBJEXT) \
+@USE_PHP_RUNTIME_TRUE@	libphp_sapi_a-mysqlnd_driver.$(OBJEXT) \
+@USE_PHP_RUNTIME_TRUE@	libphp_sapi_a-mysqlnd_ext_plugin.$(OBJEXT) \
+@USE_PHP_RUNTIME_TRUE@	libphp_sapi_a-mysqlnd_auth.$(OBJEXT) \
+@USE_PHP_RUNTIME_TRUE@	libphp_sapi_a-mysqlnd_result.$(OBJEXT) \
+@USE_PHP_RUNTIME_TRUE@	libphp_sapi_a-mysqlnd_result_meta.$(OBJEXT) \
+@USE_PHP_RUNTIME_TRUE@	libphp_sapi_a-mysqlnd_debug.$(OBJEXT) \
+@USE_PHP_RUNTIME_TRUE@	libphp_sapi_a-mysqlnd_block_alloc.$(OBJEXT) \
+@USE_PHP_RUNTIME_TRUE@	libphp_sapi_a-mysqlnd_plugin.$(OBJEXT) \
+@USE_PHP_RUNTIME_TRUE@	libphp_sapi_a-php_mysqlnd.$(OBJEXT) \
+@USE_PHP_RUNTIME_TRUE@	libphp_sapi_a-mysqlnd_ps.$(OBJEXT) \
+@USE_PHP_RUNTIME_TRUE@	libphp_sapi_a-mysqlnd_ps_codec.$(OBJEXT) \
 @USE_PHP_RUNTIME_TRUE@	libphp_sapi_a-ZendAccelerator.$(OBJEXT) \
 @USE_PHP_RUNTIME_TRUE@	libphp_sapi_a-zend_accelerator_blacklist.$(OBJEXT) \
 @USE_PHP_RUNTIME_TRUE@	libphp_sapi_a-zend_accelerator_debug.$(OBJEXT) \
@@ -654,6 +702,9 @@ top_srcdir = @top_srcdir@
 @USE_PHP_RUNTIME_TRUE@		-I$(srcdir)/ext/opcache \
 @USE_PHP_RUNTIME_TRUE@		-I$(srcdir)/ext/fileinfo/libmagic \
 @USE_PHP_RUNTIME_TRUE@		-I$(srcdir)/ext/sqlite3/libsqlite \
+@USE_PHP_RUNTIME_TRUE@		-I$(srcdir)/ext/mysql \
+@USE_PHP_RUNTIME_TRUE@		-I$(srcdir)/ext/mysqli \
+@USE_PHP_RUNTIME_TRUE@		-I$(srcdir)/ext/mysqlnd \
 @USE_PHP_RUNTIME_TRUE@		-I$(srcdir)/ext/date/lib -I$(builddir)/ext/date/lib \
 @USE_PHP_RUNTIME_TRUE@		-I$(top_srcdir)/lib/libxml2/include
 
@@ -753,6 +804,37 @@ top_srcdir = @top_srcdir@
 @USE_PHP_RUNTIME_TRUE@	ext/json/json.c \
 @USE_PHP_RUNTIME_TRUE@	ext/json/utf8_decode.c \
 @USE_PHP_RUNTIME_TRUE@	ext/json/JSON_parser.c \
+@USE_PHP_RUNTIME_TRUE@	ext/mysql/php_mysql.c \
+@USE_PHP_RUNTIME_TRUE@	ext/mysqli/mysqli.c \
+@USE_PHP_RUNTIME_TRUE@	ext/mysqli/mysqli_api.c \
+@USE_PHP_RUNTIME_TRUE@	ext/mysqli/mysqli_prop.c \
+@USE_PHP_RUNTIME_TRUE@	ext/mysqli/mysqli_nonapi.c \
+@USE_PHP_RUNTIME_TRUE@	ext/mysqli/mysqli_fe.c \
+@USE_PHP_RUNTIME_TRUE@	ext/mysqli/mysqli_report.c \
+@USE_PHP_RUNTIME_TRUE@	ext/mysqli/mysqli_driver.c \
+@USE_PHP_RUNTIME_TRUE@	ext/mysqli/mysqli_warning.c \
+@USE_PHP_RUNTIME_TRUE@	ext/mysqli/mysqli_exception.c \
+@USE_PHP_RUNTIME_TRUE@	ext/mysqli/mysqli_result_iterator.c \
+@USE_PHP_RUNTIME_TRUE@	ext/mysqlnd/mysqlnd.c \
+@USE_PHP_RUNTIME_TRUE@	ext/mysqlnd/mysqlnd_alloc.c \
+@USE_PHP_RUNTIME_TRUE@	ext/mysqlnd/mysqlnd_bt.c \
+@USE_PHP_RUNTIME_TRUE@	ext/mysqlnd/mysqlnd_charset.c \
+@USE_PHP_RUNTIME_TRUE@	ext/mysqlnd/mysqlnd_wireprotocol.c \
+@USE_PHP_RUNTIME_TRUE@	ext/mysqlnd/mysqlnd_loaddata.c \
+@USE_PHP_RUNTIME_TRUE@	ext/mysqlnd/mysqlnd_reverse_api.c \
+@USE_PHP_RUNTIME_TRUE@	ext/mysqlnd/mysqlnd_net.c \
+@USE_PHP_RUNTIME_TRUE@	ext/mysqlnd/mysqlnd_statistics.c \
+@USE_PHP_RUNTIME_TRUE@	ext/mysqlnd/mysqlnd_driver.c \
+@USE_PHP_RUNTIME_TRUE@	ext/mysqlnd/mysqlnd_ext_plugin.c \
+@USE_PHP_RUNTIME_TRUE@	ext/mysqlnd/mysqlnd_auth.c \
+@USE_PHP_RUNTIME_TRUE@	ext/mysqlnd/mysqlnd_result.c \
+@USE_PHP_RUNTIME_TRUE@	ext/mysqlnd/mysqlnd_result_meta.c \
+@USE_PHP_RUNTIME_TRUE@	ext/mysqlnd/mysqlnd_debug.c \
+@USE_PHP_RUNTIME_TRUE@	ext/mysqlnd/mysqlnd_block_alloc.c \
+@USE_PHP_RUNTIME_TRUE@	ext/mysqlnd/mysqlnd_plugin.c \
+@USE_PHP_RUNTIME_TRUE@	ext/mysqlnd/php_mysqlnd.c \
+@USE_PHP_RUNTIME_TRUE@	ext/mysqlnd/mysqlnd_ps.c \
+@USE_PHP_RUNTIME_TRUE@	ext/mysqlnd/mysqlnd_ps_codec.c \
 @USE_PHP_RUNTIME_TRUE@	ext/opcache/ZendAccelerator.c \
 @USE_PHP_RUNTIME_TRUE@	ext/opcache/zend_accelerator_blacklist.c \
 @USE_PHP_RUNTIME_TRUE@	ext/opcache/zend_accelerator_debug.c \
@@ -1130,6 +1212,35 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libphp_sapi_a-mod_mm.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libphp_sapi_a-mod_user.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libphp_sapi_a-mod_user_class.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libphp_sapi_a-mysqli.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libphp_sapi_a-mysqli_api.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libphp_sapi_a-mysqli_driver.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libphp_sapi_a-mysqli_exception.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libphp_sapi_a-mysqli_fe.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libphp_sapi_a-mysqli_nonapi.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libphp_sapi_a-mysqli_prop.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libphp_sapi_a-mysqli_report.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libphp_sapi_a-mysqli_result_iterator.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libphp_sapi_a-mysqli_warning.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libphp_sapi_a-mysqlnd.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libphp_sapi_a-mysqlnd_alloc.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libphp_sapi_a-mysqlnd_auth.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libphp_sapi_a-mysqlnd_block_alloc.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libphp_sapi_a-mysqlnd_bt.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libphp_sapi_a-mysqlnd_charset.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libphp_sapi_a-mysqlnd_debug.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libphp_sapi_a-mysqlnd_driver.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libphp_sapi_a-mysqlnd_ext_plugin.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libphp_sapi_a-mysqlnd_loaddata.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libphp_sapi_a-mysqlnd_net.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libphp_sapi_a-mysqlnd_plugin.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libphp_sapi_a-mysqlnd_ps.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libphp_sapi_a-mysqlnd_ps_codec.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libphp_sapi_a-mysqlnd_result.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libphp_sapi_a-mysqlnd_result_meta.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libphp_sapi_a-mysqlnd_reverse_api.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libphp_sapi_a-mysqlnd_statistics.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libphp_sapi_a-mysqlnd_wireprotocol.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libphp_sapi_a-namednodemap.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libphp_sapi_a-namelist.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libphp_sapi_a-network.Po@am__quote@
@@ -1159,6 +1270,8 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libphp_sapi_a-php_dom.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libphp_sapi_a-php_fopen_wrapper.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libphp_sapi_a-php_ini.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libphp_sapi_a-php_mysql.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libphp_sapi_a-php_mysqlnd.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libphp_sapi_a-php_open_temporary_file.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libphp_sapi_a-php_pcre.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libphp_sapi_a-php_reflection.Po@am__quote@
@@ -2584,6 +2697,440 @@ libphp_sapi_a-JSON_parser.obj: ext/json/JSON_parser.c
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	source='ext/json/JSON_parser.c' object='libphp_sapi_a-JSON_parser.obj' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libphp_sapi_a_CFLAGS) $(CFLAGS) -c -o libphp_sapi_a-JSON_parser.obj `if test -f 'ext/json/JSON_parser.c'; then $(CYGPATH_W) 'ext/json/JSON_parser.c'; else $(CYGPATH_W) '$(srcdir)/ext/json/JSON_parser.c'; fi`
+
+libphp_sapi_a-php_mysql.o: ext/mysql/php_mysql.c
+@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libphp_sapi_a_CFLAGS) $(CFLAGS) -MT libphp_sapi_a-php_mysql.o -MD -MP -MF $(DEPDIR)/libphp_sapi_a-php_mysql.Tpo -c -o libphp_sapi_a-php_mysql.o `test -f 'ext/mysql/php_mysql.c' || echo '$(srcdir)/'`ext/mysql/php_mysql.c
+@am__fastdepCC_TRUE@	$(am__mv) $(DEPDIR)/libphp_sapi_a-php_mysql.Tpo $(DEPDIR)/libphp_sapi_a-php_mysql.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='ext/mysql/php_mysql.c' object='libphp_sapi_a-php_mysql.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libphp_sapi_a_CFLAGS) $(CFLAGS) -c -o libphp_sapi_a-php_mysql.o `test -f 'ext/mysql/php_mysql.c' || echo '$(srcdir)/'`ext/mysql/php_mysql.c
+
+libphp_sapi_a-php_mysql.obj: ext/mysql/php_mysql.c
+@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libphp_sapi_a_CFLAGS) $(CFLAGS) -MT libphp_sapi_a-php_mysql.obj -MD -MP -MF $(DEPDIR)/libphp_sapi_a-php_mysql.Tpo -c -o libphp_sapi_a-php_mysql.obj `if test -f 'ext/mysql/php_mysql.c'; then $(CYGPATH_W) 'ext/mysql/php_mysql.c'; else $(CYGPATH_W) '$(srcdir)/ext/mysql/php_mysql.c'; fi`
+@am__fastdepCC_TRUE@	$(am__mv) $(DEPDIR)/libphp_sapi_a-php_mysql.Tpo $(DEPDIR)/libphp_sapi_a-php_mysql.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='ext/mysql/php_mysql.c' object='libphp_sapi_a-php_mysql.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libphp_sapi_a_CFLAGS) $(CFLAGS) -c -o libphp_sapi_a-php_mysql.obj `if test -f 'ext/mysql/php_mysql.c'; then $(CYGPATH_W) 'ext/mysql/php_mysql.c'; else $(CYGPATH_W) '$(srcdir)/ext/mysql/php_mysql.c'; fi`
+
+libphp_sapi_a-mysqli.o: ext/mysqli/mysqli.c
+@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libphp_sapi_a_CFLAGS) $(CFLAGS) -MT libphp_sapi_a-mysqli.o -MD -MP -MF $(DEPDIR)/libphp_sapi_a-mysqli.Tpo -c -o libphp_sapi_a-mysqli.o `test -f 'ext/mysqli/mysqli.c' || echo '$(srcdir)/'`ext/mysqli/mysqli.c
+@am__fastdepCC_TRUE@	$(am__mv) $(DEPDIR)/libphp_sapi_a-mysqli.Tpo $(DEPDIR)/libphp_sapi_a-mysqli.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='ext/mysqli/mysqli.c' object='libphp_sapi_a-mysqli.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libphp_sapi_a_CFLAGS) $(CFLAGS) -c -o libphp_sapi_a-mysqli.o `test -f 'ext/mysqli/mysqli.c' || echo '$(srcdir)/'`ext/mysqli/mysqli.c
+
+libphp_sapi_a-mysqli.obj: ext/mysqli/mysqli.c
+@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libphp_sapi_a_CFLAGS) $(CFLAGS) -MT libphp_sapi_a-mysqli.obj -MD -MP -MF $(DEPDIR)/libphp_sapi_a-mysqli.Tpo -c -o libphp_sapi_a-mysqli.obj `if test -f 'ext/mysqli/mysqli.c'; then $(CYGPATH_W) 'ext/mysqli/mysqli.c'; else $(CYGPATH_W) '$(srcdir)/ext/mysqli/mysqli.c'; fi`
+@am__fastdepCC_TRUE@	$(am__mv) $(DEPDIR)/libphp_sapi_a-mysqli.Tpo $(DEPDIR)/libphp_sapi_a-mysqli.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='ext/mysqli/mysqli.c' object='libphp_sapi_a-mysqli.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libphp_sapi_a_CFLAGS) $(CFLAGS) -c -o libphp_sapi_a-mysqli.obj `if test -f 'ext/mysqli/mysqli.c'; then $(CYGPATH_W) 'ext/mysqli/mysqli.c'; else $(CYGPATH_W) '$(srcdir)/ext/mysqli/mysqli.c'; fi`
+
+libphp_sapi_a-mysqli_api.o: ext/mysqli/mysqli_api.c
+@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libphp_sapi_a_CFLAGS) $(CFLAGS) -MT libphp_sapi_a-mysqli_api.o -MD -MP -MF $(DEPDIR)/libphp_sapi_a-mysqli_api.Tpo -c -o libphp_sapi_a-mysqli_api.o `test -f 'ext/mysqli/mysqli_api.c' || echo '$(srcdir)/'`ext/mysqli/mysqli_api.c
+@am__fastdepCC_TRUE@	$(am__mv) $(DEPDIR)/libphp_sapi_a-mysqli_api.Tpo $(DEPDIR)/libphp_sapi_a-mysqli_api.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='ext/mysqli/mysqli_api.c' object='libphp_sapi_a-mysqli_api.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libphp_sapi_a_CFLAGS) $(CFLAGS) -c -o libphp_sapi_a-mysqli_api.o `test -f 'ext/mysqli/mysqli_api.c' || echo '$(srcdir)/'`ext/mysqli/mysqli_api.c
+
+libphp_sapi_a-mysqli_api.obj: ext/mysqli/mysqli_api.c
+@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libphp_sapi_a_CFLAGS) $(CFLAGS) -MT libphp_sapi_a-mysqli_api.obj -MD -MP -MF $(DEPDIR)/libphp_sapi_a-mysqli_api.Tpo -c -o libphp_sapi_a-mysqli_api.obj `if test -f 'ext/mysqli/mysqli_api.c'; then $(CYGPATH_W) 'ext/mysqli/mysqli_api.c'; else $(CYGPATH_W) '$(srcdir)/ext/mysqli/mysqli_api.c'; fi`
+@am__fastdepCC_TRUE@	$(am__mv) $(DEPDIR)/libphp_sapi_a-mysqli_api.Tpo $(DEPDIR)/libphp_sapi_a-mysqli_api.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='ext/mysqli/mysqli_api.c' object='libphp_sapi_a-mysqli_api.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libphp_sapi_a_CFLAGS) $(CFLAGS) -c -o libphp_sapi_a-mysqli_api.obj `if test -f 'ext/mysqli/mysqli_api.c'; then $(CYGPATH_W) 'ext/mysqli/mysqli_api.c'; else $(CYGPATH_W) '$(srcdir)/ext/mysqli/mysqli_api.c'; fi`
+
+libphp_sapi_a-mysqli_prop.o: ext/mysqli/mysqli_prop.c
+@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libphp_sapi_a_CFLAGS) $(CFLAGS) -MT libphp_sapi_a-mysqli_prop.o -MD -MP -MF $(DEPDIR)/libphp_sapi_a-mysqli_prop.Tpo -c -o libphp_sapi_a-mysqli_prop.o `test -f 'ext/mysqli/mysqli_prop.c' || echo '$(srcdir)/'`ext/mysqli/mysqli_prop.c
+@am__fastdepCC_TRUE@	$(am__mv) $(DEPDIR)/libphp_sapi_a-mysqli_prop.Tpo $(DEPDIR)/libphp_sapi_a-mysqli_prop.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='ext/mysqli/mysqli_prop.c' object='libphp_sapi_a-mysqli_prop.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libphp_sapi_a_CFLAGS) $(CFLAGS) -c -o libphp_sapi_a-mysqli_prop.o `test -f 'ext/mysqli/mysqli_prop.c' || echo '$(srcdir)/'`ext/mysqli/mysqli_prop.c
+
+libphp_sapi_a-mysqli_prop.obj: ext/mysqli/mysqli_prop.c
+@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libphp_sapi_a_CFLAGS) $(CFLAGS) -MT libphp_sapi_a-mysqli_prop.obj -MD -MP -MF $(DEPDIR)/libphp_sapi_a-mysqli_prop.Tpo -c -o libphp_sapi_a-mysqli_prop.obj `if test -f 'ext/mysqli/mysqli_prop.c'; then $(CYGPATH_W) 'ext/mysqli/mysqli_prop.c'; else $(CYGPATH_W) '$(srcdir)/ext/mysqli/mysqli_prop.c'; fi`
+@am__fastdepCC_TRUE@	$(am__mv) $(DEPDIR)/libphp_sapi_a-mysqli_prop.Tpo $(DEPDIR)/libphp_sapi_a-mysqli_prop.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='ext/mysqli/mysqli_prop.c' object='libphp_sapi_a-mysqli_prop.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libphp_sapi_a_CFLAGS) $(CFLAGS) -c -o libphp_sapi_a-mysqli_prop.obj `if test -f 'ext/mysqli/mysqli_prop.c'; then $(CYGPATH_W) 'ext/mysqli/mysqli_prop.c'; else $(CYGPATH_W) '$(srcdir)/ext/mysqli/mysqli_prop.c'; fi`
+
+libphp_sapi_a-mysqli_nonapi.o: ext/mysqli/mysqli_nonapi.c
+@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libphp_sapi_a_CFLAGS) $(CFLAGS) -MT libphp_sapi_a-mysqli_nonapi.o -MD -MP -MF $(DEPDIR)/libphp_sapi_a-mysqli_nonapi.Tpo -c -o libphp_sapi_a-mysqli_nonapi.o `test -f 'ext/mysqli/mysqli_nonapi.c' || echo '$(srcdir)/'`ext/mysqli/mysqli_nonapi.c
+@am__fastdepCC_TRUE@	$(am__mv) $(DEPDIR)/libphp_sapi_a-mysqli_nonapi.Tpo $(DEPDIR)/libphp_sapi_a-mysqli_nonapi.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='ext/mysqli/mysqli_nonapi.c' object='libphp_sapi_a-mysqli_nonapi.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libphp_sapi_a_CFLAGS) $(CFLAGS) -c -o libphp_sapi_a-mysqli_nonapi.o `test -f 'ext/mysqli/mysqli_nonapi.c' || echo '$(srcdir)/'`ext/mysqli/mysqli_nonapi.c
+
+libphp_sapi_a-mysqli_nonapi.obj: ext/mysqli/mysqli_nonapi.c
+@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libphp_sapi_a_CFLAGS) $(CFLAGS) -MT libphp_sapi_a-mysqli_nonapi.obj -MD -MP -MF $(DEPDIR)/libphp_sapi_a-mysqli_nonapi.Tpo -c -o libphp_sapi_a-mysqli_nonapi.obj `if test -f 'ext/mysqli/mysqli_nonapi.c'; then $(CYGPATH_W) 'ext/mysqli/mysqli_nonapi.c'; else $(CYGPATH_W) '$(srcdir)/ext/mysqli/mysqli_nonapi.c'; fi`
+@am__fastdepCC_TRUE@	$(am__mv) $(DEPDIR)/libphp_sapi_a-mysqli_nonapi.Tpo $(DEPDIR)/libphp_sapi_a-mysqli_nonapi.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='ext/mysqli/mysqli_nonapi.c' object='libphp_sapi_a-mysqli_nonapi.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libphp_sapi_a_CFLAGS) $(CFLAGS) -c -o libphp_sapi_a-mysqli_nonapi.obj `if test -f 'ext/mysqli/mysqli_nonapi.c'; then $(CYGPATH_W) 'ext/mysqli/mysqli_nonapi.c'; else $(CYGPATH_W) '$(srcdir)/ext/mysqli/mysqli_nonapi.c'; fi`
+
+libphp_sapi_a-mysqli_fe.o: ext/mysqli/mysqli_fe.c
+@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libphp_sapi_a_CFLAGS) $(CFLAGS) -MT libphp_sapi_a-mysqli_fe.o -MD -MP -MF $(DEPDIR)/libphp_sapi_a-mysqli_fe.Tpo -c -o libphp_sapi_a-mysqli_fe.o `test -f 'ext/mysqli/mysqli_fe.c' || echo '$(srcdir)/'`ext/mysqli/mysqli_fe.c
+@am__fastdepCC_TRUE@	$(am__mv) $(DEPDIR)/libphp_sapi_a-mysqli_fe.Tpo $(DEPDIR)/libphp_sapi_a-mysqli_fe.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='ext/mysqli/mysqli_fe.c' object='libphp_sapi_a-mysqli_fe.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libphp_sapi_a_CFLAGS) $(CFLAGS) -c -o libphp_sapi_a-mysqli_fe.o `test -f 'ext/mysqli/mysqli_fe.c' || echo '$(srcdir)/'`ext/mysqli/mysqli_fe.c
+
+libphp_sapi_a-mysqli_fe.obj: ext/mysqli/mysqli_fe.c
+@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libphp_sapi_a_CFLAGS) $(CFLAGS) -MT libphp_sapi_a-mysqli_fe.obj -MD -MP -MF $(DEPDIR)/libphp_sapi_a-mysqli_fe.Tpo -c -o libphp_sapi_a-mysqli_fe.obj `if test -f 'ext/mysqli/mysqli_fe.c'; then $(CYGPATH_W) 'ext/mysqli/mysqli_fe.c'; else $(CYGPATH_W) '$(srcdir)/ext/mysqli/mysqli_fe.c'; fi`
+@am__fastdepCC_TRUE@	$(am__mv) $(DEPDIR)/libphp_sapi_a-mysqli_fe.Tpo $(DEPDIR)/libphp_sapi_a-mysqli_fe.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='ext/mysqli/mysqli_fe.c' object='libphp_sapi_a-mysqli_fe.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libphp_sapi_a_CFLAGS) $(CFLAGS) -c -o libphp_sapi_a-mysqli_fe.obj `if test -f 'ext/mysqli/mysqli_fe.c'; then $(CYGPATH_W) 'ext/mysqli/mysqli_fe.c'; else $(CYGPATH_W) '$(srcdir)/ext/mysqli/mysqli_fe.c'; fi`
+
+libphp_sapi_a-mysqli_report.o: ext/mysqli/mysqli_report.c
+@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libphp_sapi_a_CFLAGS) $(CFLAGS) -MT libphp_sapi_a-mysqli_report.o -MD -MP -MF $(DEPDIR)/libphp_sapi_a-mysqli_report.Tpo -c -o libphp_sapi_a-mysqli_report.o `test -f 'ext/mysqli/mysqli_report.c' || echo '$(srcdir)/'`ext/mysqli/mysqli_report.c
+@am__fastdepCC_TRUE@	$(am__mv) $(DEPDIR)/libphp_sapi_a-mysqli_report.Tpo $(DEPDIR)/libphp_sapi_a-mysqli_report.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='ext/mysqli/mysqli_report.c' object='libphp_sapi_a-mysqli_report.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libphp_sapi_a_CFLAGS) $(CFLAGS) -c -o libphp_sapi_a-mysqli_report.o `test -f 'ext/mysqli/mysqli_report.c' || echo '$(srcdir)/'`ext/mysqli/mysqli_report.c
+
+libphp_sapi_a-mysqli_report.obj: ext/mysqli/mysqli_report.c
+@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libphp_sapi_a_CFLAGS) $(CFLAGS) -MT libphp_sapi_a-mysqli_report.obj -MD -MP -MF $(DEPDIR)/libphp_sapi_a-mysqli_report.Tpo -c -o libphp_sapi_a-mysqli_report.obj `if test -f 'ext/mysqli/mysqli_report.c'; then $(CYGPATH_W) 'ext/mysqli/mysqli_report.c'; else $(CYGPATH_W) '$(srcdir)/ext/mysqli/mysqli_report.c'; fi`
+@am__fastdepCC_TRUE@	$(am__mv) $(DEPDIR)/libphp_sapi_a-mysqli_report.Tpo $(DEPDIR)/libphp_sapi_a-mysqli_report.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='ext/mysqli/mysqli_report.c' object='libphp_sapi_a-mysqli_report.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libphp_sapi_a_CFLAGS) $(CFLAGS) -c -o libphp_sapi_a-mysqli_report.obj `if test -f 'ext/mysqli/mysqli_report.c'; then $(CYGPATH_W) 'ext/mysqli/mysqli_report.c'; else $(CYGPATH_W) '$(srcdir)/ext/mysqli/mysqli_report.c'; fi`
+
+libphp_sapi_a-mysqli_driver.o: ext/mysqli/mysqli_driver.c
+@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libphp_sapi_a_CFLAGS) $(CFLAGS) -MT libphp_sapi_a-mysqli_driver.o -MD -MP -MF $(DEPDIR)/libphp_sapi_a-mysqli_driver.Tpo -c -o libphp_sapi_a-mysqli_driver.o `test -f 'ext/mysqli/mysqli_driver.c' || echo '$(srcdir)/'`ext/mysqli/mysqli_driver.c
+@am__fastdepCC_TRUE@	$(am__mv) $(DEPDIR)/libphp_sapi_a-mysqli_driver.Tpo $(DEPDIR)/libphp_sapi_a-mysqli_driver.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='ext/mysqli/mysqli_driver.c' object='libphp_sapi_a-mysqli_driver.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libphp_sapi_a_CFLAGS) $(CFLAGS) -c -o libphp_sapi_a-mysqli_driver.o `test -f 'ext/mysqli/mysqli_driver.c' || echo '$(srcdir)/'`ext/mysqli/mysqli_driver.c
+
+libphp_sapi_a-mysqli_driver.obj: ext/mysqli/mysqli_driver.c
+@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libphp_sapi_a_CFLAGS) $(CFLAGS) -MT libphp_sapi_a-mysqli_driver.obj -MD -MP -MF $(DEPDIR)/libphp_sapi_a-mysqli_driver.Tpo -c -o libphp_sapi_a-mysqli_driver.obj `if test -f 'ext/mysqli/mysqli_driver.c'; then $(CYGPATH_W) 'ext/mysqli/mysqli_driver.c'; else $(CYGPATH_W) '$(srcdir)/ext/mysqli/mysqli_driver.c'; fi`
+@am__fastdepCC_TRUE@	$(am__mv) $(DEPDIR)/libphp_sapi_a-mysqli_driver.Tpo $(DEPDIR)/libphp_sapi_a-mysqli_driver.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='ext/mysqli/mysqli_driver.c' object='libphp_sapi_a-mysqli_driver.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libphp_sapi_a_CFLAGS) $(CFLAGS) -c -o libphp_sapi_a-mysqli_driver.obj `if test -f 'ext/mysqli/mysqli_driver.c'; then $(CYGPATH_W) 'ext/mysqli/mysqli_driver.c'; else $(CYGPATH_W) '$(srcdir)/ext/mysqli/mysqli_driver.c'; fi`
+
+libphp_sapi_a-mysqli_warning.o: ext/mysqli/mysqli_warning.c
+@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libphp_sapi_a_CFLAGS) $(CFLAGS) -MT libphp_sapi_a-mysqli_warning.o -MD -MP -MF $(DEPDIR)/libphp_sapi_a-mysqli_warning.Tpo -c -o libphp_sapi_a-mysqli_warning.o `test -f 'ext/mysqli/mysqli_warning.c' || echo '$(srcdir)/'`ext/mysqli/mysqli_warning.c
+@am__fastdepCC_TRUE@	$(am__mv) $(DEPDIR)/libphp_sapi_a-mysqli_warning.Tpo $(DEPDIR)/libphp_sapi_a-mysqli_warning.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='ext/mysqli/mysqli_warning.c' object='libphp_sapi_a-mysqli_warning.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libphp_sapi_a_CFLAGS) $(CFLAGS) -c -o libphp_sapi_a-mysqli_warning.o `test -f 'ext/mysqli/mysqli_warning.c' || echo '$(srcdir)/'`ext/mysqli/mysqli_warning.c
+
+libphp_sapi_a-mysqli_warning.obj: ext/mysqli/mysqli_warning.c
+@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libphp_sapi_a_CFLAGS) $(CFLAGS) -MT libphp_sapi_a-mysqli_warning.obj -MD -MP -MF $(DEPDIR)/libphp_sapi_a-mysqli_warning.Tpo -c -o libphp_sapi_a-mysqli_warning.obj `if test -f 'ext/mysqli/mysqli_warning.c'; then $(CYGPATH_W) 'ext/mysqli/mysqli_warning.c'; else $(CYGPATH_W) '$(srcdir)/ext/mysqli/mysqli_warning.c'; fi`
+@am__fastdepCC_TRUE@	$(am__mv) $(DEPDIR)/libphp_sapi_a-mysqli_warning.Tpo $(DEPDIR)/libphp_sapi_a-mysqli_warning.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='ext/mysqli/mysqli_warning.c' object='libphp_sapi_a-mysqli_warning.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libphp_sapi_a_CFLAGS) $(CFLAGS) -c -o libphp_sapi_a-mysqli_warning.obj `if test -f 'ext/mysqli/mysqli_warning.c'; then $(CYGPATH_W) 'ext/mysqli/mysqli_warning.c'; else $(CYGPATH_W) '$(srcdir)/ext/mysqli/mysqli_warning.c'; fi`
+
+libphp_sapi_a-mysqli_exception.o: ext/mysqli/mysqli_exception.c
+@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libphp_sapi_a_CFLAGS) $(CFLAGS) -MT libphp_sapi_a-mysqli_exception.o -MD -MP -MF $(DEPDIR)/libphp_sapi_a-mysqli_exception.Tpo -c -o libphp_sapi_a-mysqli_exception.o `test -f 'ext/mysqli/mysqli_exception.c' || echo '$(srcdir)/'`ext/mysqli/mysqli_exception.c
+@am__fastdepCC_TRUE@	$(am__mv) $(DEPDIR)/libphp_sapi_a-mysqli_exception.Tpo $(DEPDIR)/libphp_sapi_a-mysqli_exception.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='ext/mysqli/mysqli_exception.c' object='libphp_sapi_a-mysqli_exception.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libphp_sapi_a_CFLAGS) $(CFLAGS) -c -o libphp_sapi_a-mysqli_exception.o `test -f 'ext/mysqli/mysqli_exception.c' || echo '$(srcdir)/'`ext/mysqli/mysqli_exception.c
+
+libphp_sapi_a-mysqli_exception.obj: ext/mysqli/mysqli_exception.c
+@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libphp_sapi_a_CFLAGS) $(CFLAGS) -MT libphp_sapi_a-mysqli_exception.obj -MD -MP -MF $(DEPDIR)/libphp_sapi_a-mysqli_exception.Tpo -c -o libphp_sapi_a-mysqli_exception.obj `if test -f 'ext/mysqli/mysqli_exception.c'; then $(CYGPATH_W) 'ext/mysqli/mysqli_exception.c'; else $(CYGPATH_W) '$(srcdir)/ext/mysqli/mysqli_exception.c'; fi`
+@am__fastdepCC_TRUE@	$(am__mv) $(DEPDIR)/libphp_sapi_a-mysqli_exception.Tpo $(DEPDIR)/libphp_sapi_a-mysqli_exception.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='ext/mysqli/mysqli_exception.c' object='libphp_sapi_a-mysqli_exception.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libphp_sapi_a_CFLAGS) $(CFLAGS) -c -o libphp_sapi_a-mysqli_exception.obj `if test -f 'ext/mysqli/mysqli_exception.c'; then $(CYGPATH_W) 'ext/mysqli/mysqli_exception.c'; else $(CYGPATH_W) '$(srcdir)/ext/mysqli/mysqli_exception.c'; fi`
+
+libphp_sapi_a-mysqli_result_iterator.o: ext/mysqli/mysqli_result_iterator.c
+@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libphp_sapi_a_CFLAGS) $(CFLAGS) -MT libphp_sapi_a-mysqli_result_iterator.o -MD -MP -MF $(DEPDIR)/libphp_sapi_a-mysqli_result_iterator.Tpo -c -o libphp_sapi_a-mysqli_result_iterator.o `test -f 'ext/mysqli/mysqli_result_iterator.c' || echo '$(srcdir)/'`ext/mysqli/mysqli_result_iterator.c
+@am__fastdepCC_TRUE@	$(am__mv) $(DEPDIR)/libphp_sapi_a-mysqli_result_iterator.Tpo $(DEPDIR)/libphp_sapi_a-mysqli_result_iterator.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='ext/mysqli/mysqli_result_iterator.c' object='libphp_sapi_a-mysqli_result_iterator.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libphp_sapi_a_CFLAGS) $(CFLAGS) -c -o libphp_sapi_a-mysqli_result_iterator.o `test -f 'ext/mysqli/mysqli_result_iterator.c' || echo '$(srcdir)/'`ext/mysqli/mysqli_result_iterator.c
+
+libphp_sapi_a-mysqli_result_iterator.obj: ext/mysqli/mysqli_result_iterator.c
+@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libphp_sapi_a_CFLAGS) $(CFLAGS) -MT libphp_sapi_a-mysqli_result_iterator.obj -MD -MP -MF $(DEPDIR)/libphp_sapi_a-mysqli_result_iterator.Tpo -c -o libphp_sapi_a-mysqli_result_iterator.obj `if test -f 'ext/mysqli/mysqli_result_iterator.c'; then $(CYGPATH_W) 'ext/mysqli/mysqli_result_iterator.c'; else $(CYGPATH_W) '$(srcdir)/ext/mysqli/mysqli_result_iterator.c'; fi`
+@am__fastdepCC_TRUE@	$(am__mv) $(DEPDIR)/libphp_sapi_a-mysqli_result_iterator.Tpo $(DEPDIR)/libphp_sapi_a-mysqli_result_iterator.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='ext/mysqli/mysqli_result_iterator.c' object='libphp_sapi_a-mysqli_result_iterator.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libphp_sapi_a_CFLAGS) $(CFLAGS) -c -o libphp_sapi_a-mysqli_result_iterator.obj `if test -f 'ext/mysqli/mysqli_result_iterator.c'; then $(CYGPATH_W) 'ext/mysqli/mysqli_result_iterator.c'; else $(CYGPATH_W) '$(srcdir)/ext/mysqli/mysqli_result_iterator.c'; fi`
+
+libphp_sapi_a-mysqlnd.o: ext/mysqlnd/mysqlnd.c
+@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libphp_sapi_a_CFLAGS) $(CFLAGS) -MT libphp_sapi_a-mysqlnd.o -MD -MP -MF $(DEPDIR)/libphp_sapi_a-mysqlnd.Tpo -c -o libphp_sapi_a-mysqlnd.o `test -f 'ext/mysqlnd/mysqlnd.c' || echo '$(srcdir)/'`ext/mysqlnd/mysqlnd.c
+@am__fastdepCC_TRUE@	$(am__mv) $(DEPDIR)/libphp_sapi_a-mysqlnd.Tpo $(DEPDIR)/libphp_sapi_a-mysqlnd.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='ext/mysqlnd/mysqlnd.c' object='libphp_sapi_a-mysqlnd.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libphp_sapi_a_CFLAGS) $(CFLAGS) -c -o libphp_sapi_a-mysqlnd.o `test -f 'ext/mysqlnd/mysqlnd.c' || echo '$(srcdir)/'`ext/mysqlnd/mysqlnd.c
+
+libphp_sapi_a-mysqlnd.obj: ext/mysqlnd/mysqlnd.c
+@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libphp_sapi_a_CFLAGS) $(CFLAGS) -MT libphp_sapi_a-mysqlnd.obj -MD -MP -MF $(DEPDIR)/libphp_sapi_a-mysqlnd.Tpo -c -o libphp_sapi_a-mysqlnd.obj `if test -f 'ext/mysqlnd/mysqlnd.c'; then $(CYGPATH_W) 'ext/mysqlnd/mysqlnd.c'; else $(CYGPATH_W) '$(srcdir)/ext/mysqlnd/mysqlnd.c'; fi`
+@am__fastdepCC_TRUE@	$(am__mv) $(DEPDIR)/libphp_sapi_a-mysqlnd.Tpo $(DEPDIR)/libphp_sapi_a-mysqlnd.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='ext/mysqlnd/mysqlnd.c' object='libphp_sapi_a-mysqlnd.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libphp_sapi_a_CFLAGS) $(CFLAGS) -c -o libphp_sapi_a-mysqlnd.obj `if test -f 'ext/mysqlnd/mysqlnd.c'; then $(CYGPATH_W) 'ext/mysqlnd/mysqlnd.c'; else $(CYGPATH_W) '$(srcdir)/ext/mysqlnd/mysqlnd.c'; fi`
+
+libphp_sapi_a-mysqlnd_alloc.o: ext/mysqlnd/mysqlnd_alloc.c
+@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libphp_sapi_a_CFLAGS) $(CFLAGS) -MT libphp_sapi_a-mysqlnd_alloc.o -MD -MP -MF $(DEPDIR)/libphp_sapi_a-mysqlnd_alloc.Tpo -c -o libphp_sapi_a-mysqlnd_alloc.o `test -f 'ext/mysqlnd/mysqlnd_alloc.c' || echo '$(srcdir)/'`ext/mysqlnd/mysqlnd_alloc.c
+@am__fastdepCC_TRUE@	$(am__mv) $(DEPDIR)/libphp_sapi_a-mysqlnd_alloc.Tpo $(DEPDIR)/libphp_sapi_a-mysqlnd_alloc.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='ext/mysqlnd/mysqlnd_alloc.c' object='libphp_sapi_a-mysqlnd_alloc.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libphp_sapi_a_CFLAGS) $(CFLAGS) -c -o libphp_sapi_a-mysqlnd_alloc.o `test -f 'ext/mysqlnd/mysqlnd_alloc.c' || echo '$(srcdir)/'`ext/mysqlnd/mysqlnd_alloc.c
+
+libphp_sapi_a-mysqlnd_alloc.obj: ext/mysqlnd/mysqlnd_alloc.c
+@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libphp_sapi_a_CFLAGS) $(CFLAGS) -MT libphp_sapi_a-mysqlnd_alloc.obj -MD -MP -MF $(DEPDIR)/libphp_sapi_a-mysqlnd_alloc.Tpo -c -o libphp_sapi_a-mysqlnd_alloc.obj `if test -f 'ext/mysqlnd/mysqlnd_alloc.c'; then $(CYGPATH_W) 'ext/mysqlnd/mysqlnd_alloc.c'; else $(CYGPATH_W) '$(srcdir)/ext/mysqlnd/mysqlnd_alloc.c'; fi`
+@am__fastdepCC_TRUE@	$(am__mv) $(DEPDIR)/libphp_sapi_a-mysqlnd_alloc.Tpo $(DEPDIR)/libphp_sapi_a-mysqlnd_alloc.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='ext/mysqlnd/mysqlnd_alloc.c' object='libphp_sapi_a-mysqlnd_alloc.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libphp_sapi_a_CFLAGS) $(CFLAGS) -c -o libphp_sapi_a-mysqlnd_alloc.obj `if test -f 'ext/mysqlnd/mysqlnd_alloc.c'; then $(CYGPATH_W) 'ext/mysqlnd/mysqlnd_alloc.c'; else $(CYGPATH_W) '$(srcdir)/ext/mysqlnd/mysqlnd_alloc.c'; fi`
+
+libphp_sapi_a-mysqlnd_bt.o: ext/mysqlnd/mysqlnd_bt.c
+@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libphp_sapi_a_CFLAGS) $(CFLAGS) -MT libphp_sapi_a-mysqlnd_bt.o -MD -MP -MF $(DEPDIR)/libphp_sapi_a-mysqlnd_bt.Tpo -c -o libphp_sapi_a-mysqlnd_bt.o `test -f 'ext/mysqlnd/mysqlnd_bt.c' || echo '$(srcdir)/'`ext/mysqlnd/mysqlnd_bt.c
+@am__fastdepCC_TRUE@	$(am__mv) $(DEPDIR)/libphp_sapi_a-mysqlnd_bt.Tpo $(DEPDIR)/libphp_sapi_a-mysqlnd_bt.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='ext/mysqlnd/mysqlnd_bt.c' object='libphp_sapi_a-mysqlnd_bt.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libphp_sapi_a_CFLAGS) $(CFLAGS) -c -o libphp_sapi_a-mysqlnd_bt.o `test -f 'ext/mysqlnd/mysqlnd_bt.c' || echo '$(srcdir)/'`ext/mysqlnd/mysqlnd_bt.c
+
+libphp_sapi_a-mysqlnd_bt.obj: ext/mysqlnd/mysqlnd_bt.c
+@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libphp_sapi_a_CFLAGS) $(CFLAGS) -MT libphp_sapi_a-mysqlnd_bt.obj -MD -MP -MF $(DEPDIR)/libphp_sapi_a-mysqlnd_bt.Tpo -c -o libphp_sapi_a-mysqlnd_bt.obj `if test -f 'ext/mysqlnd/mysqlnd_bt.c'; then $(CYGPATH_W) 'ext/mysqlnd/mysqlnd_bt.c'; else $(CYGPATH_W) '$(srcdir)/ext/mysqlnd/mysqlnd_bt.c'; fi`
+@am__fastdepCC_TRUE@	$(am__mv) $(DEPDIR)/libphp_sapi_a-mysqlnd_bt.Tpo $(DEPDIR)/libphp_sapi_a-mysqlnd_bt.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='ext/mysqlnd/mysqlnd_bt.c' object='libphp_sapi_a-mysqlnd_bt.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libphp_sapi_a_CFLAGS) $(CFLAGS) -c -o libphp_sapi_a-mysqlnd_bt.obj `if test -f 'ext/mysqlnd/mysqlnd_bt.c'; then $(CYGPATH_W) 'ext/mysqlnd/mysqlnd_bt.c'; else $(CYGPATH_W) '$(srcdir)/ext/mysqlnd/mysqlnd_bt.c'; fi`
+
+libphp_sapi_a-mysqlnd_charset.o: ext/mysqlnd/mysqlnd_charset.c
+@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libphp_sapi_a_CFLAGS) $(CFLAGS) -MT libphp_sapi_a-mysqlnd_charset.o -MD -MP -MF $(DEPDIR)/libphp_sapi_a-mysqlnd_charset.Tpo -c -o libphp_sapi_a-mysqlnd_charset.o `test -f 'ext/mysqlnd/mysqlnd_charset.c' || echo '$(srcdir)/'`ext/mysqlnd/mysqlnd_charset.c
+@am__fastdepCC_TRUE@	$(am__mv) $(DEPDIR)/libphp_sapi_a-mysqlnd_charset.Tpo $(DEPDIR)/libphp_sapi_a-mysqlnd_charset.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='ext/mysqlnd/mysqlnd_charset.c' object='libphp_sapi_a-mysqlnd_charset.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libphp_sapi_a_CFLAGS) $(CFLAGS) -c -o libphp_sapi_a-mysqlnd_charset.o `test -f 'ext/mysqlnd/mysqlnd_charset.c' || echo '$(srcdir)/'`ext/mysqlnd/mysqlnd_charset.c
+
+libphp_sapi_a-mysqlnd_charset.obj: ext/mysqlnd/mysqlnd_charset.c
+@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libphp_sapi_a_CFLAGS) $(CFLAGS) -MT libphp_sapi_a-mysqlnd_charset.obj -MD -MP -MF $(DEPDIR)/libphp_sapi_a-mysqlnd_charset.Tpo -c -o libphp_sapi_a-mysqlnd_charset.obj `if test -f 'ext/mysqlnd/mysqlnd_charset.c'; then $(CYGPATH_W) 'ext/mysqlnd/mysqlnd_charset.c'; else $(CYGPATH_W) '$(srcdir)/ext/mysqlnd/mysqlnd_charset.c'; fi`
+@am__fastdepCC_TRUE@	$(am__mv) $(DEPDIR)/libphp_sapi_a-mysqlnd_charset.Tpo $(DEPDIR)/libphp_sapi_a-mysqlnd_charset.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='ext/mysqlnd/mysqlnd_charset.c' object='libphp_sapi_a-mysqlnd_charset.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libphp_sapi_a_CFLAGS) $(CFLAGS) -c -o libphp_sapi_a-mysqlnd_charset.obj `if test -f 'ext/mysqlnd/mysqlnd_charset.c'; then $(CYGPATH_W) 'ext/mysqlnd/mysqlnd_charset.c'; else $(CYGPATH_W) '$(srcdir)/ext/mysqlnd/mysqlnd_charset.c'; fi`
+
+libphp_sapi_a-mysqlnd_wireprotocol.o: ext/mysqlnd/mysqlnd_wireprotocol.c
+@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libphp_sapi_a_CFLAGS) $(CFLAGS) -MT libphp_sapi_a-mysqlnd_wireprotocol.o -MD -MP -MF $(DEPDIR)/libphp_sapi_a-mysqlnd_wireprotocol.Tpo -c -o libphp_sapi_a-mysqlnd_wireprotocol.o `test -f 'ext/mysqlnd/mysqlnd_wireprotocol.c' || echo '$(srcdir)/'`ext/mysqlnd/mysqlnd_wireprotocol.c
+@am__fastdepCC_TRUE@	$(am__mv) $(DEPDIR)/libphp_sapi_a-mysqlnd_wireprotocol.Tpo $(DEPDIR)/libphp_sapi_a-mysqlnd_wireprotocol.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='ext/mysqlnd/mysqlnd_wireprotocol.c' object='libphp_sapi_a-mysqlnd_wireprotocol.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libphp_sapi_a_CFLAGS) $(CFLAGS) -c -o libphp_sapi_a-mysqlnd_wireprotocol.o `test -f 'ext/mysqlnd/mysqlnd_wireprotocol.c' || echo '$(srcdir)/'`ext/mysqlnd/mysqlnd_wireprotocol.c
+
+libphp_sapi_a-mysqlnd_wireprotocol.obj: ext/mysqlnd/mysqlnd_wireprotocol.c
+@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libphp_sapi_a_CFLAGS) $(CFLAGS) -MT libphp_sapi_a-mysqlnd_wireprotocol.obj -MD -MP -MF $(DEPDIR)/libphp_sapi_a-mysqlnd_wireprotocol.Tpo -c -o libphp_sapi_a-mysqlnd_wireprotocol.obj `if test -f 'ext/mysqlnd/mysqlnd_wireprotocol.c'; then $(CYGPATH_W) 'ext/mysqlnd/mysqlnd_wireprotocol.c'; else $(CYGPATH_W) '$(srcdir)/ext/mysqlnd/mysqlnd_wireprotocol.c'; fi`
+@am__fastdepCC_TRUE@	$(am__mv) $(DEPDIR)/libphp_sapi_a-mysqlnd_wireprotocol.Tpo $(DEPDIR)/libphp_sapi_a-mysqlnd_wireprotocol.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='ext/mysqlnd/mysqlnd_wireprotocol.c' object='libphp_sapi_a-mysqlnd_wireprotocol.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libphp_sapi_a_CFLAGS) $(CFLAGS) -c -o libphp_sapi_a-mysqlnd_wireprotocol.obj `if test -f 'ext/mysqlnd/mysqlnd_wireprotocol.c'; then $(CYGPATH_W) 'ext/mysqlnd/mysqlnd_wireprotocol.c'; else $(CYGPATH_W) '$(srcdir)/ext/mysqlnd/mysqlnd_wireprotocol.c'; fi`
+
+libphp_sapi_a-mysqlnd_loaddata.o: ext/mysqlnd/mysqlnd_loaddata.c
+@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libphp_sapi_a_CFLAGS) $(CFLAGS) -MT libphp_sapi_a-mysqlnd_loaddata.o -MD -MP -MF $(DEPDIR)/libphp_sapi_a-mysqlnd_loaddata.Tpo -c -o libphp_sapi_a-mysqlnd_loaddata.o `test -f 'ext/mysqlnd/mysqlnd_loaddata.c' || echo '$(srcdir)/'`ext/mysqlnd/mysqlnd_loaddata.c
+@am__fastdepCC_TRUE@	$(am__mv) $(DEPDIR)/libphp_sapi_a-mysqlnd_loaddata.Tpo $(DEPDIR)/libphp_sapi_a-mysqlnd_loaddata.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='ext/mysqlnd/mysqlnd_loaddata.c' object='libphp_sapi_a-mysqlnd_loaddata.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libphp_sapi_a_CFLAGS) $(CFLAGS) -c -o libphp_sapi_a-mysqlnd_loaddata.o `test -f 'ext/mysqlnd/mysqlnd_loaddata.c' || echo '$(srcdir)/'`ext/mysqlnd/mysqlnd_loaddata.c
+
+libphp_sapi_a-mysqlnd_loaddata.obj: ext/mysqlnd/mysqlnd_loaddata.c
+@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libphp_sapi_a_CFLAGS) $(CFLAGS) -MT libphp_sapi_a-mysqlnd_loaddata.obj -MD -MP -MF $(DEPDIR)/libphp_sapi_a-mysqlnd_loaddata.Tpo -c -o libphp_sapi_a-mysqlnd_loaddata.obj `if test -f 'ext/mysqlnd/mysqlnd_loaddata.c'; then $(CYGPATH_W) 'ext/mysqlnd/mysqlnd_loaddata.c'; else $(CYGPATH_W) '$(srcdir)/ext/mysqlnd/mysqlnd_loaddata.c'; fi`
+@am__fastdepCC_TRUE@	$(am__mv) $(DEPDIR)/libphp_sapi_a-mysqlnd_loaddata.Tpo $(DEPDIR)/libphp_sapi_a-mysqlnd_loaddata.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='ext/mysqlnd/mysqlnd_loaddata.c' object='libphp_sapi_a-mysqlnd_loaddata.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libphp_sapi_a_CFLAGS) $(CFLAGS) -c -o libphp_sapi_a-mysqlnd_loaddata.obj `if test -f 'ext/mysqlnd/mysqlnd_loaddata.c'; then $(CYGPATH_W) 'ext/mysqlnd/mysqlnd_loaddata.c'; else $(CYGPATH_W) '$(srcdir)/ext/mysqlnd/mysqlnd_loaddata.c'; fi`
+
+libphp_sapi_a-mysqlnd_reverse_api.o: ext/mysqlnd/mysqlnd_reverse_api.c
+@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libphp_sapi_a_CFLAGS) $(CFLAGS) -MT libphp_sapi_a-mysqlnd_reverse_api.o -MD -MP -MF $(DEPDIR)/libphp_sapi_a-mysqlnd_reverse_api.Tpo -c -o libphp_sapi_a-mysqlnd_reverse_api.o `test -f 'ext/mysqlnd/mysqlnd_reverse_api.c' || echo '$(srcdir)/'`ext/mysqlnd/mysqlnd_reverse_api.c
+@am__fastdepCC_TRUE@	$(am__mv) $(DEPDIR)/libphp_sapi_a-mysqlnd_reverse_api.Tpo $(DEPDIR)/libphp_sapi_a-mysqlnd_reverse_api.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='ext/mysqlnd/mysqlnd_reverse_api.c' object='libphp_sapi_a-mysqlnd_reverse_api.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libphp_sapi_a_CFLAGS) $(CFLAGS) -c -o libphp_sapi_a-mysqlnd_reverse_api.o `test -f 'ext/mysqlnd/mysqlnd_reverse_api.c' || echo '$(srcdir)/'`ext/mysqlnd/mysqlnd_reverse_api.c
+
+libphp_sapi_a-mysqlnd_reverse_api.obj: ext/mysqlnd/mysqlnd_reverse_api.c
+@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libphp_sapi_a_CFLAGS) $(CFLAGS) -MT libphp_sapi_a-mysqlnd_reverse_api.obj -MD -MP -MF $(DEPDIR)/libphp_sapi_a-mysqlnd_reverse_api.Tpo -c -o libphp_sapi_a-mysqlnd_reverse_api.obj `if test -f 'ext/mysqlnd/mysqlnd_reverse_api.c'; then $(CYGPATH_W) 'ext/mysqlnd/mysqlnd_reverse_api.c'; else $(CYGPATH_W) '$(srcdir)/ext/mysqlnd/mysqlnd_reverse_api.c'; fi`
+@am__fastdepCC_TRUE@	$(am__mv) $(DEPDIR)/libphp_sapi_a-mysqlnd_reverse_api.Tpo $(DEPDIR)/libphp_sapi_a-mysqlnd_reverse_api.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='ext/mysqlnd/mysqlnd_reverse_api.c' object='libphp_sapi_a-mysqlnd_reverse_api.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libphp_sapi_a_CFLAGS) $(CFLAGS) -c -o libphp_sapi_a-mysqlnd_reverse_api.obj `if test -f 'ext/mysqlnd/mysqlnd_reverse_api.c'; then $(CYGPATH_W) 'ext/mysqlnd/mysqlnd_reverse_api.c'; else $(CYGPATH_W) '$(srcdir)/ext/mysqlnd/mysqlnd_reverse_api.c'; fi`
+
+libphp_sapi_a-mysqlnd_net.o: ext/mysqlnd/mysqlnd_net.c
+@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libphp_sapi_a_CFLAGS) $(CFLAGS) -MT libphp_sapi_a-mysqlnd_net.o -MD -MP -MF $(DEPDIR)/libphp_sapi_a-mysqlnd_net.Tpo -c -o libphp_sapi_a-mysqlnd_net.o `test -f 'ext/mysqlnd/mysqlnd_net.c' || echo '$(srcdir)/'`ext/mysqlnd/mysqlnd_net.c
+@am__fastdepCC_TRUE@	$(am__mv) $(DEPDIR)/libphp_sapi_a-mysqlnd_net.Tpo $(DEPDIR)/libphp_sapi_a-mysqlnd_net.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='ext/mysqlnd/mysqlnd_net.c' object='libphp_sapi_a-mysqlnd_net.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libphp_sapi_a_CFLAGS) $(CFLAGS) -c -o libphp_sapi_a-mysqlnd_net.o `test -f 'ext/mysqlnd/mysqlnd_net.c' || echo '$(srcdir)/'`ext/mysqlnd/mysqlnd_net.c
+
+libphp_sapi_a-mysqlnd_net.obj: ext/mysqlnd/mysqlnd_net.c
+@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libphp_sapi_a_CFLAGS) $(CFLAGS) -MT libphp_sapi_a-mysqlnd_net.obj -MD -MP -MF $(DEPDIR)/libphp_sapi_a-mysqlnd_net.Tpo -c -o libphp_sapi_a-mysqlnd_net.obj `if test -f 'ext/mysqlnd/mysqlnd_net.c'; then $(CYGPATH_W) 'ext/mysqlnd/mysqlnd_net.c'; else $(CYGPATH_W) '$(srcdir)/ext/mysqlnd/mysqlnd_net.c'; fi`
+@am__fastdepCC_TRUE@	$(am__mv) $(DEPDIR)/libphp_sapi_a-mysqlnd_net.Tpo $(DEPDIR)/libphp_sapi_a-mysqlnd_net.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='ext/mysqlnd/mysqlnd_net.c' object='libphp_sapi_a-mysqlnd_net.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libphp_sapi_a_CFLAGS) $(CFLAGS) -c -o libphp_sapi_a-mysqlnd_net.obj `if test -f 'ext/mysqlnd/mysqlnd_net.c'; then $(CYGPATH_W) 'ext/mysqlnd/mysqlnd_net.c'; else $(CYGPATH_W) '$(srcdir)/ext/mysqlnd/mysqlnd_net.c'; fi`
+
+libphp_sapi_a-mysqlnd_statistics.o: ext/mysqlnd/mysqlnd_statistics.c
+@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libphp_sapi_a_CFLAGS) $(CFLAGS) -MT libphp_sapi_a-mysqlnd_statistics.o -MD -MP -MF $(DEPDIR)/libphp_sapi_a-mysqlnd_statistics.Tpo -c -o libphp_sapi_a-mysqlnd_statistics.o `test -f 'ext/mysqlnd/mysqlnd_statistics.c' || echo '$(srcdir)/'`ext/mysqlnd/mysqlnd_statistics.c
+@am__fastdepCC_TRUE@	$(am__mv) $(DEPDIR)/libphp_sapi_a-mysqlnd_statistics.Tpo $(DEPDIR)/libphp_sapi_a-mysqlnd_statistics.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='ext/mysqlnd/mysqlnd_statistics.c' object='libphp_sapi_a-mysqlnd_statistics.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libphp_sapi_a_CFLAGS) $(CFLAGS) -c -o libphp_sapi_a-mysqlnd_statistics.o `test -f 'ext/mysqlnd/mysqlnd_statistics.c' || echo '$(srcdir)/'`ext/mysqlnd/mysqlnd_statistics.c
+
+libphp_sapi_a-mysqlnd_statistics.obj: ext/mysqlnd/mysqlnd_statistics.c
+@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libphp_sapi_a_CFLAGS) $(CFLAGS) -MT libphp_sapi_a-mysqlnd_statistics.obj -MD -MP -MF $(DEPDIR)/libphp_sapi_a-mysqlnd_statistics.Tpo -c -o libphp_sapi_a-mysqlnd_statistics.obj `if test -f 'ext/mysqlnd/mysqlnd_statistics.c'; then $(CYGPATH_W) 'ext/mysqlnd/mysqlnd_statistics.c'; else $(CYGPATH_W) '$(srcdir)/ext/mysqlnd/mysqlnd_statistics.c'; fi`
+@am__fastdepCC_TRUE@	$(am__mv) $(DEPDIR)/libphp_sapi_a-mysqlnd_statistics.Tpo $(DEPDIR)/libphp_sapi_a-mysqlnd_statistics.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='ext/mysqlnd/mysqlnd_statistics.c' object='libphp_sapi_a-mysqlnd_statistics.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libphp_sapi_a_CFLAGS) $(CFLAGS) -c -o libphp_sapi_a-mysqlnd_statistics.obj `if test -f 'ext/mysqlnd/mysqlnd_statistics.c'; then $(CYGPATH_W) 'ext/mysqlnd/mysqlnd_statistics.c'; else $(CYGPATH_W) '$(srcdir)/ext/mysqlnd/mysqlnd_statistics.c'; fi`
+
+libphp_sapi_a-mysqlnd_driver.o: ext/mysqlnd/mysqlnd_driver.c
+@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libphp_sapi_a_CFLAGS) $(CFLAGS) -MT libphp_sapi_a-mysqlnd_driver.o -MD -MP -MF $(DEPDIR)/libphp_sapi_a-mysqlnd_driver.Tpo -c -o libphp_sapi_a-mysqlnd_driver.o `test -f 'ext/mysqlnd/mysqlnd_driver.c' || echo '$(srcdir)/'`ext/mysqlnd/mysqlnd_driver.c
+@am__fastdepCC_TRUE@	$(am__mv) $(DEPDIR)/libphp_sapi_a-mysqlnd_driver.Tpo $(DEPDIR)/libphp_sapi_a-mysqlnd_driver.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='ext/mysqlnd/mysqlnd_driver.c' object='libphp_sapi_a-mysqlnd_driver.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libphp_sapi_a_CFLAGS) $(CFLAGS) -c -o libphp_sapi_a-mysqlnd_driver.o `test -f 'ext/mysqlnd/mysqlnd_driver.c' || echo '$(srcdir)/'`ext/mysqlnd/mysqlnd_driver.c
+
+libphp_sapi_a-mysqlnd_driver.obj: ext/mysqlnd/mysqlnd_driver.c
+@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libphp_sapi_a_CFLAGS) $(CFLAGS) -MT libphp_sapi_a-mysqlnd_driver.obj -MD -MP -MF $(DEPDIR)/libphp_sapi_a-mysqlnd_driver.Tpo -c -o libphp_sapi_a-mysqlnd_driver.obj `if test -f 'ext/mysqlnd/mysqlnd_driver.c'; then $(CYGPATH_W) 'ext/mysqlnd/mysqlnd_driver.c'; else $(CYGPATH_W) '$(srcdir)/ext/mysqlnd/mysqlnd_driver.c'; fi`
+@am__fastdepCC_TRUE@	$(am__mv) $(DEPDIR)/libphp_sapi_a-mysqlnd_driver.Tpo $(DEPDIR)/libphp_sapi_a-mysqlnd_driver.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='ext/mysqlnd/mysqlnd_driver.c' object='libphp_sapi_a-mysqlnd_driver.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libphp_sapi_a_CFLAGS) $(CFLAGS) -c -o libphp_sapi_a-mysqlnd_driver.obj `if test -f 'ext/mysqlnd/mysqlnd_driver.c'; then $(CYGPATH_W) 'ext/mysqlnd/mysqlnd_driver.c'; else $(CYGPATH_W) '$(srcdir)/ext/mysqlnd/mysqlnd_driver.c'; fi`
+
+libphp_sapi_a-mysqlnd_ext_plugin.o: ext/mysqlnd/mysqlnd_ext_plugin.c
+@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libphp_sapi_a_CFLAGS) $(CFLAGS) -MT libphp_sapi_a-mysqlnd_ext_plugin.o -MD -MP -MF $(DEPDIR)/libphp_sapi_a-mysqlnd_ext_plugin.Tpo -c -o libphp_sapi_a-mysqlnd_ext_plugin.o `test -f 'ext/mysqlnd/mysqlnd_ext_plugin.c' || echo '$(srcdir)/'`ext/mysqlnd/mysqlnd_ext_plugin.c
+@am__fastdepCC_TRUE@	$(am__mv) $(DEPDIR)/libphp_sapi_a-mysqlnd_ext_plugin.Tpo $(DEPDIR)/libphp_sapi_a-mysqlnd_ext_plugin.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='ext/mysqlnd/mysqlnd_ext_plugin.c' object='libphp_sapi_a-mysqlnd_ext_plugin.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libphp_sapi_a_CFLAGS) $(CFLAGS) -c -o libphp_sapi_a-mysqlnd_ext_plugin.o `test -f 'ext/mysqlnd/mysqlnd_ext_plugin.c' || echo '$(srcdir)/'`ext/mysqlnd/mysqlnd_ext_plugin.c
+
+libphp_sapi_a-mysqlnd_ext_plugin.obj: ext/mysqlnd/mysqlnd_ext_plugin.c
+@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libphp_sapi_a_CFLAGS) $(CFLAGS) -MT libphp_sapi_a-mysqlnd_ext_plugin.obj -MD -MP -MF $(DEPDIR)/libphp_sapi_a-mysqlnd_ext_plugin.Tpo -c -o libphp_sapi_a-mysqlnd_ext_plugin.obj `if test -f 'ext/mysqlnd/mysqlnd_ext_plugin.c'; then $(CYGPATH_W) 'ext/mysqlnd/mysqlnd_ext_plugin.c'; else $(CYGPATH_W) '$(srcdir)/ext/mysqlnd/mysqlnd_ext_plugin.c'; fi`
+@am__fastdepCC_TRUE@	$(am__mv) $(DEPDIR)/libphp_sapi_a-mysqlnd_ext_plugin.Tpo $(DEPDIR)/libphp_sapi_a-mysqlnd_ext_plugin.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='ext/mysqlnd/mysqlnd_ext_plugin.c' object='libphp_sapi_a-mysqlnd_ext_plugin.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libphp_sapi_a_CFLAGS) $(CFLAGS) -c -o libphp_sapi_a-mysqlnd_ext_plugin.obj `if test -f 'ext/mysqlnd/mysqlnd_ext_plugin.c'; then $(CYGPATH_W) 'ext/mysqlnd/mysqlnd_ext_plugin.c'; else $(CYGPATH_W) '$(srcdir)/ext/mysqlnd/mysqlnd_ext_plugin.c'; fi`
+
+libphp_sapi_a-mysqlnd_auth.o: ext/mysqlnd/mysqlnd_auth.c
+@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libphp_sapi_a_CFLAGS) $(CFLAGS) -MT libphp_sapi_a-mysqlnd_auth.o -MD -MP -MF $(DEPDIR)/libphp_sapi_a-mysqlnd_auth.Tpo -c -o libphp_sapi_a-mysqlnd_auth.o `test -f 'ext/mysqlnd/mysqlnd_auth.c' || echo '$(srcdir)/'`ext/mysqlnd/mysqlnd_auth.c
+@am__fastdepCC_TRUE@	$(am__mv) $(DEPDIR)/libphp_sapi_a-mysqlnd_auth.Tpo $(DEPDIR)/libphp_sapi_a-mysqlnd_auth.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='ext/mysqlnd/mysqlnd_auth.c' object='libphp_sapi_a-mysqlnd_auth.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libphp_sapi_a_CFLAGS) $(CFLAGS) -c -o libphp_sapi_a-mysqlnd_auth.o `test -f 'ext/mysqlnd/mysqlnd_auth.c' || echo '$(srcdir)/'`ext/mysqlnd/mysqlnd_auth.c
+
+libphp_sapi_a-mysqlnd_auth.obj: ext/mysqlnd/mysqlnd_auth.c
+@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libphp_sapi_a_CFLAGS) $(CFLAGS) -MT libphp_sapi_a-mysqlnd_auth.obj -MD -MP -MF $(DEPDIR)/libphp_sapi_a-mysqlnd_auth.Tpo -c -o libphp_sapi_a-mysqlnd_auth.obj `if test -f 'ext/mysqlnd/mysqlnd_auth.c'; then $(CYGPATH_W) 'ext/mysqlnd/mysqlnd_auth.c'; else $(CYGPATH_W) '$(srcdir)/ext/mysqlnd/mysqlnd_auth.c'; fi`
+@am__fastdepCC_TRUE@	$(am__mv) $(DEPDIR)/libphp_sapi_a-mysqlnd_auth.Tpo $(DEPDIR)/libphp_sapi_a-mysqlnd_auth.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='ext/mysqlnd/mysqlnd_auth.c' object='libphp_sapi_a-mysqlnd_auth.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libphp_sapi_a_CFLAGS) $(CFLAGS) -c -o libphp_sapi_a-mysqlnd_auth.obj `if test -f 'ext/mysqlnd/mysqlnd_auth.c'; then $(CYGPATH_W) 'ext/mysqlnd/mysqlnd_auth.c'; else $(CYGPATH_W) '$(srcdir)/ext/mysqlnd/mysqlnd_auth.c'; fi`
+
+libphp_sapi_a-mysqlnd_result.o: ext/mysqlnd/mysqlnd_result.c
+@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libphp_sapi_a_CFLAGS) $(CFLAGS) -MT libphp_sapi_a-mysqlnd_result.o -MD -MP -MF $(DEPDIR)/libphp_sapi_a-mysqlnd_result.Tpo -c -o libphp_sapi_a-mysqlnd_result.o `test -f 'ext/mysqlnd/mysqlnd_result.c' || echo '$(srcdir)/'`ext/mysqlnd/mysqlnd_result.c
+@am__fastdepCC_TRUE@	$(am__mv) $(DEPDIR)/libphp_sapi_a-mysqlnd_result.Tpo $(DEPDIR)/libphp_sapi_a-mysqlnd_result.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='ext/mysqlnd/mysqlnd_result.c' object='libphp_sapi_a-mysqlnd_result.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libphp_sapi_a_CFLAGS) $(CFLAGS) -c -o libphp_sapi_a-mysqlnd_result.o `test -f 'ext/mysqlnd/mysqlnd_result.c' || echo '$(srcdir)/'`ext/mysqlnd/mysqlnd_result.c
+
+libphp_sapi_a-mysqlnd_result.obj: ext/mysqlnd/mysqlnd_result.c
+@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libphp_sapi_a_CFLAGS) $(CFLAGS) -MT libphp_sapi_a-mysqlnd_result.obj -MD -MP -MF $(DEPDIR)/libphp_sapi_a-mysqlnd_result.Tpo -c -o libphp_sapi_a-mysqlnd_result.obj `if test -f 'ext/mysqlnd/mysqlnd_result.c'; then $(CYGPATH_W) 'ext/mysqlnd/mysqlnd_result.c'; else $(CYGPATH_W) '$(srcdir)/ext/mysqlnd/mysqlnd_result.c'; fi`
+@am__fastdepCC_TRUE@	$(am__mv) $(DEPDIR)/libphp_sapi_a-mysqlnd_result.Tpo $(DEPDIR)/libphp_sapi_a-mysqlnd_result.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='ext/mysqlnd/mysqlnd_result.c' object='libphp_sapi_a-mysqlnd_result.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libphp_sapi_a_CFLAGS) $(CFLAGS) -c -o libphp_sapi_a-mysqlnd_result.obj `if test -f 'ext/mysqlnd/mysqlnd_result.c'; then $(CYGPATH_W) 'ext/mysqlnd/mysqlnd_result.c'; else $(CYGPATH_W) '$(srcdir)/ext/mysqlnd/mysqlnd_result.c'; fi`
+
+libphp_sapi_a-mysqlnd_result_meta.o: ext/mysqlnd/mysqlnd_result_meta.c
+@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libphp_sapi_a_CFLAGS) $(CFLAGS) -MT libphp_sapi_a-mysqlnd_result_meta.o -MD -MP -MF $(DEPDIR)/libphp_sapi_a-mysqlnd_result_meta.Tpo -c -o libphp_sapi_a-mysqlnd_result_meta.o `test -f 'ext/mysqlnd/mysqlnd_result_meta.c' || echo '$(srcdir)/'`ext/mysqlnd/mysqlnd_result_meta.c
+@am__fastdepCC_TRUE@	$(am__mv) $(DEPDIR)/libphp_sapi_a-mysqlnd_result_meta.Tpo $(DEPDIR)/libphp_sapi_a-mysqlnd_result_meta.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='ext/mysqlnd/mysqlnd_result_meta.c' object='libphp_sapi_a-mysqlnd_result_meta.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libphp_sapi_a_CFLAGS) $(CFLAGS) -c -o libphp_sapi_a-mysqlnd_result_meta.o `test -f 'ext/mysqlnd/mysqlnd_result_meta.c' || echo '$(srcdir)/'`ext/mysqlnd/mysqlnd_result_meta.c
+
+libphp_sapi_a-mysqlnd_result_meta.obj: ext/mysqlnd/mysqlnd_result_meta.c
+@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libphp_sapi_a_CFLAGS) $(CFLAGS) -MT libphp_sapi_a-mysqlnd_result_meta.obj -MD -MP -MF $(DEPDIR)/libphp_sapi_a-mysqlnd_result_meta.Tpo -c -o libphp_sapi_a-mysqlnd_result_meta.obj `if test -f 'ext/mysqlnd/mysqlnd_result_meta.c'; then $(CYGPATH_W) 'ext/mysqlnd/mysqlnd_result_meta.c'; else $(CYGPATH_W) '$(srcdir)/ext/mysqlnd/mysqlnd_result_meta.c'; fi`
+@am__fastdepCC_TRUE@	$(am__mv) $(DEPDIR)/libphp_sapi_a-mysqlnd_result_meta.Tpo $(DEPDIR)/libphp_sapi_a-mysqlnd_result_meta.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='ext/mysqlnd/mysqlnd_result_meta.c' object='libphp_sapi_a-mysqlnd_result_meta.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libphp_sapi_a_CFLAGS) $(CFLAGS) -c -o libphp_sapi_a-mysqlnd_result_meta.obj `if test -f 'ext/mysqlnd/mysqlnd_result_meta.c'; then $(CYGPATH_W) 'ext/mysqlnd/mysqlnd_result_meta.c'; else $(CYGPATH_W) '$(srcdir)/ext/mysqlnd/mysqlnd_result_meta.c'; fi`
+
+libphp_sapi_a-mysqlnd_debug.o: ext/mysqlnd/mysqlnd_debug.c
+@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libphp_sapi_a_CFLAGS) $(CFLAGS) -MT libphp_sapi_a-mysqlnd_debug.o -MD -MP -MF $(DEPDIR)/libphp_sapi_a-mysqlnd_debug.Tpo -c -o libphp_sapi_a-mysqlnd_debug.o `test -f 'ext/mysqlnd/mysqlnd_debug.c' || echo '$(srcdir)/'`ext/mysqlnd/mysqlnd_debug.c
+@am__fastdepCC_TRUE@	$(am__mv) $(DEPDIR)/libphp_sapi_a-mysqlnd_debug.Tpo $(DEPDIR)/libphp_sapi_a-mysqlnd_debug.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='ext/mysqlnd/mysqlnd_debug.c' object='libphp_sapi_a-mysqlnd_debug.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libphp_sapi_a_CFLAGS) $(CFLAGS) -c -o libphp_sapi_a-mysqlnd_debug.o `test -f 'ext/mysqlnd/mysqlnd_debug.c' || echo '$(srcdir)/'`ext/mysqlnd/mysqlnd_debug.c
+
+libphp_sapi_a-mysqlnd_debug.obj: ext/mysqlnd/mysqlnd_debug.c
+@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libphp_sapi_a_CFLAGS) $(CFLAGS) -MT libphp_sapi_a-mysqlnd_debug.obj -MD -MP -MF $(DEPDIR)/libphp_sapi_a-mysqlnd_debug.Tpo -c -o libphp_sapi_a-mysqlnd_debug.obj `if test -f 'ext/mysqlnd/mysqlnd_debug.c'; then $(CYGPATH_W) 'ext/mysqlnd/mysqlnd_debug.c'; else $(CYGPATH_W) '$(srcdir)/ext/mysqlnd/mysqlnd_debug.c'; fi`
+@am__fastdepCC_TRUE@	$(am__mv) $(DEPDIR)/libphp_sapi_a-mysqlnd_debug.Tpo $(DEPDIR)/libphp_sapi_a-mysqlnd_debug.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='ext/mysqlnd/mysqlnd_debug.c' object='libphp_sapi_a-mysqlnd_debug.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libphp_sapi_a_CFLAGS) $(CFLAGS) -c -o libphp_sapi_a-mysqlnd_debug.obj `if test -f 'ext/mysqlnd/mysqlnd_debug.c'; then $(CYGPATH_W) 'ext/mysqlnd/mysqlnd_debug.c'; else $(CYGPATH_W) '$(srcdir)/ext/mysqlnd/mysqlnd_debug.c'; fi`
+
+libphp_sapi_a-mysqlnd_block_alloc.o: ext/mysqlnd/mysqlnd_block_alloc.c
+@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libphp_sapi_a_CFLAGS) $(CFLAGS) -MT libphp_sapi_a-mysqlnd_block_alloc.o -MD -MP -MF $(DEPDIR)/libphp_sapi_a-mysqlnd_block_alloc.Tpo -c -o libphp_sapi_a-mysqlnd_block_alloc.o `test -f 'ext/mysqlnd/mysqlnd_block_alloc.c' || echo '$(srcdir)/'`ext/mysqlnd/mysqlnd_block_alloc.c
+@am__fastdepCC_TRUE@	$(am__mv) $(DEPDIR)/libphp_sapi_a-mysqlnd_block_alloc.Tpo $(DEPDIR)/libphp_sapi_a-mysqlnd_block_alloc.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='ext/mysqlnd/mysqlnd_block_alloc.c' object='libphp_sapi_a-mysqlnd_block_alloc.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libphp_sapi_a_CFLAGS) $(CFLAGS) -c -o libphp_sapi_a-mysqlnd_block_alloc.o `test -f 'ext/mysqlnd/mysqlnd_block_alloc.c' || echo '$(srcdir)/'`ext/mysqlnd/mysqlnd_block_alloc.c
+
+libphp_sapi_a-mysqlnd_block_alloc.obj: ext/mysqlnd/mysqlnd_block_alloc.c
+@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libphp_sapi_a_CFLAGS) $(CFLAGS) -MT libphp_sapi_a-mysqlnd_block_alloc.obj -MD -MP -MF $(DEPDIR)/libphp_sapi_a-mysqlnd_block_alloc.Tpo -c -o libphp_sapi_a-mysqlnd_block_alloc.obj `if test -f 'ext/mysqlnd/mysqlnd_block_alloc.c'; then $(CYGPATH_W) 'ext/mysqlnd/mysqlnd_block_alloc.c'; else $(CYGPATH_W) '$(srcdir)/ext/mysqlnd/mysqlnd_block_alloc.c'; fi`
+@am__fastdepCC_TRUE@	$(am__mv) $(DEPDIR)/libphp_sapi_a-mysqlnd_block_alloc.Tpo $(DEPDIR)/libphp_sapi_a-mysqlnd_block_alloc.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='ext/mysqlnd/mysqlnd_block_alloc.c' object='libphp_sapi_a-mysqlnd_block_alloc.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libphp_sapi_a_CFLAGS) $(CFLAGS) -c -o libphp_sapi_a-mysqlnd_block_alloc.obj `if test -f 'ext/mysqlnd/mysqlnd_block_alloc.c'; then $(CYGPATH_W) 'ext/mysqlnd/mysqlnd_block_alloc.c'; else $(CYGPATH_W) '$(srcdir)/ext/mysqlnd/mysqlnd_block_alloc.c'; fi`
+
+libphp_sapi_a-mysqlnd_plugin.o: ext/mysqlnd/mysqlnd_plugin.c
+@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libphp_sapi_a_CFLAGS) $(CFLAGS) -MT libphp_sapi_a-mysqlnd_plugin.o -MD -MP -MF $(DEPDIR)/libphp_sapi_a-mysqlnd_plugin.Tpo -c -o libphp_sapi_a-mysqlnd_plugin.o `test -f 'ext/mysqlnd/mysqlnd_plugin.c' || echo '$(srcdir)/'`ext/mysqlnd/mysqlnd_plugin.c
+@am__fastdepCC_TRUE@	$(am__mv) $(DEPDIR)/libphp_sapi_a-mysqlnd_plugin.Tpo $(DEPDIR)/libphp_sapi_a-mysqlnd_plugin.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='ext/mysqlnd/mysqlnd_plugin.c' object='libphp_sapi_a-mysqlnd_plugin.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libphp_sapi_a_CFLAGS) $(CFLAGS) -c -o libphp_sapi_a-mysqlnd_plugin.o `test -f 'ext/mysqlnd/mysqlnd_plugin.c' || echo '$(srcdir)/'`ext/mysqlnd/mysqlnd_plugin.c
+
+libphp_sapi_a-mysqlnd_plugin.obj: ext/mysqlnd/mysqlnd_plugin.c
+@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libphp_sapi_a_CFLAGS) $(CFLAGS) -MT libphp_sapi_a-mysqlnd_plugin.obj -MD -MP -MF $(DEPDIR)/libphp_sapi_a-mysqlnd_plugin.Tpo -c -o libphp_sapi_a-mysqlnd_plugin.obj `if test -f 'ext/mysqlnd/mysqlnd_plugin.c'; then $(CYGPATH_W) 'ext/mysqlnd/mysqlnd_plugin.c'; else $(CYGPATH_W) '$(srcdir)/ext/mysqlnd/mysqlnd_plugin.c'; fi`
+@am__fastdepCC_TRUE@	$(am__mv) $(DEPDIR)/libphp_sapi_a-mysqlnd_plugin.Tpo $(DEPDIR)/libphp_sapi_a-mysqlnd_plugin.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='ext/mysqlnd/mysqlnd_plugin.c' object='libphp_sapi_a-mysqlnd_plugin.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libphp_sapi_a_CFLAGS) $(CFLAGS) -c -o libphp_sapi_a-mysqlnd_plugin.obj `if test -f 'ext/mysqlnd/mysqlnd_plugin.c'; then $(CYGPATH_W) 'ext/mysqlnd/mysqlnd_plugin.c'; else $(CYGPATH_W) '$(srcdir)/ext/mysqlnd/mysqlnd_plugin.c'; fi`
+
+libphp_sapi_a-php_mysqlnd.o: ext/mysqlnd/php_mysqlnd.c
+@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libphp_sapi_a_CFLAGS) $(CFLAGS) -MT libphp_sapi_a-php_mysqlnd.o -MD -MP -MF $(DEPDIR)/libphp_sapi_a-php_mysqlnd.Tpo -c -o libphp_sapi_a-php_mysqlnd.o `test -f 'ext/mysqlnd/php_mysqlnd.c' || echo '$(srcdir)/'`ext/mysqlnd/php_mysqlnd.c
+@am__fastdepCC_TRUE@	$(am__mv) $(DEPDIR)/libphp_sapi_a-php_mysqlnd.Tpo $(DEPDIR)/libphp_sapi_a-php_mysqlnd.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='ext/mysqlnd/php_mysqlnd.c' object='libphp_sapi_a-php_mysqlnd.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libphp_sapi_a_CFLAGS) $(CFLAGS) -c -o libphp_sapi_a-php_mysqlnd.o `test -f 'ext/mysqlnd/php_mysqlnd.c' || echo '$(srcdir)/'`ext/mysqlnd/php_mysqlnd.c
+
+libphp_sapi_a-php_mysqlnd.obj: ext/mysqlnd/php_mysqlnd.c
+@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libphp_sapi_a_CFLAGS) $(CFLAGS) -MT libphp_sapi_a-php_mysqlnd.obj -MD -MP -MF $(DEPDIR)/libphp_sapi_a-php_mysqlnd.Tpo -c -o libphp_sapi_a-php_mysqlnd.obj `if test -f 'ext/mysqlnd/php_mysqlnd.c'; then $(CYGPATH_W) 'ext/mysqlnd/php_mysqlnd.c'; else $(CYGPATH_W) '$(srcdir)/ext/mysqlnd/php_mysqlnd.c'; fi`
+@am__fastdepCC_TRUE@	$(am__mv) $(DEPDIR)/libphp_sapi_a-php_mysqlnd.Tpo $(DEPDIR)/libphp_sapi_a-php_mysqlnd.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='ext/mysqlnd/php_mysqlnd.c' object='libphp_sapi_a-php_mysqlnd.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libphp_sapi_a_CFLAGS) $(CFLAGS) -c -o libphp_sapi_a-php_mysqlnd.obj `if test -f 'ext/mysqlnd/php_mysqlnd.c'; then $(CYGPATH_W) 'ext/mysqlnd/php_mysqlnd.c'; else $(CYGPATH_W) '$(srcdir)/ext/mysqlnd/php_mysqlnd.c'; fi`
+
+libphp_sapi_a-mysqlnd_ps.o: ext/mysqlnd/mysqlnd_ps.c
+@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libphp_sapi_a_CFLAGS) $(CFLAGS) -MT libphp_sapi_a-mysqlnd_ps.o -MD -MP -MF $(DEPDIR)/libphp_sapi_a-mysqlnd_ps.Tpo -c -o libphp_sapi_a-mysqlnd_ps.o `test -f 'ext/mysqlnd/mysqlnd_ps.c' || echo '$(srcdir)/'`ext/mysqlnd/mysqlnd_ps.c
+@am__fastdepCC_TRUE@	$(am__mv) $(DEPDIR)/libphp_sapi_a-mysqlnd_ps.Tpo $(DEPDIR)/libphp_sapi_a-mysqlnd_ps.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='ext/mysqlnd/mysqlnd_ps.c' object='libphp_sapi_a-mysqlnd_ps.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libphp_sapi_a_CFLAGS) $(CFLAGS) -c -o libphp_sapi_a-mysqlnd_ps.o `test -f 'ext/mysqlnd/mysqlnd_ps.c' || echo '$(srcdir)/'`ext/mysqlnd/mysqlnd_ps.c
+
+libphp_sapi_a-mysqlnd_ps.obj: ext/mysqlnd/mysqlnd_ps.c
+@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libphp_sapi_a_CFLAGS) $(CFLAGS) -MT libphp_sapi_a-mysqlnd_ps.obj -MD -MP -MF $(DEPDIR)/libphp_sapi_a-mysqlnd_ps.Tpo -c -o libphp_sapi_a-mysqlnd_ps.obj `if test -f 'ext/mysqlnd/mysqlnd_ps.c'; then $(CYGPATH_W) 'ext/mysqlnd/mysqlnd_ps.c'; else $(CYGPATH_W) '$(srcdir)/ext/mysqlnd/mysqlnd_ps.c'; fi`
+@am__fastdepCC_TRUE@	$(am__mv) $(DEPDIR)/libphp_sapi_a-mysqlnd_ps.Tpo $(DEPDIR)/libphp_sapi_a-mysqlnd_ps.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='ext/mysqlnd/mysqlnd_ps.c' object='libphp_sapi_a-mysqlnd_ps.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libphp_sapi_a_CFLAGS) $(CFLAGS) -c -o libphp_sapi_a-mysqlnd_ps.obj `if test -f 'ext/mysqlnd/mysqlnd_ps.c'; then $(CYGPATH_W) 'ext/mysqlnd/mysqlnd_ps.c'; else $(CYGPATH_W) '$(srcdir)/ext/mysqlnd/mysqlnd_ps.c'; fi`
+
+libphp_sapi_a-mysqlnd_ps_codec.o: ext/mysqlnd/mysqlnd_ps_codec.c
+@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libphp_sapi_a_CFLAGS) $(CFLAGS) -MT libphp_sapi_a-mysqlnd_ps_codec.o -MD -MP -MF $(DEPDIR)/libphp_sapi_a-mysqlnd_ps_codec.Tpo -c -o libphp_sapi_a-mysqlnd_ps_codec.o `test -f 'ext/mysqlnd/mysqlnd_ps_codec.c' || echo '$(srcdir)/'`ext/mysqlnd/mysqlnd_ps_codec.c
+@am__fastdepCC_TRUE@	$(am__mv) $(DEPDIR)/libphp_sapi_a-mysqlnd_ps_codec.Tpo $(DEPDIR)/libphp_sapi_a-mysqlnd_ps_codec.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='ext/mysqlnd/mysqlnd_ps_codec.c' object='libphp_sapi_a-mysqlnd_ps_codec.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libphp_sapi_a_CFLAGS) $(CFLAGS) -c -o libphp_sapi_a-mysqlnd_ps_codec.o `test -f 'ext/mysqlnd/mysqlnd_ps_codec.c' || echo '$(srcdir)/'`ext/mysqlnd/mysqlnd_ps_codec.c
+
+libphp_sapi_a-mysqlnd_ps_codec.obj: ext/mysqlnd/mysqlnd_ps_codec.c
+@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libphp_sapi_a_CFLAGS) $(CFLAGS) -MT libphp_sapi_a-mysqlnd_ps_codec.obj -MD -MP -MF $(DEPDIR)/libphp_sapi_a-mysqlnd_ps_codec.Tpo -c -o libphp_sapi_a-mysqlnd_ps_codec.obj `if test -f 'ext/mysqlnd/mysqlnd_ps_codec.c'; then $(CYGPATH_W) 'ext/mysqlnd/mysqlnd_ps_codec.c'; else $(CYGPATH_W) '$(srcdir)/ext/mysqlnd/mysqlnd_ps_codec.c'; fi`
+@am__fastdepCC_TRUE@	$(am__mv) $(DEPDIR)/libphp_sapi_a-mysqlnd_ps_codec.Tpo $(DEPDIR)/libphp_sapi_a-mysqlnd_ps_codec.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='ext/mysqlnd/mysqlnd_ps_codec.c' object='libphp_sapi_a-mysqlnd_ps_codec.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libphp_sapi_a_CFLAGS) $(CFLAGS) -c -o libphp_sapi_a-mysqlnd_ps_codec.obj `if test -f 'ext/mysqlnd/mysqlnd_ps_codec.c'; then $(CYGPATH_W) 'ext/mysqlnd/mysqlnd_ps_codec.c'; else $(CYGPATH_W) '$(srcdir)/ext/mysqlnd/mysqlnd_ps_codec.c'; fi`
 
 libphp_sapi_a-ZendAccelerator.o: ext/opcache/ZendAccelerator.c
 @am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libphp_sapi_a_CFLAGS) $(CFLAGS) -MT libphp_sapi_a-ZendAccelerator.o -MD -MP -MF $(DEPDIR)/libphp_sapi_a-ZendAccelerator.Tpo -c -o libphp_sapi_a-ZendAccelerator.o `test -f 'ext/opcache/ZendAccelerator.c' || echo '$(srcdir)/'`ext/opcache/ZendAccelerator.c

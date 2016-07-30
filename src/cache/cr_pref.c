@@ -106,7 +106,7 @@ static struct cr_pref_def_t _pref_def[CR_PREF_MAX] = {
 	{ CRPREF_PATH_INDEX, "index.html", "Name of the file to use as a pre-written HTML directory index." },
 	{ CRPREF_CGI_INDEX, "", "Name of program used to create a directory listing." },
 	{ CRPREF_PROC_INDEX, "/var/spool/crotalus/dir", "The on-the-fly indexing of Boa can be used to generate indexes of directories." },
-	{ CRPREF_KEEPALIVE_MAX, "1000", "Number of KeepAlive requests to allow per connection Comment out, or set to 0 to disable keepalive processing. " },
+	{ CRPREF_KEEPALIVE_MAX, "1000", "Number of KeepAlive requests to allow per connection. Set to 0 to disable keepalive processing. " },
 	{ CRPREF_KEEPALIVE_SPAN, "10", "The seconds to wait before keepalive connection times out." },
 	//{ CRPREF_MIME_PATH, "/etc/mime.types", "The file that is used to generate mime type pairs and Content-Type fields." },
   { CRPREF_MIME_DEFAULT, "text/plain", "MIME type used if the file extension is unknown, or there is no file extension." },

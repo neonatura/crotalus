@@ -1,20 +1,34 @@
-Crotalus is a single-tasking HTTP server.  That means that unlike
-traditional web servers, it does not fork for each incoming connection,
-nor does it fork many copies of itself to handle multiple connections.
-It internally multiplexes all of the ongoing HTTP connections, and
-runs CGI programs as separate processes, performs automatic directory 
-generation, and automatic file gunzipping.
+Crotalus is a light-weight HTTP server.  
 
-Modifications to the Crotalus web server that improve its speed, security,
-robustness, and portability, are eagerly sought.  Other features may be
-added if they can be achieved without hurting the primary goals.
+Crotalus internally multiplexes all of the ongoing HTTP connections. CGI and PHP programs are ran in a process pool.
+
+Crotalus runs CGI programs as separate processes, performs automatic directory generation, and automatic file gunzipping.
+
+The Crotalus web server has the primary ambitions of improved speed, security,
+robustness.
 
 Purpose
 =======
 
-This is crotalus, a high performance web server for 'unix compiler' computers. This project strives to combine the benefits of a highly stream-lined single-threaded web server and common HTTP standards such as SSL and inline PHP interpretting.
+This is crotalus, a high performance web server for "unix compiler" computers. This project strives to combine the benefits of a highly stream-lined single-threaded web server and common HTTP standards such as SSL and inline PHP interpretting.
 
 This package is being provided in order to make use of the web server provided with the libshare library suite (github.com/neonatura/share), but does not require having to integrate with the libshare functionality.
+
+
+Install Instructions
+====================
+
+git clone https://github.com/neonatura/crotalus/
+cd crotalus
+mkdir build; cd build
+../configure
+make
+make install
+
+
+Run "configure --help" in order to see additional options relating to limiting external dependencies.
+
+The file "/etc/crotalus/crotalus.conf" will automatically be generated which contains descriptions of all the options available to be set.
 
 
 Upcoming Features
@@ -22,16 +36,11 @@ Upcoming Features
 
 None of the following items have been implemented;
 
-* nanohttp feature support (including ssl, registered callbacks, and misc auth)
-* inline PHP for files ending in ".php" and executable
+* SSL (https) support.
+* OpenAuth API support.
 * win32/gnulib compatibility support
 * 'make install' support for ubuntu
 
-
-Performance Specifications
-==========================
-
-The secret behind it's high-performance is a single-threaded monolithic design with all focus going towards the web engine. This contrasts with common web servers, such as apache, which utilizes multiple processes or threads (based on config) in order to achieve high-volume web page serving and requires a much larger frame-work in order to accomodate common modules and standards. A real world comparison may be of the likes of a motorcycle compared to a freight truck. The freight truck will be able to deliver a much wider array of content, but when a lighter load is delivered the motorcycle will always be able to out-perform.
 
 
 Background History

@@ -1,4 +1,38 @@
 
+crotalus_includes = \
+	-I$(LIBSHARE)/include \
+	-I$(top_srcdir)/lib/zlib \
+	-I$(top_srcdir)/php/main \
+	-I$(top_srcdir)/php/Zend \
+	-I$(top_srcdir)/php/TSRM \
+	-I$(top_srcdir)/php/sapi/crotalus
+
+crotalus_libs = \
+	$(top_builddir)/php/libphp_sapi.a \
+	$(top_builddir)/lib/ancillary/libancillary.a \
+	$(top_builddir)/lib/pcre/libpcre.a \
+	$(top_builddir)/lib/tsrm/libtsrm.a \
+	$(top_builddir)/lib/libxml2/libxml2.a
+if STATIC_LIBSHARE
+crotalus_libs += $(LIBSHARE)/src/share-lib/libshare.a
+endif
+if HAVE_LIBRT
+crotalus_libs += -lrt
+endif
+if HAVE_LIBXML
+crotalus_libs += -lxml2
+endif
+if HAVE_LIBPTHREAD
+crotalus_libs += -lpthread
+endif
+if HAVE_LIBZ
+crotalus_libs += -lz
+else
+crotalus_libs += $(top_builddir)/lib/zlib/libz.a
+endif
+
+
+
 sbin_PROGRAMS = crotalus
 crotalus_SOURCES = alias.c boa.c buffer.c cgi_header.c config.c escape.c \
 	get.c ip.c log.c mmap_cache.c pipe.c shbuff.c queue.c range.c \
@@ -10,38 +44,25 @@ crotalus_SOURCES = alias.c boa.c buffer.c cgi_header.c config.c escape.c \
 	mime/mime_def.c mime/mime_def.h \
 	mime/mime_cgi.c mime/mime_cgi.h \
 	mime/mime_zlib.c mime/mime_zlib.h
-crotalus_CFLAGS = -I$(top_srcdir)/lib/zlib
+crotalus_CFLAGS = $(crotalus_includes)
 crotalus_LDADD = \
 	$(top_builddir)/lib/ancillary/libancillary.a \
 	$(top_builddir)/lib/pcre/libpcre.a \
 	$(top_builddir)/lib/tsrm/libtsrm.a \
 	$(top_builddir)/lib/oauth/liboauth.a \
 	$(top_builddir)/lib/libxml2/libxml2.a
-if USE_PHP_RUNTIME
-crotalus_LDADD += \
-	$(top_builddir)/php/libphp_sapi.a
-endif
 
 if STATIC_LIBSHARE
-crotalus_LDADD += $(LIBSHARE)/src/share-lib/libshare.a
-crotalus_CFLAGS += -I$(LIBSHARE)/include
+crotalus_CFLAGS += $(crotalus_includes)
 endif
 
 if ACCESS_CONTROL
 crotalus_SOURCES += cache/cr_access.c cache/cr_access.h
 endif
 
-if HAVE_LIBRT
-crotalus_LDADD += -lrt
-endif
-if HAVE_LIBPTHREAD
-crotalus_LDADD += -lpthread
-endif
-if HAVE_LIBZ
-crotalus_LDADD += -lz
-else
-crotalus_LDADD += $(top_builddir)/lib/zlib/libz.a
-endif
+crotalus_LDADD += $(crotalus_libs)
+
+
 
 if HAVE_INITD_DIR
 EXTRA_DIST = $(top_builddir)/scripts/initd/shared

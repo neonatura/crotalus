@@ -1233,23 +1233,23 @@ cmake_DATA = libxml2-config.cmake
 #DOC_MODULE=libxml2-$(VERSION)
 #EXAMPLES_DIR=$(BASE_DIR)/$(DOC_MODULE)/examples
 
-install-data-local: 
-	$(MKDIR_P) $(DESTDIR)$(BASE_DIR)/$(DOC_MODULE)
-	-$(INSTALL) -m 0644 $(srcdir)/Copyright $(DESTDIR)$(BASE_DIR)/$(DOC_MODULE)
-	$(MKDIR_P) $(DESTDIR)$(EXAMPLES_DIR)
-	-$(INSTALL) -m 0644 $(srcdir)/xmllint.c $(DESTDIR)$(EXAMPLES_DIR)
-	-$(INSTALL) -m 0644 $(srcdir)/testSAX.c $(DESTDIR)$(EXAMPLES_DIR)
-	-$(INSTALL) -m 0644 $(srcdir)/testHTML.c $(DESTDIR)$(EXAMPLES_DIR)
-	-$(INSTALL) -m 0644 $(srcdir)/testXPath.c $(DESTDIR)$(EXAMPLES_DIR)
-
-uninstall-local:
-	rm -f $(DESTDIR)$(EXAMPLES_DIR)/testXPath.c
-	rm -f $(DESTDIR)$(EXAMPLES_DIR)/testHTML.c
-	rm -f $(DESTDIR)$(EXAMPLES_DIR)/testSAX.c
-	rm -f $(DESTDIR)$(EXAMPLES_DIR)/xmllint.c
-	rm -rf $(DESTDIR)$(EXAMPLES_DIR)
-	rm -f $(DESTDIR)$(BASE_DIR)/$(DOC_MODULE)/Copyright
-	rm -rf $(DESTDIR)$(BASE_DIR)/$(DOC_MODULE)
+#install-data-local: 
+#	$(MKDIR_P) $(DESTDIR)$(BASE_DIR)/$(DOC_MODULE)
+#	-$(INSTALL) -m 0644 $(srcdir)/Copyright $(DESTDIR)$(BASE_DIR)/$(DOC_MODULE)
+#	$(MKDIR_P) $(DESTDIR)$(EXAMPLES_DIR)
+#	-$(INSTALL) -m 0644 $(srcdir)/xmllint.c $(DESTDIR)$(EXAMPLES_DIR)
+#	-$(INSTALL) -m 0644 $(srcdir)/testSAX.c $(DESTDIR)$(EXAMPLES_DIR)
+#	-$(INSTALL) -m 0644 $(srcdir)/testHTML.c $(DESTDIR)$(EXAMPLES_DIR)
+#	-$(INSTALL) -m 0644 $(srcdir)/testXPath.c $(DESTDIR)$(EXAMPLES_DIR)
+#
+#uninstall-local:
+#	rm -f $(DESTDIR)$(EXAMPLES_DIR)/testXPath.c
+#	rm -f $(DESTDIR)$(EXAMPLES_DIR)/testHTML.c
+#	rm -f $(DESTDIR)$(EXAMPLES_DIR)/testSAX.c
+#	rm -f $(DESTDIR)$(EXAMPLES_DIR)/xmllint.c
+#	rm -rf $(DESTDIR)$(EXAMPLES_DIR)
+#	rm -f $(DESTDIR)$(BASE_DIR)/$(DOC_MODULE)/Copyright
+#	rm -rf $(DESTDIR)$(BASE_DIR)/$(DOC_MODULE)
 
 tst: tst.c
 	$(CC) $(CFLAGS) -Iinclude -o tst tst.c .libs/libxml2.a -lpthread -lm -lz -llzma

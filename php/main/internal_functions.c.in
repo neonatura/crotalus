@@ -52,6 +52,9 @@
 #include "ext/xml/php_xml.h"
 #include "ext/xmlreader/php_xmlreader.h"
 #include "ext/xmlwriter/php_xmlwriter.h"
+#include "ext/mysql/php_mysql.h"
+#include "ext/mysqli/php_mysqli.h"
+#include "ext/mysqlnd/php_mysqlnd.h"
 
 
 static zend_module_entry *php_builtin_extensions[] = {
@@ -67,6 +70,9 @@ static zend_module_entry *php_builtin_extensions[] = {
   phpext_hash_ptr,
   phpext_iconv_ptr,
   phpext_json_ptr,
+  phpext_mysql_ptr,
+  phpext_mysqli_ptr,
+  phpext_mysqlnd_ptr,
   phpext_spl_ptr,
   phpext_pdo_ptr,
   phpext_pdo_sqlite_ptr,

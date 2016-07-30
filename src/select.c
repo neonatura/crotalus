@@ -90,7 +90,7 @@ void loop(int server_s)
             struct timeval req_timeout; /* timeval for select */
 
             req_timeout.tv_sec = (request_ready ? 0 : default_timeout);
-            req_timeout.tv_usec = 0l; /* reset timeout */
+            req_timeout.tv_usec = 1000l; /* reset timeout */
 
             if (select(max_fd + 1, BOA_READ,
                        BOA_WRITE, NULL,

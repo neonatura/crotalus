@@ -52,9 +52,7 @@ const char *php_data = "<php>\n"
 
   crotalus_php_init();
 
-fprintf(stderr, "DEBUG: crotalus_php_request()/begin\n");
   of = crotalus_php_request(&hc, FALSE);
-fprintf(stderr, "DEBUG: %u = crotalus_php_request()/finish\n", of);
 
   crotalus_php_shutdown();
 }

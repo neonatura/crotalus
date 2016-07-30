@@ -112,8 +112,11 @@ int main(int argc, char *argv[])
     status.requests = 0;
     status.errors = 0;
 
+
     start_time = current_time;
     loop(server_s);
+
+
     return 0;
 }
 

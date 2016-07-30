@@ -15,6 +15,9 @@ libphp_sapi_a_CFLAGS = \
 		-I$(srcdir)/ext/opcache \
 		-I$(srcdir)/ext/fileinfo/libmagic \
 		-I$(srcdir)/ext/sqlite3/libsqlite \
+		-I$(srcdir)/ext/mysql \
+		-I$(srcdir)/ext/mysqli \
+		-I$(srcdir)/ext/mysqlnd \
 		-I$(srcdir)/ext/date/lib -I$(builddir)/ext/date/lib \
 		-I$(top_srcdir)/lib/libxml2/include
 libphp_sapi_a_LIBADD = \
@@ -113,6 +116,37 @@ libphp_sapi_a_SOURCES = \
 	ext/json/json.c \
 	ext/json/utf8_decode.c \
 	ext/json/JSON_parser.c \
+	ext/mysql/php_mysql.c \
+	ext/mysqli/mysqli.c \
+	ext/mysqli/mysqli_api.c \
+	ext/mysqli/mysqli_prop.c \
+	ext/mysqli/mysqli_nonapi.c \
+	ext/mysqli/mysqli_fe.c \
+	ext/mysqli/mysqli_report.c \
+	ext/mysqli/mysqli_driver.c \
+	ext/mysqli/mysqli_warning.c \
+	ext/mysqli/mysqli_exception.c \
+	ext/mysqli/mysqli_result_iterator.c \
+	ext/mysqlnd/mysqlnd.c \
+	ext/mysqlnd/mysqlnd_alloc.c \
+	ext/mysqlnd/mysqlnd_bt.c \
+	ext/mysqlnd/mysqlnd_charset.c \
+	ext/mysqlnd/mysqlnd_wireprotocol.c \
+	ext/mysqlnd/mysqlnd_loaddata.c \
+	ext/mysqlnd/mysqlnd_reverse_api.c \
+	ext/mysqlnd/mysqlnd_net.c \
+	ext/mysqlnd/mysqlnd_statistics.c \
+	ext/mysqlnd/mysqlnd_driver.c \
+	ext/mysqlnd/mysqlnd_ext_plugin.c \
+	ext/mysqlnd/mysqlnd_auth.c \
+	ext/mysqlnd/mysqlnd_result.c \
+	ext/mysqlnd/mysqlnd_result_meta.c \
+	ext/mysqlnd/mysqlnd_debug.c \
+	ext/mysqlnd/mysqlnd_block_alloc.c \
+	ext/mysqlnd/mysqlnd_plugin.c \
+	ext/mysqlnd/php_mysqlnd.c \
+	ext/mysqlnd/mysqlnd_ps.c \
+	ext/mysqlnd/mysqlnd_ps_codec.c \
 	ext/opcache/ZendAccelerator.c \
 	ext/opcache/zend_accelerator_blacklist.c \
 	ext/opcache/zend_accelerator_debug.c \
@@ -321,6 +355,7 @@ libphp_sapi_a_SOURCES = \
 	Zend/zend_execute.c
 
 endif
+
 
 
 
