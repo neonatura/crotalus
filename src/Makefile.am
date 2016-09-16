@@ -44,7 +44,6 @@ crotalus_SOURCES = alias.c boa.c buffer.c cgi_header.c config.c escape.c \
 	mime/mime_def.c mime/mime_def.h \
 	mime/mime_cgi.c mime/mime_cgi.h \
 	mime/mime_zlib.c mime/mime_zlib.h
-crotalus_CFLAGS = $(crotalus_includes)
 crotalus_LDADD = \
 	$(top_builddir)/lib/ancillary/libancillary.a \
 	$(top_builddir)/lib/pcre/libpcre.a \
@@ -52,8 +51,9 @@ crotalus_LDADD = \
 	$(top_builddir)/lib/oauth/liboauth.a \
 	$(top_builddir)/lib/libxml2/libxml2.a
 
+crotalus_CFLAGS = $(crotalus_includes)
 if STATIC_LIBSHARE
-crotalus_CFLAGS += $(crotalus_includes)
+crotalus_CFLAGS += -DHAVE_LIBSHARE
 endif
 
 if ACCESS_CONTROL

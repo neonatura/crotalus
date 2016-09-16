@@ -34,6 +34,7 @@ PRE_UNINSTALL = :
 POST_UNINSTALL = :
 build_triplet = @build@
 host_triplet = @host@
+@STATIC_LIBSHARE_TRUE@@USE_PHP_RUNTIME_TRUE@am__append_1 = -DHAVE_LIBSHARE
 subdir = php
 DIST_COMMON = $(srcdir)/Makefile.am $(srcdir)/Makefile.in INSTALL NEWS \
 	install-sh ltmain.sh missing mkinstalldirs
@@ -691,23 +692,22 @@ top_build_prefix = @top_build_prefix@
 top_builddir = @top_builddir@
 top_srcdir = @top_srcdir@
 @USE_PHP_RUNTIME_TRUE@noinst_LIBRARIES = libphp_sapi.a
-@USE_PHP_RUNTIME_TRUE@libphp_sapi_a_CFLAGS = \
-@USE_PHP_RUNTIME_TRUE@		-I$(top_srcdir)/src \
-@USE_PHP_RUNTIME_TRUE@		-I$(top_srcdir)/lib/pcre \
-@USE_PHP_RUNTIME_TRUE@		-I$(top_srcdir)/php/main \
-@USE_PHP_RUNTIME_TRUE@		-I$(top_builddir)/php/main \
-@USE_PHP_RUNTIME_TRUE@		-I$(srcdir)/Zend -I$(builddir)/Zend \
-@USE_PHP_RUNTIME_TRUE@		-I$(srcdir)/TSRM -I$(builddir)/TSRM \
-@USE_PHP_RUNTIME_TRUE@		-I$(srcdir)/ext \
-@USE_PHP_RUNTIME_TRUE@		-I$(srcdir)/ext/opcache \
-@USE_PHP_RUNTIME_TRUE@		-I$(srcdir)/ext/fileinfo/libmagic \
-@USE_PHP_RUNTIME_TRUE@		-I$(srcdir)/ext/sqlite3/libsqlite \
-@USE_PHP_RUNTIME_TRUE@		-I$(srcdir)/ext/mysql \
-@USE_PHP_RUNTIME_TRUE@		-I$(srcdir)/ext/mysqli \
-@USE_PHP_RUNTIME_TRUE@		-I$(srcdir)/ext/mysqlnd \
-@USE_PHP_RUNTIME_TRUE@		-I$(srcdir)/ext/date/lib -I$(builddir)/ext/date/lib \
-@USE_PHP_RUNTIME_TRUE@		-I$(top_srcdir)/lib/libxml2/include
-
+@USE_PHP_RUNTIME_TRUE@libphp_sapi_a_CFLAGS = -I$(top_srcdir)/src \
+@USE_PHP_RUNTIME_TRUE@	-I$(top_srcdir)/lib/pcre \
+@USE_PHP_RUNTIME_TRUE@	-I$(top_srcdir)/php/main \
+@USE_PHP_RUNTIME_TRUE@	-I$(top_builddir)/php/main \
+@USE_PHP_RUNTIME_TRUE@	-I$(srcdir)/Zend -I$(builddir)/Zend \
+@USE_PHP_RUNTIME_TRUE@	-I$(srcdir)/TSRM -I$(builddir)/TSRM \
+@USE_PHP_RUNTIME_TRUE@	-I$(srcdir)/ext -I$(srcdir)/ext/opcache \
+@USE_PHP_RUNTIME_TRUE@	-I$(srcdir)/ext/fileinfo/libmagic \
+@USE_PHP_RUNTIME_TRUE@	-I$(srcdir)/ext/sqlite3/libsqlite \
+@USE_PHP_RUNTIME_TRUE@	-I$(srcdir)/ext/mysql \
+@USE_PHP_RUNTIME_TRUE@	-I$(srcdir)/ext/mysqli \
+@USE_PHP_RUNTIME_TRUE@	-I$(srcdir)/ext/mysqlnd \
+@USE_PHP_RUNTIME_TRUE@	-I$(srcdir)/ext/date/lib \
+@USE_PHP_RUNTIME_TRUE@	-I$(builddir)/ext/date/lib \
+@USE_PHP_RUNTIME_TRUE@	-I$(top_srcdir)/lib/libxml2/include \
+@USE_PHP_RUNTIME_TRUE@	$(am__append_1)
 @USE_PHP_RUNTIME_TRUE@libphp_sapi_a_LIBADD = \
 @USE_PHP_RUNTIME_TRUE@	$(top_builddir)/lib/tsrm/libtsrm.a \
 @USE_PHP_RUNTIME_TRUE@	$(top_builddir)/lib/pcre/libpcre.a

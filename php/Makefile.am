@@ -20,6 +20,11 @@ libphp_sapi_a_CFLAGS = \
 		-I$(srcdir)/ext/mysqlnd \
 		-I$(srcdir)/ext/date/lib -I$(builddir)/ext/date/lib \
 		-I$(top_srcdir)/lib/libxml2/include
+
+if STATIC_LIBSHARE
+libphp_sapi_a_CFLAGS += -DHAVE_LIBSHARE
+endif
+
 libphp_sapi_a_LIBADD = \
 	$(top_builddir)/lib/tsrm/libtsrm.a \
 	$(top_builddir)/lib/pcre/libpcre.a
