@@ -153,7 +153,7 @@ AC_CHECK_FUNCS(getcwd strdup strstr strcspn strtol utime symlink)
 AC_CHECK_FUNCS(gethostname gethostbyname socket inet_aton herror inet_addr)
 AC_CHECK_FUNCS(scandir alphasort)
 AC_CHECK_FUNCS(madvise)
-AC_CHECK_FUNCS(strlcpy strlcat strtok_r strerror getgrnam getgrnam_r getpwnam getpwnam_r strnlen readlink)
+AC_CHECK_FUNCS(strlcpy strlcat strtok_r strerror getgrnam getgrnam_r getpwnam getpwnam_r strnlen readlink mkstemp)
 
 #AC_CHECK_STRUCT_FOR([
 ##if TIME_WITH_SYS_TIME

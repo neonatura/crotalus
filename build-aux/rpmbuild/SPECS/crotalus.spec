@@ -8,7 +8,6 @@ License:        GPLv3+
 URL:            http://www.sharelib.net/
 Source0:        http://www.sharelib.net/release/crotalus-2.27.tar.gz
 
-BuildRequires:  libshare-devel
 Requires:       libshare
 Requires(post): info
 Requires(preun): info
