@@ -64,10 +64,10 @@ DEPS = $(top_builddir)/libxml2.la
 LDADDS = $(STATIC_BINARIES) $(top_builddir)/libxml2.la $(THREAD_LIBS) $(Z_LIBS) $(LZMA_LIBS) $(ICONV_LIBS) $(M_LIBS) $(WIN32_EXTRA_LIBADD)
 
 
-man_MANS = xml2-config.1 libxml.3
+#man_MANS = xml2-config.1 libxml.3
 
 m4datadir = $(datadir)/aclocal
-m4data_DATA = libxml.m4
+#m4data_DATA = libxml.m4
 
 #runtest_SOURCES=runtest.c
 #runtest_LDFLAGS = 
@@ -1212,10 +1212,10 @@ DISTCLEANFILES = COPYING missing.lst
 
 
 pkgconfigdir = $(libdir)/pkgconfig
-pkgconfig_DATA = libxml-2.0.pc
+#pkgconfig_DATA = libxml-2.0.pc
 
 cmakedir = $(libdir)/cmake/libxml2
-cmake_DATA = libxml2-config.cmake
+#cmake_DATA = libxml2-config.cmake
 
 #
 # Install the tests program sources as examples 

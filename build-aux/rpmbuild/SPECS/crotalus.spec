@@ -49,6 +49,7 @@ fi
 
 %files
 %{_sbindir}/crotalus
+%{_bindir}/crphp
 %{_infodir}/crotalus.info.gz
 %{_infodir}/dir
 %{_docdir}/crotalus/crotalus_html.zip
