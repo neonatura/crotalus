@@ -24,6 +24,8 @@ extern "C" {
 XMLPUBFUN void XMLCALL xmlCheckVersion(int version);
 #endif /* LIBXML2_COMPILING_MSCCDEF */
 
+#define GETHOSTBYNAME_ARG_CAST /**/
+
 /**
  * LIBXML_DOTTED_VERSION:
  *
@@ -220,6 +222,7 @@ XMLPUBFUN void XMLCALL xmlCheckVersion(int version);
  * Whether iconv support is available
  */
 #define LIBXML_ICONV_ENABLED
+#define ICONV_CONST
 
 /**
  * LIBXML_ICU_ENABLED:

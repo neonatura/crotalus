@@ -31,7 +31,7 @@ AC_PROG_LIBTOOL
 AM_PROG_CC_C_O
 #AC_C_VAR_FUNC
 
-AC_CHECK_HEADERS(sys/types.h signal.h ansidecl.h)
+AC_CHECK_HEADERS(sys/types.h signal.h ansidecl.h errno.h stdlib.h unistd.h sys/types.h sys/socket.h netinet/in.h arpa/inet.h netdb.h resolv.h arpa/nameser.h fcntl.h sys/time.h sys/select.h strings.h zlib.h math.h)
 
 AC_TYPE_INT16_T
 AC_TYPE_INT32_T
@@ -155,7 +155,7 @@ AC_CHECK_FUNCS(getcwd strdup strstr strcspn strtol utime symlink)
 AC_CHECK_FUNCS(gethostname gethostbyname socket inet_aton herror inet_addr)
 AC_CHECK_FUNCS(scandir alphasort)
 AC_CHECK_FUNCS(madvise)
-AC_CHECK_FUNCS(strlcpy strlcat strtok_r strerror getgrnam getgrnam_r getpwnam getpwnam_r strnlen readlink mkstemp)
+AC_CHECK_FUNCS(strlcpy strlcat strtok_r strerror getgrnam getgrnam_r getpwnam getpwnam_r strnlen readlink mkstemp va_copy vfprintf vsnprintf vsprintf)
 
 #AC_CHECK_STRUCT_FOR([
 ##if TIME_WITH_SYS_TIME
@@ -610,6 +610,37 @@ AC_SUBST(THREAD_CFLAGS)
 AC_SUBST(TEST_THREADS)
 AC_SUBST(WITH_THREAD_ALLOC)
 AM_CONDITIONAL([THREADS_W32],[test -n "$THREADS_W32"])
+
+
+dnl Checking whether va_list is an array type
+AC_TRY_COMPILE([
+#include <stdarg.h>
+void a(va_list * ap) {}],[
+va_list ap1, ap2; a(&ap1); ap2 = (va_list) ap1],[
+  AC_MSG_RESULT(no)],[
+  AC_MSG_RESULT(yes)
+  AC_DEFINE([VA_LIST_IS_ARRAY], [1],[Define if va_list is an array type])])
+
+dnl Checks for inet libraries:
+AC_SEARCH_LIBS(gethostent, [nsl])
+AC_SEARCH_LIBS(setsockopt, [socket net network])
+AC_SEARCH_LIBS(connect, [inet])
+
+dnl Checking if send() second argument is const.
+AC_MSG_CHECKING([for const send() second argument])
+AC_LINK_IFELSE([AC_LANG_PROGRAM([[#include <sys/types.h>
+#include <sys/socket.h>]],
+    [[(void)send(1,(const char *)"",1,1);]])],
+have_send_const_arg2=yes,
+have_send_const_arg2=no)
+AC_MSG_RESULT($have_send_const_arg2)
+if test x"$have_send_const_arg2" = x"yes"; then
+    AC_DEFINE([SEND_ARG2_CAST], [],
+      [Type cast for the send() function 2nd arg])
+else
+    AC_DEFINE([SEND_ARG2_CAST], [(char *)],
+      [Type cast for the send() function 2nd arg])
+fi
 
 
 
