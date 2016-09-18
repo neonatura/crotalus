@@ -84,6 +84,12 @@ if test $HAVE_LIBRT; then
   AC_DEFINE_UNQUOTED(HAVE_LIBRT, 1, [Define if librt can be found])
 fi
 
+AC_CHECK_LIB([dl], [dlclose], HAVE_LIBDL=1)
+AM_CONDITIONAL(HAVE_LIBDL, test $HAVE_LIBDL)
+if test $HAVE_LIBDL; then
+  AC_DEFINE_UNQUOTED(HAVE_LIBDL, 1, [Define if libdl can be found])
+fi
+
 AC_ARG_WITH([libshare],
   [AS_HELP_STRING([--with-libshare],
   [specify a path to the libshare build directory])],

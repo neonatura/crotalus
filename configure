@@ -832,6 +832,8 @@ HAVE_LIBZ_TRUE
 STATIC_LIBSHARE_FALSE
 STATIC_LIBSHARE_TRUE
 LIBSHARE
+HAVE_LIBDL_FALSE
+HAVE_LIBDL_TRUE
 HAVE_LIBRT_FALSE
 HAVE_LIBRT_TRUE
 HAVE_CRYPT_FALSE
@@ -4575,13 +4577,13 @@ if test "${lt_cv_nm_interface+set}" = set; then
 else
   lt_cv_nm_interface="BSD nm"
   echo "int some_variable = 0;" > conftest.$ac_ext
-  (eval echo "\"\$as_me:4578: $ac_compile\"" >&5)
+  (eval echo "\"\$as_me:4580: $ac_compile\"" >&5)
   (eval "$ac_compile" 2>conftest.err)
   cat conftest.err >&5
-  (eval echo "\"\$as_me:4581: $NM \\\"conftest.$ac_objext\\\"\"" >&5)
+  (eval echo "\"\$as_me:4583: $NM \\\"conftest.$ac_objext\\\"\"" >&5)
   (eval "$NM \"conftest.$ac_objext\"" 2>conftest.err > conftest.out)
   cat conftest.err >&5
-  (eval echo "\"\$as_me:4584: output\"" >&5)
+  (eval echo "\"\$as_me:4586: output\"" >&5)
   cat conftest.out >&5
   if $GREP 'External.*some_variable' conftest.out > /dev/null; then
     lt_cv_nm_interface="MS dumpbin"
@@ -5787,7 +5789,7 @@ ia64-*-hpux*)
   ;;
 *-*-irix6*)
   # Find out which ABI we are using.
-  echo '#line 5790 "configure"' > conftest.$ac_ext
+  echo '#line 5792 "configure"' > conftest.$ac_ext
   if { (eval echo "$as_me:$LINENO: \"$ac_compile\"") >&5
   (eval $ac_compile) 2>&5
   ac_status=$?
@@ -7644,11 +7646,11 @@ else
    -e 's:.*FLAGS}\{0,1\} :&$lt_compiler_flag :; t' \
    -e 's: [^ ]*conftest\.: $lt_compiler_flag&:; t' \
    -e 's:$: $lt_compiler_flag:'`
-   (eval echo "\"\$as_me:7647: $lt_compile\"" >&5)
+   (eval echo "\"\$as_me:7649: $lt_compile\"" >&5)
    (eval "$lt_compile" 2>conftest.err)
    ac_status=$?
    cat conftest.err >&5
-   echo "$as_me:7651: \$? = $ac_status" >&5
+   echo "$as_me:7653: \$? = $ac_status" >&5
    if (exit $ac_status) && test -s "$ac_outfile"; then
      # The compiler can only warn and ignore the option if not recognized
      # So say no if there are warnings other than the usual output.
@@ -7983,11 +7985,11 @@ else
    -e 's:.*FLAGS}\{0,1\} :&$lt_compiler_flag :; t' \
    -e 's: [^ ]*conftest\.: $lt_compiler_flag&:; t' \
    -e 's:$: $lt_compiler_flag:'`
-   (eval echo "\"\$as_me:7986: $lt_compile\"" >&5)
+   (eval echo "\"\$as_me:7988: $lt_compile\"" >&5)
    (eval "$lt_compile" 2>conftest.err)
    ac_status=$?
    cat conftest.err >&5
-   echo "$as_me:7990: \$? = $ac_status" >&5
+   echo "$as_me:7992: \$? = $ac_status" >&5
    if (exit $ac_status) && test -s "$ac_outfile"; then
      # The compiler can only warn and ignore the option if not recognized
      # So say no if there are warnings other than the usual output.
@@ -8088,11 +8090,11 @@ else
    -e 's:.*FLAGS}\{0,1\} :&$lt_compiler_flag :; t' \
    -e 's: [^ ]*conftest\.: $lt_compiler_flag&:; t' \
    -e 's:$: $lt_compiler_flag:'`
-   (eval echo "\"\$as_me:8091: $lt_compile\"" >&5)
+   (eval echo "\"\$as_me:8093: $lt_compile\"" >&5)
    (eval "$lt_compile" 2>out/conftest.err)
    ac_status=$?
    cat out/conftest.err >&5
-   echo "$as_me:8095: \$? = $ac_status" >&5
+   echo "$as_me:8097: \$? = $ac_status" >&5
    if (exit $ac_status) && test -s out/conftest2.$ac_objext
    then
      # The compiler can only warn and ignore the option if not recognized
@@ -8143,11 +8145,11 @@ else
    -e 's:.*FLAGS}\{0,1\} :&$lt_compiler_flag :; t' \
    -e 's: [^ ]*conftest\.: $lt_compiler_flag&:; t' \
    -e 's:$: $lt_compiler_flag:'`
-   (eval echo "\"\$as_me:8146: $lt_compile\"" >&5)
+   (eval echo "\"\$as_me:8148: $lt_compile\"" >&5)
    (eval "$lt_compile" 2>out/conftest.err)
    ac_status=$?
    cat out/conftest.err >&5
-   echo "$as_me:8150: \$? = $ac_status" >&5
+   echo "$as_me:8152: \$? = $ac_status" >&5
    if (exit $ac_status) && test -s out/conftest2.$ac_objext
    then
      # The compiler can only warn and ignore the option if not recognized
@@ -10946,7 +10948,7 @@ else
   lt_dlunknown=0; lt_dlno_uscore=1; lt_dlneed_uscore=2
   lt_status=$lt_dlunknown
   cat > conftest.$ac_ext <<_LT_EOF
-#line 10949 "configure"
+#line 10951 "configure"
 #include "confdefs.h"
 
 #if HAVE_DLFCN_H
@@ -11042,7 +11044,7 @@ else
   lt_dlunknown=0; lt_dlno_uscore=1; lt_dlneed_uscore=2
   lt_status=$lt_dlunknown
   cat > conftest.$ac_ext <<_LT_EOF
-#line 11045 "configure"
+#line 11047 "configure"
 #include "confdefs.h"
 
 #if HAVE_DLFCN_H
@@ -14265,6 +14267,91 @@ if test $HAVE_LIBRT; then
 
 cat >>confdefs.h <<_ACEOF
 #define HAVE_LIBRT 1
+_ACEOF
+
+fi
+
+{ $as_echo "$as_me:$LINENO: checking for dlclose in -ldl" >&5
+$as_echo_n "checking for dlclose in -ldl... " >&6; }
+if test "${ac_cv_lib_dl_dlclose+set}" = set; then
+  $as_echo_n "(cached) " >&6
+else
+  ac_check_lib_save_LIBS=$LIBS
+LIBS="-ldl  $LIBS"
+cat >conftest.$ac_ext <<_ACEOF
+/* confdefs.h.  */
+_ACEOF
+cat confdefs.h >>conftest.$ac_ext
+cat >>conftest.$ac_ext <<_ACEOF
+/* end confdefs.h.  */
+
+/* Override any GCC internal prototype to avoid an error.
+   Use char because int might match the return type of a GCC
+   builtin and then its argument prototype would still apply.  */
+#ifdef __cplusplus
+extern "C"
+#endif
+char dlclose ();
+int
+main ()
+{
+return dlclose ();
+  ;
+  return 0;
+}
+_ACEOF
+rm -f conftest.$ac_objext conftest$ac_exeext
+if { (ac_try="$ac_link"
+case "(($ac_try" in
+  *\"* | *\`* | *\\*) ac_try_echo=\$ac_try;;
+  *) ac_try_echo=$ac_try;;
+esac
+eval ac_try_echo="\"\$as_me:$LINENO: $ac_try_echo\""
+$as_echo "$ac_try_echo") >&5
+  (eval "$ac_link") 2>conftest.er1
+  ac_status=$?
+  grep -v '^ *+' conftest.er1 >conftest.err
+  rm -f conftest.er1
+  cat conftest.err >&5
+  $as_echo "$as_me:$LINENO: \$? = $ac_status" >&5
+  (exit $ac_status); } && {
+	 test -z "$ac_c_werror_flag" ||
+	 test ! -s conftest.err
+       } && test -s conftest$ac_exeext && {
+	 test "$cross_compiling" = yes ||
+	 $as_test_x conftest$ac_exeext
+       }; then
+  ac_cv_lib_dl_dlclose=yes
+else
+  $as_echo "$as_me: failed program was:" >&5
+sed 's/^/| /' conftest.$ac_ext >&5
+
+	ac_cv_lib_dl_dlclose=no
+fi
+
+rm -rf conftest.dSYM
+rm -f core conftest.err conftest.$ac_objext conftest_ipa8_conftest.oo \
+      conftest$ac_exeext conftest.$ac_ext
+LIBS=$ac_check_lib_save_LIBS
+fi
+{ $as_echo "$as_me:$LINENO: result: $ac_cv_lib_dl_dlclose" >&5
+$as_echo "$ac_cv_lib_dl_dlclose" >&6; }
+if test "x$ac_cv_lib_dl_dlclose" = x""yes; then
+  HAVE_LIBDL=1
+fi
+
+ if test $HAVE_LIBDL; then
+  HAVE_LIBDL_TRUE=
+  HAVE_LIBDL_FALSE='#'
+else
+  HAVE_LIBDL_TRUE='#'
+  HAVE_LIBDL_FALSE=
+fi
+
+if test $HAVE_LIBDL; then
+
+cat >>confdefs.h <<_ACEOF
+#define HAVE_LIBDL 1
 _ACEOF
 
 fi
@@ -20695,6 +20782,13 @@ if test -z "${HAVE_LIBRT_TRUE}" && test -z "${HAVE_LIBRT_FALSE}"; then
   { { $as_echo "$as_me:$LINENO: error: conditional \"HAVE_LIBRT\" was never defined.
 Usually this means the macro was only invoked conditionally." >&5
 $as_echo "$as_me: error: conditional \"HAVE_LIBRT\" was never defined.
+Usually this means the macro was only invoked conditionally." >&2;}
+   { (exit 1); exit 1; }; }
+fi
+if test -z "${HAVE_LIBDL_TRUE}" && test -z "${HAVE_LIBDL_FALSE}"; then
+  { { $as_echo "$as_me:$LINENO: error: conditional \"HAVE_LIBDL\" was never defined.
+Usually this means the macro was only invoked conditionally." >&5
+$as_echo "$as_me: error: conditional \"HAVE_LIBDL\" was never defined.
 Usually this means the macro was only invoked conditionally." >&2;}
    { (exit 1); exit 1; }; }
 fi
