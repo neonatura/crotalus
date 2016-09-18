@@ -59,7 +59,8 @@ CONFIG_HEADER = config.h $(top_builddir)/php/main/build-defs.h \
 	$(top_builddir)/php/main/php_config.h \
 	$(top_builddir)/php/Zend/zend_config.h \
 	$(top_builddir)/php/TSRM/tsrm_config.h \
-	$(top_builddir)/php/ext/date/lib/timelib_config.h
+	$(top_builddir)/php/ext/date/lib/timelib_config.h \
+	$(top_builddir)/lib/libxml2/include/libxml/xmlversion.h
 CONFIG_CLEAN_FILES =
 CONFIG_CLEAN_VPATH_FILES =
 am__installdirs = "$(DESTDIR)$(sbindir)"
@@ -104,7 +105,7 @@ crotalus_DEPENDENCIES = $(top_builddir)/lib/ancillary/libancillary.a \
 crotalus_LINK = $(LIBTOOL) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) \
 	--mode=link $(CCLD) $(crotalus_CFLAGS) $(CFLAGS) $(AM_LDFLAGS) \
 	$(LDFLAGS) -o $@
-DEFAULT_INCLUDES = -I.@am__isrc@ -I$(top_builddir)/php/main -I$(top_builddir)/php/Zend -I$(top_builddir)/php/TSRM -I$(top_builddir)/php/ext/date/lib
+DEFAULT_INCLUDES = -I.@am__isrc@ -I$(top_builddir)/php/main -I$(top_builddir)/php/Zend -I$(top_builddir)/php/TSRM -I$(top_builddir)/php/ext/date/lib -I$(top_builddir)/lib/libxml2/include/libxml
 depcomp = $(SHELL) $(top_srcdir)/build-aux/depcomp
 am__depfiles_maybe = depfiles
 am__mv = mv -f

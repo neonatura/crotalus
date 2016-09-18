@@ -52,7 +52,8 @@ CONFIG_HEADER = $(top_builddir)/src/config.h \
 	$(top_builddir)/php/main/php_config.h \
 	$(top_builddir)/php/Zend/zend_config.h \
 	$(top_builddir)/php/TSRM/tsrm_config.h \
-	$(top_builddir)/php/ext/date/lib/timelib_config.h
+	$(top_builddir)/php/ext/date/lib/timelib_config.h \
+	$(top_builddir)/lib/libxml2/include/libxml/xmlversion.h
 CONFIG_CLEAN_FILES =
 CONFIG_CLEAN_VPATH_FILES =
 LIBRARIES = $(noinst_LIBRARIES)
@@ -545,7 +546,7 @@ am__libphp_sapi_a_SOURCES_DIST = sapi/crotalus/php_crotalus.c \
 @USE_PHP_RUNTIME_TRUE@	libphp_sapi_a-zend_default_classes.$(OBJEXT) \
 @USE_PHP_RUNTIME_TRUE@	libphp_sapi_a-zend_execute.$(OBJEXT)
 libphp_sapi_a_OBJECTS = $(am_libphp_sapi_a_OBJECTS)
-DEFAULT_INCLUDES = -I.@am__isrc@ -I$(top_builddir)/src -I$(top_builddir)/php/main -I$(top_builddir)/php/Zend -I$(top_builddir)/php/TSRM -I$(top_builddir)/php/ext/date/lib
+DEFAULT_INCLUDES = -I.@am__isrc@ -I$(top_builddir)/src -I$(top_builddir)/php/main -I$(top_builddir)/php/Zend -I$(top_builddir)/php/TSRM -I$(top_builddir)/php/ext/date/lib -I$(top_builddir)/lib/libxml2/include/libxml
 depcomp = $(SHELL) $(top_srcdir)/build-aux/depcomp
 am__depfiles_maybe = depfiles
 am__mv = mv -f
@@ -707,6 +708,7 @@ top_srcdir = @top_srcdir@
 @USE_PHP_RUNTIME_TRUE@	-I$(srcdir)/ext/date/lib \
 @USE_PHP_RUNTIME_TRUE@	-I$(builddir)/ext/date/lib \
 @USE_PHP_RUNTIME_TRUE@	-I$(top_srcdir)/lib/libxml2/include \
+@USE_PHP_RUNTIME_TRUE@	-I$(top_builddir)/lib/libxml2/include \
 @USE_PHP_RUNTIME_TRUE@	$(am__append_1)
 @USE_PHP_RUNTIME_TRUE@libphp_sapi_a_LIBADD = \
 @USE_PHP_RUNTIME_TRUE@	$(top_builddir)/lib/tsrm/libtsrm.a \

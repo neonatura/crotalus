@@ -52,7 +52,8 @@ CONFIG_HEADER = $(top_builddir)/src/config.h \
 	$(top_builddir)/php/main/php_config.h \
 	$(top_builddir)/php/Zend/zend_config.h \
 	$(top_builddir)/php/TSRM/tsrm_config.h \
-	$(top_builddir)/php/ext/date/lib/timelib_config.h
+	$(top_builddir)/php/ext/date/lib/timelib_config.h \
+	$(top_builddir)/lib/libxml2/include/libxml/xmlversion.h
 CONFIG_CLEAN_FILES = NEWS doxygen.conf
 CONFIG_CLEAN_VPATH_FILES =
 SOURCES =

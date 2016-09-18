@@ -71,10 +71,13 @@
  */
 void
 xmlCheckVersion(int version) {
+#if 0
     int myversion = (int) LIBXML_VERSION;
+#endif
 
     xmlInitParser();
 
+#if 0
     if ((myversion / 10000) != (version / 10000)) {
 	xmlGenericError(xmlGenericErrorContext,
 		"Fatal: program compiled against libxml %d using libxml %d\n",
@@ -88,6 +91,7 @@ xmlCheckVersion(int version) {
 		"Warning: program compiled against libxml %d using older %d\n",
 		(version / 100), (myversion / 100));
     }
+#endif
 }
 
 

@@ -1,6 +1,6 @@
 Name:           crotalus
 Version:        2.27
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Crotalus Web Daemon
 
 Group:          System Environment/Daemons

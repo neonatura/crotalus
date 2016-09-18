@@ -19,7 +19,8 @@ libphp_sapi_a_CFLAGS = \
 		-I$(srcdir)/ext/mysqli \
 		-I$(srcdir)/ext/mysqlnd \
 		-I$(srcdir)/ext/date/lib -I$(builddir)/ext/date/lib \
-		-I$(top_srcdir)/lib/libxml2/include
+		-I$(top_srcdir)/lib/libxml2/include \
+		-I$(top_builddir)/lib/libxml2/include
 
 if STATIC_LIBSHARE
 libphp_sapi_a_CFLAGS += -DHAVE_LIBSHARE

@@ -56,7 +56,8 @@ CONFIG_HEADER = $(top_builddir)/src/config.h \
 	$(top_builddir)/php/main/php_config.h \
 	$(top_builddir)/php/Zend/zend_config.h \
 	$(top_builddir)/php/TSRM/tsrm_config.h \
-	$(top_builddir)/php/ext/date/lib/timelib_config.h
+	$(top_builddir)/php/ext/date/lib/timelib_config.h \
+	$(top_builddir)/lib/libxml2/include/libxml/xmlversion.h
 CONFIG_CLEAN_FILES =
 CONFIG_CLEAN_VPATH_FILES =
 @HAVE_CURL_TRUE@am__EXEEXT_1 = oauthtest$(EXEEXT) oauthtest2$(EXEEXT)
@@ -81,7 +82,7 @@ tcother_DEPENDENCIES = $(MYLDADD)
 am_tcwiki_OBJECTS = selftest_wiki.$(OBJEXT) commontest.$(OBJEXT)
 tcwiki_OBJECTS = $(am_tcwiki_OBJECTS)
 tcwiki_DEPENDENCIES = $(MYLDADD)
-DEFAULT_INCLUDES = -I.@am__isrc@ -I$(top_builddir)/src -I$(top_builddir)/php/main -I$(top_builddir)/php/Zend -I$(top_builddir)/php/TSRM -I$(top_builddir)/php/ext/date/lib
+DEFAULT_INCLUDES = -I.@am__isrc@ -I$(top_builddir)/src -I$(top_builddir)/php/main -I$(top_builddir)/php/Zend -I$(top_builddir)/php/TSRM -I$(top_builddir)/php/ext/date/lib -I$(top_builddir)/lib/libxml2/include/libxml
 depcomp = $(SHELL) $(top_srcdir)/build-aux/depcomp
 am__depfiles_maybe = depfiles
 am__mv = mv -f

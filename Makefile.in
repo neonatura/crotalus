@@ -36,6 +36,7 @@ host_triplet = @host@
 subdir = .
 DIST_COMMON = $(am__configure_deps) $(srcdir)/Makefile.am \
 	$(srcdir)/Makefile.in $(top_srcdir)/configure \
+	$(top_srcdir)/lib/libxml2/include/libxml/xmlversion.h.in \
 	$(top_srcdir)/php/TSRM/tsrm_config.h.in \
 	$(top_srcdir)/php/Zend/zend_config.h.in \
 	$(top_srcdir)/php/ext/date/lib/timelib_config.h.in \
@@ -64,7 +65,8 @@ CONFIG_HEADER = $(top_builddir)/src/config.h \
 	$(top_builddir)/php/main/php_config.h \
 	$(top_builddir)/php/Zend/zend_config.h \
 	$(top_builddir)/php/TSRM/tsrm_config.h \
-	$(top_builddir)/php/ext/date/lib/timelib_config.h
+	$(top_builddir)/php/ext/date/lib/timelib_config.h \
+	$(top_builddir)/lib/libxml2/include/libxml/xmlversion.h
 CONFIG_CLEAN_FILES = php/main/internal_functions.c \
 	php/main/internal_functions_cli.c scripts/initd/crotalus
 CONFIG_CLEAN_VPATH_FILES =
@@ -344,8 +346,18 @@ php/ext/date/lib/stamp-h6: $(top_srcdir)/php/ext/date/lib/timelib_config.h.in $(
 	@rm -f php/ext/date/lib/stamp-h6
 	cd $(top_builddir) && $(SHELL) ./config.status php/ext/date/lib/timelib_config.h
 
+lib/libxml2/include/libxml/xmlversion.h: lib/libxml2/include/libxml/stamp-h7
+	@if test ! -f $@; then \
+	  rm -f lib/libxml2/include/libxml/stamp-h7; \
+	  $(MAKE) $(AM_MAKEFLAGS) lib/libxml2/include/libxml/stamp-h7; \
+	else :; fi
+
+lib/libxml2/include/libxml/stamp-h7: $(top_srcdir)/lib/libxml2/include/libxml/xmlversion.h.in $(top_builddir)/config.status
+	@rm -f lib/libxml2/include/libxml/stamp-h7
+	cd $(top_builddir) && $(SHELL) ./config.status lib/libxml2/include/libxml/xmlversion.h
+
 distclean-hdr:
-	-rm -f php/main/build-defs.h php/main/stamp-h2 php/main/php_config.h php/main/stamp-h3 php/Zend/zend_config.h php/Zend/stamp-h4 php/TSRM/tsrm_config.h php/TSRM/stamp-h5 php/ext/date/lib/timelib_config.h php/ext/date/lib/stamp-h6
+	-rm -f php/main/build-defs.h php/main/stamp-h2 php/main/php_config.h php/main/stamp-h3 php/Zend/zend_config.h php/Zend/stamp-h4 php/TSRM/tsrm_config.h php/TSRM/stamp-h5 php/ext/date/lib/timelib_config.h php/ext/date/lib/stamp-h6 lib/libxml2/include/libxml/xmlversion.h lib/libxml2/include/libxml/stamp-h7
 php/main/internal_functions.c: $(top_builddir)/config.status $(top_srcdir)/php/main/internal_functions.c.in
 	cd $(top_builddir) && $(SHELL) ./config.status $@
 php/main/internal_functions_cli.c: $(top_builddir)/config.status $(top_srcdir)/php/main/internal_functions_cli.c.in

@@ -964,6 +964,16 @@ with_dmalloc
 with_efence
 enable_sendfile
 with_link_size
+with_regexps
+with_run_debug
+with_sax1
+with_schematron
+with_thread_alloc
+with_tree
+with_valid
+with_writer
+with_xpath
+with_xptr
 '
       ac_precious_vars='build_alias
 host_alias
@@ -1629,6 +1639,16 @@ Optional Packages:
   --with-dmalloc          Link with the Dmalloc memory debugger/profiler
   --with-efence           Link with the Electric Fence memory debugger
   --with-link-size=N      internal link size (2, 3, or 4 allowed; default=2)
+  --with-regexps          add Regular Expressions support (on)
+  --with-run-debug        add the runtime debugging module (off)
+  --with-sax1             add the older SAX1 interface (on)
+  --with-schematron       add Schematron support (on)
+  --with-thread-alloc     add per-thread memory(off)
+  --with-tree             add the DOM like tree manipulation APIs (on)
+  --with-valid            add the DTD validation support (on)
+  --with-writer           add the xmlWriter saving interface (on)
+  --with-xpath            add the XPATH support (on)
+  --with-xptr             add the XPointer support (on)
 
 Some influential environment variables:
   CC          C compiler command
@@ -2618,6 +2638,7 @@ ac_config_files="$ac_config_files php/main/internal_functions.c"
 
 ac_config_files="$ac_config_files php/main/internal_functions_cli.c"
 
+
 ac_config_headers="$ac_config_headers php/main/build-defs.h"
 
 ac_config_headers="$ac_config_headers php/main/php_config.h"
@@ -2627,6 +2648,7 @@ ac_config_headers="$ac_config_headers php/Zend/zend_config.h"
 ac_config_headers="$ac_config_headers php/TSRM/tsrm_config.h"
 
 ac_config_headers="$ac_config_headers php/ext/date/lib/timelib_config.h"
+
 
 
 # initd scripts #
@@ -4553,13 +4575,13 @@ if test "${lt_cv_nm_interface+set}" = set; then
 else
   lt_cv_nm_interface="BSD nm"
   echo "int some_variable = 0;" > conftest.$ac_ext
-  (eval echo "\"\$as_me:4556: $ac_compile\"" >&5)
+  (eval echo "\"\$as_me:4578: $ac_compile\"" >&5)
   (eval "$ac_compile" 2>conftest.err)
   cat conftest.err >&5
-  (eval echo "\"\$as_me:4559: $NM \\\"conftest.$ac_objext\\\"\"" >&5)
+  (eval echo "\"\$as_me:4581: $NM \\\"conftest.$ac_objext\\\"\"" >&5)
   (eval "$NM \"conftest.$ac_objext\"" 2>conftest.err > conftest.out)
   cat conftest.err >&5
-  (eval echo "\"\$as_me:4562: output\"" >&5)
+  (eval echo "\"\$as_me:4584: output\"" >&5)
   cat conftest.out >&5
   if $GREP 'External.*some_variable' conftest.out > /dev/null; then
     lt_cv_nm_interface="MS dumpbin"
@@ -5765,7 +5787,7 @@ ia64-*-hpux*)
   ;;
 *-*-irix6*)
   # Find out which ABI we are using.
-  echo '#line 5768 "configure"' > conftest.$ac_ext
+  echo '#line 5790 "configure"' > conftest.$ac_ext
   if { (eval echo "$as_me:$LINENO: \"$ac_compile\"") >&5
   (eval $ac_compile) 2>&5
   ac_status=$?
@@ -7622,11 +7644,11 @@ else
    -e 's:.*FLAGS}\{0,1\} :&$lt_compiler_flag :; t' \
    -e 's: [^ ]*conftest\.: $lt_compiler_flag&:; t' \
    -e 's:$: $lt_compiler_flag:'`
-   (eval echo "\"\$as_me:7625: $lt_compile\"" >&5)
+   (eval echo "\"\$as_me:7647: $lt_compile\"" >&5)
    (eval "$lt_compile" 2>conftest.err)
    ac_status=$?
    cat conftest.err >&5
-   echo "$as_me:7629: \$? = $ac_status" >&5
+   echo "$as_me:7651: \$? = $ac_status" >&5
    if (exit $ac_status) && test -s "$ac_outfile"; then
      # The compiler can only warn and ignore the option if not recognized
      # So say no if there are warnings other than the usual output.
@@ -7961,11 +7983,11 @@ else
    -e 's:.*FLAGS}\{0,1\} :&$lt_compiler_flag :; t' \
    -e 's: [^ ]*conftest\.: $lt_compiler_flag&:; t' \
    -e 's:$: $lt_compiler_flag:'`
-   (eval echo "\"\$as_me:7964: $lt_compile\"" >&5)
+   (eval echo "\"\$as_me:7986: $lt_compile\"" >&5)
    (eval "$lt_compile" 2>conftest.err)
    ac_status=$?
    cat conftest.err >&5
-   echo "$as_me:7968: \$? = $ac_status" >&5
+   echo "$as_me:7990: \$? = $ac_status" >&5
    if (exit $ac_status) && test -s "$ac_outfile"; then
      # The compiler can only warn and ignore the option if not recognized
      # So say no if there are warnings other than the usual output.
@@ -8066,11 +8088,11 @@ else
    -e 's:.*FLAGS}\{0,1\} :&$lt_compiler_flag :; t' \
    -e 's: [^ ]*conftest\.: $lt_compiler_flag&:; t' \
    -e 's:$: $lt_compiler_flag:'`
-   (eval echo "\"\$as_me:8069: $lt_compile\"" >&5)
+   (eval echo "\"\$as_me:8091: $lt_compile\"" >&5)
    (eval "$lt_compile" 2>out/conftest.err)
    ac_status=$?
    cat out/conftest.err >&5
-   echo "$as_me:8073: \$? = $ac_status" >&5
+   echo "$as_me:8095: \$? = $ac_status" >&5
    if (exit $ac_status) && test -s out/conftest2.$ac_objext
    then
      # The compiler can only warn and ignore the option if not recognized
@@ -8121,11 +8143,11 @@ else
    -e 's:.*FLAGS}\{0,1\} :&$lt_compiler_flag :; t' \
    -e 's: [^ ]*conftest\.: $lt_compiler_flag&:; t' \
    -e 's:$: $lt_compiler_flag:'`
-   (eval echo "\"\$as_me:8124: $lt_compile\"" >&5)
+   (eval echo "\"\$as_me:8146: $lt_compile\"" >&5)
    (eval "$lt_compile" 2>out/conftest.err)
    ac_status=$?
    cat out/conftest.err >&5
-   echo "$as_me:8128: \$? = $ac_status" >&5
+   echo "$as_me:8150: \$? = $ac_status" >&5
    if (exit $ac_status) && test -s out/conftest2.$ac_objext
    then
      # The compiler can only warn and ignore the option if not recognized
@@ -10924,7 +10946,7 @@ else
   lt_dlunknown=0; lt_dlno_uscore=1; lt_dlneed_uscore=2
   lt_status=$lt_dlunknown
   cat > conftest.$ac_ext <<_LT_EOF
-#line 10927 "configure"
+#line 10949 "configure"
 #include "confdefs.h"
 
 #if HAVE_DLFCN_H
@@ -11020,7 +11042,7 @@ else
   lt_dlunknown=0; lt_dlno_uscore=1; lt_dlneed_uscore=2
   lt_status=$lt_dlunknown
   cat > conftest.$ac_ext <<_LT_EOF
-#line 11023 "configure"
+#line 11045 "configure"
 #include "confdefs.h"
 
 #if HAVE_DLFCN_H
@@ -11383,7 +11405,8 @@ fi
 
 
 
-for ac_header in sys/types.h signal.h
+
+for ac_header in sys/types.h signal.h ansidecl.h
 do
 as_ac_Header=`$as_echo "ac_cv_header_$ac_header" | $as_tr_sh`
 if { as_var=$as_ac_Header; eval "test \"\${$as_var+set}\" = set"; }; then
@@ -19945,6 +19968,181 @@ fi
 
 
 
+# derived from libxml2
+
+# Check whether --with-regexps was given.
+if test "${with_regexps+set}" = set; then
+  withval=$with_regexps;
+fi
+
+
+# Check whether --with-run_debug was given.
+if test "${with_run_debug+set}" = set; then
+  withval=$with_run_debug;
+fi
+
+
+# Check whether --with-sax1 was given.
+if test "${with_sax1+set}" = set; then
+  withval=$with_sax1;
+fi
+
+
+# Check whether --with-schematron was given.
+if test "${with_schematron+set}" = set; then
+  withval=$with_schematron;
+fi
+
+
+# Check whether --with-thread-alloc was given.
+if test "${with_thread_alloc+set}" = set; then
+  withval=$with_thread_alloc;
+fi
+
+
+# Check whether --with-tree was given.
+if test "${with_tree+set}" = set; then
+  withval=$with_tree;
+fi
+
+
+# Check whether --with-valid was given.
+if test "${with_valid+set}" = set; then
+  withval=$with_valid;
+fi
+
+
+# Check whether --with-writer was given.
+if test "${with_writer+set}" = set; then
+  withval=$with_writer;
+fi
+
+
+# Check whether --with-xpath was given.
+if test "${with_xpath+set}" = set; then
+  withval=$with_xpath;
+fi
+
+
+# Check whether --with-xptr was given.
+if test "${with_xptr+set}" = set; then
+  withval=$with_xptr;
+fi
+
+
+
+if test "$with_schemas" = "yes"
+then
+    with_pattern=yes
+    with_regexps=yes
+fi
+if test "$with_schematron" = "yes"
+then
+    with_pattern=yes
+    with_tree=yes
+    with_xpath=yes
+fi
+if test "$with_reader" = "yes"
+then
+    with_push=yes
+fi
+if test "$with_xptr" = "yes"
+then
+    with_xpath=yes
+fi
+#minimal
+if test "$with_c14n" = ""
+then
+  with_c14n=no
+fi
+if test "$with_catalog" = ""
+then
+  with_catalog=no
+fi
+echo So far so good!
+if test "$with_debug" = ""
+then
+  with_debug=no
+fi
+if test "$with_docbook" = ""
+then
+  with_docbook=no
+fi
+if test "$with_fexceptions" = ""
+then
+  with_fexceptions=no
+fi
+if test "$with_ftp" = ""
+then
+  with_ftp=no
+fi
+if test "$with_history" = ""
+then
+  with_history=no
+fi
+if test "$with_html" = ""
+then
+  with_html=no
+fi
+if test "$with_http" = ""
+then
+  with_http=no
+fi
+if test "$with_iconv" = ""
+then
+  with_iconv=no
+fi
+if test "$with_iso8859x" = ""
+then
+  with_iso8859x=no
+fi
+if test "$with_legacy" = ""
+then
+  with_legacy=no
+fi
+if test "$with_mem_debug" = ""
+then
+  with_mem_debug=no
+fi
+if test "$with_output" = ""
+then
+  with_output=no
+fi
+if test "$with_pattern" = ""
+then
+  with_pattern=no
+fi
+if test "$with_push" = ""
+then
+  with_push=no
+fi
+if test "$with_python" = ""
+then
+  with_python=no
+fi
+if test "$with_reader" = ""
+then
+  with_reader=no
+fi
+if test "$with_readline" = ""
+then
+  with_readline=no
+fi
+if test "$with_tree" = ""
+then
+  with_tree=no
+fi
+if test "$with_valid" = ""
+then
+  with_valid=no
+fi
+if test "$with_writer" = ""
+then
+  with_writer=no
+fi
+
+ac_config_headers="$ac_config_headers lib/libxml2/include/libxml/xmlversion.h"
+
 
 
 ac_config_files="$ac_config_files Makefile lib/libxml2/Makefile lib/ancillary/Makefile lib/zlib/Makefile lib/pcre/Makefile lib/tsrm/Makefile lib/oauth/Makefile lib/oauth/tests/Makefile php/Makefile src/Makefile src/crphp/Makefile doc/Makefile"
@@ -20956,6 +21154,7 @@ do
     "libtool") CONFIG_COMMANDS="$CONFIG_COMMANDS libtool" ;;
     "doc/NEWS") CONFIG_FILES="$CONFIG_FILES doc/NEWS" ;;
     "doc/doxygen.conf") CONFIG_FILES="$CONFIG_FILES doc/doxygen.conf" ;;
+    "lib/libxml2/include/libxml/xmlversion.h") CONFIG_HEADERS="$CONFIG_HEADERS lib/libxml2/include/libxml/xmlversion.h" ;;
     "Makefile") CONFIG_FILES="$CONFIG_FILES Makefile" ;;
     "lib/libxml2/Makefile") CONFIG_FILES="$CONFIG_FILES lib/libxml2/Makefile" ;;
     "lib/ancillary/Makefile") CONFIG_FILES="$CONFIG_FILES lib/ancillary/Makefile" ;;

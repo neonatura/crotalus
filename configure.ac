@@ -9,11 +9,13 @@ AC_CONFIG_MACRO_DIR([m4])
 
 AC_CONFIG_FILES([php/main/internal_functions.c])
 AC_CONFIG_FILES([php/main/internal_functions_cli.c])
+
 AC_CONFIG_HEADERS([php/main/build-defs.h])
 AC_CONFIG_HEADERS([php/main/php_config.h])
 AC_CONFIG_HEADERS([php/Zend/zend_config.h])
 AC_CONFIG_HEADERS([php/TSRM/tsrm_config.h])
 AC_CONFIG_HEADERS([php/ext/date/lib/timelib_config.h])
+
 
 # initd scripts #
 AC_CONFIG_FILES([scripts/initd/crotalus], [chmod +x scripts/initd/crotalus])
@@ -29,7 +31,7 @@ AC_PROG_LIBTOOL
 AM_PROG_CC_C_O
 #AC_C_VAR_FUNC
 
-AC_CHECK_HEADERS(sys/types.h signal.h)
+AC_CHECK_HEADERS(sys/types.h signal.h ansidecl.h)
 
 AC_TYPE_INT16_T
 AC_TYPE_INT32_T
@@ -611,6 +613,142 @@ AM_CONDITIONAL([THREADS_W32],[test -n "$THREADS_W32"])
 
 
 
+# derived from libxml2
+AC_ARG_WITH(regexps,
+[  --with-regexps          add Regular Expressions support (on)])
+AC_ARG_WITH(run_debug,
+[  --with-run-debug        add the runtime debugging module (off)])
+AC_ARG_WITH(sax1,
+[  --with-sax1             add the older SAX1 interface (on)])
+AC_ARG_WITH(schematron,
+[  --with-schematron       add Schematron support (on)])
+AC_ARG_WITH(thread-alloc,
+[  --with-thread-alloc     add per-thread memory(off)])
+AC_ARG_WITH(tree,
+[  --with-tree             add the DOM like tree manipulation APIs (on)])
+AC_ARG_WITH(valid,
+[  --with-valid            add the DTD validation support (on)])
+AC_ARG_WITH(writer,
+[  --with-writer           add the xmlWriter saving interface (on)])
+AC_ARG_WITH(xpath,
+[  --with-xpath            add the XPATH support (on)])
+AC_ARG_WITH(xptr,
+[  --with-xptr             add the XPointer support (on)])
+
+
+dnl hard dependancies on options
+dnl
+if test "$with_schemas" = "yes"
+then
+    with_pattern=yes
+    with_regexps=yes
+fi
+if test "$with_schematron" = "yes"
+then
+    with_pattern=yes
+    with_tree=yes
+    with_xpath=yes
+fi
+if test "$with_reader" = "yes"
+then
+    with_push=yes
+fi
+if test "$with_xptr" = "yes"
+then
+    with_xpath=yes
+fi
+#minimal
+if test "$with_c14n" = ""
+then
+  with_c14n=no
+fi
+if test "$with_catalog" = ""
+then
+  with_catalog=no
+fi
+echo So far so good!
+if test "$with_debug" = ""
+then
+  with_debug=no
+fi
+if test "$with_docbook" = ""
+then
+  with_docbook=no
+fi
+if test "$with_fexceptions" = ""
+then
+  with_fexceptions=no
+fi
+if test "$with_ftp" = ""
+then
+  with_ftp=no
+fi
+if test "$with_history" = ""
+then
+  with_history=no
+fi
+if test "$with_html" = ""
+then
+  with_html=no
+fi
+if test "$with_http" = ""
+then
+  with_http=no
+fi
+if test "$with_iconv" = ""
+then
+  with_iconv=no
+fi
+if test "$with_iso8859x" = ""
+then
+  with_iso8859x=no
+fi
+if test "$with_legacy" = ""
+then
+  with_legacy=no
+fi
+if test "$with_mem_debug" = ""
+then
+  with_mem_debug=no
+fi
+if test "$with_output" = ""
+then
+  with_output=no
+fi
+if test "$with_pattern" = ""
+then
+  with_pattern=no
+fi
+if test "$with_push" = ""
+then
+  with_push=no
+fi
+if test "$with_python" = ""
+then
+  with_python=no
+fi
+if test "$with_reader" = ""
+then
+  with_reader=no
+fi
+if test "$with_readline" = ""
+then
+  with_readline=no
+fi
+if test "$with_tree" = ""
+then
+  with_tree=no
+fi
+if test "$with_valid" = ""
+then
+  with_valid=no
+fi
+if test "$with_writer" = ""
+then
+  with_writer=no
+fi
+
+AC_CONFIG_HEADERS([lib/libxml2/include/libxml/xmlversion.h])
 
 
 AC_OUTPUT(Makefile lib/libxml2/Makefile lib/ancillary/Makefile lib/zlib/Makefile lib/pcre/Makefile lib/tsrm/Makefile lib/oauth/Makefile lib/oauth/tests/Makefile php/Makefile src/Makefile src/crphp/Makefile doc/Makefile)
