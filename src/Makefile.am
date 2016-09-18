@@ -30,7 +30,7 @@ crotalus_libs += -lz
 else
 crotalus_libs += $(top_builddir)/lib/zlib/libz.a
 endif
-
+crotalus_libs += -ldl -lm
 
 
 sbin_PROGRAMS = crotalus

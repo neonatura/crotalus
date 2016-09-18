@@ -72,23 +72,6 @@ AC_DEFINE_UNQUOTED(HAVE_LIBXML, 1, [Define if libxml2 can be found])
 AC_DEFINE_UNQUOTED(HAVE_SIMPLEXML, 1, [Define if libxml2 can be found])
 AC_DEFINE_UNQUOTED(HAVE_DOM, 1, [Define if libxml2 can be found])
 
-AC_CHECK_LIB([crypt], [crypt], HAVE_CRYPT=1)
-AM_CONDITIONAL(HAVE_CRYPT, test $HAVE_CRYPT)
-if test $HAVE_CRYPT; then
-  AC_DEFINE_UNQUOTED(HAVE_CRYPT, 1, [Define if libcrypt can be found])
-fi
-
-AC_CHECK_LIB([rt], [shm_open], HAVE_LIBRT=1)
-AM_CONDITIONAL(HAVE_LIBRT, test $HAVE_LIBRT)
-if test $HAVE_LIBRT; then
-  AC_DEFINE_UNQUOTED(HAVE_LIBRT, 1, [Define if librt can be found])
-fi
-
-AC_CHECK_LIB([dl], [dlclose], HAVE_LIBDL=1)
-AM_CONDITIONAL(HAVE_LIBDL, test $HAVE_LIBDL)
-if test $HAVE_LIBDL; then
-  AC_DEFINE_UNQUOTED(HAVE_LIBDL, 1, [Define if libdl can be found])
-fi
 
 AC_ARG_WITH([libshare],
   [AS_HELP_STRING([--with-libshare],
@@ -786,6 +769,24 @@ then
 fi
 
 AC_CONFIG_HEADERS([lib/libxml2/include/libxml/xmlversion.h])
+
+AC_CHECK_LIB([crypt], [crypt], HAVE_CRYPT=1)
+AM_CONDITIONAL(HAVE_CRYPT, test $HAVE_CRYPT)
+if test $HAVE_CRYPT; then
+  AC_DEFINE_UNQUOTED(HAVE_CRYPT, 1, [Define if libcrypt can be found])
+fi
+
+AC_CHECK_LIB([rt], [shm_open], HAVE_LIBRT=1)
+AM_CONDITIONAL(HAVE_LIBRT, test $HAVE_LIBRT)
+if test $HAVE_LIBRT; then
+  AC_DEFINE_UNQUOTED(HAVE_LIBRT, 1, [Define if librt can be found])
+fi
+
+AC_CHECK_LIB([dl], [dlclose], HAVE_LIBDL=1)
+AM_CONDITIONAL(HAVE_LIBDL, test $HAVE_LIBDL)
+if test $HAVE_LIBDL; then
+  AC_DEFINE_UNQUOTED(HAVE_LIBDL, 1, [Define if libdl can be found])
+fi
 
 
 AC_OUTPUT(Makefile lib/libxml2/Makefile lib/ancillary/Makefile lib/zlib/Makefile lib/pcre/Makefile lib/tsrm/Makefile lib/oauth/Makefile lib/oauth/tests/Makefile php/Makefile src/Makefile src/crphp/Makefile doc/Makefile)

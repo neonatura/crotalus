@@ -250,7 +250,7 @@ top_srcdir = @top_srcdir@
 @USE_PHP_RUNTIME_TRUE@	$(top_builddir)/lib/libxml2/libxml2.a \
 @USE_PHP_RUNTIME_TRUE@	$(am__append_1) $(am__append_3) \
 @USE_PHP_RUNTIME_TRUE@	$(am__append_4) $(am__append_5) \
-@USE_PHP_RUNTIME_TRUE@	$(am__append_6) $(am__append_7)
+@USE_PHP_RUNTIME_TRUE@	$(am__append_6) $(am__append_7) -ldl -lm
 all: all-am
 
 .SUFFIXES:

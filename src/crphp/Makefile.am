@@ -40,5 +40,6 @@ crphp_LDADD += -lz
 else
 crphp_LDADD += $(top_builddir)/lib/zlib/libz.a
 endif
+crphp_LDADD += -ldl -lm
 
 endif

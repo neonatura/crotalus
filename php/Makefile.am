@@ -1,5 +1,3 @@
-
-
 if USE_PHP_RUNTIME
 
 noinst_LIBRARIES = libphp_sapi.a
@@ -361,7 +359,6 @@ libphp_sapi_a_SOURCES = \
 	Zend/zend_execute.c
 
 endif
-
 
 
 
