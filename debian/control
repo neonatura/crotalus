@@ -1,0 +1,9 @@
+Source: crotalus
+Section: web
+Maintainer: Neo Natura <support@neo-natura.com>
+Priority: standard
+Homepage: http://www.sharelib.net/
+
+Package: crotalus
+Architecture: amd64
+Description: Crotalus Web Daemon
