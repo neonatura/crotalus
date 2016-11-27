@@ -1,12 +1,12 @@
 Name:           crotalus
-Version:        2.27
+Version:        2.27.2
 Release:        3%{?dist}
 Summary:        Crotalus Web Daemon
 
 Group:          System Environment/Daemons
 License:        GPLv3+
 URL:            http://www.sharelib.net/
-Source0:        http://www.sharelib.net/release/crotalus-2.27.tar.gz
+Source0:        http://www.sharelib.net/release/crotalus-2.27.2.tar.gz
 
 Requires:       libshare
 Requires(post): info
