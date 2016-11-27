@@ -1,6 +1,6 @@
 Name:           crotalus
 Version:        2.27
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        Crotalus Web Daemon
 
 Group:          System Environment/Daemons
@@ -55,5 +55,5 @@ fi
 %{_docdir}/crotalus/crotalus_html.zip
 
 %changelog
-* Thu Sep 15 2016 Neo Natura <support@neo-natura.com> - 2.27
+* Thu Sep 15 2016 Neo Natura <support@neo-natura.com> - 2.27.2
 - The RPM release version of this package.

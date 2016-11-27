@@ -1,13 +1,3 @@
-** Crotalus v2.30
- * utilize libshare library for net, fs, and system calls.
-   - note: use --disable-libshare to exclude from compile.
-   - The libshare library provides the following optimizations;
-     * Enhanced network socket handling.
-     * The sharefs filesystem partition.
-     * Pprocess thread queue management.
-     * OAUTH validated libshare authentification.
-** Crotalus v2.29
- * OAUTH server authentification support, use --disable-oauth to exclude from compile.
 ** Crotalus v2.28
  * SSL web protocol support, use --disable-ssl to exclude from compile.
 ** Crotalus v2.27
