@@ -1,12 +1,12 @@
 Name:           crotalus
-Version:        2.28
-Release:        3%{?dist}
+Version:        3.01
+Release:        1%{?dist}
 Summary:        Crotalus Web Daemon
 
 Group:          System Environment/Daemons
 License:        GPLv3+
 URL:            http://www.sharelib.net/
-Source0:        http://www.sharelib.net/release/crotalus-2.28.tar.gz
+Source0:        http://www.sharelib.net/release/crotalus-3.01.tar.gz
 
 Requires:       libshare
 Requires(post): info
@@ -55,5 +55,5 @@ fi
 %{_docdir}/crotalus/crotalus_html.zip
 
 %changelog
-* Sat Nov 26 2016 Neo Natura <support@neo-natura.com> - 2.28
+* Wed Jan 24 2018 Neo Natura <support@neo-natura.com> - 3.01
 - The RPM release version of this package.

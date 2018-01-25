@@ -1,7 +1,5 @@
 Crotalus is a light-weight HTTP server.  
 
-Crotalus internally multiplexes all of the ongoing HTTP connections. CGI and PHP programs are ran in a process pool.
-
 Crotalus runs CGI programs as separate processes, performs automatic directory generation, and automatic file gunzipping.
 
 The Crotalus web server has the primary ambitions of improved speed, security,
@@ -10,10 +8,7 @@ robustness.
 Purpose
 =======
 
-This is crotalus, a high performance web server for "unix compiler" computers. This project strives to combine the benefits of a highly stream-lined single-threaded web server and common HTTP standards such as SSL and inline PHP interpretting.
-
-This package is being provided in order to make use of the web server provided with the libshare library suite (github.com/neonatura/share), but does not require having to integrate with the libshare functionality.
-
+This is crotalus, a high performance web server for "unix compiler" computers. This project strives to combine the benefits of simple stream-lined web server while including common HTTP standards such as SSL and inline PHP interpretting.
 
 Install Instructions
 ====================
