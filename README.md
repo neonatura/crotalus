@@ -13,13 +13,14 @@ This is crotalus, a high performance web server for "unix compiler" computers. T
 Install Instructions
 ====================
 
-git clone https://github.com/neonatura/crotalus/
-cd crotalus
-mkdir build; cd build
-../configure
-make
-make install
-
+<i><small><pre>
+  git clone https://github.com/neonatura/crotalus/
+  cd crotalus
+  mkdir build; cd build
+  ../configure
+  make
+  make install
+</pre></small></i>
 
 Run "configure --help" in order to see additional options relating to limiting external dependencies.
 
