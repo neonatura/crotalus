@@ -81,7 +81,7 @@
 #endif
 
 #ifndef SERVER_VERSION
-#define SERVER_VERSION 				"Crotalus/2.24"
+#define SERVER_VERSION 				"Crotalus/3.01"
 #endif
 
 #define CGI_VERSION				"CGI/1.1"

@@ -203,9 +203,11 @@ char *crpref_cachedir(void)
   static time_t ret_stamp;
   static char *ret_str;
 
-  if (ret_stamp != pref_stamp) {
+  if (ret_stamp != pref_stamp || !ret_str) {
     if (ret_str) free(ret_str);
-    ret_str = strdup(cr_pref_get(CRPREF_PROC_INDEX));
+    ret_str = cr_pref_get(CRPREF_PROC_INDEX);
+    if (!ret_str) ret_str = P_tmpdir;
+    ret_str = strdup(ret_str);
     ret_stamp = pref_stamp;
   }
   if (!*ret_str)
@@ -217,7 +219,12 @@ char *crpref_cachedir(void)
 char *crpref_log_path(char *type)
 {
   char buf[256];
+  char *ret_str;
+
   sprintf(buf, "%sLog", type);
-  return (cr_pref_get(buf));
+  ret_str = cr_pref_get(buf);
+  if (!ret_str)
+    ret_str = P_tmpdir;
+  return (ret_str);
 }
 
