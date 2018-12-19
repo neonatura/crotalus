@@ -1,8 +1,8 @@
 
 AC_PREREQ([2.63])
-AC_INIT(crotalus, 3.01, support@neo-natura.com)
+AC_INIT(crotalus, 3.02, support@neo-natura.com)
 AC_CONFIG_AUX_DIR([build-aux])
-AM_INIT_AUTOMAKE(crotalus, 3.01)
+AM_INIT_AUTOMAKE(crotalus, 3.02)
 AC_CONFIG_SRCDIR([src])
 AC_CONFIG_HEADERS([src/config.h])
 AC_CONFIG_MACRO_DIR([m4])
