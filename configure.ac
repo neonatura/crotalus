@@ -1,8 +1,8 @@
 
-AC_PREREQ([2.63])
-AC_INIT(crotalus, 3.02, support@neo-natura.com)
+AC_PREREQ([2.69])
+AC_INIT([crotalus], [4.0])
 AC_CONFIG_AUX_DIR([build-aux])
-AM_INIT_AUTOMAKE(crotalus, 3.02)
+AM_INIT_AUTOMAKE()
 AC_CONFIG_SRCDIR([src])
 AC_CONFIG_HEADERS([src/config.h])
 AC_CONFIG_MACRO_DIR([m4])
@@ -27,7 +27,7 @@ AC_PROG_INSTALL
 dnl Checks for programs.
 AC_PROG_CC
 #AC_PROG_CPP
-AC_PROG_LIBTOOL
+LT_INIT
 AM_PROG_CC_C_O
 #AC_C_VAR_FUNC
 
@@ -404,12 +404,10 @@ AC_SUBST(ASYNCIO_SOURCE)
 AC_DEFUN([AC_C_VAR_FUNC],
 [AC_REQUIRE([AC_PROG_CC])
 AC_CACHE_CHECK(whether $CC recognizes __func__, ac_cv_c_var_func,
-AC_TRY_COMPILE(,
-[int main() {
+AC_COMPILE_IFELSE([AC_LANG_PROGRAM([[]], [[int main() {
 char *s = __func__;
-}],
-AC_DEFINE(HAVE_FUNC,,
-  [Define if the C complier supports __func__]) ac_cv_c_var_func=yes, ac_cv_c_var_func=no) )
+}]])],[AC_DEFINE(HAVE_FUNC,,
+  Define if the C complier supports __func__) ac_cv_c_var_func=yes],[ac_cv_c_var_func=no]) )
 ])
 
 # Handle --with-link-size=N
@@ -602,10 +600,10 @@ AM_CONDITIONAL([THREADS_W32],[test -n "$THREADS_W32"])
 
 
 dnl Checking whether va_list is an array type
-AC_TRY_COMPILE([
+AC_COMPILE_IFELSE([AC_LANG_PROGRAM([[
 #include <stdarg.h>
-void a(va_list * ap) {}],[
-va_list ap1, ap2; a(&ap1); ap2 = (va_list) ap1],[
+void a(va_list * ap) {}]], [[
+va_list ap1, ap2; a(&ap1); ap2 = (va_list) ap1]])],[
   AC_MSG_RESULT(no)],[
   AC_MSG_RESULT(yes)
   AC_DEFINE([VA_LIST_IS_ARRAY], [1],[Define if va_list is an array type])])
@@ -789,4 +787,5 @@ if test $HAVE_LIBDL; then
 fi
 
 
-AC_OUTPUT(Makefile lib/libxml2/Makefile lib/ancillary/Makefile lib/zlib/Makefile lib/pcre/Makefile lib/tsrm/Makefile lib/oauth/Makefile lib/oauth/tests/Makefile php/Makefile src/Makefile src/crphp/Makefile doc/Makefile)
+AC_CONFIG_FILES([Makefile lib/libxml2/Makefile lib/ancillary/Makefile lib/zlib/Makefile lib/pcre/Makefile lib/tsrm/Makefile lib/oauth/Makefile lib/oauth/tests/Makefile php/Makefile src/Makefile src/crphp/Makefile doc/Makefile])
+AC_OUTPUT

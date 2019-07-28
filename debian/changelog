@@ -1,6 +1,6 @@
-crotalus (3.02) stable; urgency=low
+crotalus (4.0) stable; urgency=low
 
-  * Initial release (Closes: #5)
+  * Debian release
 
- -- Neo Natura <support@neo-natura.com>  Wed, 12 Dec 2018 23:00:59 -0600
+ -- Neo Natura <support@neo-natura.com>  Sun, 28 Jul 2019 23:00:59 -0600
 

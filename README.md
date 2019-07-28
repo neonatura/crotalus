@@ -16,6 +16,7 @@ Install Instructions
 <i><small><pre>
   git clone https://github.com/neonatura/crotalus/
   cd crotalus
+	./autogen.sh
   mkdir build; cd build
   ../configure
   make
