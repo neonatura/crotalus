@@ -1,6 +1,6 @@
 
 AC_PREREQ([2.69])
-AC_INIT([crotalus], [4.0])
+AC_INIT([crotalus], [4.1])
 AC_CONFIG_AUX_DIR([build-aux])
 AM_INIT_AUTOMAKE()
 AC_CONFIG_SRCDIR([src])
