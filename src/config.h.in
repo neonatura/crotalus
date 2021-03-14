@@ -337,8 +337,7 @@
    "configure" can be used to override this default. */
 #undef LINK_SIZE
 
-/* Define to the sub-directory in which libtool stores uninstalled libraries.
-   */
+/* Define to the sub-directory where libtool stores uninstalled libraries. */
 #undef LT_OBJDIR
 
 /* This limit is parameterized just in case anybody ever wants to change it.

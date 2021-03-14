@@ -1,12 +1,12 @@
 Name:           crotalus
-Version:        4.1
+Version:        5.1
 Release:        1%{?dist}
 Summary:        Crotalus Web Daemon
 
 Group:          System Environment/Daemons
 License:        GPLv3+
 URL:            http://www.sharelib.net/
-Source0:        http://www.sharelib.net/release/crotalus-4.1.tar.gz
+Source0:        http://www.sharelib.net/release/crotalus-5.1.tar.gz
 
 Requires:       libshare
 Requires(post): info
@@ -55,5 +55,5 @@ fi
 %{_docdir}/crotalus/crotalus_html.zip
 
 %changelog
-* Wed Dec 18 2019 Neo Natura <support@neo-natura.com> - 4.1
+* Wed Dec 18 2019 Neo Natura <support@neo-natura.com> - 5.1
 - The RPM release version of this package.
