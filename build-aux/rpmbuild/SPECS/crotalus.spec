@@ -55,5 +55,5 @@ fi
 %{_docdir}/crotalus/crotalus_html.zip
 
 %changelog
-* Wed Dec 18 2019 Neo Natura <support@neo-natura.com> - 5.1
+* Sun Mar 14 2021 Neo Natura <support@neo-natura.com> - 5.1
 - The RPM release version of this package.
